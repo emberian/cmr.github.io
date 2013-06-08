@@ -90,7 +90,7 @@ of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking &hellip;"
 		<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#99;&#x6f;&#114;&#101;&#x79;&#x2b;&#114;&#117;&#x73;&#x74;&#x40;&#x6f;&#99;&#116;&#x61;&#121;&#x6e;&#46;&#x6e;&#x65;&#116;">&#99;&#x6f;&#114;&#101;&#121;&#x2b;&#114;&#117;&#115;&#x74;&#64;&#x6f;&#x63;&#116;&#x61;&#x79;&#x6e;&#x2e;&#110;&#101;&#116;</a>.</p>
+to me, <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x63;&#x6f;&#114;&#x65;&#121;&#43;&#x72;&#117;&#x73;&#116;&#x40;&#x6f;&#x63;&#116;&#97;&#121;&#110;&#46;&#110;&#101;&#116;">&#x63;&#111;&#x72;&#101;&#x79;&#43;&#114;&#117;&#115;&#x74;&#x40;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#110;&#x65;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
@@ -194,6 +194,13 @@ on Monday, June 17, 6-9pm in Portland. See <a href="http://calagator.org/events/
 very nice to have. Good luck to them!</li>
 <li>Brendan Zabarauskas has fixed <code>lmath</code>. It now works on incoming. Yay!</li>
 </ul>
+
+
+<p>Brendan sent in a correction:</p>
+
+<blockquote><p>Unfortunately whilst it builds on incoming, due to a bug you can&#8217;t use it in<br/>external crates. moonchrome and I am are working on fixing this but it will<br/>require us to remove the trait heirachy and use macros to generate each type<br/>(Vec3f, Vec3f32, &#8230; etc.) individually instead. Integer and Boolean vector<br/>types (present in GLSL) will also be removed.</p></blockquote>
+
+
 
 
 		
