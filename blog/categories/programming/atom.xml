@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-07T21:45:49-04:00</updated>
+  <updated>2013-06-07T21:51:15-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x63;&#x6f;&#114;&#x65;&#121;&#43;&#x72;&#117;&#115;&#x74;&#64;&#x6f;&#x63;&#116;&#x61;&#121;&#x6e;&#46;&#110;&#x65;&#x74;">&#x63;&#x6f;&#x72;&#101;&#121;&#43;&#x72;&#x75;&#x73;&#x74;&#x40;&#111;&#99;&#116;&#x61;&#121;&#x6e;&#x2e;&#110;&#101;&#x74;</a>.</p>
+to me, <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#99;&#x6f;&#114;&#101;&#121;&#43;&#x72;&#x75;&#x73;&#116;&#64;&#x6f;&#x63;&#x74;&#x61;&#121;&#x6e;&#46;&#x6e;&#x65;&#x74;">&#99;&#111;&#x72;&#101;&#121;&#x2b;&#x72;&#x75;&#x73;&#x74;&#x40;&#111;&#99;&#x74;&#97;&#121;&#110;&#x2e;&#x6e;&#101;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
@@ -44,10 +44,10 @@ and also fixing an earlier (huge) regression (that he introduced,
 admittedly).</li>
 <li>James also fixed <a href="https://github.com/mozilla/rust/issues/6977">6977</a>, which allowed nonsensical expressions like <code>[0,
 ..-1]</code>. Whoops!</li>
-<li>Corey Richardson introduced terminfo handling to <code>extra::term</code> in
-<a href="https://github.com/mozilla/rust/pull/6826">6826</a>, bringing rustc&rsquo;s beautiful colors to a wider audience.
-Unfortunately, it isn&rsquo;t complete yet and, most notably, does not handle
-<code>xterm-256color</code> correctly yet.</li>
+<li>I introduced terminfo handling to <code>extra::term</code> in <a href="https://github.com/mozilla/rust/pull/6826">6826</a>, bringing
+rustc&rsquo;s beautiful colors to a wider audience.  Unfortunately, it isn&rsquo;t
+complete yet and, most notably, does not handle <code>xterm-256color</code> correctly
+yet.</li>
 <li>Daniel Micay landed jemalloc as the default allocator in the runtime,
 leading to nice allocation performance boosts on all platforms, as well as
 much improved multithreaded performance. It also has the benefit of
@@ -62,7 +62,8 @@ strictly this week:</p>
 
 <ul>
 <li><code>libcore</code> was renamed to <code>libstd</code> and <code>libstd</code> was renamed to <code>libextra</code>, to
-better reflect their purpose.</li>
+better reflect their purpose. Confusingly, the code in rustc still uses the
+old names. Something to watch out for!</li>
 <li>All of the module reexports were removed from the prelude, so if you use,
 for example, <code>io::foo</code>, <code>vec::foo</code>, etc, you will find yourself having to
 add a lot of extra imports. <code>use std::*</code> to regain the old behavior,
@@ -83,6 +84,9 @@ public.</li>
 patterns appear in &ldquo;let&rdquo; declarations. For example: <code>let a = 4, b = 2;</code>
 becomes <code>let (a, b) = (4, 2);</code></li>
 <li>Daniel renamed the <code>Ptr</code> trait to <code>RawPtr</code> in <a href="https://github.com/mozilla/rust/pull/6913">6913</a></li>
+<li>Daniel and Huon Wilson have been working on iterators a lot. In
+<a href="https://github.com/mozilla/rust/pull/6999">6999</a>, they start removing the <code>vec::each_*</code> functions, as the new
+iterator code in <code>std::iterator</code> is now mature enough for use.</li>
 </ul>
 
 
