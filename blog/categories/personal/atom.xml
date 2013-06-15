@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Ramblin's]]></title>
-  <link href="http://cmr.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: personal | Ramblin's]]></title>
+  <link href="http://cmr.github.io/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
   <updated>2013-06-15T15:59:43-04:00</updated>
   <id>http://cmr.github.io/</id>
@@ -149,132 +149,6 @@ unfortunate.</p>
 
 <p>I will be studying Computer Science at Clarkson University in the fall. I will
 not squander my time there like I did my time in high school.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week In Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/07/this-week-in-rust/"/>
-    <updated>2013-06-07T18:46:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/07/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
-of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
-meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#99;&#x6f;&#114;&#101;&#121;&#43;&#114;&#x75;&#115;&#116;&#x40;&#111;&#99;&#x74;&#97;&#121;&#x6e;&#x2e;&#x6e;&#101;&#116;">&#x63;&#x6f;&#x72;&#101;&#121;&#43;&#114;&#117;&#115;&#116;&#64;&#111;&#99;&#x74;&#97;&#x79;&#x6e;&#46;&#x6e;&#x65;&#x74;</a>.</p>
-
-<p>The Rust interns arrived this week and have got cracking right away. Big hello
-to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
-over the place, especially in the RT and debug-info.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in incoming?</h1>
-
-<p>There were 30 pull requests merged this week. A scattering of doc fixes and a
-bunch of code cleanups and optimization work as usual. Total issue churn
-(excludes pull requests) this week was +6.</p>
-
-<h2>Notable additions, bugfixes, and cleanups</h2>
-
-<ul>
-<li>Ben Striegel added the <code>as_c_str</code> string function as a method as part of the
-overall methodization covered by <a href="https://github.com/mozilla/rust/issues/6045">6045</a>.</li>
-<li>James Miller landed a much better optimization pipeline in <a href="https://github.com/mozilla/rust/pull/6881">6881</a>,
-fixing a bunch of nascent optimization problems, especially with inlining,
-and also fixing an earlier (huge) regression (that he introduced,
-admittedly).</li>
-<li>James also fixed <a href="https://github.com/mozilla/rust/issues/6977">6977</a>, which allowed nonsensical expressions like <code>[0,
-..-1]</code>. Whoops!</li>
-<li>I introduced terminfo handling to <code>extra::term</code> in <a href="https://github.com/mozilla/rust/pull/6826">6826</a>, bringing
-rustc&rsquo;s beautiful colors to a wider audience.  Unfortunately, it isn&rsquo;t
-complete yet and, most notably, does not handle <code>xterm-256color</code> correctly
-yet.</li>
-<li>Daniel Micay landed jemalloc as the default allocator in the runtime,
-leading to nice allocation performance boosts on all platforms, as well as
-much improved multithreaded performance. It also has the benefit of
-cross-platform tuning and instrumentation.</li>
-</ul>
-
-
-<h2>Breaking changes</h2>
-
-<p>It would be silly not to mention these changes, even though they weren&rsquo;t
-strictly this week:</p>
-
-<ul>
-<li><code>libcore</code> was renamed to <code>libstd</code> and <code>libstd</code> was renamed to <code>libextra</code>, to
-better reflect their purpose. Confusingly, the code in rustc still uses the
-old names. Something to watch out for!</li>
-<li>All of the module reexports were removed from the prelude, so if you use,
-for example, <code>io::foo</code>, <code>vec::foo</code>, etc, you will find yourself having to
-add a lot of extra imports. <code>use std::*</code> to regain the old behavior,
-more or less.</li>
-<li>Patrick fixed the unsafe checker to safe code can no longer call unsafe
-methods.</li>
-</ul>
-
-
-<p>This week:</p>
-
-<ul>
-<li><code>pub impl</code> was removed by Patrick Walton as part of <a href="https://github.com/mozilla/rust/pull/6944">6944</a>. What
-this did was have all <code>fn</code>s in a <code>pub impl</code> be <code>pub</code> by default. Now, you
-must explicitly specify <code>pub</code> on all <code>fn</code>s in the impl if you want them
-public.</li>
-<li>Also in <a href="https://github.com/mozilla/rust/pull/6944">6944</a>, Patrick removed the ability to have multiple
-patterns appear in &ldquo;let&rdquo; declarations. For example: <code>let a = 4, b = 2;</code>
-becomes <code>let (a, b) = (4, 2);</code></li>
-<li>Daniel renamed the <code>Ptr</code> trait to <code>RawPtr</code> in <a href="https://github.com/mozilla/rust/pull/6913">6913</a></li>
-<li>Daniel and Huon Wilson have been working on iterators a lot. In
-<a href="https://github.com/mozilla/rust/pull/6999">6999</a>, they start removing the <code>vec::each_*</code> functions, as the new
-iterator code in <code>std::iterator</code> is now mature enough for use.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>There were two main meetings this week. Mostly discussion about DST, closures,
-and the GC. Lots of issues and details remain to be worked out, I suspoect it
-will still be a bit before anything final-looking comes up in a PR. See the
-<a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-04">meeting</a> <a href="https://github.com/mozilla/rust/wiki/Meeting-2013-06-07">notes</a> for more details.</p>
-
-<h1>Meetups</h1>
-
-<ul>
-<li>Erick Tryzelaar has a meetup planned in Mountain View on Wednesday, June 12,
-at 7pm. See the <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004356.html">ML thread</a> for more details.</li>
-<li>Tim Chevalier will be giving a talk titled &ldquo;Rust: A Friendly Introduction&rdquo;
-on Monday, June 17, 6-9pm in Portland. See <a href="http://calagator.org/events/1250464376">Calagator</a> for more details.</li>
-</ul>
-
-
-<h1>Prominent blog posts and ML threads</h1>
-
-<ul>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004364.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004364.html</a></li>
-<li><a href="http://blog.pnkfx.org/blog/2013/06/07/detective-work-on-rust-closures/">http://blog.pnkfx.org/blog/2013/06/07/detective-work-on-rust-closures/</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/06/03/more-on-fns/">http://smallcultfollowing.com/babysteps/blog/2013/06/03/more-on-fns/</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/06/06/reducing-dst-annotation/">http://smallcultfollowing.com/babysteps/blog/2013/06/06/reducing-dst-annotation/</a></li>
-<li><a href="http://pcwalton.github.io/blog/2013/06/02/removing-garbage-collection-from-the-rust-language/">http://pcwalton.github.io/blog/2013/06/02/removing-garbage-collection-from-the-rust-language/</a></li>
-</ul>
-
-
-<h1>Other announcements</h1>
-
-<ul>
-<li>10gen has some interns working on a MongoDB driver for Rust, which will be
-very nice to have. Good luck to them!</li>
-<li>Brendan Zabarauskas has fixed <code>lmath</code>. It now works on incoming. Yay!</li>
-</ul>
-
-
-<p>Brendan sent in a correction:</p>
-
-<blockquote><p>Unfortunately whilst it builds on incoming, due to a bug you can&#8217;t use it in<br/>external crates. moonchrome and I am are working on fixing this but it will<br/>require us to remove the trait heirachy and use macros to generate each type<br/>(Vec3f, Vec3f32, &#8230; etc.) individually instead. Integer and Boolean vector<br/>types (present in GLSL) will also be removed.</p></blockquote>
-
-
-
 ]]></content>
   </entry>
   
