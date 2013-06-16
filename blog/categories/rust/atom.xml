@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-15T18:02:13-04:00</updated>
+  <updated>2013-06-16T04:45:15-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -87,7 +87,7 @@ settings to &ldquo;deny&rdquo; for std/extra, so watch out.</li>
 
 <h1>Meetings</h1>
 
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-11">Tuesday meeting</a> talked about bblum&rsquo;s [Effect proposal][eff],
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-11">Tuesday meeting</a> talked about bblum&rsquo;s <a href="https://github.com/mozilla/rust/wiki/Proposal-for-effects">Effect proposal</a>,
 removing the master/incoming split, and &ldquo;alloc expressions&rdquo;, a replacement for
 @-sigils.</p>
 
@@ -157,7 +157,7 @@ python replacement
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#99;&#111;&#114;&#x65;&#x79;&#43;&#x72;&#x75;&#115;&#116;&#64;&#111;&#x63;&#x74;&#97;&#x79;&#x6e;&#46;&#110;&#x65;&#x74;">&#99;&#111;&#x72;&#x65;&#121;&#x2b;&#114;&#117;&#x73;&#116;&#64;&#x6f;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#x6e;&#x65;&#116;</a>.</p>
+to me, <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#99;&#x6f;&#x72;&#101;&#x79;&#43;&#x72;&#x75;&#115;&#116;&#64;&#111;&#99;&#x74;&#97;&#x79;&#x6e;&#x2e;&#110;&#101;&#116;">&#99;&#111;&#x72;&#x65;&#121;&#43;&#114;&#x75;&#x73;&#x74;&#x40;&#111;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#x6e;&#101;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
