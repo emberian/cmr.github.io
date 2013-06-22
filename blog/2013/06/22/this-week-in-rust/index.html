@@ -1,0 +1,331 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to the third issue of This Week in Rust, a weekly overview
+of Rust and its community. It has come to my attention that Github does &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to the third issue of <em>This Week in Rust</em>, a weekly overview
+of Rust and its community.</p>
+
+<p>It has come to my attention that Github does not categorize some
+merged-by-bors pull requests as &ldquo;merged&rdquo; and instead categorizes it as
+&ldquo;closed&rdquo;. This skews the numbers and also the PRs that I looked through for
+inclusion into twir. I&rsquo;ll no longer be including issue churn/PR numbers, and I
+hope I didn&rsquo;t miss any import PRs in the last two issues.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in incoming?</h1>
+
+<p>The last of the tree breakage has been cleaned up. The mysterious stack
+corruption was traced down by Blei to occur in jemalloc. It has been disabled
+until the real cause of the error is found. A bunch more buildbot
+configurations have been turned on for auto, to fend off more breakage. The
+tree is open, and aatch got out a new snapshot!</p>
+
+<p>Most of the work this week is cleanup and preparation for 0.7, but since the
+tree has been closed (and the extra auto buildbots lengthen the time it takes
+for a PR to be tested for the day it has been open), not much has landed these
+past few days, but a bunch happened earlier this week.</p>
+
+<h2>Notable additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>doener made compiles faster by emitting less useless copies and allocations
+in <a href="https://github.com/mozilla/rust/pull/7259">7259</a></li>
+<li>aatch landed <a href="https://github.com/mozilla/rust/pull/7124">part 1</a> and <a href="https://github.com/mozilla/rust/pull/7182">part
+2</a> of his huge trans refactor
+effort, which make trans faster and less terrible.</li>
+<li>sully got <a href="https://github.com/mozilla/rust/pull/7203">default methods</a>
+less broken</li>
+<li>yichoi landed a <a href="https://github.com/mozilla/rust/pull/7128">bunch</a> of
+Android fixes.</li>
+<li>vadimcn has <a href="https://github.com/mozilla/rust/pull/7134">fixed debuginfo</a>,
+which is super amazing. This makes it a lot easier for the GSoC student (mw)
+to get started.</li>
+<li>doener has <a href="https://github.com/mozilla/rust/pull/7186">fixed</a> some
+pathological behavior in how codegen creates cleanup blocks. This makes the
+IR better, reducing compile time, and also allowing better optimization,
+reducing binary size.</li>
+</ul>
+
+
+<blockquote><p>They reduce compile times by about 10% in total.</p><footer><strong>https://github.com/mozilla/rust/pull/7259</strong></footer></blockquote>
+
+
+
+
+<blockquote><p>Reduces the size of librustc by about 5% and the time required to build<br/>it by about 10%.</p><footer><strong>https://github.com/mozilla/rust/pull/7186</strong></footer></blockquote>
+
+
+
+
+<blockquote><p>The resulting code for rustc is about 13% faster (measured up to and<br/>including the &#8220;trans&#8221; pass) and the resulting librustc is about 5%<br/>smaller.</p><footer><strong>https://github.com/mozilla/rust/pull/7154</strong></footer></blockquote>
+
+
+<h2>Breaking changes</h2>
+
+<p>strcat and dbaupp <a href="https://github.com/mozilla/rust/pull/7263">continue</a>
+<a href="https://github.com/mozilla/rust/pull/7147">work</a> <a href="https://github.com/mozilla/rust/pull/7162">with
+iterators</a>. The changes that
+landed are vector cleanups. Probably most importantly, the <code>each</code> and
+<code>eachi</code> methods are being removed. The <code>eachi</code> removal landed but the <code>each</code>
+one broke bors, so it&rsquo;s currently in limbo. The current replacement is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// each
+</span><span class='line'>for your_vec.iter().advance |element| {
+</span><span class='line'>  ...
+</span><span class='line'>}
+</span><span class='line'>// eachi
+</span><span class='line'>for your_vec.iter().enumerate().advance |(i, element)| {
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once the rest of the iterator work is hashed out and lands, it will just be</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// each
+</span><span class='line'>for your_vec |element| {
+</span><span class='line'>  ...
+</span><span class='line'>}
+</span><span class='line'>// eachi
+</span><span class='line'>for your_vec.enumerate() |(i, element)| {
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>although the syntax might be slightly different (<code>for element in your_vec</code> is
+my favorite proposal).</p>
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-18">Tuesday
+meeting&rsquo;s</a>
+main topics were once fn&rsquo;s and how namespaces work. For once fn&rsquo;s, graydon
+says &ldquo;I&rsquo;m concerned with adding new features and I want to see if we can live
+without it, I understand it is common,&rdquo; not yet making a decision to include
+them in the language.</p>
+
+<h1>Meetups</h1>
+
+<ul>
+<li>tjc&rsquo;s pre-talk and talk, &ldquo;Rust: A Friendly Introduction&rdquo; went very well. The
+<a href="http://catamorphism.org/Writing/Rust-Tutorial-tjc.pdf">slides</a> are up, and
+a recording is coming soon (hopefuly). tjc says the slides aren&rsquo;t as
+understanable without the audio of the talk.</li>
+<li>nmatsakis has expressed willingness/interest in a Boston meetup sometime. If
+you&rsquo;re interested, contact him on IRC or the ML.</li>
+</ul>
+
+
+<h1>Notable discourse</h1>
+
+<ul>
+<li><a href="http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html">http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html</a>
+(indutny is working on mman bindings in libc, for the record. will mention
+in next week&rsquo;s twir when it lands)</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/">http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/">http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/</a></li>
+<li><a href="http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/">http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/">http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/">http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/</a></li>
+</ul>
+
+
+<h1>Other announcements</h1>
+
+<ul>
+<li>Michael Woerister (mw), the GSoC student working on debug info, has begun
+work. His project log is at <a href="http://michaelwoerister.github.io/,">http://michaelwoerister.github.io/,</a> and will be
+updated weekly. I&rsquo;m looking forward to a much better debug experience.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-22T05:21:00-04:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming,</a>, <a class='category' href='/blog/categories/rust/'>rust,</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'cmr-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://cmr.github.io/blog/2013/06/22/this-week-in-rust/';
+        var disqus_url = 'http://cmr.github.io/blog/2013/06/22/this-week-in-rust/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
