@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-22T07:55:17-04:00</updated>
+  <updated>2013-06-22T07:59:47-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -128,19 +128,19 @@ you&rsquo;re interested, contact him on IRC or the ML.</li>
 </ul>
 
 
-<h1>Notable discourse</h1>
+<h1>Notable discourse and external projects</h1>
 
 <ul>
-<li><a href="http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html">http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html</a>
+<li><a href="http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html">mmap and the Rust FFI</a>
 (indutny is working on mman bindings in libc, for the record. will mention
 in next week&rsquo;s twir when it lands)</li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/">http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/">http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/</a></li>
-<li><a href="http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/">http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/">http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/">http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html">code generation and rustc speed</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/">Rust for game development?</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/">Feed us some low hanging fruit!</a></li>
+<li><a href="http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/">Paying Technical Debt in rustc</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/">What issues in Rust today effect (sic) you most?</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html">rustdoc rewrite and redesign</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/">rust-bench: a tool for profiling memory usage</a></li>
 </ul>
 
 
@@ -299,7 +299,7 @@ python replacement
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#99;&#111;&#114;&#x65;&#121;&#43;&#x72;&#x75;&#x73;&#x74;&#x40;&#111;&#99;&#x74;&#x61;&#121;&#110;&#x2e;&#x6e;&#x65;&#116;">&#99;&#x6f;&#114;&#x65;&#x79;&#x2b;&#x72;&#x75;&#115;&#116;&#x40;&#111;&#99;&#x74;&#97;&#121;&#110;&#x2e;&#110;&#101;&#x74;</a>.</p>
+to me, <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#99;&#111;&#x72;&#x65;&#121;&#43;&#114;&#117;&#x73;&#116;&#64;&#x6f;&#99;&#x74;&#97;&#x79;&#110;&#46;&#110;&#101;&#x74;">&#99;&#111;&#114;&#x65;&#x79;&#x2b;&#x72;&#117;&#115;&#116;&#x40;&#111;&#x63;&#116;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
