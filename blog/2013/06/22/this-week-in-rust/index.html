@@ -142,10 +142,9 @@ reducing binary size.</li>
 
 <h2>Breaking changes</h2>
 
-<p>strcat and dbaupp <a href="https://github.com/mozilla/rust/pull/7263">continue</a>
-<a href="https://github.com/mozilla/rust/pull/7147">work</a> <a href="https://github.com/mozilla/rust/pull/7162">with
-iterators</a>. The changes that
-landed are vector cleanups. Probably most importantly, the <code>each</code> and
+<p>strcat <a href="https://github.com/mozilla/rust/pull/7263">continues</a>
+<a href="https://github.com/mozilla/rust/pull/7162">work</a> with iterators. The changes
+that landed are vector cleanups. Probably most importantly, the <code>each</code> and
 <code>eachi</code> methods are being removed. The <code>eachi</code> removal landed but the <code>each</code>
 one broke bors, so it&rsquo;s currently in limbo. The current replacement is:</p>
 
