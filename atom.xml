@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-22T09:02:06-04:00</updated>
+  <updated>2013-06-22T16:18:55-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -65,17 +65,17 @@ reducing binary size.</li>
 </ul>
 
 
-<blockquote><p>They reduce compile times by about 10% in total.</p><footer><strong>https://github.com/mozilla/rust/pull/7259</strong></footer></blockquote>
+<blockquote><p>They reduce compile times by about 10% in total.</p><footer><strong>@dotdash</strong> <cite><a href='https://github.com/mozilla/rust/pull/7259'>github.com/mozilla/rust/pull/&hellip;</a></cite></footer></blockquote>
 
 
 
 
-<blockquote><p>Reduces the size of librustc by about 5% and the time required to build<br/>it by about 10%.</p><footer><strong>https://github.com/mozilla/rust/pull/7186</strong></footer></blockquote>
+<blockquote><p>Reduces the size of librustc by about 5% and the time required to build<br/>it by about 10%.</p><footer><strong>@dotdash</strong> <cite><a href='https://github.com/mozilla/rust/pull/7186'>github.com/mozilla/rust/pull/&hellip;</a></cite></footer></blockquote>
 
 
 
 
-<blockquote><p>The resulting code for rustc is about 13% faster (measured up to and<br/>including the &#8220;trans&#8221; pass) and the resulting librustc is about 5%<br/>smaller.</p><footer><strong>https://github.com/mozilla/rust/pull/7154</strong></footer></blockquote>
+<blockquote><p>The resulting code for rustc is about 13% faster (measured up to and<br/>including the &#8220;trans&#8221; pass) and the resulting librustc is about 5%<br/>smaller.</p><footer><strong>@dotdash</strong> <cite><a href='https://github.com/mozilla/rust/pull/7154'>github.com/mozilla/rust/pull/&hellip;</a></cite></footer></blockquote>
 
 
 <h2>Breaking changes</h2>
@@ -168,7 +168,7 @@ in next week&rsquo;s twir when it lands)</li>
 
 <ul>
 <li>Michael Woerister (mw), the GSoC student working on debug info, has begun
-work. His project log is at <a href="http://michaelwoerister.github.io/,">http://michaelwoerister.github.io/,</a> and will be
+work. His project log is at <a href="http://michaelwoerister.github.io/">http://michaelwoerister.github.io/</a>, and will be
 updated weekly. I&rsquo;m looking forward to a much better debug experience.</li>
 </ul>
 
@@ -459,7 +459,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#99;&#x6f;&#x72;&#101;&#x79;&#x2b;&#x72;&#117;&#x73;&#x74;&#64;&#111;&#x63;&#116;&#x61;&#x79;&#110;&#x2e;&#110;&#101;&#x74;">&#99;&#x6f;&#114;&#101;&#x79;&#43;&#x72;&#117;&#x73;&#116;&#x40;&#111;&#x63;&#x74;&#97;&#121;&#110;&#46;&#x6e;&#101;&#116;</a>.</p>
+to me, <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#114;&#x65;&#x79;&#43;&#114;&#x75;&#x73;&#116;&#x40;&#111;&#99;&#x74;&#97;&#x79;&#110;&#46;&#x6e;&#x65;&#x74;">&#99;&#111;&#114;&#x65;&#121;&#x2b;&#x72;&#x75;&#x73;&#116;&#64;&#111;&#x63;&#x74;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
