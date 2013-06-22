@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming, | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-22T16:18:55-04:00</updated>
+  <updated>2013-06-22T16:22:39-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -147,8 +147,8 @@ in next week&rsquo;s twir when it lands)</li>
 
 <ul>
 <li>Michael Woerister (mw), the GSoC student working on debug info, has begun
-work. His project log is at <a href="http://michaelwoerister.github.io/">http://michaelwoerister.github.io/</a>, and will be
-updated weekly. I&rsquo;m looking forward to a much better debug experience.</li>
+work. His <a href="http://michaelwoerister.github.io/">project log</a> will be updated
+weekly. I&rsquo;m looking forward to a much better debug experience.</li>
 </ul>
 
 ]]></content>
