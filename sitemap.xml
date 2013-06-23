@@ -2,34 +2,34 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/07/this-week-in-rust/</loc>
-        <lastmod>2013-06-17T15:13:42-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/15/a-reflection/</loc>
-        <lastmod>2013-06-17T15:13:42-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/15/this-week-in-rust/</loc>
-        <lastmod>2013-06-17T15:13:42-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/22/this-week-in-rust/</loc>
-        <lastmod>2013-06-23T09:42:03-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust/</loc>
-        <lastmod>2013-06-23T08:53:13-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2013-06-23T09:42:03-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
-        <lastmod>2013-06-07T18:13:11-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:39-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2013-06-23T09:42:03-04:00</lastmod>
+        <lastmod>2013-06-23T17:16:51-04:00</lastmod>
     </url>
 </urlset>
