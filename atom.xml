@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-06-29T19:43:54-04:00</updated>
+  <updated>2013-06-30T18:22:52-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Structure and organisation of rustc]]></title>
+    <link href="http://cmr.github.io/blog/2013/06/30/structure-and-organisation-of-rustc/"/>
+    <updated>2013-06-30T16:03:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/06/30/structure-and-organisation-of-rustc</id>
+    <content type="html"><![CDATA[<p><em>This is the second part of a planned series about <code>rustc</code>, the Rust compiler</em></p>
+
+<p><strong>Consider this a living document until you don&rsquo;t see this warning anymore</strong>
+I&rsquo;ll be updating/adding/amending stuff, but I&rsquo;m publishing what I have in the
+hope that it&rsquo;s useful in the interim.</p>
+
+<p>This post is going to discuss the structure and organisation of <code>rustc</code>,
+covering the major moving parts and how they interact. I&rsquo;ll start, of course,
+where it starts, and ending, of course, where it ends.</p>
+
+<!-- more -->
+
+
+<p><code>rustc</code> is a fairly large, complex beast. Unless otherwise mentioned, all
+paths are relative to <code>src/librustc</code>. I&rsquo;m going to refer to the &ldquo;code being
+compiled&rdquo; as the &ldquo;compilend&rdquo; (similar to subtrahend, dividend, etc). I made
+this word up, I don&rsquo;t know if there is a better word for it.</p>
+
+<h2>Beginning</h2>
+
+<p>The entry point, <code>run_compiler</code> in <code>rustc.rs</code>, does simple argument parsing
+and calls into the driver, in <code>driver/driver.rs</code>, which coordinates the
+various pieces of the compiler and the rest of the argument parsing. The key
+data structure here is the <code>Session</code>, which you can find (along with a bunch
+of other things like the option context) in <code>driver/session.rs</code>. Back to the
+driver, the function <code>compile_rest</code> is where most of the magic happens. This
+function runs all the various passes over the compilend. It starts with
+parsing and macro expansion and moves onto various static analysis of the code
+to make sure it is correct, finally generating LLVM IR (intermediate
+representation), running LLVM optimizations, and linking the final binary.</p>
+
+<h2>An interlude</h2>
+
+<p>If you&rsquo;re not familiar with compilers, you might find this process a
+labyrinthine fractal of complexity. Which it is, don&rsquo;t get me wrong. But the
+various pieces of the rust compiler are fairly well separated, even if they
+are complex. The basic structure of a compiler is operations on a tree data
+structure representing the compilend called an AST or Abstract Syntax Tree. An
+AST is the output of parsing, and everything in the compiler is transforms or
+analysis of this tree. Once everything is done, it takes this AST and
+translates it into LLVM IR. This is probably the most hairy part of the
+compiler, and it lives in <code>middle/trans</code>. LLVM IR is a representation of code
+that the LLVM library can operate on to optimize and generate native machine
+code. LLVM does most of the heavy lifting that a traditional compiler would
+need to do (optimization and codegen), so the rest of <code>rustc</code> is largely
+dedicated to actually dealing with Rust programs.</p>
+
+<h2>Parsing (&ldquo;front&rdquo;)</h2>
+
+<p>Parsing and macro expansion happen in <code>src/libsyntax</code>, so all paths in this
+section will be relative to that.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -89,7 +148,7 @@ part</a> in line.</li>
 <a href="https://github.com/mozilla/rust/pull/7354">here</a>, but I don&rsquo;t really
 understand what they do or their significance. He said:</p>
 
-<blockquote><p>it changes the way traits/closures and captured data fulfill kind bounds, so<br/>you can restrict or loosen the requirements instead of having the fixed<br/>defaults of &#8220;can only capture Send things in ~fn/~Trait&#8221;</p><p>one example is that you can add the extra requirement of Freeze, so you can<br/>put existential data inside of ARCs</p><p>see https://github.com/mozilla/rust/blob/master/src/test/run-pass/trait-bounds-in-arc.rs</p></blockquote>
+<blockquote><p>it changes the way traits/closures and captured data fulfill kind bounds, so<br/>you can restrict or loosen the requirements instead of having the fixed<br/>defaults of &#8220;can only capture Send things in ~fn/~Trait&#8221;</p><p>one example is that you can add the extra requirement of Freeze, so you can<br/>put existential data inside of ARCs</p><p>see https://github.com/mozilla/rust/blob/master/src/test/run-pass/trait-bounds-in-arc.rs</p><p>http://smallcultfollowing.com/babysteps/blog/2013/06/11/data-parallelism-in-rust/<br/>is another, more complicated but less contrived, example for how they would be<br/>useful</p></blockquote>
 
 
 <h1>Meetings</h1>
@@ -701,7 +760,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x63;&#x6f;&#114;&#x65;&#x79;&#43;&#x72;&#117;&#115;&#x74;&#64;&#x6f;&#99;&#x74;&#97;&#121;&#x6e;&#46;&#x6e;&#x65;&#x74;">&#99;&#x6f;&#114;&#101;&#x79;&#43;&#114;&#117;&#x73;&#x74;&#x40;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#101;&#x74;</a>.</p>
+to me, <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#99;&#111;&#114;&#x65;&#121;&#43;&#114;&#117;&#115;&#116;&#x40;&#111;&#x63;&#116;&#x61;&#x79;&#x6e;&#46;&#110;&#101;&#x74;">&#99;&#x6f;&#114;&#x65;&#x79;&#x2b;&#x72;&#x75;&#x73;&#116;&#64;&#111;&#99;&#x74;&#97;&#121;&#x6e;&#46;&#x6e;&#x65;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all

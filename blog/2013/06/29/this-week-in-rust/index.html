@@ -150,7 +150,7 @@ part</a> in line.</li>
 <a href="https://github.com/mozilla/rust/pull/7354">here</a>, but I don&rsquo;t really
 understand what they do or their significance. He said:</p>
 
-<blockquote><p>it changes the way traits/closures and captured data fulfill kind bounds, so<br/>you can restrict or loosen the requirements instead of having the fixed<br/>defaults of &#8220;can only capture Send things in ~fn/~Trait&#8221;</p><p>one example is that you can add the extra requirement of Freeze, so you can<br/>put existential data inside of ARCs</p><p>see https://github.com/mozilla/rust/blob/master/src/test/run-pass/trait-bounds-in-arc.rs</p></blockquote>
+<blockquote><p>it changes the way traits/closures and captured data fulfill kind bounds, so<br/>you can restrict or loosen the requirements instead of having the fixed<br/>defaults of &#8220;can only capture Send things in ~fn/~Trait&#8221;</p><p>one example is that you can add the extra requirement of Freeze, so you can<br/>put existential data inside of ARCs</p><p>see https://github.com/mozilla/rust/blob/master/src/test/run-pass/trait-bounds-in-arc.rs</p><p>http://smallcultfollowing.com/babysteps/blog/2013/06/11/data-parallelism-in-rust/<br/>is another, more complicated but less contrived, example for how they would be<br/>useful</p></blockquote>
 
 
 <h1>Meetings</h1>

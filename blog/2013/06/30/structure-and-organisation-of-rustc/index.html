@@ -1,0 +1,201 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Structure and organisation of rustc - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="This is the second part of a planned series about rustc, the Rust compiler Consider this a living document until you don&rsquo;t see this warning &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Structure and Organisation of Rustc</h2>
+	<div class="entry-content"><p><em>This is the second part of a planned series about <code>rustc</code>, the Rust compiler</em></p>
+
+<p><strong>Consider this a living document until you don&rsquo;t see this warning anymore</strong>
+I&rsquo;ll be updating/adding/amending stuff, but I&rsquo;m publishing what I have in the
+hope that it&rsquo;s useful in the interim.</p>
+
+<p>This post is going to discuss the structure and organisation of <code>rustc</code>,
+covering the major moving parts and how they interact. I&rsquo;ll start, of course,
+where it starts, and ending, of course, where it ends.</p>
+
+<!-- more -->
+
+
+<p><code>rustc</code> is a fairly large, complex beast. Unless otherwise mentioned, all
+paths are relative to <code>src/librustc</code>. I&rsquo;m going to refer to the &ldquo;code being
+compiled&rdquo; as the &ldquo;compilend&rdquo; (similar to subtrahend, dividend, etc). I made
+this word up, I don&rsquo;t know if there is a better word for it.</p>
+
+<h2>Beginning</h2>
+
+<p>The entry point, <code>run_compiler</code> in <code>rustc.rs</code>, does simple argument parsing
+and calls into the driver, in <code>driver/driver.rs</code>, which coordinates the
+various pieces of the compiler and the rest of the argument parsing. The key
+data structure here is the <code>Session</code>, which you can find (along with a bunch
+of other things like the option context) in <code>driver/session.rs</code>. Back to the
+driver, the function <code>compile_rest</code> is where most of the magic happens. This
+function runs all the various passes over the compilend. It starts with
+parsing and macro expansion and moves onto various static analysis of the code
+to make sure it is correct, finally generating LLVM IR (intermediate
+representation), running LLVM optimizations, and linking the final binary.</p>
+
+<h2>An interlude</h2>
+
+<p>If you&rsquo;re not familiar with compilers, you might find this process a
+labyrinthine fractal of complexity. Which it is, don&rsquo;t get me wrong. But the
+various pieces of the rust compiler are fairly well separated, even if they
+are complex. The basic structure of a compiler is operations on a tree data
+structure representing the compilend called an AST or Abstract Syntax Tree. An
+AST is the output of parsing, and everything in the compiler is transforms or
+analysis of this tree. Once everything is done, it takes this AST and
+translates it into LLVM IR. This is probably the most hairy part of the
+compiler, and it lives in <code>middle/trans</code>. LLVM IR is a representation of code
+that the LLVM library can operate on to optimize and generate native machine
+code. LLVM does most of the heavy lifting that a traditional compiler would
+need to do (optimization and codegen), so the rest of <code>rustc</code> is largely
+dedicated to actually dealing with Rust programs.</p>
+
+<h2>Parsing (&ldquo;front&rdquo;)</h2>
+
+<p>Parsing and macro expansion happen in <code>src/libsyntax</code>, so all paths in this
+section will be relative to that.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-06-30T16:03:00-04:00"  data-updated="true">Jun 30<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
