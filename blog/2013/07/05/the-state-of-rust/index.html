@@ -1,0 +1,268 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>The State of Rust 0.7 - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Given the influx of newcomers from the 0.7 release, I thought it&rsquo;d be a good
+idea to summarize the condition of Rust, its libraries, and its &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">The State of Rust 0.7</h2>
+	<div class="entry-content"><p>Given the influx of newcomers from the 0.7 release, I thought it&rsquo;d be a good
+idea to summarize the condition of Rust, its libraries, and its documentation.
+bstrie said it best I think, &ldquo;basically, any question of the form &lsquo;is there a
+reason for this stupid and terrible thing&rsquo; is &lsquo;no, sorry, we&rsquo;re working on
+it&rsquo;&nbsp;&rdquo;.</p>
+
+<!-- more -->
+
+
+<h1>Iterators</h1>
+
+<p>External iterators are a main feature of the 0.7 release, and there is ongoing
+work to remove all of the library features that use internal iterators. Most
+of them are gone, and there are few uses of internal iterators. However, they
+are clunky to use. The <code>for</code> loop semantics are going to change from internal
+iteration to external iteration, but they are still internal iteration right
+now, which means the <code>advance</code> adaptor is necessary for most uses of
+iterators. Additionally, the <code>iter()</code> helper function is necessary to actually
+return an iterator. This will be obviated by an <code>Iterable</code> trait that many
+things will hopefully implement. Due to
+<a href="https://github.com/mozilla/rust/issues/5898">5898</a>, many methods are oddly
+named or have an underscore appended (ie, <code>transform</code> instead of <code>map</code>,
+<code>position_</code> instead of <code>position</code>).</p>
+
+<h1>IO</h1>
+
+<p>IO has been a bit of a losing proposition since at least 0.2. The interface is
+very primitive and inefficient. It requires using <code>@Trait</code> objects (<code>@Reader</code>
+/ <code>@Writer</code>). It&rsquo;s also very undocumented. But the situation isn&rsquo;t going to
+improve much because all of that code is getting torn out when brson/the
+interns finish their work on the new runtime. On the plus side, we&rsquo;ll have
+shiny new IO when they&rsquo;re done! If you want to contribute, there&rsquo;s plenty of
+work to be done in this area:</p>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/issues/6169">issue 6169</a></li>
+<li><a href="https://github.com/mozilla/rust/issues/6850">issue 6850</a></li>
+<li><a href="https://github.com/mozilla/rust/issues/4419">issue 4419</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-May/004305.html">brson&rsquo;s status report for June</a></li>
+</ul>
+
+
+<h1>Compiler</h1>
+
+<p>The compiler is still buggy and inefficient. Lots of things work, but lots of
+things don&rsquo;t. There&rsquo;s still some resolve bugs (the one mentioned above, as
+well as some others, and perpetually poor error messages), default methods
+don&rsquo;t work, debuginfo is incomplete, the compiler has quadratic codegen when
+using <code>match</code>, so on and so forth. There&rsquo;s a lot of work to be done here but
+it&rsquo;s not easy. I&rsquo;m writing a series about the compiler that should help new
+contributors get started and grok how it all fits together. The only thing
+making Rust usable right now is LLVM&rsquo;s fantastic optimization. Our no-opt
+builds run slower than our opt builds under Valgrind. Ponder that for a
+minute.</p>
+
+<h1><code>rustpkg</code></h1>
+
+<p>rustpkg is still heavily in-progress and unfinished. It&rsquo;s usable, but not
+everything is implemented, and the documentation is incomplete. It&rsquo;s rather
+unintuitive to use right now, but it does work! Read the
+<a href="https://github.com/mozilla/rust/blob/master/doc/rustpkg.md">manual</a> carefully
+if you want to use it.</p>
+
+<h1>Documentation</h1>
+
+<p>Documentation is poor. <code>rustdoc</code> is really bad, which doesn&rsquo;t help. I&rsquo;m
+working on a new rustdoc (<a href="http://rustlog.octayn.net">I log my progress
+here</a>), but it won&rsquo;t be ready for some weeks. Lots
+of things are undocumented or near impossible to find because of how bad
+<code>rustdoc</code> is. The tutorials need lots of work, and a guided tour of the
+libraries would be nice, as well as a &ldquo;Rust By Example,&rdquo; showing how to
+accomplish common goals. These aren&rsquo;t really hard to do, it&rsquo;s just that nobody
+has done them yet.</p>
+
+<h1>Libraries</h1>
+
+<p>There are few robust libraries or bindings to libraries, for anything, besides
+what is in std/extra. There&rsquo;s the stuff servo uses (glfw, skia, sdl), and an
+opengl binding somewhere, but beyond that, you&rsquo;re on your own. The
+<a href="https://github.com/crabtw/rust-bindgen">rust-bindgen</a> tool can help with
+wrapping a C library. There is no GUI library available yet, no real
+networking. It&rsquo;s easy to wrap a C library, you just need to be careful with
+your <code>unsafe</code> blocks. Once again, these things aren&rsquo;t hard, they just haven&rsquo;t
+been done yet.</p>
+
+<h1>The future</h1>
+
+<p>Basically everything is heavily WIP, but it&rsquo;s constantly improving. We always
+need more contributors, ask in IRC if you&rsquo;re interested. Rust 0.7 is pre-alpha
+quality, IMO. It would be silly to use Rust for something important, but don&rsquo;t
+let that stop you from trying to do something ambitious. If you feel Rust is
+still too young to get involved, but you want to track its progress, I write
+<a href="http://cmr.github.io/blog/categories/this-week-in-rust/">This Week in Rust</a>,
+which is an easy way to track our progress. 1.0 is tentatively planned for
+first-quarter 2014, last I heard, and I don&rsquo;t think that is out of reach. 1.0
+corresponds to &ldquo;maturity #2&rdquo; at the absolute minimum (the maturiy levels are
+listed <a href="https://github.com/mozilla/rust/issues/milestones">as milestones</a>).</p>
+
+<p>But don&rsquo;t be discouraged. It was far worse before! Rust is in a good position,
+it&rsquo;s just not quite all there yet. This post may seem pessimistic, but the
+progress Rust has made is astonishing. Here&rsquo;s to a wonderful 0.8!</p>
+
+<h1>Some links</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/">Rust subreddit</a></li>
+<li><a href="https://mail.mozilla.org/listinfo/rust-dev">Mailing list</a></li>
+<li><a href="http://blog.gmane.org/gmane.comp.lang.rust.devel">Mailing list archives</a></li>
+<li><a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC
+Channel</a>
+(it&rsquo;s <code>#rust</code> on irc.mozilla.org)</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-07-05T09:51:00-04:00"  data-updated="true">Jul 5<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
