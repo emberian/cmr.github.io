@@ -131,10 +131,12 @@ with structs containing <code>f32</code> when used with FFI.</li>
 throughout the rest of the codebase (besides compiletest, apparently).</li>
 <li>acrichto <a href="https://github.com/mozilla/rust/pull/7465">rewrote some str code</a>
 to avoid allocations.</li>
-<li>strcat is <a href="https://github.com/mozilla/rust/pull/7495">cleaning up</a> headers
+<li>strcat is <a href="https://github.com/mozilla/rust/pull/7495">removing</a> headers
 from exchange allocs (see also
 <a href="https://github.com/mozilla/rust/pull/7605">#7605</a> and
-<a href="https://github.com/mozilla/rust/pull/7521">#7521</a>).</li>
+<a href="https://github.com/mozilla/rust/pull/7521">#7521</a>). They are entirely
+unused, they just need to be removed and the fallout fixed throughout the
+compiler.</li>
 <li>yjh0502 <a href="https://github.com/mozilla/rust/pull/7443">fixed a bug</a> that
 allowed duplicate struct fields (like <code>struct Foo {a: uint, a: uint}</code>)</li>
 <li>acrichto <a href="https://github.com/mozilla/rust/pull/7409">turned on</a> LLVM
@@ -185,7 +187,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#x72;&#101;&#121;&#43;&#x62;&#108;&#111;&#x67;&#64;&#x6f;&#99;&#116;&#97;&#121;&#110;&#46;&#110;&#x65;&#116;">&#99;&#111;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#64;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#x6f;&#114;&#x65;&#x79;&#x2b;&#x62;&#108;&#x6f;&#103;&#x40;&#111;&#x63;&#116;&#x61;&#121;&#110;&#46;&#110;&#x65;&#x74;">&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#x62;&#x6c;&#x6f;&#103;&#x40;&#111;&#99;&#116;&#x61;&#x79;&#x6e;&#x2e;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
