@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-05T11:36:09-04:00</updated>
+  <updated>2013-07-06T17:32:32-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/07/06/this-week-in-rust/"/>
+    <updated>2013-07-06T15:45:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/07/06/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the fifth issue of <em>This Week in Rust</em>, a weekly overview
+of Rust and its community.</p>
+
+<p><code>0.7</code> was released this week. Hello to the newcomers! I&rsquo;ve also decided to put
+breaking changes first. Feel free to skip the rest, it&rsquo;s relatively
+unimportant.</p>
+
+<!-- more -->
+
+
+<h1>Newcomers</h1>
+
+<p>There&rsquo;s already a lot of traffic from Rust newbies, so you get your own
+section! Welcome to Rust. I wrote <a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust
+0.7</a> especially for
+newcomers, so you should read that. Jump on IRC if you have any questions or
+need help. We&rsquo;re a quite friendly bunch, and we usually don&rsquo;t bite.</p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Issue churn this week was +12. 35 PRs were merged, total PR churn was -8.
+There continues to be a lot more cleanup than breaking changes, which is
+encouraging! As I understand it, graydon wants to focus this release cycle on
+cleanup, rather than language features. Hopefully the compiler can get into a
+much better state.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>dbaupp <a href="https://github.com/mozilla/rust/pull/7487">continues</a> to
+<a href="https://github.com/mozilla/rust/pull/7566">slaughter</a> the free functions in
+<code>std::vec</code> where methods can replace them.</li>
+<li>He also <a href="https://github.com/mozilla/rust/pull/7523">added a lint for lowercase
+statics</a>, which is enabled by
+default because of an astoundingly poor error message.</li>
+<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7474">moved a bunch of iter
+stuff</a> to `extra.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>doener <a href="https://github.com/mozilla/rust/pull/7452">removed an extra layer of
+indirection</a> that method calls incurred.</li>
+<li>Blei <a href="https://github.com/mozilla/rust/pull/7457">fixed a codegen problem</a>
+with structs containing <code>f32</code> when used with FFI.</li>
+<li>I <a href="https://github.com/mozilla/rust/pull/7468">propagated the great renaming</a>
+throughout the rest of the codebase (besides compiletest, apparently).</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7465">rewrote some str code</a>
+to avoid allocations.</li>
+<li>strcat is <a href="https://github.com/mozilla/rust/pull/7495">cleaning up</a> headers
+from exchange allocs (see also
+<a href="https://github.com/mozilla/rust/pull/7605">#7605</a> and
+<a href="https://github.com/mozilla/rust/pull/7521">#7521</a>).</li>
+<li>yjh0502 <a href="https://github.com/mozilla/rust/pull/7443">fixed a bug</a> that
+allowed duplicate struct fields (like <code>struct Foo {a: uint, a: uint}</code>)</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7409">turned on</a> LLVM
+threading.</li>
+<li>Luqman <a href="https://github.com/mozilla/rust/pull/7498">changed configure</a> to
+require either wget <em>or</em> curl.</li>
+<li>Dretch <a href="https://github.com/mozilla/rust/pull/7510">improved the error
+message</a> for implementing unknown
+traits to mention the trait name.</li>
+<li>sankha93 <a href="https://github.com/mozilla/rust/pull/7531">improved the error
+message</a> for trying to capture
+environment in a plain <code>fn</code>.</li>
+<li>bblum <a href="https://github.com/mozilla/rust/pull/7534">improved the error mssage</a>
+for using a moved value, it now gives better suggestions than just <code>copy</code>.</li>
+<li>sanxiyn <a href="https://github.com/mozilla/rust/pull/7543">fixed a bug</a> where
+eligible newtype structs weren&rsquo;t marked as an immediate value (and thus not
+passed in registers when they could have been).</li>
+<li>Luqman <a href="https://github.com/mozilla/rust/pull/7547">paved the way</a> for 64-bit
+windows support.</li>
+<li>jensnockert <a href="https://github.com/mozilla/rust/pull/7194">added byte swapping
+intrinsics</a> that specialize
+per-platform, avoiding unnecessary operations.</li>
+<li>jld <a href="https://github.com/mozilla/rust/pull/7554">removed an unused function</a></li>
+<li>sully <a href="https://github.com/mozilla/rust/pull/7545">fixed more default method bugs</a>.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>sfackler <a href="https://github.com/mozilla/rust/pull/7549">fixed up some
+documentation</a> related to the
+drop/finalize renaming.</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7530">fixed a correctness
+bug</a> in TreeMap&rsquo;s <code>Ord</code>
+implementation.</li>
+<li>sfackler <a href="https://github.com/mozilla/rust/pull/7513">much improved</a> and
+genericized the base64 handling.</li>
+<li>graydon did a <a href="https://github.com/mozilla/rust/pull/7518">bunch of cleanup</a>
+in <code>extra::stats</code>.</li>
+<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7475">fixed a patological case with
+<code>str::each_split_within</code></a>.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
+featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
+(as most of the type system stuff is). If someone wants to write some more
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#x72;&#101;&#121;&#43;&#x62;&#108;&#111;&#x67;&#64;&#x6f;&#99;&#116;&#97;&#121;&#110;&#46;&#110;&#x65;&#116;">&#99;&#111;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#64;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
+will get attribution, of course.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust 0.7</a></li>
+<li><a href="http://forum.dlang.org/thread/kr2vpp$2jmf$1@digitalmars.com">&ldquo;Rust switches to external iteration&rdquo; (D forums)</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004686.html">Segmented stacks</a></li>
+<li><a href="http://huonw.github.io/isrustfastyet/mem/">Is Rust Slim Yet? (Is Rust Fast Yet v2)</a></li>
+<li><a href="http://joshldavis.com/rust-design-patterns/">Rust Design Patterns</a></li>
+<li><a href="http://joshldavis.com/2013/07/01/program-to-an-interface-fool/">Program to an Interface, Fool</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hg88c/i_think_i_would_take_that_for_rust_when_its_done/">Would You Bet $100,000,000 on [Rust]?</a></li>
+<li><a href="http://michaelwoerister.github.io/2013/06/28/Status-Update-3.html">mw&rsquo;s third status report</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The State of Rust 0.7]]></title>
@@ -881,7 +1010,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#99;&#x6f;&#x72;&#101;&#x79;&#43;&#x72;&#x75;&#115;&#116;&#64;&#x6f;&#99;&#x74;&#x61;&#x79;&#x6e;&#x2e;&#x6e;&#x65;&#x74;">&#99;&#111;&#x72;&#x65;&#x79;&#43;&#x72;&#117;&#115;&#x74;&#64;&#x6f;&#99;&#116;&#x61;&#121;&#x6e;&#46;&#110;&#101;&#116;</a>.</p>
+to me, <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#99;&#x6f;&#x72;&#101;&#121;&#43;&#114;&#x75;&#x73;&#116;&#64;&#x6f;&#99;&#116;&#x61;&#121;&#110;&#46;&#x6e;&#x65;&#x74;">&#x63;&#111;&#114;&#101;&#121;&#43;&#114;&#x75;&#x73;&#116;&#64;&#x6f;&#99;&#116;&#x61;&#121;&#x6e;&#46;&#x6e;&#x65;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all

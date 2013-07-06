@@ -1,0 +1,276 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to the fifth issue of This Week in Rust, a weekly overview
+of Rust and its community. 0.7 was released this week. Hello to the &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to the fifth issue of <em>This Week in Rust</em>, a weekly overview
+of Rust and its community.</p>
+
+<p><code>0.7</code> was released this week. Hello to the newcomers! I&rsquo;ve also decided to put
+breaking changes first. Feel free to skip the rest, it&rsquo;s relatively
+unimportant.</p>
+
+<!-- more -->
+
+
+<h1>Newcomers</h1>
+
+<p>There&rsquo;s already a lot of traffic from Rust newbies, so you get your own
+section! Welcome to Rust. I wrote <a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust
+0.7</a> especially for
+newcomers, so you should read that. Jump on IRC if you have any questions or
+need help. We&rsquo;re a quite friendly bunch, and we usually don&rsquo;t bite.</p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Issue churn this week was +12. 35 PRs were merged, total PR churn was -8.
+There continues to be a lot more cleanup than breaking changes, which is
+encouraging! As I understand it, graydon wants to focus this release cycle on
+cleanup, rather than language features. Hopefully the compiler can get into a
+much better state.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>dbaupp <a href="https://github.com/mozilla/rust/pull/7487">continues</a> to
+<a href="https://github.com/mozilla/rust/pull/7566">slaughter</a> the free functions in
+<code>std::vec</code> where methods can replace them.</li>
+<li>He also <a href="https://github.com/mozilla/rust/pull/7523">added a lint for lowercase
+statics</a>, which is enabled by
+default because of an astoundingly poor error message.</li>
+<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7474">moved a bunch of iter
+stuff</a> to `extra.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>doener <a href="https://github.com/mozilla/rust/pull/7452">removed an extra layer of
+indirection</a> that method calls incurred.</li>
+<li>Blei <a href="https://github.com/mozilla/rust/pull/7457">fixed a codegen problem</a>
+with structs containing <code>f32</code> when used with FFI.</li>
+<li>I <a href="https://github.com/mozilla/rust/pull/7468">propagated the great renaming</a>
+throughout the rest of the codebase (besides compiletest, apparently).</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7465">rewrote some str code</a>
+to avoid allocations.</li>
+<li>strcat is <a href="https://github.com/mozilla/rust/pull/7495">cleaning up</a> headers
+from exchange allocs (see also
+<a href="https://github.com/mozilla/rust/pull/7605">#7605</a> and
+<a href="https://github.com/mozilla/rust/pull/7521">#7521</a>).</li>
+<li>yjh0502 <a href="https://github.com/mozilla/rust/pull/7443">fixed a bug</a> that
+allowed duplicate struct fields (like <code>struct Foo {a: uint, a: uint}</code>)</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7409">turned on</a> LLVM
+threading.</li>
+<li>Luqman <a href="https://github.com/mozilla/rust/pull/7498">changed configure</a> to
+require either wget <em>or</em> curl.</li>
+<li>Dretch <a href="https://github.com/mozilla/rust/pull/7510">improved the error
+message</a> for implementing unknown
+traits to mention the trait name.</li>
+<li>sankha93 <a href="https://github.com/mozilla/rust/pull/7531">improved the error
+message</a> for trying to capture
+environment in a plain <code>fn</code>.</li>
+<li>bblum <a href="https://github.com/mozilla/rust/pull/7534">improved the error mssage</a>
+for using a moved value, it now gives better suggestions than just <code>copy</code>.</li>
+<li>sanxiyn <a href="https://github.com/mozilla/rust/pull/7543">fixed a bug</a> where
+eligible newtype structs weren&rsquo;t marked as an immediate value (and thus not
+passed in registers when they could have been).</li>
+<li>Luqman <a href="https://github.com/mozilla/rust/pull/7547">paved the way</a> for 64-bit
+windows support.</li>
+<li>jensnockert <a href="https://github.com/mozilla/rust/pull/7194">added byte swapping
+intrinsics</a> that specialize
+per-platform, avoiding unnecessary operations.</li>
+<li>jld <a href="https://github.com/mozilla/rust/pull/7554">removed an unused function</a></li>
+<li>sully <a href="https://github.com/mozilla/rust/pull/7545">fixed more default method bugs</a>.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>sfackler <a href="https://github.com/mozilla/rust/pull/7549">fixed up some
+documentation</a> related to the
+drop/finalize renaming.</li>
+<li>acrichto <a href="https://github.com/mozilla/rust/pull/7530">fixed a correctness
+bug</a> in TreeMap&rsquo;s <code>Ord</code>
+implementation.</li>
+<li>sfackler <a href="https://github.com/mozilla/rust/pull/7513">much improved</a> and
+genericized the base64 handling.</li>
+<li>graydon did a <a href="https://github.com/mozilla/rust/pull/7518">bunch of cleanup</a>
+in <code>extra::stats</code>.</li>
+<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7475">fixed a patological case with
+<code>str::each_split_within</code></a>.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
+featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
+(as most of the type system stuff is). If someone wants to write some more
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x63;&#111;&#x72;&#101;&#121;&#43;&#x62;&#108;&#111;&#x67;&#64;&#x6f;&#99;&#116;&#97;&#121;&#110;&#46;&#110;&#x65;&#116;">&#99;&#111;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#64;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
+will get attribution, of course.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust 0.7</a></li>
+<li><a href="http://forum.dlang.org/thread/kr2vpp$2jmf$1@digitalmars.com">&ldquo;Rust switches to external iteration&rdquo; (D forums)</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004686.html">Segmented stacks</a></li>
+<li><a href="http://huonw.github.io/isrustfastyet/mem/">Is Rust Slim Yet? (Is Rust Fast Yet v2)</a></li>
+<li><a href="http://joshldavis.com/rust-design-patterns/">Rust Design Patterns</a></li>
+<li><a href="http://joshldavis.com/2013/07/01/program-to-an-interface-fool/">Program to an Interface, Fool</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hg88c/i_think_i_would_take_that_for_rust_when_its_done/">Would You Bet $100,000,000 on [Rust]?</a></li>
+<li><a href="http://michaelwoerister.github.io/2013/06/28/Status-Update-3.html">mw&rsquo;s third status report</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-07-06T15:45:00-04:00"  data-updated="true">Jul 6<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
