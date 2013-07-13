@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-13T17:35:56-04:00</updated>
+  <updated>2013-07-13T17:49:45-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -125,7 +125,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#99;&#111;&#x72;&#x65;&#x79;&#x2b;&#x62;&#x6c;&#111;&#x67;&#64;&#111;&#99;&#x74;&#97;&#x79;&#x6e;&#x2e;&#x6e;&#101;&#116;">&#x63;&#111;&#114;&#101;&#x79;&#x2b;&#x62;&#x6c;&#x6f;&#103;&#64;&#111;&#99;&#x74;&#x61;&#x79;&#110;&#46;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#x63;&#x6f;&#114;&#x65;&#121;&#x2b;&#x62;&#108;&#111;&#103;&#64;&#x6f;&#99;&#116;&#x61;&#121;&#110;&#x2e;&#110;&#101;&#x74;">&#x63;&#x6f;&#114;&#x65;&#121;&#43;&#98;&#x6c;&#x6f;&#103;&#64;&#111;&#x63;&#116;&#97;&#121;&#x6e;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -544,7 +544,7 @@ python replacement
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#99;&#x6f;&#114;&#x65;&#x79;&#43;&#x72;&#117;&#x73;&#x74;&#64;&#x6f;&#x63;&#116;&#x61;&#x79;&#x6e;&#46;&#110;&#x65;&#116;">&#99;&#x6f;&#114;&#101;&#x79;&#x2b;&#114;&#117;&#x73;&#116;&#64;&#111;&#99;&#x74;&#97;&#121;&#110;&#46;&#110;&#x65;&#116;</a>.</p>
+to me, <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x63;&#111;&#x72;&#101;&#x79;&#x2b;&#x72;&#x75;&#115;&#x74;&#x40;&#x6f;&#99;&#x74;&#x61;&#x79;&#x6e;&#x2e;&#x6e;&#x65;&#x74;">&#x63;&#x6f;&#114;&#x65;&#x79;&#x2b;&#x72;&#117;&#x73;&#x74;&#x40;&#x6f;&#x63;&#x74;&#97;&#121;&#110;&#x2e;&#110;&#101;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
