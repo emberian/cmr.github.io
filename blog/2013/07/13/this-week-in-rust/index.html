@@ -1,0 +1,327 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to the sixth issue of This Week in Rust, a weekly overview
+of Rust and its community. What&rsquo;s cooking on master? Issue churn &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to the sixth issue of <em>This Week in Rust</em>, a weekly overview
+of Rust and its community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Issue churn this week was -17! A total of 63 PRs were merged this week, twice
+as many as last week. Not bad!</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>The <a href="https://github.com/mozilla/rust/pull/7677">task local storage (TLS)
+API</a> was cleaned up.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7652">DList was modernized</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7704"><code>extra::json</code> now uses <code>Iterator&lt;char&gt;</code> rather than a
+<code>@Reader</code></a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7117">Various free-standing functions in f32 etc were
+removed</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7262">ref bindings in irrefutable patterns has been tightened
+up</a>. This potentially fixes <em>and
+breaks</em> code. It&rsquo;s breaking because the compiler now rejects incorrect
+programs that it did not before.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7612">str no longer encodes invalid
+utf-8</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7629"><code>extra::rope</code> was removed</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7594"><code>extra::net_ip</code> and so on were
+removed</a>. They were redundant
+names for <code>extra::net::ip</code> and such</li>
+<li><a href="https://github.com/mozilla/rust/pull/7570"><code>Iterator::size_hint</code>&rsquo;s lower bound is no longer an
+Option</a></li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7763">Unnecessary basic blocks were
+removed</a>. This makes for much
+easier to read unoptimized IR.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7734">Use of <code>*int</code>/<code>*uint</code> is now properly
+warned</a> in FFI functions.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7725">More default method fixes</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7717">needless copy</a> was removed
+from immediate values (I&rsquo;m pretty sure LLVM optimized it away when
+optimizations were on, not positive).</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7706">lint for overqualified names</a>
+was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7705">SIMD arithmetic</a> was
+implemented.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7688">graph abstraction and CFG</a> was
+introduced, to unify how the various pieces of the compiler use graphs.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7455">The maximum lifetime of stack
+closures</a> is now constrained. Not
+quite sure what that means, but it fixes a segfault.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7683">repr doesn&rsquo;t infinite loop</a> on
+zero-sized structs (ie, unit structs).</li>
+<li><a href="https://github.com/mozilla/rust/pull/7698">Type parameter pretty printing</a>
+was fixed, it now prints the type name rather than <code>'a</code> and <code>'b</code> and
+soforth.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7631"><code>mut</code> in default method arguments is now
+allowed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7645">IR for calls with immediate return
+values</a> was improved.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7605">Exchange allocation headers (ie, the headers on <code>~T</code>) were
+removed</a>. This was a heroic
+effort by strcat and Luqman.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7456"><code>-Z trans-stats</code> now reports perf-function
+statistics</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7636">Scopes were decoupled from LLVM basic
+blocks</a>, improving unoptimized
+builds, and allowing more things in optimized builds to be inlined.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7585">An infinite loop when recursively including
+modules</a> was fixed.</li>
+<li>An <a href="https://github.com/mozilla/rust/pull/7557">ICE involving struct-like enum
+variants</a> was fixed.</li>
+<li>The buildsystem <a href="https://github.com/mozilla/rust/pull/7637">cleans up old
+libraries</a> when it needs to.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7615">A bunch of managed boxes</a> were
+removed from the AST.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7775"><code>print!</code> and <code>println!</code> macros</a>
+were added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7765">Ord now uses default methods</a>,
+allowing you to get default implementations for everything but <code>lt</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7730"><code>extra::Bitv</code> now takes <code>&amp;[bool]</code> rather than
+<code>~[uint]</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7728">x64 now uses large stacks (4 MiB) by
+default</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7696"><code>is_utf8</code> is now 22% faster</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7623">Metrics reporting and
+ratcheting</a> was added to the test
+harness.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7707">DoubleEndedIterator</a> was
+added.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7691"><code>mut_split</code> method was added</a>
+to partition a <code>&amp;mut [T]</code> into two pieces.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/7631">now have pointer arithmetic</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7265">month&rsquo;s work of runtime work</a>
+landed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7528">A safe, cross-platform <code>mmap</code>
+wrapper</a> was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7614">SmallIntMap and SmallIntSet have external
+iterators</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7608">JSON parsing got 93% faster</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7562">Deque</a> good a cleanup and
+speedup.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7602">vec now implements <code>pop_opt</code> and <code>shift_opt</code>
+methods</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7604"><code>peek_</code> adaptor</a> was added,
+which calls a closure on ever item before returning it. Mostly useful for
+debugging your iterators.</li>
+</ul>
+
+
+<h2>Documentation etc</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7742">vim</a>
+<a href="https://github.com/mozilla/rust/pull/7665">improvements</a> landed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7641"><code>po4a</code> support for translation</a>
+was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7690"><code>libc::c_void</code> is better
+documented</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7632">Man pages</a> for all the tools are
+now included.</li>
+<li>The <a href="https://github.com/mozilla/rust/pull/7736">iterator tutorial</a> was
+extended.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-09">Tuesday
+meeting</a> was
+all about split stacks and FFI. It&rsquo;s complex and above my ability to
+summarize, but from what I can tell no real consensus was made. But, it&rsquo;s the
+best enumeration of all the various issues surrounding split stacks that I&rsquo;ve
+seen.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<p>From now on I&rsquo;m going to just link to the reddit thread if there is one, as it
+often has additional comments or insights.</p>
+
+<ul>
+<li><a href="https://gist.github.com/jmptable/5980297">A simple, self-contained example of using a shared
+library</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i3c15/experimental_actor_library_in_rust/">Experimental Actor
+Library (reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i30sw/herb_sutter_describes_rust_c_questions_and/">Herb Sutter describes Rust
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i2y9e/philosophy_and_for_loops_more_from_go_and_rust/">Philosophy and &ldquo;for&rdquo; loops
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hy6l9/meetingweekly20130709_split_stacks_ffi/">Reddit thread about the weekly
+meeting</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hxp2s/little_bzip2_binding_library_as_well_as_a_bigger/">BZIP2 bindings
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hsqf5/proposal_for_an_additional_use_case_of_the_in/">Proposal for an additional use case of the &ldquo;in&rdquo; keyword besides for loops
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i6ykh/technical_qa_on_servo/">Technical Q&amp;A on Servo
+(reddit)</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-07-13T16:07:00-04:00"  data-updated="true">Jul 13<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner"><a rel="license"
+	href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img
+	alt="Creative Commons License" style="border-width:0"
+	src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><br />This
+work by <a xmlns:cc="http://creativecommons.org/ns#" href="http://octayn.net"
+	property="cc:attributionName" rel="cc:attributionURL">Corey Richardson</a>
+is licensed under a <a rel="license"
+	href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative
+	Commons Attribution-ShareAlike 3.0 Unported License</a>.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
