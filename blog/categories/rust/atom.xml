@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-21T15:13:30-04:00</updated>
+  <updated>2013-07-21T15:20:31-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -27,7 +27,7 @@ cleanup. It has been a good week!</p>
 <!-- more -->
 
 
-<h1>What&rsquo;s cookin on master?</h1>
+<h1>What&rsquo;s cooking on master?</h1>
 
 <p>Issue churn this week was -15. A total of 59 PRs were merged.</p>
 
@@ -463,7 +463,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x63;&#111;&#x72;&#101;&#121;&#43;&#x62;&#x6c;&#x6f;&#103;&#64;&#111;&#x63;&#x74;&#97;&#x79;&#110;&#x2e;&#x6e;&#101;&#x74;">&#x63;&#x6f;&#x72;&#101;&#121;&#x2b;&#98;&#x6c;&#x6f;&#103;&#x40;&#x6f;&#x63;&#x74;&#97;&#x79;&#110;&#x2e;&#110;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#99;&#111;&#x72;&#x65;&#x79;&#43;&#98;&#108;&#111;&#103;&#x40;&#111;&#99;&#116;&#97;&#121;&#110;&#x2e;&#x6e;&#101;&#116;">&#99;&#111;&#x72;&#101;&#x79;&#43;&#x62;&#x6c;&#111;&#x67;&#x40;&#111;&#99;&#116;&#97;&#121;&#110;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
