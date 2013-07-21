@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-13T17:49:45-04:00</updated>
+  <updated>2013-07-21T15:13:30-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,162 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/07/21/this-week-in-rust/"/>
+    <updated>2013-07-21T09:36:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/07/21/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the seventh issue of <em>This Week in Rust</em>, a weekly
+overview of Rust and its community. Things are calming down quite a bit, in
+that nothing extraordinarily exciting is happening. Lots of great work is
+being done everywhere, and good progress is being made in both bugfixes and
+cleanup. It has been a good week!</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cookin on master?</h1>
+
+<p>Issue churn this week was -15. A total of 59 PRs were merged.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><strong><a href="https://github.com/mozilla/rust/pull/7684">The semantics of <code>range_rev</code> have
+changed</a>. This will break your
+code without warning.</strong> It is now, to use <a href="https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals">interval
+notation</a>,
+<code>(hi, lo]</code> rather than <code>[hi, lo)</code>.</li>
+<li><code>pub extern</code> and <code>priv extern</code> <a href="https://github.com/mozilla/rust/pull/7896">have been
+removed</a> from the language. This
+matches the previous similar change to <code>impl</code>. Place the visibility
+qualifier (<code>pub</code>/<code>priv</code>) on each item in the <code>extern</code> block instead.</li>
+<li><code>&amp;T</code> (besides <code>&amp;'static T</code>) is <a href="https://github.com/mozilla/rust/pull/7894">no longer allowed in
+<code>@T</code></a>.</li>
+<li>The <code>ThreadPerCore</code> spawn mode <a href="https://github.com/mozilla/rust/pull/7856">has been
+removed</a>, as it doesn&rsquo;t make
+sense with the new scheduler.</li>
+<li>The <code>consume</code> methods of the hash containers <a href="https://github.com/mozilla/rust/pull/7833">has been replaced with an
+external iterator</a>. The method
+name is the same, though.</li>
+<li>Moved values can <a href="https://github.com/mozilla/rust/pull/7849">no longer be captured
+twice</a>. This was a blatent
+soundness issue.</li>
+<li>The <code>swap_unwrap</code> method of Option has been <a href="https://github.com/mozilla/rust/pull/7831">renamed to
+<code>take_unwrap</code></a>.</li>
+<li><code>debug!</code> statements <a href="https://github.com/mozilla/rust/pull/7822">generate no
+code</a> unless you pass <code>--cfg
+debug</code> to <code>rustc</code>. This should help keep code size down and make your
+programs a (tiny bit) faster. Now you don&rsquo;t have to feel bad about having
+<code>debug!</code> in hot code.</li>
+<li>The <code>mutate_values</code> method of HashMap <a href="https://github.com/mozilla/rust/pull/7815">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>An iterator adaptor was added that <a href="https://github.com/mozilla/rust/pull/7882">endlessly repeats the iterator it is
+called on</a>.</li>
+<li>Generated test runners <a href="https://github.com/mozilla/rust/pull/7840">now have a
+<code>-h</code>/<code>--help</code></a> option.</li>
+<li>Metric capturing + racheting <a href="https://github.com/mozilla/rust/pull/7829">has been
+added</a> for benchmarks.</li>
+<li><code>local_data</code> <a href="https://github.com/mozilla/rust/pull/7841">now has a
+<code>get_mut</code></a> function.</li>
+<li><code>extra::semver</code> <a href="https://github.com/mozilla/rust/pull/7726">has been updated to SemVer
+2.0.0</a>.</li>
+<li>Consuming iterators <a href="https://github.com/mozilla/rust/pull/7806">have been
+added</a> for the hash structures.</li>
+<li><code>extra::ringbuf</code> <a href="https://github.com/mozilla/rust/pull/7808">now implements
+DoubleEndedIterator</a>.</li>
+<li><code>Eq</code> <a href="https://github.com/mozilla/rust/pull/7799">now has a default implementation of
+<code>ne</code></a>.</li>
+<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/7716">now knows how to handle more
+attributes</a>.</li>
+<li>More containers <a href="https://github.com/mozilla/rust/pull/7788">implement
+FromIter</a>. This means you can use
+<code>.collect()</code> to gather the elements from an iterator into those containers.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7858">Task killing, failure, and exit code
+propagation</a> in the new runtime
+has been implemented.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><code>syntax::attr</code> <a href="https://github.com/mozilla/rust/pull/7902">has been
+modernized</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7710">Tons of debuginfo work</a> from mw
+this week!</li>
+<li>Trait data structures <a href="https://github.com/mozilla/rust/pull/7886">have been cleaned
+up</a>, as well as a default method
+fix.</li>
+<li>Intrinsics <a href="https://github.com/mozilla/rust/pull/7851">now have much better
+codegen</a>.</li>
+<li>A <code>no_implicit_prelude</code> attribute <a href="https://github.com/mozilla/rust/pull/7844">has been
+added</a>, which prevents prelude
+injection in the module heirarchy starting at the item which that attribute
+is added to.</li>
+<li>C-style enum variants are <a href="https://github.com/mozilla/rust/pull/7827">now
+allowed</a> in <code>[T, ..n]</code>
+expressions.</li>
+<li>All language items are <a href="https://github.com/mozilla/rust/pull/7828">now
+optional</a>. The compiler emits an
+error if a language item is used but not provided.</li>
+<li>The removal of <code>spanned&lt;T&gt;</code> <a href="https://github.com/mozilla/rust/pull/7826">has
+begun</a>.</li>
+<li>Headers <a href="https://github.com/mozilla/rust/pull/7816">have been removed</a> for
+<code>~str</code> and <code>~[T]</code> where <code>T</code> is unmanaged.</li>
+</ul>
+
+
+<h2>Documentation, tools, and other stuff</h2>
+
+<ul>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7419">now works when you don&rsquo;t give it a package
+ID</a>. It builds/installs/cleans
+the package in the current directory, <em>iff</em> the current directory is in a
+rustpkg workspace.</li>
+<li><code>--quiet</code> is <a href="https://github.com/mozilla/rust/pull/7847">no longer passed</a>
+to git during submodule operations, so you can see the progress of the huge
+LLVM download.</li>
+<li>Documentation of the <a href="https://github.com/mozilla/rust/pull/7823">lint-controlling
+attributes</a> was added.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7681">now handles cloning from local git
+repos</a>.</li>
+<li>The GtkSourceView highlighting file <a href="https://github.com/mozilla/rust/pull/7795">was
+improved</a>.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-16">Tuesday
+meeting</a>
+discussed nothing it all of importance.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1imeac/guaranteeing_memory_safety_in_rust_niko_matsakis/">Discussion and slides from Niko&rsquo;s presentation at the Northeastern
+University Programming Language
+Seminar</a></li>
+<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/4829">A nightly Ubuntu
+PPA</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1igvye/vision_for_rust_simd/">SIMD
+discussion</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004841.html">Rust on bare metal
+ARM</a></li>
+<li><a href="http://www.oscon.com/oscon2013/public/schedule/detail/28741">dherman&rsquo;s OSCON
+presentation</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -196,42 +352,6 @@ meeting</a></li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[I am an engineer]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/11/i-am-an-engineer/"/>
-    <updated>2013-07-11T08:05:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/11/i-am-an-engineer</id>
-    <content type="html"><![CDATA[<p>I had a job interview yesterday. I think it went rather poorly. I stumbled on
-the &ldquo;programming&rdquo; questions, which were mostly about algorithms and pattern
-recognition. I don&rsquo;t disagree that they are important, but I think the reason
-I stumbled is novel.</p>
-
-<!-- more -->
-
-
-<p>I will be majoring in &ldquo;Computer Science,&rdquo; although I rarely use the scientific
-method. I think &ldquo;Computer Science&rdquo; is the intersection of maths and
-engineering, although the proportion depends on where you focus. In my
-self-taught education, I&rsquo;ve picked up quite little maths. I know basic
-algorithmic complexity and such, but I&rsquo;ve never studied algorithms in any
-rigor, nor have I encountered the necessity of such yet. While I&rsquo;ve dabbled in
-the theory of computation, and can recognize the Chomsky heirarchy, I would
-need to pull up a book or other resource to actually use that knowledge. And
-so on for all the meaty, intellectual parts of &ldquo;Computer Science&rdquo;.</p>
-
-<p>The other half of &ldquo;Computer Science&rdquo; is engineering, and that is what I have
-been focusing all my effort on the past few years. It was an implicit focus
-driven by necessity of implementation. Understanding space/time tradeoffs,
-recognizing that two slightly different implementations of an algorithm can
-have vastly different performance characteristics, knowing the effects of
-heirarchical cache, branch prediction, and so on. Designing and implementing
-high-performance software needs all of this knowledge to understand the
-tradeoffs one is making. (Of course, this is largely irrelevant when using
-something like CPython, which is going to trash the cache and branch predictor
-anyway, or PyPy where you aren&rsquo;t in much control of the code generated.)</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
     <link href="http://cmr.github.io/blog/2013/07/06/this-week-in-rust/"/>
     <updated>2013-07-06T15:45:00-04:00</updated>
@@ -343,7 +463,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#99;&#x6f;&#x72;&#x65;&#121;&#43;&#98;&#108;&#x6f;&#103;&#64;&#x6f;&#x63;&#x74;&#97;&#x79;&#x6e;&#x2e;&#110;&#101;&#116;">&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#x62;&#108;&#x6f;&#x67;&#64;&#111;&#99;&#116;&#97;&#121;&#110;&#46;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#99;&#x6f;&#x72;&#x65;&#121;&#x2b;&#98;&#x6c;&#x6f;&#x67;&#x40;&#111;&#99;&#116;&#97;&#x79;&#110;&#46;&#x6e;&#x65;&#116;">&#99;&#x6f;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#111;&#x67;&#x40;&#x6f;&#99;&#116;&#97;&#x79;&#110;&#x2e;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -1230,7 +1350,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#99;&#111;&#x72;&#x65;&#x79;&#x2b;&#x72;&#x75;&#x73;&#116;&#x40;&#111;&#x63;&#116;&#x61;&#121;&#x6e;&#x2e;&#x6e;&#x65;&#116;">&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#x72;&#117;&#115;&#x74;&#64;&#x6f;&#99;&#116;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#116;</a>.</p>
+to me, <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#99;&#111;&#x72;&#101;&#x79;&#43;&#114;&#x75;&#115;&#116;&#x40;&#x6f;&#x63;&#116;&#97;&#121;&#x6e;&#x2e;&#110;&#101;&#116;">&#x63;&#x6f;&#114;&#x65;&#121;&#43;&#x72;&#117;&#x73;&#116;&#64;&#x6f;&#x63;&#116;&#97;&#121;&#110;&#x2e;&#110;&#101;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all

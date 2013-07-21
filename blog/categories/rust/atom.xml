@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-13T17:49:45-04:00</updated>
+  <updated>2013-07-21T15:13:30-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,344 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/07/21/this-week-in-rust/"/>
+    <updated>2013-07-21T09:36:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/07/21/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the seventh issue of <em>This Week in Rust</em>, a weekly
+overview of Rust and its community. Things are calming down quite a bit, in
+that nothing extraordinarily exciting is happening. Lots of great work is
+being done everywhere, and good progress is being made in both bugfixes and
+cleanup. It has been a good week!</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cookin on master?</h1>
+
+<p>Issue churn this week was -15. A total of 59 PRs were merged.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><strong><a href="https://github.com/mozilla/rust/pull/7684">The semantics of <code>range_rev</code> have
+changed</a>. This will break your
+code without warning.</strong> It is now, to use <a href="https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals">interval
+notation</a>,
+<code>(hi, lo]</code> rather than <code>[hi, lo)</code>.</li>
+<li><code>pub extern</code> and <code>priv extern</code> <a href="https://github.com/mozilla/rust/pull/7896">have been
+removed</a> from the language. This
+matches the previous similar change to <code>impl</code>. Place the visibility
+qualifier (<code>pub</code>/<code>priv</code>) on each item in the <code>extern</code> block instead.</li>
+<li><code>&amp;T</code> (besides <code>&amp;'static T</code>) is <a href="https://github.com/mozilla/rust/pull/7894">no longer allowed in
+<code>@T</code></a>.</li>
+<li>The <code>ThreadPerCore</code> spawn mode <a href="https://github.com/mozilla/rust/pull/7856">has been
+removed</a>, as it doesn&rsquo;t make
+sense with the new scheduler.</li>
+<li>The <code>consume</code> methods of the hash containers <a href="https://github.com/mozilla/rust/pull/7833">has been replaced with an
+external iterator</a>. The method
+name is the same, though.</li>
+<li>Moved values can <a href="https://github.com/mozilla/rust/pull/7849">no longer be captured
+twice</a>. This was a blatent
+soundness issue.</li>
+<li>The <code>swap_unwrap</code> method of Option has been <a href="https://github.com/mozilla/rust/pull/7831">renamed to
+<code>take_unwrap</code></a>.</li>
+<li><code>debug!</code> statements <a href="https://github.com/mozilla/rust/pull/7822">generate no
+code</a> unless you pass <code>--cfg
+debug</code> to <code>rustc</code>. This should help keep code size down and make your
+programs a (tiny bit) faster. Now you don&rsquo;t have to feel bad about having
+<code>debug!</code> in hot code.</li>
+<li>The <code>mutate_values</code> method of HashMap <a href="https://github.com/mozilla/rust/pull/7815">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>An iterator adaptor was added that <a href="https://github.com/mozilla/rust/pull/7882">endlessly repeats the iterator it is
+called on</a>.</li>
+<li>Generated test runners <a href="https://github.com/mozilla/rust/pull/7840">now have a
+<code>-h</code>/<code>--help</code></a> option.</li>
+<li>Metric capturing + racheting <a href="https://github.com/mozilla/rust/pull/7829">has been
+added</a> for benchmarks.</li>
+<li><code>local_data</code> <a href="https://github.com/mozilla/rust/pull/7841">now has a
+<code>get_mut</code></a> function.</li>
+<li><code>extra::semver</code> <a href="https://github.com/mozilla/rust/pull/7726">has been updated to SemVer
+2.0.0</a>.</li>
+<li>Consuming iterators <a href="https://github.com/mozilla/rust/pull/7806">have been
+added</a> for the hash structures.</li>
+<li><code>extra::ringbuf</code> <a href="https://github.com/mozilla/rust/pull/7808">now implements
+DoubleEndedIterator</a>.</li>
+<li><code>Eq</code> <a href="https://github.com/mozilla/rust/pull/7799">now has a default implementation of
+<code>ne</code></a>.</li>
+<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/7716">now knows how to handle more
+attributes</a>.</li>
+<li>More containers <a href="https://github.com/mozilla/rust/pull/7788">implement
+FromIter</a>. This means you can use
+<code>.collect()</code> to gather the elements from an iterator into those containers.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7858">Task killing, failure, and exit code
+propagation</a> in the new runtime
+has been implemented.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><code>syntax::attr</code> <a href="https://github.com/mozilla/rust/pull/7902">has been
+modernized</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7710">Tons of debuginfo work</a> from mw
+this week!</li>
+<li>Trait data structures <a href="https://github.com/mozilla/rust/pull/7886">have been cleaned
+up</a>, as well as a default method
+fix.</li>
+<li>Intrinsics <a href="https://github.com/mozilla/rust/pull/7851">now have much better
+codegen</a>.</li>
+<li>A <code>no_implicit_prelude</code> attribute <a href="https://github.com/mozilla/rust/pull/7844">has been
+added</a>, which prevents prelude
+injection in the module heirarchy starting at the item which that attribute
+is added to.</li>
+<li>C-style enum variants are <a href="https://github.com/mozilla/rust/pull/7827">now
+allowed</a> in <code>[T, ..n]</code>
+expressions.</li>
+<li>All language items are <a href="https://github.com/mozilla/rust/pull/7828">now
+optional</a>. The compiler emits an
+error if a language item is used but not provided.</li>
+<li>The removal of <code>spanned&lt;T&gt;</code> <a href="https://github.com/mozilla/rust/pull/7826">has
+begun</a>.</li>
+<li>Headers <a href="https://github.com/mozilla/rust/pull/7816">have been removed</a> for
+<code>~str</code> and <code>~[T]</code> where <code>T</code> is unmanaged.</li>
+</ul>
+
+
+<h2>Documentation, tools, and other stuff</h2>
+
+<ul>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7419">now works when you don&rsquo;t give it a package
+ID</a>. It builds/installs/cleans
+the package in the current directory, <em>iff</em> the current directory is in a
+rustpkg workspace.</li>
+<li><code>--quiet</code> is <a href="https://github.com/mozilla/rust/pull/7847">no longer passed</a>
+to git during submodule operations, so you can see the progress of the huge
+LLVM download.</li>
+<li>Documentation of the <a href="https://github.com/mozilla/rust/pull/7823">lint-controlling
+attributes</a> was added.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7681">now handles cloning from local git
+repos</a>.</li>
+<li>The GtkSourceView highlighting file <a href="https://github.com/mozilla/rust/pull/7795">was
+improved</a>.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-16">Tuesday
+meeting</a>
+discussed nothing it all of importance.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1imeac/guaranteeing_memory_safety_in_rust_niko_matsakis/">Discussion and slides from Niko&rsquo;s presentation at the Northeastern
+University Programming Language
+Seminar</a></li>
+<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/4829">A nightly Ubuntu
+PPA</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1igvye/vision_for_rust_simd/">SIMD
+discussion</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004841.html">Rust on bare metal
+ARM</a></li>
+<li><a href="http://www.oscon.com/oscon2013/public/schedule/detail/28741">dherman&rsquo;s OSCON
+presentation</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/07/13/this-week-in-rust/"/>
+    <updated>2013-07-13T16:07:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/07/13/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the sixth issue of <em>This Week in Rust</em>, a weekly overview
+of Rust and its community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Issue churn this week was -17! A total of 63 PRs were merged this week, twice
+as many as last week. Not bad!</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>The <a href="https://github.com/mozilla/rust/pull/7677">task local storage (TLS)
+API</a> was cleaned up (there&rsquo;s
+still <a href="https://github.com/mozilla/rust/pull/7751">one PR</a> in the queue that
+finishes it up).</li>
+<li><a href="https://github.com/mozilla/rust/pull/7652">DList was modernized</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7704"><code>extra::json</code> now uses <code>Iterator&lt;char&gt;</code> rather than a
+<code>@Reader</code></a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7117">Various free-standing functions in f32 etc were
+removed</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7262">ref bindings in irrefutable patterns has been tightened
+up</a>. This potentially fixes <em>and
+breaks</em> code. It&rsquo;s breaking because the compiler now rejects incorrect
+programs that it did not before.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7612">str no longer encodes invalid
+utf-8</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7629"><code>extra::rope</code> was removed</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7594"><code>extra::net_ip</code> and so on were
+removed</a>. They were redundant
+names for <code>extra::net::ip</code> and such</li>
+<li><a href="https://github.com/mozilla/rust/pull/7570"><code>Iterator::size_hint</code>&rsquo;s lower bound is no longer an
+Option</a></li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7763">Unnecessary basic blocks were
+removed</a>. This makes for much
+easier to read unoptimized IR.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7734">Use of <code>*int</code>/<code>*uint</code> is now properly
+warned</a> in FFI functions.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7725">More default method fixes</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7717">needless copy</a> was removed
+from immediate values (I&rsquo;m pretty sure LLVM optimized it away when
+optimizations were on, not positive).</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7706">lint for overqualified names</a>
+was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7705">SIMD arithmetic</a> was
+implemented.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7688">graph abstraction and CFG</a> was
+introduced, to unify how the various pieces of the compiler use graphs.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7455">The maximum lifetime of stack
+closures</a> is now constrained. Not
+quite sure what that means, but it fixes a segfault.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7683">repr doesn&rsquo;t infinite loop</a> on
+zero-sized structs (ie, unit structs).</li>
+<li><a href="https://github.com/mozilla/rust/pull/7698">Type parameter pretty printing</a>
+was fixed, it now prints the type name rather than <code>'a</code> and <code>'b</code> and
+soforth.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7631"><code>mut</code> in default method arguments is now
+allowed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7645">IR for calls with immediate return
+values</a> was improved.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7605">Exchange allocation headers (ie, the headers on <code>~T</code>) were
+removed</a>. This was a heroic
+effort by strcat and Luqman.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7456"><code>-Z trans-stats</code> now reports perf-function
+statistics</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7636">Scopes were decoupled from LLVM basic
+blocks</a>, improving unoptimized
+builds, and allowing more things in optimized builds to be inlined.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7585">An infinite loop when recursively including
+modules</a> was fixed.</li>
+<li>An <a href="https://github.com/mozilla/rust/pull/7557">ICE involving struct-like enum
+variants</a> was fixed.</li>
+<li>The buildsystem <a href="https://github.com/mozilla/rust/pull/7637">cleans up old
+libraries</a> when it needs to.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7615">A bunch of managed boxes</a> were
+removed from the AST.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7775"><code>print!</code> and <code>println!</code> macros</a>
+were added (though <a href="https://github.com/mozilla/rust/issues/7779">#7779</a>
+renames them).</li>
+<li><a href="https://github.com/mozilla/rust/pull/7765">Ord now uses default methods</a>,
+allowing you to get default implementations for everything but <code>lt</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7730"><code>extra::Bitv</code> now takes <code>&amp;[bool]</code> rather than
+<code>~[uint]</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7728">x64 now uses large stacks (4 MiB) by
+default</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7696"><code>is_utf8</code> is now 22% faster</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7623">Metrics reporting and
+ratcheting</a> was added to the test
+harness.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7707">DoubleEndedIterator</a> was
+added.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7691"><code>mut_split</code> method was added</a>
+to partition a <code>&amp;mut [T]</code> into two pieces.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/7631">now have pointer arithmetic</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7265">month&rsquo;s work of runtime work</a>
+landed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7528">A safe, cross-platform <code>mmap</code>
+wrapper</a> was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7614">SmallIntMap and SmallIntSet have external
+iterators</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7608">JSON parsing got 93% faster</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/7562">Deque</a> got a good cleanup and
+speedup.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7602">vec now implements <code>pop_opt</code> and <code>shift_opt</code>
+methods</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/7604"><code>peek_</code> adaptor</a> was added,
+which calls a closure on ever item before returning it. Mostly useful for
+debugging your iterators.</li>
+</ul>
+
+
+<h2>Documentation etc</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/7742">vim</a>
+<a href="https://github.com/mozilla/rust/pull/7665">improvements</a> landed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7641"><code>po4a</code> support for translation</a>
+was added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7690"><code>libc::c_void</code> is better
+documented</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/7632">Man pages</a> for all the tools are
+now included.</li>
+<li>The <a href="https://github.com/mozilla/rust/pull/7736">iterator tutorial</a> was
+extended.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-09">Tuesday
+meeting</a> was
+all about split stacks and FFI. It&rsquo;s complex and above my ability to
+summarize, but from what I can tell no real consensus was made. But, it&rsquo;s the
+best enumeration of all the various issues surrounding split stacks that I&rsquo;ve
+seen.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<p>From now on I&rsquo;m going to just link to the reddit thread if there is one, as it
+often has additional comments or insights.</p>
+
+<ul>
+<li><a href="https://gist.github.com/jmptable/5980297">A simple, self-contained example of using a shared
+library</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i3c15/experimental_actor_library_in_rust/">Experimental Actor
+Library (reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i30sw/herb_sutter_describes_rust_c_questions_and/">Herb Sutter describes Rust
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i2y9e/philosophy_and_for_loops_more_from_go_and_rust/">Philosophy and &ldquo;for&rdquo; loops
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hy6l9/meetingweekly20130709_split_stacks_ffi/">Reddit thread about the weekly
+meeting</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hxp2s/little_bzip2_binding_library_as_well_as_a_bigger/">BZIP2 bindings
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1hsqf5/proposal_for_an_additional_use_case_of_the_in/">Proposal for an additional use case of the &ldquo;in&rdquo; keyword besides for loops
+(reddit)</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1i6ykh/technical_qa_on_servo/">Technical Q&amp;A on Servo
+(reddit)</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -125,7 +463,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#x62;&#108;&#111;&#103;&#x40;&#111;&#x63;&#x74;&#97;&#x79;&#110;&#46;&#110;&#101;&#116;">&#99;&#x6f;&#114;&#101;&#121;&#x2b;&#x62;&#108;&#x6f;&#103;&#x40;&#111;&#x63;&#116;&#x61;&#121;&#110;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x63;&#111;&#x72;&#101;&#121;&#43;&#x62;&#x6c;&#x6f;&#103;&#64;&#111;&#x63;&#x74;&#97;&#x79;&#110;&#x2e;&#x6e;&#101;&#x74;">&#x63;&#x6f;&#x72;&#101;&#121;&#x2b;&#98;&#x6c;&#x6f;&#103;&#x40;&#x6f;&#x63;&#x74;&#97;&#x79;&#110;&#x2e;&#110;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -374,274 +712,6 @@ punted to a library. The iterator discussion was not notable.</p>
 </ul>
 </li>
 <li>RustGnuplot (<a href="https://github.com/SiegeLord/RustGnuplot">GitHub</a>)</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How I got started hacking rustc, and how you can too!]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust/"/>
-    <updated>2013-06-23T08:06:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust</id>
-    <content type="html"><![CDATA[<p><em>This is the first part of a planned series about <code>rustc</code>, the Rust compiler</em></p>
-
-<p>I remember first hearing about Rust during the summer of 2011. In fact, I
-remember the exact moment. I was at MIT, doing their Junction program. It was
-during a seminar about semiconductors. I remember browsing through the source on github,
-getting lost, and going home.</p>
-
-<!-- more -->
-
-
-<p>Fast forward to two months ago. A <a href="http://tech.slashdot.org/story/13/04/03/1646234/mozilla-and-samsung-collaborating-to-bring-new-browser-engine-to-android">slashdot post</a> appears, bringing Rust
-back to the forefront of my consciousness. By this point I&rsquo;d actually gained
-some programming chops, gotten a job, etc. I read through the Wikipedia
-article, though &ldquo;hey, this looks like it has potential,&rdquo; and forgot about it.</p>
-
-<p>Fast forward a week or two. The <a href="http://www.matasano.com/articles/crypto-challenges/">matasano crypto challenges</a> were linked
-on HN. &ldquo;Our friend Maciej says these challenges are a good way to learn a new
-language, so maybe now&rsquo;s the time to pick up Clojure or Rust.&rdquo; And pick up
-Rust I did. Rust was a pretty easy language to get started with, with my
-predominantly Python, C, and Lua background. Especially for the crypto
-challenges, which start off fairly basic.</p>
-
-<h1>First, some warnings:</h1>
-
-<p>Rust is pre-alpha software. Backwards incompatible changes happen <em>weekly</em>,
-either in the libraries, or in the language.  It&rsquo;s probably best to not write
-any &ldquo;serious&rdquo; code in Rust right now, unless you plan on fixing it every few
-weeks to keep up with the language. The nice part about contributing code to
-the compiler is that when someone changes the language or a library, it is
-their job to fix the code that uses it.</p>
-
-<p>Make sure to use the <code>master</code> branch, and <strong>use the doc links under &ldquo;Trunk&rdquo;.
-It will save you pain.</strong> Nothing is worse than accidentally using the 0.6
-documentation and finding that a method has been renamed or removed, and
-getting confused when the build fails halfway through.</p>
-
-<p><strong>The Rust compiler is poorly written.</strong> This is an artifact of being written
-in Rust, which, as stated, changes rapidly. Some code is very old, and uses
-very old idioms, or doesn&rsquo;t use newer language features that would be cleaner
-and easier to read. If you notice this, try and fix it! If you notice it, that
-means you already more-or-less know what needs to be done to clean it up a
-bit. If the change is very invasive, it&rsquo;s probably best to open an issue and
-let an experienced dev deal with it. An example of a cleanup is <a href="https://github.com/mozilla/rust/pull/7315">pull request
-7315</a>, which cleaned up indentation
-and replaced some <code>if</code>s with <code>match</code>es.</p>
-
-<p>Do not, repeat, <em>not</em>, use the <code>rustc</code> code as a source of &ldquo;how to write
-Rust.&rdquo; Almost all of it is bad code. I don&rsquo;t even know where to tell you to
-look to find consistently good code.  The upside is that generally reviewers
-will catch suboptimal code, and suggest improvements.  <a href="https://github.com/mozilla/rust/pull/7207">This pull request, for
-example</a>, used some old Rust
-idioms, which the reviewers suggested fixes for. So feel free to get
-elbow-deep in code without worrying <em>too</em> much about whether the code you&rsquo;re
-writing is good or bad. General guidelines: avoid <code>@</code> always, avoid <code>~</code>
-usually, use <code>Option</code> and <code>Result</code>, handle errors. That will guide you
-straight most of the time, and by the time you know when to ignore those, you
-probably already know what good Rust code is.</p>
-
-<h1>Getting started</h1>
-
-<p>The first thing I did was, of course, go to the <a href="http://www.rust-lang.org/">home page</a>. I read the
-feature summary (which seemed mostly unchanged from when I first saw it.
-Indeed, looking in the wayback machine, it is mostly unchanged). I read the
-example, and clicked <a href="http://static.rust-lang.org/doc/tutorial.html">&ldquo;tutorial&rdquo;</a> over on the left. I built the compiler
-while doing this. There are instructions for building Rust over at <a href="https://github.com/mozilla/rust/wiki/Note-getting-started-developing-Rust">the wiki</a>.
-It&rsquo;s a lot easier to get started if you&rsquo;re using Linux or Mac, though not
-impossible on Windows (just a bit more setup and waiting).</p>
-
-<p>The tutorial left me confused and alone, and I&rsquo;m sure it did the same to
-you. But it gave me enough information that I could write a base64 encode and
-decoder, although I constantly referenced the tutorial. By this point I had
-moved on to the second matasano challenge, and I found my first compiler bug:
-<a href="https://github.com/mozilla/rust/pull/6072">really poor error messages</a>. Of course I had to fix this! Error
-messages are easy, right?</p>
-
-<p>Yes and no. With a codebase as large and complex as a compiler, there are many
-layers of stuff you need to pick apart to figure out the cause and fix of an
-issue. In my case, it was easy, just grep for the error message. The fix,
-however, was more complex. I had to figure out how to turn a &ldquo;span&rdquo; (the
-compiler&rsquo;s way of matching up an AST node with a chunk of source code) in a
-string. Often you&rsquo;ll need to go digging through other files to figure out what
-you can do, what data structures there are, etc.</p>
-
-<p><strong>Rust makes this easy!</strong> There are no IDEs or any fancy tools, but Rust
-source is insanely <code>grep</code>able. You see a method call like
-<code>parser.parse_ident(...)</code>, you just need to grep for <code>fn parse_ident</code>.
-Of course, actually understanding what the method does is a whole new can of
-worms&hellip;</p>
-
-<h1>Picking an issue to fix</h1>
-
-<p>I think the best way to pick an issue to fix is to fix a bug you encounter
-yourself. Ask in IRC about it, often someone will be online that either knows
-about it and can point you in the right direction, or at the very least help
-reproduce, debug, and sift through the issue trcker.</p>
-
-<p>There is the <a href="https://github.com/mozilla/rust/issues?labels=E-easy"><code>E-easy</code></a>
-label on certain issues. This are issues that shouldn&rsquo;t take too much trickery
-to get done, though they might take some time to get &ldquo;acclimated&rdquo; to the
-codebase. <code>E-easy</code> doesn&rsquo;t mean fast, it means easy. It might be tedius or
-take non-trivial amounts of effort, but it shouldn&rsquo;t require overarching
-design issues or a lot of knowledge about rust or rust internals.</p>
-
-<p>Documentation always needs writing. Open a random file from libstd or
-libextra, look for functions, structs, enums, and traits that aren&rsquo;t
-documented. You&rsquo;ll get to see a bunch of Rust code, probably using features
-you wouldn&rsquo;t otherwise see writing &ldquo;normal&rdquo; code.</p>
-
-<h1>After you fix it</h1>
-
-<p>Once you fix the issue, open a pull request. See <a href="https://help.github.com/articles/using-pull-requests">GitHub&rsquo;s
-help</a> for how to do
-this. If you get stuck or need additional help, jump onto IRC
-(<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">webchat</a>)
-and ask. Someone will have to review your changes, ask &ldquo;r?
-$link_to_pull_request&rdquo; in IRC to expedite the process.</p>
-
-<p>Feel free to ping me (cmr) on IRC if you have any questions or problem.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/22/this-week-in-rust/"/>
-    <updated>2013-06-22T05:21:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/22/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the third issue of <em>This Week in Rust</em>, a weekly overview
-of Rust and its community.</p>
-
-<p>It has come to my attention that Github does not categorize some
-merged-by-bors pull requests as &ldquo;merged&rdquo; and instead categorizes it as
-&ldquo;closed&rdquo;. This skews the numbers and also the PRs that I looked through for
-inclusion into twir. I&rsquo;ll no longer be including issue churn/PR numbers, and I
-hope I didn&rsquo;t miss any import PRs in the last two issues.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in incoming?</h1>
-
-<p>The last of the tree breakage has been cleaned up. The mysterious stack
-corruption was traced down by Blei to occur in jemalloc. It has been disabled
-until the real cause of the error is found. A bunch more buildbot
-configurations have been turned on for auto, to fend off more breakage. The
-tree is open, and aatch got out a new snapshot!</p>
-
-<p>Most of the work this week is cleanup and preparation for 0.7, but since the
-tree has been closed (and the extra auto buildbots lengthen the time it takes
-for a PR to be tested for the day it has been open), not much has landed these
-past few days, but a bunch happened earlier this week.</p>
-
-<h2>Notable additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>doener made compiles faster by emitting less useless copies and allocations
-in <a href="https://github.com/mozilla/rust/pull/7259">7259</a></li>
-<li>aatch landed <a href="https://github.com/mozilla/rust/pull/7124">part 1</a> and <a href="https://github.com/mozilla/rust/pull/7182">part
-2</a> of his huge trans refactor
-effort, which make trans faster and less terrible.</li>
-<li>sully got <a href="https://github.com/mozilla/rust/pull/7203">default methods</a>
-less broken</li>
-<li>yichoi landed a <a href="https://github.com/mozilla/rust/pull/7128">bunch</a> of
-Android fixes.</li>
-<li>vadimcn has <a href="https://github.com/mozilla/rust/pull/7134">fixed debuginfo</a>,
-which is super amazing. This makes it a lot easier for the GSoC student (mw)
-to get started.</li>
-<li>doener has <a href="https://github.com/mozilla/rust/pull/7186">fixed</a> some
-pathological behavior in how codegen creates cleanup blocks. This makes the
-IR better, reducing compile time, and also allowing better optimization,
-reducing binary size.</li>
-</ul>
-
-
-<p><blockquote><p>They reduce compile times by about 10% in total.</p><footer><strong>@dotdash <a href="https://github.com/mozilla/rust/pull/7259">https://github.com/mozilla/rust/pull/7259</a></strong></footer></blockquote></p>
-
-<p><blockquote><p>Reduces the size of librustc by about 5% and the time required to build<br/>it by about 10%.</p><footer><strong>@dotdash <a href="https://github.com/mozilla/rust/pull/7186">https://github.com/mozilla/rust/pull/7186</a></strong></footer></blockquote></p>
-
-<p><blockquote><p>The resulting code for rustc is about 13% faster (measured up to and<br/>including the &ldquo;trans&rdquo; pass) and the resulting librustc is about 5%<br/>smaller.</p><footer><strong>@dotdash <a href="https://github.com/mozilla/rust/pull/7154">https://github.com/mozilla/rust/pull/7154</a></strong></footer></blockquote></p>
-
-<h2>Breaking changes</h2>
-
-<p>strcat <a href="https://github.com/mozilla/rust/pull/7263">continues</a>
-<a href="https://github.com/mozilla/rust/pull/7162">work</a> with iterators. The changes
-that landed are vector cleanups. Probably most importantly, the <code>each</code> and
-<code>eachi</code> methods are being removed. The <code>eachi</code> removal landed but the <code>each</code>
-one broke bors, so it&rsquo;s currently in limbo (<strong>UPDATE</strong> 6/23/2013: it landed).
-The current replacement is:</p>
-
-<p><code>
-// each
-for your_vec.iter().advance |element| {
-  ...
-}
-// eachi
-for your_vec.iter().enumerate().advance |(i, element)| {
-  ...
-}
-</code></p>
-
-<p>Once the rest of the iterator work is hashed out and lands, it will just be</p>
-
-<p><code>
-// each
-for your_vec |element| {
-  ...
-}
-// eachi
-for your_vec.enumerate() |(i, element)| {
-  ...
-}
-</code></p>
-
-<p>although the syntax might be slightly different (<code>for element in your_vec</code> is
-my favorite proposal).</p>
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-18">Tuesday
-meeting&rsquo;s</a>
-main topics were once fn&rsquo;s and how namespaces work. For once fn&rsquo;s, graydon
-says &ldquo;I&rsquo;m concerned with adding new features and I want to see if we can live
-without it, I understand it is common,&rdquo; not yet making a decision to include
-them in the language.</p>
-
-<h1>Meetups</h1>
-
-<ul>
-<li>tjc&rsquo;s pre-talk and talk, &ldquo;Rust: A Friendly Introduction&rdquo; went very well. The
-<a href="http://catamorphism.org/Writing/Rust-Tutorial-tjc.pdf">slides</a> are up, and
-a recording is coming soon (hopefuly). tjc says the slides aren&rsquo;t as
-understanable without the audio of the talk.</li>
-<li>nmatsakis has expressed willingness/interest in a Boston meetup sometime. If
-you&rsquo;re interested, contact him on IRC or the ML.</li>
-</ul>
-
-
-<h1>Notable discourse and external projects</h1>
-
-<ul>
-<li><a href="http://maniagnosis.crsr.net/2013/06/mmap-and-rust-foreign-function-interface.html">mmap and the Rust FFI</a>
-(indutny is working on mman bindings in libc, for the record. will mention
-in next week&rsquo;s twir when it lands)</li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004480.html">code generation and rustc speed</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gs93k/rust_for_game_development/">Rust for game development?</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1grj61/feed_us_some_low_hanging_fruit/">Feed us some low hanging fruit!</a></li>
-<li><a href="http://aatch.github.io/blog/2013/06/19/paying-technical-debt-in-rustc/">Paying Technical Debt in rustc</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gpbcs/what_issues_in_rust_today_effect_you_most/">What issues in Rust today effect (sic) you most?</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004520.html">rustdoc rewrite and redesign</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1gmac5/linux_rustbench_a_tool_for_profiling_memory_usage/">rust-bench: a tool for profiling memory usage</a></li>
-</ul>
-
-
-<h1>Other announcements</h1>
-
-<ul>
-<li>Michael Woerister (mw), the GSoC student working on debug info, has begun
-work. His <a href="http://michaelwoerister.github.io/">project log</a> will be updated
-weekly. I&rsquo;m looking forward to a much better debug experience.</li>
 </ul>
 
 ]]></content>
