@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-07-29T12:04:39-04:00</updated>
+  <updated>2013-08-04T20:21:42-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,211 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/04/this-week-in-rust/"/>
+    <updated>2013-08-04T18:40:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/04/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the ninth issue of <em>This Week in Rust</em>. This week brings
+the new <code>for</code> loop, which is very exciting, as well as a bunch of runtime
+changes and cleanup.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on <code>master</code>?</h1>
+
+<p>Issue churn was +4 this week. A total of 63 PRs were merged (again).</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><strong>The <code>for</code> loop now uses external iterators.</strong> This means any code written
+to use the old internal iterator protocol will no longer work. See the
+<a href="http://static.rust-lang.org/doc/tutorial-container.html">iterator tutorial</a>
+for more information on how to use it. Related pull requests:
+<a href="https://github.com/mozilla/rust/pull/8141">#8141</a>,
+<a href="https://github.com/mozilla/rust/pull/8184">#8184</a>,
+<a href="https://github.com/mozilla/rust/pull/8190">#8190</a>. A few uses now require
+<code>do</code> rather than <code>for</code> because they cannot/have not been implemented in
+terms of external iterators.</li>
+<li><code>unsafe</code> is <a href="https://github.com/mozilla/rust/pull/8235">no longer allowed</a>
+for functions in <code>extern</code> blocks: they are all unsafe.</li>
+<li>The <a href="https://github.com/mozilla/rust/pull/8175"><code>extra::dbg</code> module</a> has
+been removed.</li>
+<li><code>uint::range</code> and all its friends have been replaced with an <a href="https://github.com/mozilla/rust/pull/8216">external
+iterator</a>, that is in the
+prelude. Code like the following now works:
+<code>
+for x in range(0, 10) {
+    println(x.to_str());
+}
+</code></li>
+<li>The pipes compiler (the thing driving <code>proto!</code>) <a href="https://github.com/mozilla/rust/pull/8170">has been
+removed</a>, as it saw limited
+use, was very old, and was a significant maintenance burden.</li>
+<li><code>PortSet</code> <a href="https://github.com/mozilla/rust/pull/8164">has been removed</a> from
+std, as the new scheduler does not support it.</li>
+<li>A bunch of old task APIs <a href="https://github.com/mozilla/rust/pull/8139">have been
+removed</a>, aslo in preparation for
+the new schduler.</li>
+<li><code>is_utf8</code> now <a href="https://github.com/mozilla/rust/pull/8133">rejects overlong
+encodings</a>.</li>
+<li>The iterator adaptors <a href="https://github.com/mozilla/rust/pull/8090">no longer have the Iterator
+suffix</a>, same with <a href="https://github.com/mozilla/rust/pull/8095">str and vec
+iterators</a> as well.</li>
+</ul>
+
+
+<h2>newrt changes</h2>
+
+<p>A bunch of newrt things landed this week, so it gets its own section.</p>
+
+<ul>
+<li>Some <a href="https://github.com/mozilla/rust/pull/8234">bugs preventing the arc and sync tests from
+passing</a> have been fixed.</li>
+<li>The new scheduler now supports <a href="https://github.com/mozilla/rust/pull/8221">the <code>SingleThreaded</code> spawn
+mode</a>.</li>
+<li>A bunch of work with task killing <a href="https://github.com/mozilla/rust/pull/8195">has
+landed</a>.</li>
+<li>Some <a href="https://github.com/mozilla/rust/pull/8116">major TLS changes</a> also
+landed.</li>
+<li>Tasks can <a href="https://github.com/mozilla/rust/pull/8158">now be named</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8008"><code>select</code> on newrt pipes</a> has
+been implemented.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><code>Map::contains_key</code> is <a href="https://github.com/mozilla/rust/pull/8246">now a default
+method</a> implemented in terms of
+<code>Map::find</code></li>
+<li>A <code>dynamic_lib</code> segfault <a href="https://github.com/mozilla/rust/pull/8219">has been
+fixed</a>.</li>
+<li>A keyed <code>HashMap</code> constructor is <a href="https://github.com/mozilla/rust/pull/8186">now
+exposed</a> for runtimeless programs
+that want to use it.</li>
+<li>The <code>Str</code> trait now has an <a href="https://github.com/mozilla/rust/pull/8204"><code>into_owned</code>
+method</a> to avoid copies when you
+already have a <code>~str</code>.</li>
+<li>A bunch of <a href="https://github.com/mozilla/rust/pull/8174">SHA1 and SHA2
+cleanup/optimizations</a> landed. I
+hear that the speed is almost optimal, only a few cycles/byte short of
+Intel&rsquo;s optimized implementation.</li>
+<li>Errno coverage has been <a href="https://github.com/mozilla/rust/pull/8193">significantly expanded for
+Linux</a>. I added all of the ones
+that were missing, at least the ones that were present on my system.</li>
+<li><code>assert!()</code> without a message <a href="https://github.com/mozilla/rust/pull/8150">now does less
+allocation</a>.</li>
+<li>&lsquo;\&rsquo; is <a href="https://github.com/mozilla/rust/pull/8138">no longer treated as a path
+separater</a> on POSIX system.</li>
+<li><code>getopt</code>&rsquo;s <code>opts_str</code> <a href="https://github.com/mozilla/rust/pull/8135">has been corrected to use more than just the first
+element of the vector</a>.</li>
+<li>Some more methods <a href="https://github.com/mozilla/rust/pull/8115">were added</a> in
+<code>std::num</code>.</li>
+<li>An iterator over the offsets of each character in a string <a href="https://github.com/mozilla/rust/pull/8082">was
+added</a>.</li>
+<li>A bunch of <code>RandomAccessIterator</code> implementations <a href="https://github.com/mozilla/rust/pull/8120">have been
+added</a>.</li>
+<li><code>Clone</code> and <code>DeepClone</code> are <a href="https://github.com/mozilla/rust/pull/8109">now
+implemented</a> for <code>extern "Rust"
+fn</code>.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li>A <code>cfg!</code> syntax extension <a href="https://github.com/mozilla/rust/pull/8188">has been
+added</a> for conditionally running
+code based on crate configuration, similar to what <code>#[cfg]</code> does for
+conditional compilation. It expands into a true/false constant, so LLVM
+should optimize out the dead branches.</li>
+<li>Some more codegen tests <a href="https://github.com/mozilla/rust/pull/8165">have been
+added</a>.</li>
+<li><code>copy</code> <a href="https://github.com/mozilla/rust/pull/8162">has been removed as a
+keyword</a>.</li>
+<li>Static struct initializers <a href="https://github.com/mozilla/rust/pull/8091">can now contain
+<code>..base</code></a> for functional update.</li>
+<li>Take glue <a href="https://github.com/mozilla/rust/pull/8146">has been unified</a> for
+unique pointer type.</li>
+<li>Pointer arithmetic is <a href="https://github.com/mozilla/rust/pull/8121">now implemented with
+GEP</a> rather than casting to int
+and back to the pointer.</li>
+<li>Some more AST types <a href="https://github.com/mozilla/rust/pull/8107">were
+renamed</a>.</li>
+<li>Cross-crate conditions <a href="https://github.com/mozilla/rust/pull/8185">now
+work</a>.</li>
+</ul>
+
+
+<h2>Documentation, tools, and other stuff</h2>
+
+<ul>
+<li>LLVM assertions <a href="https://github.com/mozilla/rust/pull/8147">can now be
+disabled</a> with a configure
+option.</li>
+<li>Benchmarking can <a href="https://github.com/mozilla/rust/pull/8111">now be
+disabled</a> by passing <code>NO_BENCH=1</code>
+to make.</li>
+<li><code>NO_REBUILD</code> <a href="https://github.com/mozilla/rust/pull/8110">no longer requires a
+re-boostrap</a>, which should make
+debug cycles on libstd much shorter.</li>
+<li><code>vec</code> <a href="https://github.com/mozilla/rust/pull/7223">now has module
+documentation</a>.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/8032">now handles tags</a>, and
+not just version numbers, in the package ID.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-30">Tuesday
+meeting</a> this
+week was quite meaty. I&rsquo;m not going to try to summarize it, as it seems no
+real decisions were made.</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="http://michaelwoerister.github.io/2013/08/03/visibility-scopes.html">Visibility scopes in Rust Debug
+Info</a>.</li>
+<li><a href="https://air.mozilla.org/2013-intern-kuehn/">Architecting Servo: Pipelines and
+Parallelism</a>, a talk by Tim
+Kuehn.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1jo431/runtimeless_sprocketnes/">Runtimeless
+sprocketnes</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1joy7f/porting_machine_learning_algorithms_to_rust/">Porting machine learning algorithms to
+Rust</a>.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/005039.html">RFC: Overloadable dereference
+operator</a>.</li>
+</ul>
+
+
+<h1>External projects</h1>
+
+<ul>
+<li><a href="https://github.com/SiegeLord/RustGnuplot">RustGnuplot</a> was updated to
+latest Rust.</li>
+<li>A <a href="https://github.com/stepancheg/rust-protobuf">protobuf implementation</a> has
+been started.</li>
+<li><a href="https://github.com/linuxfood/rustsqlite">rustsqlite</a> has
+been updated to latest Rust.</li>
+<li>A <a href="https://github.com/veddan/rust-htmlescape">library for HTML escaping</a> has
+been created.</li>
+<li>A <a href="https://github.com/bjz/noise-rs">library for procedurally generating
+noise</a> has been created.</li>
+<li>A <a href="https://github.com/MarkJr94/rust-keccak">pure-Rust implementation of
+Keccak</a> has been created.</li>
+<li><a href="https://github.com/erickt/rust-zmq">rust-zmq</a> has been updated to latest
+Rust, as well as cleaner error/constant interface.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Last Week in Rust]]></title>
@@ -633,7 +838,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x63;&#x6f;&#114;&#101;&#121;&#43;&#98;&#x6c;&#111;&#x67;&#x40;&#x6f;&#99;&#x74;&#x61;&#121;&#110;&#x2e;&#110;&#x65;&#116;">&#x63;&#x6f;&#114;&#x65;&#x79;&#x2b;&#98;&#x6c;&#x6f;&#103;&#64;&#x6f;&#x63;&#116;&#x61;&#x79;&#x6e;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#99;&#111;&#114;&#101;&#121;&#43;&#x62;&#108;&#x6f;&#x67;&#64;&#111;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#x6e;&#x65;&#x74;">&#99;&#x6f;&#114;&#x65;&#121;&#x2b;&#x62;&#108;&#x6f;&#103;&#64;&#x6f;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -647,127 +852,6 @@ will get attribution, of course.</p>
 <li><a href="http://joshldavis.com/2013/07/01/program-to-an-interface-fool/">Program to an Interface, Fool</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/1hg88c/i_think_i_would_take_that_for_rust_when_its_done/">Would You Bet $100,000,000 on [Rust]?</a></li>
 <li><a href="http://michaelwoerister.github.io/2013/06/28/Status-Update-3.html">mw&rsquo;s third status report</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The State of Rust 0.7]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/"/>
-    <updated>2013-07-05T09:51:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/05/the-state-of-rust</id>
-    <content type="html"><![CDATA[<p>Given the influx of newcomers from the 0.7 release, I thought it&rsquo;d be a good
-idea to summarize the condition of Rust, its libraries, and its documentation.
-bstrie said it best I think, &ldquo;basically, any question of the form &lsquo;is there a
-reason for this stupid and terrible thing&rsquo; is &lsquo;no, sorry, we&rsquo;re working on
-it&rsquo;&nbsp;&rdquo;.</p>
-
-<!-- more -->
-
-
-<h1>Iterators</h1>
-
-<p>External iterators are a main feature of the 0.7 release, and there is ongoing
-work to remove all of the library features that use internal iterators. Most
-of them are gone, and there are few uses of internal iterators. However, they
-are clunky to use. The <code>for</code> loop semantics are going to change from internal
-iteration to external iteration, but they are still internal iteration right
-now, which means the <code>advance</code> adaptor is necessary for most uses of
-iterators. Additionally, the <code>iter()</code> helper function is necessary to actually
-return an iterator. This will be obviated by an <code>Iterable</code> trait that many
-things will hopefully implement. Due to
-<a href="https://github.com/mozilla/rust/issues/5898">5898</a>, many methods are oddly
-named or have an underscore appended (ie, <code>transform</code> instead of <code>map</code>,
-<code>position_</code> instead of <code>position</code>).</p>
-
-<h1>IO</h1>
-
-<p>IO has been a bit of a losing proposition since at least 0.2. The interface is
-very primitive and inefficient. It requires using <code>@Trait</code> objects (<code>@Reader</code>
-/ <code>@Writer</code>). It&rsquo;s also very undocumented. But the situation isn&rsquo;t going to
-improve much because all of that code is getting torn out when brson/the
-interns finish their work on the new runtime. On the plus side, we&rsquo;ll have
-shiny new IO when they&rsquo;re done! If you want to contribute, there&rsquo;s plenty of
-work to be done in this area:</p>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/issues/6169">issue 6169</a></li>
-<li><a href="https://github.com/mozilla/rust/issues/6850">issue 6850</a></li>
-<li><a href="https://github.com/mozilla/rust/issues/4419">issue 4419</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-May/004305.html">brson&rsquo;s status report for June</a></li>
-</ul>
-
-
-<h1>Compiler</h1>
-
-<p>The compiler is still buggy and inefficient. Lots of things work, but lots of
-things don&rsquo;t. There&rsquo;s still some resolve bugs (the one mentioned above, as
-well as some others, and perpetually poor error messages), default methods
-don&rsquo;t work, debuginfo is incomplete, the compiler has quadratic codegen when
-using <code>match</code>, so on and so forth. There&rsquo;s a lot of work to be done here but
-it&rsquo;s not easy. I&rsquo;m writing a series about the compiler that should help new
-contributors get started and grok how it all fits together. The only thing
-making Rust usable right now is LLVM&rsquo;s fantastic optimization. Our no-opt
-builds run slower than our opt builds under Valgrind. Ponder that for a
-minute.</p>
-
-<h1><code>rustpkg</code></h1>
-
-<p>rustpkg is still heavily in-progress and unfinished. It&rsquo;s usable, but not
-everything is implemented, and the documentation is incomplete. It&rsquo;s rather
-unintuitive to use right now, but it does work! Read the
-<a href="https://github.com/mozilla/rust/blob/master/doc/rustpkg.md">manual</a> carefully
-if you want to use it.</p>
-
-<h1>Documentation</h1>
-
-<p>Documentation is poor. <code>rustdoc</code> is really bad, which doesn&rsquo;t help. I&rsquo;m
-working on a new rustdoc (<a href="http://rustlog.octayn.net">I log my progress
-here</a>), but it won&rsquo;t be ready for some weeks. Lots
-of things are undocumented or near impossible to find because of how bad
-<code>rustdoc</code> is. The tutorials need lots of work, and a guided tour of the
-libraries would be nice, as well as a &ldquo;Rust By Example,&rdquo; showing how to
-accomplish common goals. These aren&rsquo;t really hard to do, it&rsquo;s just that nobody
-has done them yet.</p>
-
-<h1>Libraries</h1>
-
-<p>There are few robust libraries or bindings to libraries, for anything, besides
-what is in std/extra. There&rsquo;s the stuff servo uses (glfw, skia, sdl), and an
-opengl binding somewhere, but beyond that, you&rsquo;re on your own. The
-<a href="https://github.com/crabtw/rust-bindgen">rust-bindgen</a> tool can help with
-wrapping a C library. There is no GUI library available yet, no real
-networking. It&rsquo;s easy to wrap a C library, you just need to be careful with
-your <code>unsafe</code> blocks. Once again, these things aren&rsquo;t hard, they just haven&rsquo;t
-been done yet.</p>
-
-<h1>The future</h1>
-
-<p>Basically everything is heavily WIP, but it&rsquo;s constantly improving. We always
-need more contributors, ask in IRC if you&rsquo;re interested. Rust 0.7 is pre-alpha
-quality, IMO. It would be silly to use Rust for something important, but don&rsquo;t
-let that stop you from trying to do something ambitious. If you feel Rust is
-still too young to get involved, but you want to track its progress, I write
-<a href="http://cmr.github.io/blog/categories/this-week-in-rust/">This Week in Rust</a>,
-which is an easy way to track our progress. 1.0 is tentatively planned for
-first-quarter 2014, last I heard, and I don&rsquo;t think that is out of reach. 1.0
-corresponds to &ldquo;maturity #2&rdquo; at the absolute minimum (the maturiy levels are
-listed <a href="https://github.com/mozilla/rust/issues/milestones">as milestones</a>).</p>
-
-<p>But don&rsquo;t be discouraged. It was far worse before! Rust is in a good position,
-it&rsquo;s just not quite all there yet. This post may seem pessimistic, but the
-progress Rust has made is astonishing. Here&rsquo;s to a wonderful 0.8!</p>
-
-<h1>Some links</h1>
-
-<ul>
-<li><a href="http://www.reddit.com/r/rust/">Rust subreddit</a></li>
-<li><a href="https://mail.mozilla.org/listinfo/rust-dev">Mailing list</a></li>
-<li><a href="http://blog.gmane.org/gmane.comp.lang.rust.devel">Mailing list archives</a></li>
-<li><a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC
-Channel</a>
-(it&rsquo;s <code>#rust</code> on irc.mozilla.org)</li>
 </ul>
 
 ]]></content>
