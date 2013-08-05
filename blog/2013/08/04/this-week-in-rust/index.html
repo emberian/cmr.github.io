@@ -100,9 +100,10 @@ to use the old internal iterator protocol will no longer work. See the
 for more information on how to use it. Related pull requests:
 <a href="https://github.com/mozilla/rust/pull/8141">#8141</a>,
 <a href="https://github.com/mozilla/rust/pull/8184">#8184</a>,
-<a href="https://github.com/mozilla/rust/pull/8190">#8190</a>. A few uses now require
-<code>do</code> rather than <code>for</code> because they cannot/have not been implemented in
-terms of external iterators.</li>
+<a href="https://github.com/mozilla/rust/pull/8190">#8190</a>,
+<a href="https://github.com/mozilla/rust/pull/8244">#8244</a>. A few uses now
+require <code>do</code> rather than <code>for</code> because they cannot/have not been
+implemented in terms of external iterators.</li>
 <li><code>unsafe</code> is <a href="https://github.com/mozilla/rust/pull/8235">no longer allowed</a>
 for functions in <code>extern</code> blocks: they are all unsafe.</li>
 <li>The <a href="https://github.com/mozilla/rust/pull/8175"><code>extra::dbg</code> module</a> has
