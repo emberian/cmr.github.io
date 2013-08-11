@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-04T21:02:08-04:00</updated>
+  <updated>2013-08-10T23:59:36-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/10/this-week-in-rust/"/>
+    <updated>2013-08-10T21:39:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/10/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the tenth issue of <em>This Week in Rust</em>. This week marks
+the enabling of the new runtime written entirely in Rust. A lot happens every
+week, so I&rsquo;m going to start omitting PRs that I deem of lesser importance.
+This process is entirely arbitrary, don&rsquo;t feel hurt if I exclude your PR :).</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on <code>master</code>?</h1>
+
+<p>Issue churn was -12 this week. A total of 70 PRs were merged.</p>
+
+<p><a href="https://github.com/mozilla/rust/pull/8358">The new runtime has been enabled by
+default</a>. This is the culmination
+of a lot of work by brson and the rt interns (toddaaro, bblum, and ecr being
+the ones I know of). You can get the old runtime by setting the <code>RUST_OLDRT</code>
+environment variable to <code>1</code>. It&rsquo;s written entirely in Rust, and lives in
+<code>std::rt</code>. Additionally, the <a href="https://github.com/mozilla/rust/pull/8387">old C++ runtime has been
+removed</a>.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8296"><strong>Trailing nulls have been removed from all string
+types.</strong></a>. This will break your
+FFI code in subtle and mysterious ways, if you didn&rsquo;t explicitly use the
+<code>as_c_str</code> methods. FFI code using the new <code>str::c_str</code> code will be more
+robust, as it forbids interior nulls, and ensures that a trailing null
+always exists. The replacement for <code>str.as_c_str</code> is
+<code>str.to_c_str().as_slice()</code>, from what I can tell.</li>
+<li><a href="https://github.com/cmr/rust/commit/e99eff172a11816f335153147dd0800fc4877bee">The <code>priv</code> keyword is no longer allowed where it has no
+meaning</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8265"><code>iter</code> and <code>iter_err</code> in Result have been replaced with external
+iterators</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8288">The <code>get</code> method of <code>Option</code>, <code>Either</code>, and <code>Result</code> has been removed in
+favor of <code>unwrap</code></a>. They both did
+the same thing, which was useless duplication.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8218"><code>std::gc</code> and <code>std::stackwalk</code></a>
+have been removed, as they are obsolete with the new runtime.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8264">The transitionary <code>foreach</code> has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Notable library additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8357">Some redundant <code>Ord</code> methods were removed from
+impls</a> where the default methods
+sufficed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8336">FromStr for IpAddr and
+SocketAddr</a> is implemented.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8356">Work steealing is implemented for the newrt
+scheduler</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8320">A frequency counting function has been added to
+<code>extra::stat</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8323">Saturating math</a> is now
+implemented. I knew this as &ldquo;clamping&rdquo;: it is arithmetic that clamps results
+into a specific interval.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8287">A hexadecimal encoding module</a>
+has been added to <code>extra</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8054"><code>EnumSet</code> has been moved into <code>extra</code>, it previously existed as a utility
+in <code>rustc</code></a></li>
+<li><a href="https://github.com/mozilla/rust/pull/8237"><code>str::is_utf8</code> has seen some more
+optimization</a>.</li>
+</ul>
+
+
+<h2>Notable compiler additions, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8245">Initial support for the new formatting
+code</a> has been added.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8279">A <code>no_main</code> attribute has been
+added</a>, to omit the Rust entry
+point entirely.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8220">Vanilla Linux on ARM</a> is now
+supported.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8262">Extra copies of rvalues </a> are no
+longer omitted.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8361">Some cross-arch bugs with node hash
+metadata</a> have been fixed.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8350">A soundness bug in struct matching has been
+fixed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8362">An <code>option_env!</code> syntax extension has been
+added</a> for compile-time inclusion
+of environment variables that may or may not be present.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8176"><code>extern mod a = "b/c/d"</code> has been
+implemented</a>, paving the way for
+more rustpkg awesomeness.</li>
+</ul>
+
+
+<h1>Meetings</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-06">Tuesday
+meeting</a> seems
+to have been a bit under-attended. SIMD, ARM, trailing nulls, order of <code>mod</code>
+and <code>use</code>, and the condition system were all briefly discussed..</p>
+
+<h1>Discussion + Blog posts</h1>
+
+<ul>
+<li><a href="https://air.mozilla.org/2013-intern-todd/">&ldquo;A Work-stealing Runtime for
+Rust&rdquo;</a>, toddaaro&rsquo;s intern
+presentation.</li>
+<li><a href="http://michaelwoerister.github.io/2013/08/10/iterator-blocks-features.html">&ldquo;Iterator Blocks for Rust &ndash; Feature
+Survey&rdquo;</a></li>
+</ul>
+
+
+<h1>External projects</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1k43px/a_simple_jit_vm_written_using_rust_and_libjit/">Galvanized: a simple JIT VM written in Rust, using
+LibJIT</a></li>
+<li><a href="https://github.com/Jeaye/q3/commit/f4c82ce9c276327cababdb6650038e2c1d62f2d5">Q3 has a new
+logger</a>.
+I think it&rsquo;s nicer than the built-in one!</li>
+<li><a href="https://github.com/stepancheg/rust-protobuf">rust-protobuf: a protobuf implementation generating rust code, written in
+rust</a>.</li>
+<li><a href="https://twitter.com/metajack/status/364571230331875331/photo/1">Servo: almost passing acid1
+!</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -723,137 +856,6 @@ meeting</a></li>
 (reddit)</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/1i6ykh/technical_qa_on_servo/">Technical Q&amp;A on Servo
 (reddit)</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/06/this-week-in-rust/"/>
-    <updated>2013-07-06T15:45:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/06/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the fifth issue of <em>This Week in Rust</em>, a weekly overview
-of Rust and its community.</p>
-
-<p><code>0.7</code> was released this week. Hello to the newcomers! I&rsquo;ve also decided to put
-breaking changes first. Feel free to skip the rest, it&rsquo;s relatively
-unimportant.</p>
-
-<!-- more -->
-
-
-<h1>Newcomers</h1>
-
-<p>There&rsquo;s already a lot of traffic from Rust newbies, so you get your own
-section! Welcome to Rust. I wrote <a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust
-0.7</a> especially for
-newcomers, so you should read that. Jump on IRC if you have any questions or
-need help. We&rsquo;re a quite friendly bunch, and we usually don&rsquo;t bite.</p>
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>Issue churn this week was +12. 35 PRs were merged, total PR churn was -8.
-There continues to be a lot more cleanup than breaking changes, which is
-encouraging! As I understand it, graydon wants to focus this release cycle on
-cleanup, rather than language features. Hopefully the compiler can get into a
-much better state.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li>dbaupp <a href="https://github.com/mozilla/rust/pull/7487">continues</a> to
-<a href="https://github.com/mozilla/rust/pull/7566">slaughter</a> the free functions in
-<code>std::vec</code> where methods can replace them.</li>
-<li>He also <a href="https://github.com/mozilla/rust/pull/7523">added a lint for lowercase
-statics</a>, which is enabled by
-default because of an astoundingly poor error message.</li>
-<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7474">moved a bunch of iter
-stuff</a> to <code>extra</code>.</li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>doener <a href="https://github.com/mozilla/rust/pull/7452">removed an extra layer of
-indirection</a> that method calls incurred.</li>
-<li>Blei <a href="https://github.com/mozilla/rust/pull/7457">fixed a codegen problem</a>
-with structs containing <code>f32</code> when used with FFI.</li>
-<li>I <a href="https://github.com/mozilla/rust/pull/7468">propagated the great renaming</a>
-throughout the rest of the codebase (besides compiletest, apparently).</li>
-<li>acrichto <a href="https://github.com/mozilla/rust/pull/7465">rewrote some str code</a>
-to avoid allocations.</li>
-<li>strcat is <a href="https://github.com/mozilla/rust/pull/7495">removing</a> headers
-from exchange allocs (see also
-<a href="https://github.com/mozilla/rust/pull/7605">#7605</a> and
-<a href="https://github.com/mozilla/rust/pull/7521">#7521</a>). They are entirely
-unused, they just need to be removed and the fallout fixed throughout the
-compiler.</li>
-<li>yjh0502 <a href="https://github.com/mozilla/rust/pull/7443">fixed a bug</a> that
-allowed duplicate struct fields (like <code>struct Foo {a: uint, a: uint}</code>)</li>
-<li>acrichto <a href="https://github.com/mozilla/rust/pull/7409">turned on</a> LLVM
-threading.</li>
-<li>Luqman <a href="https://github.com/mozilla/rust/pull/7498">changed configure</a> to
-require either wget <em>or</em> curl.</li>
-<li>Dretch <a href="https://github.com/mozilla/rust/pull/7510">improved the error
-message</a> for implementing unknown
-traits to mention the trait name.</li>
-<li>sankha93 <a href="https://github.com/mozilla/rust/pull/7531">improved the error
-message</a> for trying to capture
-environment in a plain <code>fn</code>.</li>
-<li>bblum <a href="https://github.com/mozilla/rust/pull/7534">improved the error mssage</a>
-for using a moved value, it now gives better suggestions than just <code>copy</code>.</li>
-<li>sanxiyn <a href="https://github.com/mozilla/rust/pull/7543">fixed a bug</a> where
-eligible newtype structs weren&rsquo;t marked as an immediate value (and thus not
-passed in registers when they could have been).</li>
-<li>Luqman <a href="https://github.com/mozilla/rust/pull/7547">paved the way</a> for 64-bit
-windows support.</li>
-<li>jensnockert <a href="https://github.com/mozilla/rust/pull/7194">added byte swapping
-intrinsics</a> that specialize
-per-platform, avoiding unnecessary operations.</li>
-<li>jld <a href="https://github.com/mozilla/rust/pull/7554">removed an unused function</a></li>
-<li>sully <a href="https://github.com/mozilla/rust/pull/7545">fixed more default method bugs</a>.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>sfackler <a href="https://github.com/mozilla/rust/pull/7549">fixed up some
-documentation</a> related to the
-drop/finalize renaming.</li>
-<li>acrichto <a href="https://github.com/mozilla/rust/pull/7530">fixed a correctness
-bug</a> in TreeMap&rsquo;s <code>Ord</code>
-implementation.</li>
-<li>sfackler <a href="https://github.com/mozilla/rust/pull/7513">much improved</a> and
-genericized the base64 handling.</li>
-<li>graydon did a <a href="https://github.com/mozilla/rust/pull/7518">bunch of cleanup</a>
-in <code>extra::stats</code>.</li>
-<li>Seldaek <a href="https://github.com/mozilla/rust/pull/7475">fixed a patological case with
-<code>str::each_split_within</code></a>.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
-featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
-(as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#99;&#x6f;&#x72;&#101;&#x79;&#x2b;&#x62;&#x6c;&#111;&#x67;&#x40;&#111;&#99;&#x74;&#x61;&#x79;&#110;&#x2e;&#x6e;&#101;&#x74;">&#99;&#111;&#114;&#x65;&#121;&#x2b;&#98;&#x6c;&#111;&#103;&#64;&#111;&#x63;&#116;&#x61;&#x79;&#x6e;&#46;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
-will get attribution, of course.</p>
-
-<h1>Discussion + Blog posts</h1>
-
-<ul>
-<li><a href="http://cmr.github.io/blog/2013/07/05/the-state-of-rust/">The State of Rust 0.7</a></li>
-<li><a href="http://forum.dlang.org/thread/kr2vpp$2jmf$1@digitalmars.com">&ldquo;Rust switches to external iteration&rdquo; (D forums)</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004686.html">Segmented stacks</a></li>
-<li><a href="http://huonw.github.io/isrustfastyet/mem/">Is Rust Slim Yet? (Is Rust Fast Yet v2)</a></li>
-<li><a href="http://joshldavis.com/rust-design-patterns/">Rust Design Patterns</a></li>
-<li><a href="http://joshldavis.com/2013/07/01/program-to-an-interface-fool/">Program to an Interface, Fool</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1hg88c/i_think_i_would_take_that_for_rust_when_its_done/">Would You Bet $100,000,000 on [Rust]?</a></li>
-<li><a href="http://michaelwoerister.github.io/2013/06/28/Status-Update-3.html">mw&rsquo;s third status report</a></li>
 </ul>
 
 ]]></content>
