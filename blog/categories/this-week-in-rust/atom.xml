@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T02:00:52-04:00</updated>
+  <updated>2013-08-19T02:04:50-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -37,7 +37,7 @@ relating to Rust are:</p>
 (bblum)</a></li>
 <li><a href="https://air.mozilla.org/2013-intern-todd/">A Work-stealing Runtime for Rust
 (toddaaro)</a></li>
-<li><a href="https://air.mozilla.org/eston-schweickart-from-the-research-team-presents-a-forest-of-quadtrees-the-graphics-of-servo/">A Forest of Qadtrees: The Graphics of
+<li><a href="https://air.mozilla.org/eston-schweickart-from-the-research-team-presents-a-forest-of-quadtrees-the-graphics-of-servo/">A Forest of Quadtrees: The Graphics of
 Servo</a></li>
 <li><a href="https://air.mozilla.org/2013-intern-presentations-august-13/">Layout in Servo: Parallel and Rustic Tree Traversals
 (eatkinson)</a></li>
