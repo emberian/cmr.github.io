@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T01:49:39-04:00</updated>
+  <updated>2013-08-19T01:51:35-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -37,7 +37,7 @@ relating to Rust are:</p>
 (bblum)</a></li>
 <li><a href="https://air.mozilla.org/2013-intern-todd/">A Work-stealing Runtime for Rust
 (toddaaro)</a></li>
-<li><a href="https://air.mozilla.org/eston-schweickart-from-the-research-team-presents-a-forest-of-quadtrees-the-graphics-of-servo/">A Forest of QUadtrees: The Graphics of
+<li><a href="https://air.mozilla.org/eston-schweickart-from-the-research-team-presents-a-forest-of-quadtrees-the-graphics-of-servo/">A Forest of Qadtrees: The Graphics of
 Servo</a></li>
 <li><a href="https://air.mozilla.org/2013-intern-presentations-august-13/">Layout in Servo: Parallel and Rustic Tree Traversals
 (eatkinson)</a></li>
@@ -61,7 +61,7 @@ constantly backlogged. Issue churn was -26, yay!</p>
 <li><a href="https://github.com/mozilla/rust/pull/8526">Some functions in Result and Either were replaced to work with external
 iterators</a></li>
 <li><a href="https://github.com/mozilla/rust/pull/8423">The <code>priv</code> and <code>pub</code> visibility modifiers are now forbidden on contexts
-where they have no meaning.</a>. For
+where they have no meaning</a>. For
 example, marking a struct field <code>pub</code>, or a module <code>priv</code>. The compiler
 errors for this are quite informative, and the conversion is purely
 mechanical.</li>
