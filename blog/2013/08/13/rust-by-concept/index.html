@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rust's Memory Management - Ramblin's</title>
+  <meta name="author" content="Corey Richardson">
+
+  
+  <meta name="description" content="Rust seems to intimidate newcomers, as its memory model is fairly complex. I
+think part of the problem is that the language tutorial introduces the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cmr.github.io/blog/2013/08/13/rust-by-concept">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41571388-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Ramblin's</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:cmr.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rust's Memory Management</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-13T01:14:00-04:00" pubdate data-updated="true">Aug 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
+think part of the problem is that the language tutorial introduces the memory
+model by feature.  Rather, I&rsquo;ll introduce it by concept, showing examples of
+code that breaks memory safety in C, and how Rust&rsquo;s memory model prevents the
+error. Hopefully I can convince you that Rust isn&rsquo;t as complex as it looks,
+and that the extra syntax is well-worth the zero-cost memory safety. I&rsquo;ll be
+comparing Rust code to equivalent C idioms using the <a href="http://zeromq.org/"><code>zeromq
+library</code></a> because it has a very clean API in both
+languages. As such, I assume basic familiarity with C. Rust is not a very
+suitable language for new programmers, and neither is this tutorial.</p>
+
+<!-- more -->
+
+
+<p>The core concepts driving Rust&rsquo;s memory management are, in reverse order of
+simplicity, <em>ownership</em>, <em>mutability</em>, and <em>lifetime</em>. It&rsquo;s not that other
+languages don&rsquo;t have them, it&rsquo;s just that they&rsquo;re implicit or convention. I
+won&rsquo;t be using many fancy features of Rust here. They aren&rsquo;t needed to explain
+the memory management, variables and functions suffice.</p>
+
+<h1>Ownership</h1>
+
+<p>Ownership is simply who is responsibile for freeing an object. If you own an
+object, you are ensured it is valid.</p>
+
+<p>An example in C would be:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void *context = zmq_ctx_new(); // zeromq owns the context, you just get to use it
+</span><span class='line'>// ...
+</span><span class='line'>zmq_ctx_destroy(context); // you need to tell zeromq to free it, you aren't allowed to do so</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Rust:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let context: ~Context = zmq_ctx_new();
+</span><span class='line'>// ....
+</span><span class='line'>// context implicitly freed when no one owns it anymore</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the C uses an opaque <code>void*</code> and that Rust uses
+the explicitly-named <code>~Context</code>. In C, you often use opaque types because the
+language offers no control over visibility of struct members. In Rust, you can
+mark the fields of a struct <code>priv</code>, which will disallow users of the library
+from using those fields. This is a bit nuanced, and I&rsquo;ll explain it in a later
+tutorial on privacy and the module system.</p>
+
+<p>The tilde means &ldquo;owned pointer&rdquo;, in that if you have an owned pointer to an
+object, you are the owner. Creating an owned pointer involves a heap
+allocation (malloc). I use an owned pointer in these examples to mirror the C,
+but idiomatic Rust uses values on the stack much more frequently than values
+on the heap.</p>
+
+<h2>Taking ownership</h2>
+
+<p>Rust goes one step further with ownership. The compiler asserts that an object
+cannot be owned multiple times. An object can be owned by a stack frame
+(locals and function arguments), a scope, or a struct. For lack of a better
+term, I&rsquo;ll call these &ldquo;owners.&rdquo; You transfer ownership by &ldquo;moving&rdquo; into an
+owner. Once an owner loses ownership, the compiler will error if you try to
+use the object again through that owner.  This disallows dangling pointers and
+prevents an entire class of error (and potentially vulnerability), &ldquo;use after
+free.&rdquo;</p>
+
+<p>In C, it&rsquo;s perfectly valid to do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void *context = zmq_ctx_new();
+</span><span class='line'>zmq_ctx_destroy(context);
+</span><span class='line'>use_context(context); // compiles fine, but clearly incorrect</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Whereas in Rust:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let context: ~Context = zmq_ctx_new();
+</span><span class='line'>{ // introduce a scope
+</span><span class='line'>  let context2: ~Context = context; // context moved into the variable in this scope
+</span><span class='line'>} // context2 freed at scope close
+</span><span class='line'>use_context(context); // error: use of moved value: `context`</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Not taking ownership</h2>
+
+<p>Most functions that take arguments don&rsquo;t need to take ownership. To express
+this, Rust has the &ldquo;borrowed pointer.&rdquo; For example, in C you would write this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int length(some_large_struct_t *datum) {
+</span><span class='line'>  return datum-&gt;x - datum-&gt;padding;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The function does not care who owns the object, it doesn&rsquo;t need to free it, as
+there&rsquo;s no reason the object can&rsquo;t be used again after this computation. In
+Rust, it&rsquo;s:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fn length(datum: &some_large_struct) -&gt; int {
+</span><span class='line'>  datum.x - datum.padding
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first thing you&rsquo;ll notice is that there is no dereference to be found in
+the source. In C, <code>-&gt;</code> is the dereferencing struct member extraction operator.
+In Rust, <code>.</code> will dereference if it needs to. You&rsquo;ll also notice that Rust
+uses <code>&amp;</code> rather than <code>*</code> to indicate this type of a pointer. It&rsquo;s the same
+operator used to take a pointer (address-of), as in C. C, however, doesn&rsquo;t
+enforce the non-transfer of ownership. It&rsquo;s perfectly valid to do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int length(some_large_struct_t *datum) {
+</span><span class='line'>  int l = datum-&gt;x - datum-&gt;padding;
+</span><span class='line'>  free(datum);
+</span><span class='line'>  return l;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>length</code> has now incorrectly taken ownership of <code>datum</code>, by <code>free</code>ing it. Any
+code which had a pointer to <code>datum</code> has now been rendered incorrect. In Rust,
+there is no way to safely free memory. It is automatically free&rsquo;d.</p>
+
+<h2>Multiple ownership</h2>
+
+<p>There are situations when ownership isn&rsquo;t so black and white, and for that
+Rust has the &ldquo;managed pointer.&rdquo; The type of a managed pointer is <code>@'static T</code>.
+The <code>'static</code> means &ldquo;this type cannot contain any borrowed pointers.&rdquo; The
+shorthand for <code>@'static T</code> is just <code>@T</code>: it&rsquo;s impossible to have a managed
+pointer to a type that doesn&rsquo;t fulfill <code>'static</code>. Using only owned and
+borrowed pointers, ownership forms a DAG. Managed pointers allow cycles. They
+are GC-managed, and allow multiple pointers to the same object. The way this
+is enabled is that the pointer&rsquo;s contents (the pointee) are immutable. If
+they were allowed to be mutable, data races would occur. In the next section
+I&rsquo;ll show the mutable version.</p>
+
+<p>These have no direct comparison in C. The closest comparison is probably
+GOBject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
+management. As the name suggests, the runtime manages it for you. Managed
+pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
+be fast because all managed pointers are task-local, no GC is always faster
+than some GC.</p>
+
+<h1>Mutability</h1>
+
+<p>Mutability is whether you are allowed to mutate, or modify, some data. There
+are two pieces to mutability: mutability of things an object owns (inherited
+mutability), and mutability of data through a pointer.</p>
+
+<h2>Inherited Mutability</h2>
+
+<p>Say you have a point on the stack:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Point {
+</span><span class='line'>  x: int,
+</span><span class='line'>  y: int
+</span><span class='line'>}
+</span><span class='line'>let value: Point = Point { x: 24, y: 42 };</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you try to mutate the point by, say, changing the <code>x</code> field, the compiler
+will complain:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>value.x = 42; //~ ERROR: cannot assign to immutable field</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The error message is actualy a bit misleading: there is no such thing as a
+mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Corey Richardson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-13T01:14:00-04:00" pubdate data-updated="true">Aug 13<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/10/this-week-in-rust/" title="Previous Post: This Week in Rust">&laquo; This Week in Rust</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/19/this-week-in-rust/" title="Next Post: This Week in Rust">This Week in Rust &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/19/this-week-in-rust/">This Week in Rust</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/13/rust-by-concept/">Rust's Memory Management</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/10/this-week-in-rust/">This Week in Rust</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/this-week-in-rust/">This Week in Rust</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/29/last-week-in-rust/">Last Week in Rust</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/110371255641436052323?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Corey Richardson -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

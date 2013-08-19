@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-11T13:25:54-04:00</updated>
+  <updated>2013-08-19T01:48:52-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,347 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/19/this-week-in-rust/"/>
+    <updated>2013-08-19T00:33:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the 11th edition of <code>This Week in Rust</code>! I&rsquo;m starting uni
+this week, so if you notice I&rsquo;m not quite as omnipresent and omniprescient as
+usual, that&rsquo;d be why. <strong>Please</strong> <a href="corey@octayn.net">send me an email</a> if you
+would like your pull request, project, or blog post mentioned. I would hate to
+overlook something cool or important.</p>
+
+<!-- more -->
+
+
+<p>The Mozilla Intern talks happened this past week or so. The ones I know about
+relating to Rust are:</p>
+
+<ul>
+<li><a href="https://air.mozilla.org/intern-presentation-sullivan/">Default Methods in Rust
+(sully)</a></li>
+<li><a href="https://air.mozilla.org/ben-blum-from-the-research-team-presents-types-of-types-in-rust/">Types of Types in Rust
+(bblum)</a></li>
+<li><a href="https://air.mozilla.org/2013-intern-todd/">A Work-stealing Runtime for Rust
+(toddaaro)</a></li>
+<li><a href="https://air.mozilla.org/eston-schweickart-from-the-research-team-presents-a-forest-of-quadtrees-the-graphics-of-servo/">A Forest of QUadtrees: The Graphics of
+Servo</a></li>
+<li><a href="https://air.mozilla.org/2013-intern-presentations-august-13/">Layout in Servo: Parallel and Rustic Tree Traversals
+(eatkinson)</a></li>
+<li><a href="https://air.mozilla.org/2013-intern-kuehn/">Architecting Servo: Pipelines and Parallelism
+(tikue)</a></li>
+</ul>
+
+
+<p>Congratulations to them all. The interns did a ton of great work over the
+summer.</p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>There were only 46 PRs merged this week. I don&rsquo;t quite know why that number is
+so low this week. It certainly wasn&rsquo;t for lack of PRs: the queue has been
+constantly backlogged. Issue churn was -26, yay!</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8526">Some functions in Result and Either were replaced to work with external
+iterators</a></li>
+<li><a href="https://github.com/mozilla/rust/pull/8423">The <code>priv</code> and <code>pub</code> visibility modifiers are now forbidden on contexts
+where they have no meaning.</a>. For
+example, marking a struct field <code>pub</code>, or a module <code>priv</code>. The compiler
+errors for this are quite informative, and the conversion is purely
+mechanical.</li>
+</ul>
+
+
+<h2>Library improvments, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8446"><code>ifmt!</code>, the new formatter, has been
+finished</a>. Yay!</li>
+<li><a href="https://github.com/mozilla/rust/pull/8453"><code>extra::stats::write_boxplot</code> now works with negative or zero sample
+values</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8452">Some missing pieces in libstd have been filled
+in</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8491">A <code>sample</code> method has been added to <code>RngUtil</code>, for resevior
+sampling</a>.</li>
+</ul>
+
+
+<h2>Compiler improvements, bugfixes, and cleanup</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8527">A ton of work was done on a new
+visitor</a>. This is the first of a
+series of five.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8483">Vector repeat exprs (<code>[0, ..16]</code>) are now allowed in
+statics</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8477">A hint has been added for incorrect use of static
+methods</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8497">Trait object coercion to <code>&amp;Trait</code> has been fixed to handle freezing and
+reborrowing more correctly</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8329">Debuginfo of lexical scopes and variable shadowing has been massively
+improved</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8410">A <code>--target-cpu</code> flag has been added to select the target CPU, rather than
+always using &ldquo;generic&rdquo;</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8455">Support for owned and borrowed trait objects has been made better
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8421">An <code>address_insignificant</code> attribute has been
+added</a>. LLVM will do merging of
+statics marked with that attribute.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8408">Intrinsics for checked overflow on add, sub, and mul have been
+added</a>.</li>
+</ul>
+
+
+<h2>Tools, documentation, etc</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8469">The tutorial was translated into
+Japanese</a>. I think this is the
+first translation of anything, so it&rsquo;s a pretty big milestone I think.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-13">Tuesday
+meeting</a>
+discussed turning jemalloc back on, default arguments, and method invocation
+ordering. It also discussed the new IO code and stage0 stdtest.</p>
+
+<h1>Notable discourse</h1>
+
+<ul>
+<li><a href="http://bluishcoder.co.nz/2013/08/15/phantom_types_in_rust.html">Phantom Types in
+Rust</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1k6hua/rustdev_rfc_runtimeless_libstd/">RFC: Runtimeless
+libstd</a></li>
+</ul>
+
+
+<h1>External projects</h1>
+
+<ul>
+<li><a href="https://github.com/erickt/rust-elasticsearch">Bindings to elasticsearch</a></li>
+<li><a href="https://github.com/erickt/rust-zmq">zeromq bindings have been updated</a></li>
+<li><a href="https://github.com/huonw/spellck">A spellchecker for Rust code, written in Rust</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1kd8ah/rustencoding_character_encoding_support_for_rust/">rust-encoding: character encoding support for
+Rust</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1kctjn/my_first_rust_program_vocabulary_trainer/">A simple vocabulary
+trainer</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1k7mfn/rustdev_rustdoc_ng_95_done/"><code>rustdoc_ng</code>: 95%
+done</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1k5kqx/some_pages_in_servo_as_of_20130810/">Some pages as rendered by
+Servo</a></li>
+<li><a href="https://github.com/jfager/d3cap">d3cap: a libpcap-based network activity
+visualizer</a></li>
+<li><a href="https://github.com/sfackler/rust-postgres">postgres bindings</a></li>
+<li><a href="https://gist.github.com/luqmana/6264106">RemoteJoy: a program for remotely viewing the screen of your PlayStation
+Portable</a>.
+(<a href="http://i.imgur.com/9Kda25J.jpg">screnshot</a>)</li>
+<li><a href="https://github.com/bjz/gl-rs">The new OpenGL loader is working, pending the function pointer
+fix</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rust's Memory Management]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/13/rust-by-concept/"/>
+    <updated>2013-08-13T01:14:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/13/rust-by-concept</id>
+    <content type="html"><![CDATA[<p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
+think part of the problem is that the language tutorial introduces the memory
+model by feature.  Rather, I&rsquo;ll introduce it by concept, showing examples of
+code that breaks memory safety in C, and how Rust&rsquo;s memory model prevents the
+error. Hopefully I can convince you that Rust isn&rsquo;t as complex as it looks,
+and that the extra syntax is well-worth the zero-cost memory safety. I&rsquo;ll be
+comparing Rust code to equivalent C idioms using the <a href="http://zeromq.org/"><code>zeromq
+library</code></a> because it has a very clean API in both
+languages. As such, I assume basic familiarity with C. Rust is not a very
+suitable language for new programmers, and neither is this tutorial.</p>
+
+<!-- more -->
+
+
+<p>The core concepts driving Rust&rsquo;s memory management are, in reverse order of
+simplicity, <em>ownership</em>, <em>mutability</em>, and <em>lifetime</em>. It&rsquo;s not that other
+languages don&rsquo;t have them, it&rsquo;s just that they&rsquo;re implicit or convention. I
+won&rsquo;t be using many fancy features of Rust here. They aren&rsquo;t needed to explain
+the memory management, variables and functions suffice.</p>
+
+<h1>Ownership</h1>
+
+<p>Ownership is simply who is responsibile for freeing an object. If you own an
+object, you are ensured it is valid.</p>
+
+<p>An example in C would be:</p>
+
+<p><code>
+void *context = zmq_ctx_new(); // zeromq owns the context, you just get to use it
+// ...
+zmq_ctx_destroy(context); // you need to tell zeromq to free it, you aren't allowed to do so
+</code></p>
+
+<p>In Rust:</p>
+
+<p><code>
+let context: ~Context = zmq_ctx_new();
+// ....
+// context implicitly freed when no one owns it anymore
+</code></p>
+
+<p>Notice that the C uses an opaque <code>void*</code> and that Rust uses
+the explicitly-named <code>~Context</code>. In C, you often use opaque types because the
+language offers no control over visibility of struct members. In Rust, you can
+mark the fields of a struct <code>priv</code>, which will disallow users of the library
+from using those fields. This is a bit nuanced, and I&rsquo;ll explain it in a later
+tutorial on privacy and the module system.</p>
+
+<p>The tilde means &ldquo;owned pointer&rdquo;, in that if you have an owned pointer to an
+object, you are the owner. Creating an owned pointer involves a heap
+allocation (malloc). I use an owned pointer in these examples to mirror the C,
+but idiomatic Rust uses values on the stack much more frequently than values
+on the heap.</p>
+
+<h2>Taking ownership</h2>
+
+<p>Rust goes one step further with ownership. The compiler asserts that an object
+cannot be owned multiple times. An object can be owned by a stack frame
+(locals and function arguments), a scope, or a struct. For lack of a better
+term, I&rsquo;ll call these &ldquo;owners.&rdquo; You transfer ownership by &ldquo;moving&rdquo; into an
+owner. Once an owner loses ownership, the compiler will error if you try to
+use the object again through that owner.  This disallows dangling pointers and
+prevents an entire class of error (and potentially vulnerability), &ldquo;use after
+free.&rdquo;</p>
+
+<p>In C, it&rsquo;s perfectly valid to do:</p>
+
+<p><code>
+void *context = zmq_ctx_new();
+zmq_ctx_destroy(context);
+use_context(context); // compiles fine, but clearly incorrect
+</code></p>
+
+<p>Whereas in Rust:</p>
+
+<p>```
+let context: ~Context = zmq_ctx_new();
+{ // introduce a scope</p>
+
+<pre><code>let context2: ~Context = context; // context moved into the variable in this scope
+</code></pre>
+
+<p>} // context2 freed at scope close
+use_context(context); // error: use of moved value: <code>context</code>
+```</p>
+
+<h2>Not taking ownership</h2>
+
+<p>Most functions that take arguments don&rsquo;t need to take ownership. To express
+this, Rust has the &ldquo;borrowed pointer.&rdquo; For example, in C you would write this:</p>
+
+<p>```
+int length(some_large_struct_t *datum) {</p>
+
+<pre><code>return datum-&gt;x - datum-&gt;padding;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The function does not care who owns the object, it doesn&rsquo;t need to free it, as
+there&rsquo;s no reason the object can&rsquo;t be used again after this computation. In
+Rust, it&rsquo;s:</p>
+
+<p>```
+fn length(datum: &amp;some_large_struct) &ndash;> int {</p>
+
+<pre><code>datum.x - datum.padding
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The first thing you&rsquo;ll notice is that there is no dereference to be found in
+the source. In C, <code>-&gt;</code> is the dereferencing struct member extraction operator.
+In Rust, <code>.</code> will dereference if it needs to. You&rsquo;ll also notice that Rust
+uses <code>&amp;</code> rather than <code>*</code> to indicate this type of a pointer. It&rsquo;s the same
+operator used to take a pointer (address-of), as in C. C, however, doesn&rsquo;t
+enforce the non-transfer of ownership. It&rsquo;s perfectly valid to do:</p>
+
+<p>```
+int length(some_large_struct_t *datum) {</p>
+
+<pre><code>int l = datum-&gt;x - datum-&gt;padding;
+free(datum);
+return l;
+</code></pre>
+
+<p>}
+```</p>
+
+<p><code>length</code> has now incorrectly taken ownership of <code>datum</code>, by <code>free</code>ing it. Any
+code which had a pointer to <code>datum</code> has now been rendered incorrect. In Rust,
+there is no way to safely free memory. It is automatically free&rsquo;d.</p>
+
+<h2>Multiple ownership</h2>
+
+<p>There are situations when ownership isn&rsquo;t so black and white, and for that
+Rust has the &ldquo;managed pointer.&rdquo; The type of a managed pointer is <code>@'static T</code>.
+The <code>'static</code> means &ldquo;this type cannot contain any borrowed pointers.&rdquo; The
+shorthand for <code>@'static T</code> is just <code>@T</code>: it&rsquo;s impossible to have a managed
+pointer to a type that doesn&rsquo;t fulfill <code>'static</code>. Using only owned and
+borrowed pointers, ownership forms a DAG. Managed pointers allow cycles. They
+are GC-managed, and allow multiple pointers to the same object. The way this
+is enabled is that the pointer&rsquo;s contents (the pointee) are immutable. If
+they were allowed to be mutable, data races would occur. In the next section
+I&rsquo;ll show the mutable version.</p>
+
+<p>These have no direct comparison in C. The closest comparison is probably
+GOBject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
+management. As the name suggests, the runtime manages it for you. Managed
+pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
+be fast because all managed pointers are task-local, no GC is always faster
+than some GC.</p>
+
+<h1>Mutability</h1>
+
+<p>Mutability is whether you are allowed to mutate, or modify, some data. There
+are two pieces to mutability: mutability of things an object owns (inherited
+mutability), and mutability of data through a pointer.</p>
+
+<h2>Inherited Mutability</h2>
+
+<p>Say you have a point on the stack:</p>
+
+<p>```
+struct Point {</p>
+
+<pre><code>x: int,
+y: int
+</code></pre>
+
+<p>}
+let value: Point = Point { x: 24, y: 42 };
+```</p>
+
+<p>If you try to mutate the point by, say, changing the <code>x</code> field, the compiler
+will complain:</p>
+
+<p><code>
+value.x = 42; //~ ERROR: cannot assign to immutable field
+</code></p>
+
+<p>The error message is actualy a bit misleading: there is no such thing as a
+mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -511,350 +852,6 @@ benchmarker</a></li>
 <li><a href="https://github.com/dobkeratops/rustfind">rustfind, a &ldquo;jump to definition&rdquo;
 tool</a></li>
 <li><a href="https://github.com/Florob/RustyXML">RustyXML, a pure-Rust XML parser</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/21/this-week-in-rust/"/>
-    <updated>2013-07-21T09:36:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/21/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the seventh issue of <em>This Week in Rust</em>, a weekly
-overview of Rust and its community. Things are calming down quite a bit, in
-that nothing extraordinarily exciting is happening. Lots of great work is
-being done everywhere, and good progress is being made in both bugfixes and
-cleanup. It has been a good week!</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>Issue churn this week was -15. A total of 59 PRs were merged.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><strong><a href="https://github.com/mozilla/rust/pull/7684">The semantics of <code>range_rev</code> have
-changed</a>. This will break your
-code without warning.</strong> It is now, to use <a href="https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals">interval
-notation</a>,
-<code>(hi, lo]</code> rather than <code>[hi, lo)</code>.</li>
-<li><code>pub extern</code> and <code>priv extern</code> <a href="https://github.com/mozilla/rust/pull/7896">have been
-removed</a> from the language. This
-matches the previous similar change to <code>impl</code>. Place the visibility
-qualifier (<code>pub</code>/<code>priv</code>) on each item in the <code>extern</code> block instead.</li>
-<li><code>&amp;T</code> (besides <code>&amp;'static T</code>) is <a href="https://github.com/mozilla/rust/pull/7894">no longer allowed in
-<code>@T</code></a>.</li>
-<li>The <code>ThreadPerCore</code> spawn mode <a href="https://github.com/mozilla/rust/pull/7856">has been
-removed</a>, as it doesn&rsquo;t make
-sense with the new scheduler.</li>
-<li>The <code>consume</code> methods of the hash containers <a href="https://github.com/mozilla/rust/pull/7833">has been replaced with an
-external iterator</a>. The method
-name is the same, though.</li>
-<li>Moved values can <a href="https://github.com/mozilla/rust/pull/7849">no longer be captured
-twice</a>. This was a blatant
-soundness issue.</li>
-<li>The <code>swap_unwrap</code> method of Option has been <a href="https://github.com/mozilla/rust/pull/7831">renamed to
-<code>take_unwrap</code></a>.</li>
-<li><code>debug!</code> statements <a href="https://github.com/mozilla/rust/pull/7822">generate no
-code</a> unless you pass <code>--cfg
-debug</code> to <code>rustc</code>. This should help keep code size down and make your
-programs a (tiny bit) faster. Now you don&rsquo;t have to feel bad about having
-<code>debug!</code> in hot code.</li>
-<li>The <code>mutate_values</code> method of HashMap <a href="https://github.com/mozilla/rust/pull/7815">has been
-removed</a>.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>An iterator adaptor was added that <a href="https://github.com/mozilla/rust/pull/7882">endlessly repeats the iterator it is
-called on</a>.</li>
-<li>Generated test runners <a href="https://github.com/mozilla/rust/pull/7840">now have a
-<code>-h</code>/<code>--help</code></a> option.</li>
-<li>Metric capturing + racheting <a href="https://github.com/mozilla/rust/pull/7829">has been
-added</a> for benchmarks.</li>
-<li><code>local_data</code> <a href="https://github.com/mozilla/rust/pull/7841">now has a
-<code>get_mut</code></a> function.</li>
-<li><code>extra::semver</code> <a href="https://github.com/mozilla/rust/pull/7726">has been updated to SemVer
-2.0.0</a>.</li>
-<li>Consuming iterators <a href="https://github.com/mozilla/rust/pull/7806">have been
-added</a> for the hash structures.</li>
-<li><code>extra::ringbuf</code> <a href="https://github.com/mozilla/rust/pull/7808">now implements
-DoubleEndedIterator</a>.</li>
-<li><code>Eq</code> <a href="https://github.com/mozilla/rust/pull/7799">now has a default implementation of
-<code>ne</code></a>.</li>
-<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/7716">now knows how to handle more
-attributes</a>.</li>
-<li>More containers <a href="https://github.com/mozilla/rust/pull/7788">implement
-FromIter</a>. This means you can use
-<code>.collect()</code> to gather the elements from an iterator into those containers.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7858">Task killing, failure, and exit code
-propagation</a> in the new runtime
-has been implemented.</li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><code>syntax::attr</code> <a href="https://github.com/mozilla/rust/pull/7902">has been
-modernized</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7710">Tons of debuginfo work</a> from mw
-this week!</li>
-<li>Trait data structures <a href="https://github.com/mozilla/rust/pull/7886">have been cleaned
-up</a>, as well as a default method
-fix.</li>
-<li>Intrinsics <a href="https://github.com/mozilla/rust/pull/7851">now have much better
-codegen</a>.</li>
-<li>A <code>no_implicit_prelude</code> attribute <a href="https://github.com/mozilla/rust/pull/7844">has been
-added</a>, which prevents prelude
-injection in the module heirarchy starting at the item which that attribute
-is added to.</li>
-<li>C-style enum variants are <a href="https://github.com/mozilla/rust/pull/7827">now
-allowed</a> in <code>[T, ..n]</code>
-expressions.</li>
-<li>All language items are <a href="https://github.com/mozilla/rust/pull/7828">now
-optional</a>. The compiler emits an
-error if a language item is used but not provided.</li>
-<li>The removal of <code>spanned&lt;T&gt;</code> <a href="https://github.com/mozilla/rust/pull/7826">has
-begun</a>.</li>
-<li>Headers <a href="https://github.com/mozilla/rust/pull/7816">have been removed</a> for
-<code>~str</code> and <code>~[T]</code> where <code>T</code> is unmanaged.</li>
-</ul>
-
-
-<h2>Documentation, tools, and other stuff</h2>
-
-<ul>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7419">now works when you don&rsquo;t give it a package
-ID</a>. It builds/installs/cleans
-the package in the current directory, <em>iff</em> the current directory is in a
-rustpkg workspace.</li>
-<li><code>--quiet</code> is <a href="https://github.com/mozilla/rust/pull/7847">no longer passed</a>
-to git during submodule operations, so you can see the progress of the huge
-LLVM download.</li>
-<li>Documentation of the <a href="https://github.com/mozilla/rust/pull/7823">lint-controlling
-attributes</a> was added.</li>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7681">now handles cloning from local git
-repos</a>.</li>
-<li>The GtkSourceView highlighting file <a href="https://github.com/mozilla/rust/pull/7795">was
-improved</a>.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-16">Tuesday
-meeting</a>
-discussed nothing at all of importance.</p>
-
-<h1>Discussion + Blog posts</h1>
-
-<ul>
-<li><a href="http://www.reddit.com/r/rust/comments/1ibd48/proofofconcept_pure_rust_malloc_implementation/">A pure-Rust memory allocator
-(malloc)</a></li>
-<li><a href="http://michaelwoerister.github.io/2013/07/12/Status-Update-4.html">mw&rsquo;s fourth weekly
-update</a>.</li>
-<li><a href="http://michaelwoerister.github.io/2013/07/20/Status-Update-5.html">mw&rsquo;s fifth weekly
-update</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1imeac/guaranteeing_memory_safety_in_rust_niko_matsakis/">Discussion and slides from Niko&rsquo;s presentation at the Northeastern
-University Programming Language
-Seminar</a></li>
-<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/4829">A nightly Ubuntu
-PPA</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1igvye/vision_for_rust_simd/">SIMD
-discussion</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004841.html">Rust on bare metal
-ARM</a></li>
-<li><a href="http://www.oscon.com/oscon2013/public/schedule/detail/28741">dherman&rsquo;s OSCON
-presentation</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/13/this-week-in-rust/"/>
-    <updated>2013-07-13T16:07:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/13/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the sixth issue of <em>This Week in Rust</em>, a weekly overview
-of Rust and its community.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>Issue churn this week was -17! A total of 63 PRs were merged this week, twice
-as many as last week. Not bad!</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li>The <a href="https://github.com/mozilla/rust/pull/7677">task local storage (TLS)
-API</a> was cleaned up (there&rsquo;s
-still <a href="https://github.com/mozilla/rust/pull/7751">one PR</a> in the queue that
-finishes it up).</li>
-<li><a href="https://github.com/mozilla/rust/pull/7652">DList was modernized</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7704"><code>extra::json</code> now uses <code>Iterator&lt;char&gt;</code> rather than a
-<code>@Reader</code></a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7117">Various free-standing functions in f32 etc were
-removed</a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7262">ref bindings in irrefutable patterns has been tightened
-up</a>. This potentially fixes <em>and
-breaks</em> code. It&rsquo;s breaking because the compiler now rejects incorrect
-programs that it did not before.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7612">str no longer encodes invalid
-utf-8</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7629"><code>extra::rope</code> was removed</a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7594"><code>extra::net_ip</code> and so on were
-removed</a>. They were redundant
-names for <code>extra::net::ip</code> and such</li>
-<li><a href="https://github.com/mozilla/rust/pull/7570"><code>Iterator::size_hint</code>&rsquo;s lower bound is no longer an
-Option</a></li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/7763">Unnecessary basic blocks were
-removed</a>. This makes for much
-easier to read unoptimized IR.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7734">Use of <code>*int</code>/<code>*uint</code> is now properly
-warned</a> in FFI functions.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7725">More default method fixes</a>.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7717">needless copy</a> was removed
-from immediate values (I&rsquo;m pretty sure LLVM optimized it away when
-optimizations were on, not positive).</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7706">lint for overqualified names</a>
-was added.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7705">SIMD arithmetic</a> was
-implemented.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7688">graph abstraction and CFG</a> was
-introduced, to unify how the various pieces of the compiler use graphs.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7455">The maximum lifetime of stack
-closures</a> is now constrained. Not
-quite sure what that means, but it fixes a segfault.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7683">repr doesn&rsquo;t infinite loop</a> on
-zero-sized structs (ie, unit structs).</li>
-<li><a href="https://github.com/mozilla/rust/pull/7698">Type parameter pretty printing</a>
-was fixed, it now prints the type name rather than <code>'a</code> and <code>'b</code> and
-soforth.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7631"><code>mut</code> in default method arguments is now
-allowed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7645">IR for calls with immediate return
-values</a> was improved.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7605">Exchange allocation headers (ie, the headers on <code>~T</code>) were
-removed</a>. This was a heroic
-effort by strcat and Luqman.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7456"><code>-Z trans-stats</code> now reports perf-function
-statistics</a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7636">Scopes were decoupled from LLVM basic
-blocks</a>, improving unoptimized
-builds, and allowing more things in optimized builds to be inlined.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7585">An infinite loop when recursively including
-modules</a> was fixed.</li>
-<li>An <a href="https://github.com/mozilla/rust/pull/7557">ICE involving struct-like enum
-variants</a> was fixed.</li>
-<li>The buildsystem <a href="https://github.com/mozilla/rust/pull/7637">cleans up old
-libraries</a> when it needs to.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7615">A bunch of managed boxes</a> were
-removed from the AST.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/7775"><code>print!</code> and <code>println!</code> macros</a>
-were added (though <a href="https://github.com/mozilla/rust/issues/7779">#7779</a>
-renames them).</li>
-<li><a href="https://github.com/mozilla/rust/pull/7765">Ord now uses default methods</a>,
-allowing you to get default implementations for everything but <code>lt</code>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7730"><code>extra::Bitv</code> now takes <code>&amp;[bool]</code> rather than
-<code>~[uint]</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7728">x64 now uses large stacks (4 MiB) by
-default</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7696"><code>is_utf8</code> is now 22% faster</a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7623">Metrics reporting and
-ratcheting</a> was added to the test
-harness.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7707">DoubleEndedIterator</a> was
-added.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7691"><code>mut_split</code> method was added</a>
-to partition a <code>&amp;mut [T]</code> into two pieces.</li>
-<li>We <a href="https://github.com/mozilla/rust/pull/7631">now have pointer arithmetic</a>.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7265">month&rsquo;s work of runtime work</a>
-landed.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7528">A safe, cross-platform <code>mmap</code>
-wrapper</a> was added.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7614">SmallIntMap and SmallIntSet have external
-iterators</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7608">JSON parsing got 93% faster</a></li>
-<li><a href="https://github.com/mozilla/rust/pull/7562">Deque</a> got a good cleanup and
-speedup.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7602">vec now implements <code>pop_opt</code> and <code>shift_opt</code>
-methods</a>.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7604"><code>peek_</code> adaptor</a> was added,
-which calls a closure on ever item before returning it. Mostly useful for
-debugging your iterators.</li>
-</ul>
-
-
-<h2>Documentation etc</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/7742">vim</a>
-<a href="https://github.com/mozilla/rust/pull/7665">improvements</a> landed.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7641"><code>po4a</code> support for translation</a>
-was added.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7690"><code>libc::c_void</code> is better
-documented</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7632">Man pages</a> for all the tools are
-now included.</li>
-<li>The <a href="https://github.com/mozilla/rust/pull/7736">iterator tutorial</a> was
-extended.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-09">Tuesday
-meeting</a> was
-all about split stacks and FFI. It&rsquo;s complex and above my ability to
-summarize, but from what I can tell no real consensus was made. But, it&rsquo;s the
-best enumeration of all the various issues surrounding split stacks that I&rsquo;ve
-seen.</p>
-
-<h1>Discussion + Blog posts</h1>
-
-<p>From now on I&rsquo;m going to just link to the reddit thread if there is one, as it
-often has additional comments or insights.</p>
-
-<ul>
-<li><a href="https://gist.github.com/jmptable/5980297">A simple, self-contained example of using a shared
-library</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1i3c15/experimental_actor_library_in_rust/">Experimental Actor
-Library (reddit)</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1i30sw/herb_sutter_describes_rust_c_questions_and/">Herb Sutter describes Rust
-(reddit)</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1i2y9e/philosophy_and_for_loops_more_from_go_and_rust/">Philosophy and &ldquo;for&rdquo; loops
-(reddit)</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1hy6l9/meetingweekly20130709_split_stacks_ffi/">Reddit thread about the weekly
-meeting</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1hxp2s/little_bzip2_binding_library_as_well_as_a_bigger/">BZIP2 bindings
-(reddit)</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1hsqf5/proposal_for_an_additional_use_case_of_the_in/">Proposal for an additional use case of the &ldquo;in&rdquo; keyword besides for loops
-(reddit)</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1i6ykh/technical_qa_on_servo/">Technical Q&amp;A on Servo
-(reddit)</a></li>
 </ul>
 
 ]]></content>

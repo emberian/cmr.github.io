@@ -2,70 +2,78 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/07/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/15/a-reflection/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/15/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/22/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/29/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/06/30/structure-and-organisation-of-rustc/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/07/05/the-state-of-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/07/06/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/07/13/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T17:02:25-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/07/21/this-week-in-rust/</loc>
-        <lastmod>2013-07-21T20:04:29-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/07/29/last-week-in-rust/</loc>
-        <lastmod>2013-07-29T12:03:53-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/08/04/this-week-in-rust/</loc>
-        <lastmod>2013-08-04T21:00:16-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/08/10/this-week-in-rust/</loc>
-        <lastmod>2013-08-11T13:25:48-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cmr.github.io/blog/2013/08/13/rust-by-concept/</loc>
+        <lastmod>2013-08-15T19:20:55-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cmr.github.io/blog/2013/08/19/this-week-in-rust/</loc>
+        <lastmod>2013-08-19T01:48:34-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2013-08-11T13:25:48-04:00</lastmod>
+        <lastmod>2013-08-19T01:48:34-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
-        <lastmod>2013-06-23T17:16:39-04:00</lastmod>
+        <lastmod>2013-08-13T12:27:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2013-08-11T13:25:48-04:00</lastmod>
+        <lastmod>2013-08-19T01:48:34-04:00</lastmod>
     </url>
 </urlset>
