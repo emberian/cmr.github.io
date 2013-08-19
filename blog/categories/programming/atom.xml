@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T02:05:18-04:00</updated>
+  <updated>2013-08-19T12:54:47-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -169,7 +169,10 @@ fix</a></li>
     <link href="http://cmr.github.io/blog/2013/08/13/rust-by-concept/"/>
     <updated>2013-08-13T01:14:00-04:00</updated>
     <id>http://cmr.github.io/blog/2013/08/13/rust-by-concept</id>
-    <content type="html"><![CDATA[<p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
+    <content type="html"><![CDATA[<p><strong>Note:</strong> I accidentally published this. I won&rsquo;t take it down, but it is
+incomplete and I do not guarantee its correctness.</p>
+
+<p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
 think part of the problem is that the language tutorial introduces the memory
 model by feature.  Rather, I&rsquo;ll introduce it by concept, showing examples of
 code that breaks memory safety in C, and how Rust&rsquo;s memory model prevents the
