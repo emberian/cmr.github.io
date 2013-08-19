@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T01:51:35-04:00</updated>
+  <updated>2013-08-19T02:00:52-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -65,6 +65,9 @@ where they have no meaning</a>. For
 example, marking a struct field <code>pub</code>, or a module <code>priv</code>. The compiler
 errors for this are quite informative, and the conversion is purely
 mechanical.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8532"><code>to_c_str</code> now raises a condition if the string contains interior <code>NUL</code>s,
+as it is impossible to create a valid C string with interior
+<code>NUL</code>s</a>.</li>
 </ul>
 
 
