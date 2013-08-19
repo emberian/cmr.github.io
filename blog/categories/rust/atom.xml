@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T02:04:50-04:00</updated>
+  <updated>2013-08-19T02:05:18-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -20,9 +20,9 @@
     <id>http://cmr.github.io/blog/2013/08/19/this-week-in-rust</id>
     <content type="html"><![CDATA[<p>Hello and welcome to the 11th edition of <code>This Week in Rust</code>! I&rsquo;m starting uni
 this week, so if you notice I&rsquo;m not quite as omnipresent and omniprescient as
-usual, that&rsquo;d be why. <strong>Please</strong> <a href="corey@octayn.net">send me an email</a> if you
-would like your pull request, project, or blog post mentioned. I would hate to
-overlook something cool or important.</p>
+usual, that&rsquo;d be why. <strong>Please</strong> <a href="mailto:corey@octayn.net">send me an email</a>
+if you would like your pull request, project, or blog post mentioned. I would
+hate to overlook something cool or important.</p>
 
 <!-- more -->
 
