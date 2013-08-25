@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-19T12:54:47-04:00</updated>
+  <updated>2013-08-25T18:16:54-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,130 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/25/this-week-in-rust/"/>
+    <updated>2013-08-25T12:54:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/25/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the 12th issue of <em>This Week in Rust</em>. Sorry for the
+brevity, though most weeks are probably going to be like this, as I&rsquo;ve started
+uni and have much less free time than in the summer.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>A whopping 71 pull requests were merged this week, and issue churn remains
+negative at -32.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8560"><strong><code>yield</code> is now reserved as a
+keyword</strong></a>, with the hope of
+maybe using it for generators.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8666">The type of <code>extern fn foo</code> is now <code>extern "C" fn</code>, rather than
+<code>*u8</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8679">Some free functions in <code>extra::json</code> were turned into associated functions
+on the Json enum</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8558"><code>XorShiftRng::new()</code> now uses a random
+seed</a>. This is only breaking if
+you were depending on that constant seed, which you shouldn&rsquo;t have.</li>
+</ul>
+
+
+<h2>Library changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8710"><code>extra::getopts</code> aligns based on codepoint count and not byte
+count</a>, as a step towards more
+correct unicode handling.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8637"><code>fprintf</code> has been added, as well as some <code>ifmt</code>
+cleanup</a>.
+<a href="https://github.com/mozilla/rust/pull/8740">The new runtime has seen a lot of
+optimization</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8655">File IO has been added to the new
+runtime</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8616">Some parsing errors related to ports have been fixed in
+<code>extra::url</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8590">CharIterator has seen some optimization too, with reverse iterators being
+much closer in performance to forward iterators
+now</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8602">sysconf named have been added for
+android</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8631">The new runtime now has threadsafe
+IO</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8566">A callback optimization has sped up message passing benchmarks to the tune
+of 40%</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8584">jemalloc is back</a>.</li>
+</ul>
+
+
+<h2>Compiler changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8736">gnueabihf actually uses hard floats
+now</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8695">Frame pointer elimination is no longer
+disabled</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8684">Some debuginfo fixes landed</a>.
+Supposedly, libstd can now be compiled with <code>-Z debug-info</code>. Yay!</li>
+<li><a href="https://github.com/mozilla/rust/pull/8596">Stack unwinding on 32-bit windows now
+works</a>. This is a major step
+forward for Windows support, I&rsquo;m very excited to see it land.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8659">A handful of default method bugs have been
+fixed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8562">Inheriting from kinds now sorta
+works</a>, you can do <code>trait Foo:
+Freeze</code>, for example.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8519">Supertrait methods can now be used from a trait
+object</a>.</li>
+<li>The rest of pnkfelix&rsquo;s visitor trait rewrite series landed.
+<a href="https://github.com/mozilla/rust/pull/8539">2</a>,
+<a href="https://github.com/mozilla/rust/pull/8619">3</a>,
+<a href="https://github.com/mozilla/rust/pull/8623">4</a>, and
+<a href="https://github.com/mozilla/rust/pull/8638">5</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8535">Foreign function wrappers have been
+removed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8328">LLVM has been updated</a>.</li>
+</ul>
+
+
+<h2>Docs etc</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8563">A new condition tutorial has been
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8725">Some docs for trait bounds have been
+added</a>.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-20">Tuesday
+meeting</a>
+discussed cycle time and how to fix it.</p>
+
+<h1>Projects and discussion</h1>
+
+<ul>
+<li><a href="https://github.com/bjz/gl-rs">gl-rs</a> is now ready for use, since the
+foreign function wrappers have been removed!</li>
+<li><p><a href="https://github.com/omasanori/msgpack-rust">msgpack-rust</a> has been created.
+It ties into <code>extra::serialize</code>.</p></li>
+<li><p><a href="https://github.com/jensnockert/dueboot">A template for Arduino Due
+projects</a>.</p></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1kxz7y/benchmarks_round_two_parallel_go_rust_d_scala_and/">Parallel cross-language level generation
+benchmarks</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ktjrw/a_week_with_mozillas_rust/">A Week with
+Rust</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -1326,7 +1450,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#99;&#x6f;&#114;&#x65;&#121;&#x2b;&#x62;&#108;&#111;&#x67;&#x40;&#111;&#99;&#x74;&#97;&#121;&#x6e;&#46;&#x6e;&#101;&#x74;">&#99;&#x6f;&#x72;&#101;&#121;&#x2b;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#111;&#x63;&#116;&#97;&#x79;&#x6e;&#x2e;&#x6e;&#101;&#116;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#99;&#x6f;&#x72;&#101;&#x79;&#43;&#x62;&#108;&#x6f;&#x67;&#x40;&#111;&#x63;&#x74;&#x61;&#121;&#110;&#x2e;&#x6e;&#x65;&#x74;">&#x63;&#111;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#111;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2213,7 +2337,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x63;&#x6f;&#x72;&#x65;&#x79;&#43;&#x72;&#117;&#115;&#116;&#64;&#x6f;&#99;&#x74;&#97;&#x79;&#110;&#46;&#x6e;&#x65;&#x74;">&#x63;&#x6f;&#x72;&#x65;&#121;&#x2b;&#114;&#x75;&#x73;&#x74;&#64;&#111;&#99;&#x74;&#x61;&#x79;&#x6e;&#x2e;&#x6e;&#x65;&#116;</a>.</p>
+to me, <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#99;&#x6f;&#114;&#x65;&#121;&#x2b;&#114;&#x75;&#x73;&#116;&#64;&#x6f;&#99;&#x74;&#97;&#x79;&#110;&#46;&#110;&#101;&#x74;">&#x63;&#x6f;&#114;&#x65;&#x79;&#x2b;&#114;&#x75;&#x73;&#x74;&#x40;&#111;&#x63;&#x74;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
