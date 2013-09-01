@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-25T18:16:54-04:00</updated>
+  <updated>2013-08-31T20:47:13-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/08/31/this-week-in-rust/"/>
+    <updated>2013-08-31T19:10:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/08/31/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to the lucky 13th issue of <em>This Week in Rust</em>. Graydon has
+stepped down as project lead. It seems to be a bit ambiguous whether he&rsquo;ll
+still be working on the project. Brian (brson) will be taking over as lead.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8857">Some functions have been removed from
+<code>std::str</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8823">The unit test framework now uses RUST_TEST_TASKS instead of
+RUST_THREADS</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8718"><code>typeof</code> is now a reserved
+keyword</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8807"><code>offset_inbounds</code> has been
+removed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8797">Some edge cases with writing to a borrowed <code>&amp;mut</code> have been
+closed</a>, rejecting more incorrect
+programs.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8772">Option no longer implements
+Add</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8700">Some pass handling stuff has
+changed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8744">Enum descriminants are now always
+u64</a>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8750">String byte conversion functions which return an Option have been
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8764">The main tutorial links to the condition and error handling
+tutorials</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8438">A trait for default initialization has been
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8757">debuginfo tests have been enabled on Windows, and debuginfo generation
+works on Windows!</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8777">A better, more complete module tutorial has been
+written</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8771">Some fixes to repr (the code that powers <code>%?</code> in fmt) have been
+made</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8697"><code>rustpkg build</code> with no arguments now behaves a bit
+differently</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8645"><code>std::run</code> has been reimplemented on top of
+libuv</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8838">Frame pointer elimination has been
+re-disabled</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8840">LLVM has been updated, giving us mingw-w64
+support</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8819">Unit tests have been enabled on
+Windows</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8802">Some compile speedups landed</a>.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-27">Tuesday
+meeting</a>
+discussed rustpkg&rsquo;s timeline, extern fns, and LLVM asserts.</p>
+
+<h1>Projects, discussion, and announcements</h1>
+
+<ul>
+<li>Jeaye says that anyone having problems with the q3 repo should re-clone. If
+that doesn&rsquo;t fix it, pop into IRC: #q3 on irc.freenode.net.</li>
+<li><a href="http://tim.dreamwidth.org/1820526.html">&ldquo;Making rustpkg work&rdquo;</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1lai9u/nphysics_a_2d_and_3d_rigid_body_physics_engine/">&ldquo;nphysics: a 2d and 3d rigid body physics engine for
+Rust&rdquo;</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1l8hd4/first_university_computer_science_class_taught/">&ldquo;First university computer science class taught in
+Rust&rdquo;</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -63,7 +150,7 @@ runtime</a>.</li>
 <li><a href="https://github.com/mozilla/rust/pull/8590">CharIterator has seen some optimization too, with reverse iterators being
 much closer in performance to forward iterators
 now</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8602">sysconf named have been added for
+<li><a href="https://github.com/mozilla/rust/pull/8602">sysconf names have been added for
 android</a>.</li>
 <li><a href="https://github.com/mozilla/rust/pull/8631">The new runtime now has threadsafe
 IO</a>.</li>
@@ -1450,7 +1537,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#99;&#x6f;&#x72;&#101;&#x79;&#43;&#x62;&#108;&#x6f;&#x67;&#x40;&#111;&#x63;&#x74;&#x61;&#121;&#110;&#x2e;&#x6e;&#x65;&#x74;">&#x63;&#111;&#x72;&#x65;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#111;&#x63;&#x74;&#x61;&#x79;&#110;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x63;&#111;&#114;&#101;&#x79;&#43;&#x62;&#x6c;&#111;&#103;&#x40;&#111;&#99;&#x74;&#97;&#121;&#110;&#46;&#x6e;&#101;&#x74;">&#x63;&#x6f;&#114;&#101;&#121;&#x2b;&#x62;&#108;&#111;&#103;&#x40;&#x6f;&#x63;&#116;&#97;&#x79;&#x6e;&#46;&#110;&#x65;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2337,7 +2424,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#99;&#x6f;&#114;&#x65;&#121;&#x2b;&#114;&#x75;&#x73;&#116;&#64;&#x6f;&#99;&#x74;&#97;&#x79;&#110;&#46;&#110;&#101;&#x74;">&#x63;&#x6f;&#114;&#x65;&#x79;&#x2b;&#114;&#x75;&#x73;&#x74;&#x40;&#111;&#x63;&#x74;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#116;</a>.</p>
+to me, <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#99;&#x6f;&#x72;&#x65;&#x79;&#43;&#114;&#x75;&#x73;&#x74;&#64;&#x6f;&#99;&#116;&#x61;&#121;&#110;&#x2e;&#110;&#x65;&#x74;">&#x63;&#x6f;&#114;&#101;&#121;&#43;&#x72;&#117;&#x73;&#x74;&#64;&#111;&#99;&#x74;&#x61;&#x79;&#x6e;&#x2e;&#110;&#x65;&#x74;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all

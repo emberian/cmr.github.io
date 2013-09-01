@@ -1,0 +1,234 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to the lucky 13th issue of This Week in Rust. Graydon has
+stepped down as project lead. It seems to be a bit ambiguous whether he& &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to the lucky 13th issue of <em>This Week in Rust</em>. Graydon has
+stepped down as project lead. It seems to be a bit ambiguous whether he&rsquo;ll
+still be working on the project. Brian (brson) will be taking over as lead.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8857">Some functions have been removed from
+<code>std::str</code></a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8823">The unit test framework now uses RUST_TEST_TASKS instead of
+RUST_THREADS</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8718"><code>typeof</code> is now a reserved
+keyword</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8807"><code>offset_inbounds</code> has been
+removed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8797">Some edge cases with writing to a borrowed <code>&amp;mut</code> have been
+closed</a>, rejecting more incorrect
+programs.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8772">Option no longer implements
+Add</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8700">Some pass handling stuff has
+changed</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8744">Enum descriminants are now always
+u64</a>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/8750">String byte conversion functions which return an Option have been
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8764">The main tutorial links to the condition and error handling
+tutorials</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8438">A trait for default initialization has been
+added</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8757">debuginfo tests have been enabled on Windows, and debuginfo generation
+works on Windows!</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8777">A better, more complete module tutorial has been
+written</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8771">Some fixes to repr (the code that powers <code>%?</code> in fmt) have been
+made</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8697"><code>rustpkg build</code> with no arguments now behaves a bit
+differently</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8645"><code>std::run</code> has been reimplemented on top of
+libuv</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8838">Frame pointer elimination has been
+re-disabled</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8840">LLVM has been updated, giving us mingw-w64
+support</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8819">Unit tests have been enabled on
+Windows</a>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/8802">Some compile speedups landed</a>.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-27">Tuesday
+meeting</a>
+discussed rustpkg&rsquo;s timeline, extern fns, and LLVM asserts.</p>
+
+<h1>Projects, discussion, and announcements</h1>
+
+<ul>
+<li>Jeaye says that anyone having problems with the q3 repo should re-clone. If
+that doesn&rsquo;t fix it, pop into IRC: #q3 on irc.freenode.net.</li>
+<li><a href="http://tim.dreamwidth.org/1820526.html">&ldquo;Making rustpkg work&rdquo;</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1lai9u/nphysics_a_2d_and_3d_rigid_body_physics_engine/">&ldquo;nphysics: a 2d and 3d rigid body physics engine for
+Rust&rdquo;</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1l8hd4/first_university_computer_science_class_taught/">&ldquo;First university computer science class taught in
+Rust&rdquo;</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-08-31T19:10:00-04:00"  data-updated="true">Aug 31<span>st</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
