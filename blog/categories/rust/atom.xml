@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-08-31T20:47:13-04:00</updated>
+  <updated>2013-09-08T17:34:11-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/09/07/this-week-in-rust/"/>
+    <updated>2013-09-07T18:30:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/09/07/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>65 pull requests were merged this week, and bors has had some idle time when
+there wasn&rsquo;t anything approved in the queue.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::os::glob</code> has been replaced with a <a href="https://github.com/mozilla/rust/pull/8914">pure Rust
+version</a>, for cross-platform and
+compatability reasons.</li>
+<li><code>std::str::from_bytes</code> has been
+<a href="https://github.com/mozilla/rust/pull/8997">renamed</a> to
+<code>std::str::from_utf8</code>, to be explicit about what it accepts.</li>
+<li>Casting to bool with <code>as</code> is <a href="https://github.com/mozilla/rust/pull/8980">no longer
+allowed</a>, and surrogate
+characters are no longer allowed in strings.</li>
+<li>char is <a href="https://github.com/mozilla/rust/pull/8974">no longer</a> treated as an
+integer type (meaning it can&rsquo;t be casted to/from them), which removes the
+ability for safe code to create invalid characters.</li>
+<li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
+split</a>. If you&rsquo;re jiggy with the
+jive, bind and accept are now separate operations.</li>
+</ul>
+
+
+<h2>Additions</h2>
+
+<ul>
+<li><code>let</code> var hygiene has <a href="https://github.com/mozilla/rust/pull/9026">landed</a>.
+I&rsquo;m sure this has cool implications, but I don&rsquo;t really know what they are.</li>
+<li>An <a href="https://github.com/mozilla/rust/pull/8903"><code>export_name</code> attribute</a> has
+been added to control what symbol name something is exported as (similar to
+<code>no_mangle</code>).</li>
+<li>An <code>ExactSize</code> trait <a href="https://github.com/mozilla/rust/pull/8884">has been
+added</a> to mark an iterator that
+always accurately reports its size in the <code>size_hint</code> method.</li>
+<li><code>ToStr</code> has been <a href="https://github.com/mozilla/rust/pull/8960">implemented</a>
+for char and Ascii.</li>
+<li>Safe accessors of <code>MutexArc</code> <a href="https://github.com/mozilla/rust/pull/8966">have been
+implemented</a></li>
+<li>A bytes iterator <a href="https://github.com/mozilla/rust/pull/8935">has been added</a>
+for newrt readers.</li>
+<li>Stream is <a href="https://github.com/mozilla/rust/pull/8984">automatically
+implemented</a> for types which
+implement Reader and Writer from newrt.</li>
+<li>An <code>unreachable</code> macro <a href="https://github.com/mozilla/rust/pull/8992">has been
+added</a> for better error reporting
+than a function could do.</li>
+<li>newrt <a href="https://github.com/mozilla/rust/pull/9000">can now do</a> simple DNS
+resolution.</li>
+<li>strptime/strftime <a href="https://github.com/mozilla/rust/pull/9016">now support</a>
+fractional seconds, out to tenths of a nanosecond.</li>
+</ul>
+
+
+<h2>Changes etc</h2>
+
+<ul>
+<li>Name mangling <a href="https://github.com/mozilla/rust/pull/8875">has been
+improved</a>.</li>
+<li><code>rust_log.cpp</code> <a href="https://github.com/mozilla/rust/pull/8880">has been
+converted</a> into pure Rust.</li>
+<li>Debuginfo <a href="https://github.com/mozilla/rust/pull/8855">now does closure
+capture</a> and very large structs.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/8947">bunch</a>
+<a href="https://github.com/mozilla/rust/pull/8927">of</a>
+<a href="https://github.com/mozilla/rust/pull/8928">repr</a> improvements landed.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>There was no meteting this week listed on the wiki or that I saw.</p>
+
+<h1>Projects</h1>
+
+<ul>
+<li><a href="https://github.com/glycerine/rust-nanomsg">rust-nanomsg</a> &ndash; bindings to the
+nanomsg library.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -568,138 +663,6 @@ value.x = 42; //~ ERROR: cannot assign to immutable field
 
 <p>The error message is actualy a bit misleading: there is no such thing as a
 mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/08/10/this-week-in-rust/"/>
-    <updated>2013-08-10T21:39:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/08/10/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the tenth issue of <em>This Week in Rust</em>. This week marks
-the enabling of the new runtime written entirely in Rust. A lot happens every
-week, so I&rsquo;m going to start omitting PRs that I deem of lesser importance.
-This process is entirely arbitrary, don&rsquo;t feel hurt if I exclude your PR :).</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on <code>master</code>?</h1>
-
-<p>Issue churn was -12 this week. A total of 70 PRs were merged.</p>
-
-<p><a href="https://github.com/mozilla/rust/pull/8358">The new runtime has been enabled by
-default</a>. This is the culmination
-of a lot of work by brson and the rt interns (toddaaro, bblum, and ecr being
-the ones I know of). It&rsquo;s written entirely in Rust, and lives in <code>std::rt</code>.
-Additionally, the <a href="https://github.com/mozilla/rust/pull/8387">old C++ runtime has been
-removed</a>.</p>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8296"><strong>Trailing nulls have been removed from all string
-types.</strong></a>. This will break your
-FFI code in subtle and mysterious ways, if you didn&rsquo;t explicitly use the
-<code>as_c_str</code> methods. FFI code using the new <code>str::c_str</code> code will be more
-robust, as it forbids interior nulls, and ensures that a trailing null
-always exists. The replacement for <code>str.as_c_str</code> is
-<code>str.to_c_str().as_slice()</code>, from what I can tell.</li>
-<li><a href="https://github.com/cmr/rust/commit/e99eff172a11816f335153147dd0800fc4877bee">The <code>priv</code> keyword is no longer allowed where it has no
-meaning</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8265"><code>iter</code> and <code>iter_err</code> in Result have been replaced with external
-iterators</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8288">The <code>get</code> method of <code>Option</code>, <code>Either</code>, and <code>Result</code> has been removed in
-favor of <code>unwrap</code></a>. They both did
-the same thing, which was useless duplication.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8218"><code>std::gc</code> and <code>std::stackwalk</code></a>
-have been removed, as they are obsolete with the new runtime.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8264">The transitionary <code>foreach</code> has been
-removed</a>.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8357">Some redundant <code>Ord</code> methods were removed from
-impls</a> where the default methods
-sufficed.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8336">FromStr for IpAddr and
-SocketAddr</a> is implemented.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8356">Work steealing is implemented for the newrt
-scheduler</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8320">A frequency counting function has been added to
-<code>extra::stat</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8323">Saturating math</a> is now
-implemented. I knew this as &ldquo;clamping&rdquo;: it is arithmetic that clamps results
-into a specific interval.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8287">A hexadecimal encoding module</a>
-has been added to <code>extra</code>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8054"><code>EnumSet</code> has been moved into <code>extra</code>, it previously existed as a utility
-in <code>rustc</code></a></li>
-<li><a href="https://github.com/mozilla/rust/pull/8237"><code>str::is_utf8</code> has seen some more
-optimization</a>.</li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8245">Initial support for the new formatting
-code</a> has been added.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8279">A <code>no_main</code> attribute has been
-added</a>, to omit the Rust entry
-point entirely.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8220">Vanilla Linux on ARM</a> is now
-supported.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8262">Extra copies of rvalues </a> are no
-longer omitted.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8361">Some cross-arch bugs with node hash
-metadata</a> have been fixed.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8350">A soundness bug in struct matching has been
-fixed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8362">An <code>option_env!</code> syntax extension has been
-added</a> for compile-time inclusion
-of environment variables that may or may not be present.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8176"><code>extern mod a = "b/c/d"</code> has been
-implemented</a>, paving the way for
-more rustpkg awesomeness.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-06">Tuesday
-meeting</a> seems
-to have been a bit under-attended. SIMD, ARM, trailing nulls, order of <code>mod</code>
-and <code>use</code>, and the condition system were all briefly discussed..</p>
-
-<h1>Discussion + Blog posts</h1>
-
-<ul>
-<li><a href="https://air.mozilla.org/2013-intern-todd/">&ldquo;A Work-stealing Runtime for
-Rust&rdquo;</a>, toddaaro&rsquo;s intern
-presentation.</li>
-<li><a href="http://michaelwoerister.github.io/2013/08/10/iterator-blocks-features.html">&ldquo;Iterator Blocks for Rust &ndash; Feature
-Survey&rdquo;</a></li>
-</ul>
-
-
-<h1>External projects</h1>
-
-<ul>
-<li><a href="http://www.reddit.com/r/rust/comments/1k43px/a_simple_jit_vm_written_using_rust_and_libjit/">Galvanized: a simple JIT VM written in Rust, using
-LibJIT</a></li>
-<li><a href="https://github.com/Jeaye/q3/commit/f4c82ce9c276327cababdb6650038e2c1d62f2d5">Q3 has a new
-logger</a>.
-I think it&rsquo;s nicer than the built-in one!</li>
-<li><a href="https://github.com/stepancheg/rust-protobuf">rust-protobuf: a protobuf implementation generating rust code, written in
-rust</a>.</li>
-<li><a href="https://twitter.com/metajack/status/364571230331875331/photo/1">Servo: almost passing acid1
-!</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

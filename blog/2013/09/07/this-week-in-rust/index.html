@@ -1,0 +1,241 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another This Week in Rust. What&rsquo;s cooking in master? 65 pull requests were merged this week, and bors has had some idle time when &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>65 pull requests were merged this week, and bors has had some idle time when
+there wasn&rsquo;t anything approved in the queue.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::os::glob</code> has been replaced with a <a href="https://github.com/mozilla/rust/pull/8914">pure Rust
+version</a>, for cross-platform and
+compatability reasons.</li>
+<li><code>std::str::from_bytes</code> has been
+<a href="https://github.com/mozilla/rust/pull/8997">renamed</a> to
+<code>std::str::from_utf8</code>, to be explicit about what it accepts.</li>
+<li>Casting to bool with <code>as</code> is <a href="https://github.com/mozilla/rust/pull/8980">no longer
+allowed</a>, and surrogate
+characters are no longer allowed in strings.</li>
+<li>char is <a href="https://github.com/mozilla/rust/pull/8974">no longer</a> treated as an
+integer type (meaning it can&rsquo;t be casted to/from them), which removes the
+ability for safe code to create invalid characters.</li>
+<li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
+split</a>. If you&rsquo;re jiggy with the
+jive, bind and accept are now separate operations.</li>
+</ul>
+
+
+<h2>Additions</h2>
+
+<ul>
+<li><code>let</code> var hygiene has <a href="https://github.com/mozilla/rust/pull/9026">landed</a>.
+I&rsquo;m sure this has cool implications, but I don&rsquo;t really know what they are.</li>
+<li>An <a href="https://github.com/mozilla/rust/pull/8903"><code>export_name</code> attribute</a> has
+been added to control what symbol name something is exported as (similar to
+<code>no_mangle</code>).</li>
+<li>An <code>ExactSize</code> trait <a href="https://github.com/mozilla/rust/pull/8884">has been
+added</a> to mark an iterator that
+always accurately reports its size in the <code>size_hint</code> method.</li>
+<li><code>ToStr</code> has been <a href="https://github.com/mozilla/rust/pull/8960">implemented</a>
+for char and Ascii.</li>
+<li>Safe accessors of <code>MutexArc</code> <a href="https://github.com/mozilla/rust/pull/8966">have been
+implemented</a></li>
+<li>A bytes iterator <a href="https://github.com/mozilla/rust/pull/8935">has been added</a>
+for newrt readers.</li>
+<li>Stream is <a href="https://github.com/mozilla/rust/pull/8984">automatically
+implemented</a> for types which
+implement Reader and Writer from newrt.</li>
+<li>An <code>unreachable</code> macro <a href="https://github.com/mozilla/rust/pull/8992">has been
+added</a> for better error reporting
+than a function could do.</li>
+<li>newrt <a href="https://github.com/mozilla/rust/pull/9000">can now do</a> simple DNS
+resolution.</li>
+<li>strptime/strftime <a href="https://github.com/mozilla/rust/pull/9016">now support</a>
+fractional seconds, out to tenths of a nanosecond.</li>
+</ul>
+
+
+<h2>Changes etc</h2>
+
+<ul>
+<li>Name mangling <a href="https://github.com/mozilla/rust/pull/8875">has been
+improved</a>.</li>
+<li><code>rust_log.cpp</code> <a href="https://github.com/mozilla/rust/pull/8880">has been
+converted</a> into pure Rust.</li>
+<li>Debuginfo <a href="https://github.com/mozilla/rust/pull/8855">now does closure
+capture</a> and very large structs.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/8947">bunch</a>
+<a href="https://github.com/mozilla/rust/pull/8927">of</a>
+<a href="https://github.com/mozilla/rust/pull/8928">repr</a> improvements landed.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>There was no meteting this week listed on the wiki or that I saw.</p>
+
+<h1>Projects</h1>
+
+<ul>
+<li><a href="https://github.com/glycerine/rust-nanomsg">rust-nanomsg</a> &ndash; bindings to the
+nanomsg library.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-09-07T18:30:00-04:00"  data-updated="true">Sep 7<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
