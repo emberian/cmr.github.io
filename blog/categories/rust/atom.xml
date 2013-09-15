@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-15T19:07:20-04:00</updated>
+  <updated>2013-09-15T19:09:34-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -44,7 +44,8 @@ been removed from <code>std::vec</code>. <code>unzip</code> now takes an iterato
 <code>Permutations</code> iterator has been added, and some rarely-used, obsolete,
 functions were removed.</li>
 <li>A bunch of changes to <code>Option</code> and <code>Result</code> <a href="https://github.com/mozilla/rust/pull/9115">were
-made</a>.</li>
+made</a>. Specifically, <code>chain</code> was
+changed to <code>and_then</code> and <code>unwrap_or_default</code> to <code>unwrap_or</code>.</li>
 <li>rustpkg <a href="https://github.com/mozilla/rust/pull/9151">builds into
 target-specific</a> subdirectories
 now.</li>
