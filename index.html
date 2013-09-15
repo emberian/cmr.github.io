@@ -94,81 +94,9 @@ for the 0.8 release in 2-3 weeks. It looks like it&rsquo;s going to be a really
 solid release. I&rsquo;ll write another <code>State of Rust</code>, hopefully before it is
 released.</p>
 
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>68 PRs were merged this week.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>std::iterator</code> <a href="https://github.com/mozilla/rust/pull/9065">has been
-renamed</a> to <code>std::iter</code>.</li>
-<li>The <code>std::num::Primitive</code> trait is <a href="https://github.com/mozilla/rust/pull/9051">now
-constrained</a> by the <code>Clone</code> and
-<code>DeepClone</code> traits.</li>
-<li>Some <a href="https://github.com/mozilla/rust/pull/9062">more free functions</a> have
-been removed from <code>std::vec</code>. <code>unzip</code> now takes an iterator, a
-<code>Permutations</code> iterator has been added, and some rarely-used, obsolete,
-functions were removed.</li>
-<li>A bunch of changes to <code>Option</code> and <code>Result</code> <a href="https://github.com/mozilla/rust/pull/9115">were
-made</a>.</li>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9151">builds into
-target-specific</a> subdirectories
-now.</li>
-</ul>
-
-
-<h2>Additions and fixes</h2>
-
-<ul>
-<li>debuginfo now has <a href="https://github.com/mozilla/rust/pull/9097">namespace
-support</a>. Looking at all the
-various PRs Michael has opened over the summer, it seems DWARF is a very
-flexible, nice debuginfo format, but gdb and LLVM don&rsquo;t support it very
-well.</li>
-<li>Correct <code>range_step</code> and <code>range_step_inclusive</code> iterators <a href="https://github.com/mozilla/rust/pull/9199">have been
-added</a>. They are correct in cases
-of overflow, and are generic.</li>
-<li>A handy <code>sleep</code> function <a href="https://github.com/mozilla/rust/pull/9191">has been
-added</a> to newrt.</li>
-<li>File IO in newrt <a href="https://github.com/mozilla/rust/pull/9165">works on
-windows</a> now.</li>
-<li>A bug where nested items in a default method weren&rsquo;t compiled <a href="https://github.com/mozilla/rust/pull/9162">has been
-fixed</a>.</li>
-<li>A rendezvous concurrency structure, much like Ada&rsquo;s, <a href="https://github.com/mozilla/rust/pull/8908">has been
-added</a>.</li>
-<li>Buffered IO wrappers <a href="https://github.com/mozilla/rust/pull/9091">have been
-added</a>.</li>
-<li>nmatsakis landed a PR that <a href="https://github.com/mozilla/rust/pull/9088">closed 7 issues at
-once</a>.</li>
-<li>rustpkg now uses <code>extra::workcache</code> <a href="https://github.com/mozilla/rust/pull/9034">to prevent recompilation of
-already-compiled crates</a>.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-10">Tuesday
-meeting</a>
-discussed the github commit policy, implicit copyability, patterns, and the
-fate of <code>&amp;const</code>.</p>
-
-<h1>Other things</h1>
-
-<ul>
-<li>Eric Reed (ecr)&rsquo;s intern presentation: <a href="https://air.mozilla.org/intern-presentations-reed/">An I/O System for
-Rust</a>. Unfortunately,
-the audio cuts out.</li>
-<li><a href="https://github.com/singingboyo/evict">Evict-BT</a>, a git-integrated issue
-tracker.</li>
-<li><a href="https://github.com/mozilla/rust/wiki/Computer-Graphics-and-Game-Development">Computer Graphics and Game
-Development</a>.
-Also note the <code>#rust-gamedev</code> channel.</li>
-</ul>
-
 
 		
-		
+		<a href="/blog/2013/09/15/this-week-in-rust/" class="more-link">Give me more!</a>
 	</div>
 
 
