@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-08T17:34:11-04:00</updated>
+  <updated>2013-09-15T19:02:38-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/09/15/this-week-in-rust/"/>
+    <updated>2013-09-15T17:59:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/09/15/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>. We&rsquo;re gearing up
+for the 0.8 release in 2-3 weeks. It looks like it&rsquo;s going to be a really
+solid release. I&rsquo;ll write another <code>State of Rust</code>, hopefully before it is
+released.</p>
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>68 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::iterator</code> <a href="https://github.com/mozilla/rust/pull/9065">has been
+renamed</a> to <code>std::iter</code>.</li>
+<li>The <code>std::num::Primitive</code> trait is <a href="https://github.com/mozilla/rust/pull/9051">now
+constrained</a> by the <code>Clone</code> and
+<code>DeepClone</code> traits.</li>
+<li>Some <a href="https://github.com/mozilla/rust/pull/9062">more free functions</a> have
+been removed from <code>std::vec</code>. <code>unzip</code> now takes an iterator, a
+<code>Permutations</code> iterator has been added, and some rarely-used, obsolete,
+functions were removed.</li>
+<li>A bunch of changes to <code>Option</code> and <code>Result</code> <a href="https://github.com/mozilla/rust/pull/9115">were
+made</a>.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9151">builds into
+target-specific</a> subdirectories
+now.</li>
+</ul>
+
+
+<h2>Additions and fixes</h2>
+
+<ul>
+<li>debuginfo now has <a href="https://github.com/mozilla/rust/pull/9097">namespace
+support</a>. Looking at all the
+various PRs Michael has opened over the summer, it seems DWARF is a very
+flexible, nice debuginfo format, but gdb and LLVM don&rsquo;t support it very
+well.</li>
+<li>Correct <code>range_step</code> and <code>range_step_inclusive</code> iterators <a href="https://github.com/mozilla/rust/pull/9199">have been
+added</a>. They are correct in cases
+of overflow, and are generic.</li>
+<li>A handy <code>sleep</code> function <a href="https://github.com/mozilla/rust/pull/9191">has been
+added</a> to newrt.</li>
+<li>File IO in newrt <a href="https://github.com/mozilla/rust/pull/9165">works on
+windows</a> now.</li>
+<li>A bug where nested items in a default method weren&rsquo;t compiled <a href="https://github.com/mozilla/rust/pull/9162">has been
+fixed</a>.</li>
+<li>A rendezvous concurrency structure, much like Ada&rsquo;s, <a href="https://github.com/mozilla/rust/pull/8908">has been
+added</a>.</li>
+<li>Buffered IO wrappers <a href="https://github.com/mozilla/rust/pull/9091">have been
+added</a>.</li>
+<li>nmatsakis landed a PR that <a href="https://github.com/mozilla/rust/pull/9088">closed 7 issues at
+once</a>.</li>
+<li>rustpkg now uses <code>extra::workcache</code> <a href="https://github.com/mozilla/rust/pull/9034">to prevent recompilation of
+already-compiled crates</a>.</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-10">Tuesday
+meeting</a>
+discussed the github commit policy, implicit copyability, patterns, and the
+fate of <code>&amp;const</code>.</p>
+
+<h1>Other things</h1>
+
+<ul>
+<li>Eric Reed (ecr)&rsquo;s intern presentation: <a href="https://air.mozilla.org/intern-presentations-reed/">An I/O System for
+Rust</a>. Unfortunately,
+the audio cuts out.</li>
+<li><a href="https://github.com/singingboyo/evict">Evict-BT</a>, a git-integrated issue
+tracker.</li>
+<li><a href="https://github.com/mozilla/rust/wiki/Computer-Graphics-and-Game-Development">Computer Graphics and Game
+Development</a>.
+Also note the <code>#rust-gamedev</code> channel.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -45,7 +130,8 @@ integer type (meaning it can&rsquo;t be casted to/from them), which removes the
 ability for safe code to create invalid characters.</li>
 <li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
 split</a>. If you&rsquo;re jiggy with the
-jive, bind and accept are now separate operations.</li>
+jive, listen and accept are now separate operations. (<em>ed</em>: this used to say
+bind and accept wereseparate; thanks to ecr for the correction.)</li>
 </ul>
 
 
@@ -467,202 +553,6 @@ Portable</a>.
 fix</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rust's Memory Management]]></title>
-    <link href="http://cmr.github.io/blog/2013/08/13/rust-by-concept/"/>
-    <updated>2013-08-13T01:14:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/08/13/rust-by-concept</id>
-    <content type="html"><![CDATA[<p><strong>Note:</strong> I accidentally published this. I won&rsquo;t take it down, but it is
-incomplete and I do not guarantee its correctness.</p>
-
-<p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
-think part of the problem is that the language tutorial introduces the memory
-model by feature.  Rather, I&rsquo;ll introduce it by concept, showing examples of
-code that breaks memory safety in C, and how Rust&rsquo;s memory model prevents the
-error. Hopefully I can convince you that Rust isn&rsquo;t as complex as it looks,
-and that the extra syntax is well-worth the zero-cost memory safety. I&rsquo;ll be
-comparing Rust code to equivalent C idioms using the <a href="http://zeromq.org/"><code>zeromq
-library</code></a> because it has a very clean API in both
-languages. As such, I assume basic familiarity with C. Rust is not a very
-suitable language for new programmers, and neither is this tutorial.</p>
-
-<!-- more -->
-
-
-<p>The core concepts driving Rust&rsquo;s memory management are, in reverse order of
-simplicity, <em>ownership</em>, <em>mutability</em>, and <em>lifetime</em>. It&rsquo;s not that other
-languages don&rsquo;t have them, it&rsquo;s just that they&rsquo;re implicit or convention. I
-won&rsquo;t be using many fancy features of Rust here. They aren&rsquo;t needed to explain
-the memory management, variables and functions suffice.</p>
-
-<h1>Ownership</h1>
-
-<p>Ownership is simply who is responsibile for freeing an object. If you own an
-object, you are ensured it is valid.</p>
-
-<p>An example in C would be:</p>
-
-<p><code>
-void *context = zmq_ctx_new(); // zeromq owns the context, you just get to use it
-// ...
-zmq_ctx_destroy(context); // you need to tell zeromq to free it, you aren't allowed to do so
-</code></p>
-
-<p>In Rust:</p>
-
-<p><code>
-let context: ~Context = zmq_ctx_new();
-// ....
-// context implicitly freed when no one owns it anymore
-</code></p>
-
-<p>Notice that the C uses an opaque <code>void*</code> and that Rust uses
-the explicitly-named <code>~Context</code>. In C, you often use opaque types because the
-language offers no control over visibility of struct members. In Rust, you can
-mark the fields of a struct <code>priv</code>, which will disallow users of the library
-from using those fields. This is a bit nuanced, and I&rsquo;ll explain it in a later
-tutorial on privacy and the module system.</p>
-
-<p>The tilde means &ldquo;owned pointer&rdquo;, in that if you have an owned pointer to an
-object, you are the owner. Creating an owned pointer involves a heap
-allocation (malloc). I use an owned pointer in these examples to mirror the C,
-but idiomatic Rust uses values on the stack much more frequently than values
-on the heap.</p>
-
-<h2>Taking ownership</h2>
-
-<p>Rust goes one step further with ownership. The compiler asserts that an object
-cannot be owned multiple times. An object can be owned by a stack frame
-(locals and function arguments), a scope, or a struct. For lack of a better
-term, I&rsquo;ll call these &ldquo;owners.&rdquo; You transfer ownership by &ldquo;moving&rdquo; into an
-owner. Once an owner loses ownership, the compiler will error if you try to
-use the object again through that owner.  This disallows dangling pointers and
-prevents an entire class of error (and potentially vulnerability), &ldquo;use after
-free.&rdquo;</p>
-
-<p>In C, it&rsquo;s perfectly valid to do:</p>
-
-<p><code>
-void *context = zmq_ctx_new();
-zmq_ctx_destroy(context);
-use_context(context); // compiles fine, but clearly incorrect
-</code></p>
-
-<p>Whereas in Rust:</p>
-
-<p>```
-let context: ~Context = zmq_ctx_new();
-{ // introduce a scope</p>
-
-<pre><code>let context2: ~Context = context; // context moved into the variable in this scope
-</code></pre>
-
-<p>} // context2 freed at scope close
-use_context(context); // error: use of moved value: <code>context</code>
-```</p>
-
-<h2>Not taking ownership</h2>
-
-<p>Most functions that take arguments don&rsquo;t need to take ownership. To express
-this, Rust has the &ldquo;borrowed pointer.&rdquo; For example, in C you would write this:</p>
-
-<p>```
-int length(some_large_struct_t *datum) {</p>
-
-<pre><code>return datum-&gt;x - datum-&gt;padding;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>The function does not care who owns the object, it doesn&rsquo;t need to free it, as
-there&rsquo;s no reason the object can&rsquo;t be used again after this computation. In
-Rust, it&rsquo;s:</p>
-
-<p>```
-fn length(datum: &amp;some_large_struct) &ndash;> int {</p>
-
-<pre><code>datum.x - datum.padding
-</code></pre>
-
-<p>}
-```</p>
-
-<p>The first thing you&rsquo;ll notice is that there is no dereference to be found in
-the source. In C, <code>-&gt;</code> is the dereferencing struct member extraction operator.
-In Rust, <code>.</code> will dereference if it needs to. You&rsquo;ll also notice that Rust
-uses <code>&amp;</code> rather than <code>*</code> to indicate this type of a pointer. It&rsquo;s the same
-operator used to take a pointer (address-of), as in C. C, however, doesn&rsquo;t
-enforce the non-transfer of ownership. It&rsquo;s perfectly valid to do:</p>
-
-<p>```
-int length(some_large_struct_t *datum) {</p>
-
-<pre><code>int l = datum-&gt;x - datum-&gt;padding;
-free(datum);
-return l;
-</code></pre>
-
-<p>}
-```</p>
-
-<p><code>length</code> has now incorrectly taken ownership of <code>datum</code>, by <code>free</code>ing it. Any
-code which had a pointer to <code>datum</code> has now been rendered incorrect. In Rust,
-there is no way to safely free memory. It is automatically free&rsquo;d.</p>
-
-<h2>Multiple ownership</h2>
-
-<p>There are situations when ownership isn&rsquo;t so black and white, and for that
-Rust has the &ldquo;managed pointer.&rdquo; The type of a managed pointer is <code>@'static T</code>.
-The <code>'static</code> means &ldquo;this type cannot contain any borrowed pointers.&rdquo; The
-shorthand for <code>@'static T</code> is just <code>@T</code>: it&rsquo;s impossible to have a managed
-pointer to a type that doesn&rsquo;t fulfill <code>'static</code>. Using only owned and
-borrowed pointers, ownership forms a DAG. Managed pointers allow cycles. They
-are GC-managed, and allow multiple pointers to the same object. The way this
-is enabled is that the pointer&rsquo;s contents (the pointee) are immutable. If
-they were allowed to be mutable, data races would occur. In the next section
-I&rsquo;ll show the mutable version.</p>
-
-<p>These have no direct comparison in C. The closest comparison is probably
-GOBject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
-management. As the name suggests, the runtime manages it for you. Managed
-pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
-be fast because all managed pointers are task-local, no GC is always faster
-than some GC.</p>
-
-<h1>Mutability</h1>
-
-<p>Mutability is whether you are allowed to mutate, or modify, some data. There
-are two pieces to mutability: mutability of things an object owns (inherited
-mutability), and mutability of data through a pointer.</p>
-
-<h2>Inherited Mutability</h2>
-
-<p>Say you have a point on the stack:</p>
-
-<p>```
-struct Point {</p>
-
-<pre><code>x: int,
-y: int
-</code></pre>
-
-<p>}
-let value: Point = Point { x: 24, y: 42 };
-```</p>
-
-<p>If you try to mutate the point by, say, changing the <code>x</code> field, the compiler
-will complain:</p>
-
-<p><code>
-value.x = 42; //~ ERROR: cannot assign to immutable field
-</code></p>
-
-<p>The error message is actualy a bit misleading: there is no such thing as a
-mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
 ]]></content>
   </entry>
   

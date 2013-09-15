@@ -106,7 +106,8 @@ integer type (meaning it can&rsquo;t be casted to/from them), which removes the
 ability for safe code to create invalid characters.</li>
 <li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
 split</a>. If you&rsquo;re jiggy with the
-jive, bind and accept are now separate operations.</li>
+jive, listen and accept are now separate operations. (<em>ed</em>: this used to say
+bind and accept wereseparate; thanks to ecr for the correction.)</li>
 </ul>
 
 
