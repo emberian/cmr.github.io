@@ -93,22 +93,22 @@ where it starts, and ending, of course, where it ends.</p>
 
 
 <p><code>rustc</code> is a fairly large, complex beast. Unless otherwise mentioned, all
-paths are relative to <code>src/librustc</code>. I&rsquo;m going to refer to the &ldquo;code being
-compiled&rdquo; as the &ldquo;compilend&rdquo; (similar to subtrahend, dividend, etc). I made
-this word up, I don&rsquo;t know if there is a better word for it.</p>
+paths are relative to <code>src/librustc</code>. If you&rsquo;re unfamiliar with Rust, a
+&ldquo;crate&rdquo; is a compilation unit: a library or an executable.</p>
 
 <h2>Beginning</h2>
 
-<p>The entry point, <code>run_compiler</code> in <code>rustc.rs</code>, does simple argument parsing
-and calls into the driver, in <code>driver/driver.rs</code>, which coordinates the
-various pieces of the compiler and the rest of the argument parsing. The key
-data structure here is the <code>Session</code>, which you can find (along with a bunch
-of other things like the option context) in <code>driver/session.rs</code>. Back to the
-driver, the function <code>compile_rest</code> is where most of the magic happens. This
-function runs all the various passes over the compilend. It starts with
-parsing and macro expansion and moves onto various static analysis of the code
-to make sure it is correct, finally generating LLVM IR (intermediate
-representation), running LLVM optimizations, and linking the final binary.</p>
+<p>The entry point, <code>run_compiler</code> in <code>rustc.rs</code>, does argument parsing, using
+<code>extra::getopts</code> and calls into the driver, in <code>driver/driver.rs</code>, which
+coordinates the various pieces of the compiler and the rest of the argument
+parsing. The key data structure here is the <code>Session</code>, which you can find
+(along with a bunch of other things like the option context) in
+<code>driver/session.rs</code>. Back to the driver, the function <code>compile_input</code> is where
+most of the magic happens. This function runs all the various passes over the
+crate. It starts with parsing and macro expansion and moves onto various
+static analysis of the code to make sure it is correct, finally generating
+LLVM IR (intermediate representation), running LLVM optimizations, and linking
+the final binary.</p>
 
 <h2>An interlude</h2>
 
@@ -116,8 +116,8 @@ representation), running LLVM optimizations, and linking the final binary.</p>
 labyrinthine fractal of complexity. Which it is, don&rsquo;t get me wrong. But the
 various pieces of the rust compiler are fairly well separated, even if they
 are complex. The basic structure of a compiler is operations on a tree data
-structure representing the compilend called an AST or Abstract Syntax Tree. An
-AST is the output of parsing, and everything in the compiler is transforms or
+structure representing the crate called an AST or Abstract Syntax Tree. An AST
+is the output of parsing, and everything in the compiler is transforms or
 analysis of this tree. Once everything is done, it takes this AST and
 translates it into LLVM IR. This is probably the most hairy part of the
 compiler, and it lives in <code>middle/trans</code>. LLVM IR is a representation of code
@@ -126,10 +126,44 @@ code. LLVM does most of the heavy lifting that a traditional compiler would
 need to do (optimization and codegen), so the rest of <code>rustc</code> is largely
 dedicated to actually dealing with Rust programs.</p>
 
-<h2>Parsing (&ldquo;front&rdquo;)</h2>
+<h2>Parsing + expansion</h2>
 
 <p>Parsing and macro expansion happen in <code>src/libsyntax</code>, so all paths in this
-section will be relative to that.</p>
+section will be relative to that. This corresponds to <code>phase_1_parse_input</code>
+and <code>phase_2_configure_and_expand</code>. Phase 1 does the parsing, and results in
+an AST. If you want, you can look into <code>parse/parser.rs</code> for the
+<code>parse_crate_mod</code> method. Very rarely will one have to modify the parser. The
+most important part of the parser, from an outsider&rsquo;s perspective, is in
+<code>codemap.rs</code>. The codemap has the concept of a &ldquo;span&rdquo;, which is a piece of
+source code, represented by a start and an end. Whenever you see an error and
+a squiggly line underneath where the error happenes, that is the result of a
+span. Almost everything in the AST has a span.</p>
+
+<p>After phase 1 comes, of course, phase 2. Phase 2 is what does macro expansion,
+deriving implementations, and removal of items which are conditionally
+included with the <code>cfg</code> attribute. This all happens in the <code>ext</code> directory.
+Personally I haven&rsquo;t poked around too much at how macros work, but things to
+note are <code>cfg.rs</code>, <code>asm.rs</code>, <code>ifmt.rs</code>, and the <code>deriving</code> directory. These do
+<code>cfg!</code>, <code>asm!</code>, <code>format!</code> (and friends), and <code>#[deriving(...)]</code>,
+respectively.</p>
+
+<p>If you&rsquo;re curious how a syntax extension works, <code>env.rs</code> is a good example. In
+the <code>expand_env</code> function, it takes the syntax extension context (cx), a
+span of the macro invocation, and the &ldquo;token tree&rdquo; that the macro was invoked
+with.  When you do <code>foo!(....)</code>, the <code>....</code> is the token tree. It checks the
+structure of the token tree (it expects either one or two arguments), and then
+returns the environment variable referenced by constructing an <code>ast::Expr</code>,
+using the ExtCtxt to mark that the expression came from the given span. This
+is so the compiler can track which span a piece of macro-generated code
+initially came from, for better error reporting.</p>
+
+<p>You might notice that phase 2 actually runs the configuration step twice. This
+is so that macros that expand to items with a <code>cfg</code> attribute also get removed
+from the final output.</p>
+
+<h2>Analysis</h2>
+
+<p>Phase 3, the analysis phases, is the real meat of rustc.</p>
 </div>
 
 
@@ -149,6 +183,10 @@ section will be relative to that.</p>
 
 <time datetime="2013-06-30T16:03:00-04:00"  data-updated="true">Jun 30<span>th</span>, 2013</time></div>
 	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rust/'>rust</a>
+
 
 </div>
 	
