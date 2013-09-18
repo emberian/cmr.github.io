@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-15T22:24:50-04:00</updated>
+  <updated>2013-09-17T22:37:35-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -1725,7 +1725,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x63;&#x6f;&#114;&#x65;&#121;&#x2b;&#98;&#108;&#111;&#103;&#x40;&#111;&#99;&#116;&#97;&#121;&#x6e;&#46;&#110;&#101;&#116;">&#99;&#111;&#114;&#101;&#121;&#x2b;&#x62;&#108;&#x6f;&#103;&#x40;&#111;&#99;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#x65;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x63;&#111;&#x72;&#x65;&#x79;&#x2b;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#x6f;&#x63;&#x74;&#97;&#121;&#x6e;&#46;&#x6e;&#101;&#116;">&#x63;&#111;&#114;&#101;&#121;&#43;&#98;&#108;&#x6f;&#x67;&#x40;&#x6f;&#99;&#116;&#97;&#x79;&#110;&#46;&#x6e;&#x65;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -1954,7 +1954,24 @@ from the final output.</p>
 
 <h2>Analysis</h2>
 
-<p>Phase 3, the analysis phases, is the real meat of rustc.</p>
+<p>Phase 3, the analysis phases, is the real meat of rustc. All of this code
+lives in <code>middle</code>. The most important passes are probably typeck, the type
+checker; resolve, the name resolver; borrowck, the borrow checker; and lint,
+the lint runner. Not to say the other passes aren&rsquo;t important, but they&rsquo;re
+less frequently worked or worried about by mere mortals such as myself.</p>
+
+<h2>Trans(lation)</h2>
+
+<p>trans is the part of the compiler that takes the AST from syntax as
+well as the tables created by analysis and outputs LLVM IR. All of this
+happens in <code>middle/trans</code>. There is a lot of code, and I&rsquo;ve never actually
+been able to figure out which piece generates what.</p>
+
+<h2>Conclusion</h2>
+
+<p>That&rsquo;s my basic overview of how the compiler is structured. If you want
+something added, or as questions get asked, I&rsquo;ll fill in more information. The
+analysis and trans sections are sparse as I&rsquo;ve little experience with them.</p>
 ]]></content>
   </entry>
   
@@ -2646,7 +2663,7 @@ not squander my time there like I did my time in high school.</p>
     <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
 of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
 meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#99;&#111;&#114;&#x65;&#121;&#x2b;&#x72;&#x75;&#x73;&#116;&#64;&#x6f;&#x63;&#x74;&#97;&#x79;&#x6e;&#46;&#110;&#101;&#x74;">&#x63;&#x6f;&#x72;&#x65;&#121;&#x2b;&#114;&#x75;&#x73;&#116;&#x40;&#111;&#99;&#116;&#97;&#x79;&#x6e;&#x2e;&#110;&#x65;&#116;</a>.</p>
+to me, <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#99;&#111;&#x72;&#x65;&#121;&#43;&#114;&#117;&#115;&#116;&#64;&#111;&#99;&#116;&#97;&#121;&#x6e;&#46;&#x6e;&#x65;&#116;">&#99;&#111;&#114;&#101;&#121;&#43;&#114;&#117;&#x73;&#x74;&#64;&#x6f;&#x63;&#x74;&#x61;&#x79;&#x6e;&#46;&#110;&#x65;&#116;</a>.</p>
 
 <p>The Rust interns arrived this week and have got cracking right away. Big hello
 to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all

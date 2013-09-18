@@ -163,7 +163,24 @@ from the final output.</p>
 
 <h2>Analysis</h2>
 
-<p>Phase 3, the analysis phases, is the real meat of rustc.</p>
+<p>Phase 3, the analysis phases, is the real meat of rustc. All of this code
+lives in <code>middle</code>. The most important passes are probably typeck, the type
+checker; resolve, the name resolver; borrowck, the borrow checker; and lint,
+the lint runner. Not to say the other passes aren&rsquo;t important, but they&rsquo;re
+less frequently worked or worried about by mere mortals such as myself.</p>
+
+<h2>Trans(lation)</h2>
+
+<p>trans is the part of the compiler that takes the AST from syntax as
+well as the tables created by analysis and outputs LLVM IR. All of this
+happens in <code>middle/trans</code>. There is a lot of code, and I&rsquo;ve never actually
+been able to figure out which piece generates what.</p>
+
+<h2>Conclusion</h2>
+
+<p>That&rsquo;s my basic overview of how the compiler is structured. If you want
+something added, or as questions get asked, I&rsquo;ll fill in more information. The
+analysis and trans sections are sparse as I&rsquo;ve little experience with them.</p>
 </div>
 
 
