@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-17T22:41:59-04:00</updated>
+  <updated>2013-09-23T17:03:24-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/09/23/this-week-in-rust/"/>
+    <updated>2013-09-23T13:08:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/09/23/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>. We&rsquo;re gearing up for a 0.8
+release, tentatively planned for Thursday. Additionally, a huge welcome of
+Alex Crichton to the Rust team! He&rsquo;s been doing some great work, it&rsquo;s
+wonderful to have another full-time Rust dev.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>There were 86 PRs merged this week.</p>
+
+<h2>rustdoc_ng</h2>
+
+<p>rustdoc_ng was merged into mainline and enabled as the new rustdoc, in time
+for 0.8. This makes me incredibly happy, as it marks the conclusion of my
+quest to a better rustdoc. Not to say that rustdoc is finished or perfect,
+but it&rsquo;s already much better than the old rustdoc. My sincere thanks go to
+Jordi Boggiano (Seldaek), who worked unceasingly to create a beautiful,
+usable frontend, and to Meret Vollenweider (meretv) for donating her amazing
+design skills. Also thanks to Huon Wilson (dbaupp) for moral support and
+creating the awesome DocFolder interface that passes over the documentation
+use. And, of course, to Alex Crichton, who pushed these past few days to port
+the static site generator to Rust and to integrate it into the build system.</p>
+
+<p>The new docs have replaced the old docs. You can view them <a href="http://static.rust-lang.org/doc/master/std/index.html">on the Rust
+website</a>. Still to-do
+is proper cross-crate doc hyperlinking. To run it on your own crate, build a
+recent Rust and do <code>rustdoc html path/to/your/crate.rs</code>. It will eventually be
+integrated into <code>rustpkg</code>.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>extra::par</code> has been <a href="https://github.com/mozilla/rust/pull/9380">removed</a>.</li>
+<li>Some unsound functional struct updates (FSU, <code>{a: 5, ..b}</code>) <a href="https://github.com/mozilla/rust/pull/9350">are now
+disallowed</a>.</li>
+<li><code>--cfg debug</code> is no longer required. If you want to disable debug logging,
+use <a href="https://github.com/mozilla/rust/pull/9278"><code>--cfg ndebug</code></a>.</li>
+<li>The various uses of <code>NaN</code> are now <a href="https://github.com/mozilla/rust/pull/9321">lowercased to
+<code>nan</code></a>.</li>
+<li><code>std::util::unreachable</code> has been removed in factor of the
+<a href="https://github.com/mozilla/rust/pull/9320"><code>unreachable!</code></a> macro.</li>
+<li><code>extra::future</code> has been <a href="https://github.com/mozilla/rust/pull/9285">cleaned
+up</a> a bit, including some method
+shuffling/renames.</li>
+<li><code>extra::getopts</code> has been <a href="https://github.com/mozilla/rust/pull/9267">cleaned
+up</a> as well, with most free
+functions now being methods.</li>
+<li>The <code>from_str</code> methods in the numeric modules have been
+<a href="https://github.com/mozilla/rust/pull/9275">removed</a> in favor of the FromStr
+trait and the <code>from_str</code> free function in the prelude. Same for
+<a href="https://github.com/mozilla/rust/pull/9209"><code>from_str_radix</code></a>.</li>
+<li>The <code>Drop</code> trait now uses <a href="https://github.com/mozilla/rust/pull/9244"><code>&amp;mut
+self</code></a>, as part of the transition
+to by-value drops.</li>
+<li><code>extra::json</code> uses a <a href="https://github.com/mozilla/rust/pull/9231">different
+encoding</a> when encoding/decoding
+enums, so any Rust-generated JSON before this patch will now be rejected by
+the decoder.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li>debuginfo now works for <a href="https://github.com/mozilla/rust/pull/9168">recursive
+types</a>.</li>
+<li>You can now <a href="https://github.com/mozilla/rust/pull/9213">pass parameters</a> to
+the generated test with <code>rust test</code>.</li>
+<li><code>extern fn</code>s from external crates now use the <a href="https://github.com/mozilla/rust/pull/9196">declared
+ABI</a>, rather than assuming cdecl.</li>
+<li><code>CString</code> has gained an
+<a href="https://github.com/mozilla/rust/pull/9220"><code>as_str</code></a> method.</li>
+<li>Some <a href="https://github.com/mozilla/rust/pull/9108">overflow bugs</a> in <code>vec</code> and
+<code>str</code> have been fixed.</li>
+<li><code>statics</code> are now <a href="https://github.com/mozilla/rust/pull/9130">properly
+inlined</a> cross-crate.</li>
+<li>The <code>bytes!</code> macro&rsquo;s error reporting has been <a href="https://github.com/mozilla/rust/pull/9245">tightened
+up</a> to make it more obvious where
+the error is.</li>
+<li><code>rustpkg init</code> <a href="https://github.com/mozilla/rust/pull/9236">has been added</a>,
+to create a new workspace.</li>
+<li>File IO in newrt has been <a href="https://github.com/mozilla/rust/pull/9235">massively
+reworked</a> and is much more
+complete than the oldrt.</li>
+<li>The exact meaning of &ldquo;unsafety&rdquo; <a href="https://github.com/mozilla/rust/pull/9258">is now
+documented</a>.</li>
+<li><code>\0</code> escapes in strings <a href="https://github.com/mozilla/rust/pull/9248">is now
+supported</a>.</li>
+<li><code>rustpkg</code> now thinks in terms of crates, not packages, to you can now have
+<a href="https://github.com/mozilla/rust/pull/9263">multiple crates in a single
+package</a> and have things work
+correctly.</li>
+<li>newrt has <a href="https://github.com/mozilla/rust/pull/9260/files">pipes and process
+support</a> now.</li>
+<li><code>format!</code> now allows <a href="https://github.com/mozilla/rust/pull/9299">trailing
+commas</a> in its arguments.</li>
+<li>The lexer now throws <a href="https://github.com/mozilla/rust/pull/9308">vastly better
+errors</a>.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-17">weekly
+meeting</a>
+discussed quite a bit, most interesting to me was the crypto discussion,
+putting <code>macro\_rules!</code> behind an experimental flag, and the default arguments
+discussion.</p>
+
+<h1>Project announcements etc</h1>
+
+<ul>
+<li><a href="https://github.com/williamw520/rustymem">rustymem</a> &ndash; a pure-rust memcached
+library.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1myesy/where_to_learn_more_about_rusts_concurrency_model/">&ldquo;Where to learn more about Rust&rsquo;s concurrency
+model?&rdquo;</a></li>
+<li><a href="https://raw.github.com/jeaye/q3/master/pics/016_1_animated_skele.png">q3 now has skeletal
+animation!</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -726,7 +856,7 @@ they were allowed to be mutable, data races would occur. In the next section
 I&rsquo;ll show the mutable version.</p>
 
 <p>These have no direct comparison in C. The closest comparison is probably
-GOBject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
+GObject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
 management. As the name suggests, the runtime manages it for you. Managed
 pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
 be fast because all managed pointers are task-local, no GC is always faster
@@ -762,7 +892,18 @@ will complain:</p>
 
 
 <p>The error message is actualy a bit misleading: there is no such thing as a
-mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
+mutable field! &ldquo;Point&rdquo; is said to have inherited mutability; its mutability is
+determined by the mutability of the thing that holds it. So, to fix this
+example, we&rsquo;d use:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let mut value: Point = Point { x: 24, y: 42 };
+</span><span class='line'>value.x = 42;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inherited mutability inherits throughout the ownership tree: the value, and
+everything the value owns, recursively.</p>
 ]]></content>
   </entry>
   
@@ -1725,7 +1866,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#99;&#111;&#114;&#x65;&#x79;&#x2b;&#x62;&#108;&#111;&#x67;&#64;&#x6f;&#99;&#x74;&#97;&#121;&#x6e;&#46;&#x6e;&#x65;&#116;">&#x63;&#111;&#114;&#x65;&#121;&#43;&#98;&#x6c;&#111;&#x67;&#x40;&#x6f;&#99;&#116;&#97;&#x79;&#x6e;&#x2e;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x63;&#111;&#x72;&#101;&#x79;&#43;&#98;&#108;&#x6f;&#103;&#x40;&#x6f;&#x63;&#x74;&#x61;&#121;&#x6e;&#46;&#110;&#x65;&#116;">&#x63;&#x6f;&#114;&#x65;&#121;&#43;&#98;&#108;&#111;&#x67;&#x40;&#111;&#99;&#x74;&#x61;&#x79;&#x6e;&#x2e;&#110;&#101;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2648,132 +2789,6 @@ unfortunate.</p>
 
 <p>I will be studying Computer Science at Clarkson University in the fall. I will
 not squander my time there like I did my time in high school.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week In Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/07/this-week-in-rust/"/>
-    <updated>2013-06-07T18:46:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/07/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the first issue of <em>This Week In Rust</em>, a weekly overview
-of Rust and its community. I&rsquo;ll be covering what&rsquo;s cooking in incoming,
-meeting summaries, meetups, and anything else pertinent. Any ideas, email them
-to me, <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#x3a;&#99;&#111;&#x72;&#101;&#121;&#43;&#x72;&#x75;&#115;&#116;&#64;&#x6f;&#99;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#101;&#x74;">&#x63;&#x6f;&#x72;&#101;&#x79;&#43;&#114;&#x75;&#x73;&#x74;&#x40;&#x6f;&#99;&#116;&#97;&#x79;&#x6e;&#x2e;&#x6e;&#x65;&#116;</a>.</p>
-
-<p>The Rust interns arrived this week and have got cracking right away. Big hello
-to Aaron Todd, Ben Blum, and Michael Sullivan! We can look forward to work all
-over the place, especially in the RT and debug-info.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in incoming?</h1>
-
-<p>There were 30 pull requests merged this week. A scattering of doc fixes and a
-bunch of code cleanups and optimization work as usual. Total issue churn
-(excludes pull requests) this week was +6.</p>
-
-<h2>Notable additions, bugfixes, and cleanups</h2>
-
-<ul>
-<li>Ben Striegel added the <code>as_c_str</code> string function as a method as part of the
-overall methodization covered by <a href="https://github.com/mozilla/rust/issues/6045">6045</a>.</li>
-<li>James Miller landed a much better optimization pipeline in <a href="https://github.com/mozilla/rust/pull/6881">6881</a>,
-fixing a bunch of nascent optimization problems, especially with inlining,
-and also fixing an earlier (huge) regression (that he introduced,
-admittedly).</li>
-<li>James also fixed <a href="https://github.com/mozilla/rust/issues/6977">6977</a>, which allowed nonsensical expressions like <code>[0,
-..-1]</code>. Whoops!</li>
-<li>I introduced terminfo handling to <code>extra::term</code> in <a href="https://github.com/mozilla/rust/pull/6826">6826</a>, bringing
-rustc&rsquo;s beautiful colors to a wider audience.  Unfortunately, it isn&rsquo;t
-complete yet and, most notably, does not handle <code>xterm-256color</code> correctly
-yet.</li>
-<li>Daniel Micay landed jemalloc as the default allocator in the runtime,
-leading to nice allocation performance boosts on all platforms, as well as
-much improved multithreaded performance. It also has the benefit of
-cross-platform tuning and instrumentation.</li>
-</ul>
-
-
-<h2>Breaking changes</h2>
-
-<p>It would be silly not to mention these changes, even though they weren&rsquo;t
-strictly this week:</p>
-
-<ul>
-<li><code>libcore</code> was renamed to <code>libstd</code> and <code>libstd</code> was renamed to <code>libextra</code>, to
-better reflect their purpose. Confusingly, the code in rustc still uses the
-old names. Something to watch out for!</li>
-<li>All of the module reexports were removed from the prelude, so if you use,
-for example, <code>io::foo</code>, <code>vec::foo</code>, etc, you will find yourself having to
-add a lot of extra imports. <code>use std::*</code> to regain the old behavior,
-more or less.</li>
-<li>Patrick fixed the unsafe checker to safe code can no longer call unsafe
-methods.</li>
-</ul>
-
-
-<p>This week:</p>
-
-<ul>
-<li><code>pub impl</code> was removed by Patrick Walton as part of <a href="https://github.com/mozilla/rust/pull/6944">6944</a>. What
-this did was have all <code>fn</code>s in a <code>pub impl</code> be <code>pub</code> by default. Now, you
-must explicitly specify <code>pub</code> on all <code>fn</code>s in the impl if you want them
-public.</li>
-<li>Also in <a href="https://github.com/mozilla/rust/pull/6944">6944</a>, Patrick removed the ability to have multiple
-patterns appear in &ldquo;let&rdquo; declarations. For example: <code>let a = 4, b = 2;</code>
-becomes <code>let (a, b) = (4, 2);</code></li>
-<li>Daniel renamed the <code>Ptr</code> trait to <code>RawPtr</code> in <a href="https://github.com/mozilla/rust/pull/6913">6913</a></li>
-<li>Daniel and Huon Wilson have been working on iterators a lot. In
-<a href="https://github.com/mozilla/rust/pull/6999">6999</a>, they start removing the <code>vec::each_*</code> functions, as the new
-iterator code in <code>std::iterator</code> is now mature enough for use.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>There were two main meetings this week. Mostly discussion about DST, closures,
-and the GC. Lots of issues and details remain to be worked out, I suspoect it
-will still be a bit before anything final-looking comes up in a PR. See the
-<a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-06-04">meeting</a> <a href="https://github.com/mozilla/rust/wiki/Meeting-2013-06-07">notes</a> for more details.</p>
-
-<h1>Meetups</h1>
-
-<ul>
-<li>Erick Tryzelaar has a meetup planned in Mountain View on Wednesday, June 12,
-at 7pm. See the <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004356.html">ML thread</a> for more details.</li>
-<li>Tim Chevalier will be giving a talk titled &ldquo;Rust: A Friendly Introduction&rdquo;
-on Monday, June 17, 6-9pm in Portland. See <a href="http://calagator.org/events/1250464376">Calagator</a> for more details.</li>
-</ul>
-
-
-<h1>Prominent blog posts and ML threads</h1>
-
-<ul>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-June/004364.html">https://mail.mozilla.org/pipermail/rust-dev/2013-June/004364.html</a></li>
-<li><a href="http://blog.pnkfx.org/blog/2013/06/07/detective-work-on-rust-closures/">http://blog.pnkfx.org/blog/2013/06/07/detective-work-on-rust-closures/</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/06/03/more-on-fns/">http://smallcultfollowing.com/babysteps/blog/2013/06/03/more-on-fns/</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/06/06/reducing-dst-annotation/">http://smallcultfollowing.com/babysteps/blog/2013/06/06/reducing-dst-annotation/</a></li>
-<li><a href="http://pcwalton.github.io/blog/2013/06/02/removing-garbage-collection-from-the-rust-language/">http://pcwalton.github.io/blog/2013/06/02/removing-garbage-collection-from-the-rust-language/</a></li>
-</ul>
-
-
-<h1>Other announcements</h1>
-
-<ul>
-<li>10gen has some interns working on a MongoDB driver for Rust, which will be
-very nice to have. Good luck to them!</li>
-<li>Brendan Zabarauskas has fixed <code>lmath</code>. It now works on incoming. Yay!</li>
-</ul>
-
-
-<p>Brendan sent in a correction:</p>
-
-<blockquote><p>Unfortunately whilst it builds on incoming, due to a bug you can&#8217;t use it in<br/>external crates. moonchrome and I am are working on fixing this but it will<br/>require us to remove the trait heirachy and use macros to generate each type<br/>(Vec3f, Vec3f32, &#8230; etc.) individually instead. Integer and Boolean vector<br/>types (present in GLSL) will also be removed.</p></blockquote>
-
-
-
 ]]></content>
   </entry>
   

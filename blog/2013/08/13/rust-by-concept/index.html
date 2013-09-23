@@ -238,7 +238,7 @@ they were allowed to be mutable, data races would occur. In the next section
 I&rsquo;ll show the mutable version.</p>
 
 <p>These have no direct comparison in C. The closest comparison is probably
-GOBject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
+GObject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
 management. As the name suggests, the runtime manages it for you. Managed
 pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
 be fast because all managed pointers are task-local, no GC is always faster
@@ -274,7 +274,18 @@ will complain:</p>
 
 
 <p>The error message is actualy a bit misleading: there is no such thing as a
-mutable field! &ldquo;Point&rdquo; is said to have inherited</p>
+mutable field! &ldquo;Point&rdquo; is said to have inherited mutability; its mutability is
+determined by the mutability of the thing that holds it. So, to fix this
+example, we&rsquo;d use:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let mut value: Point = Point { x: 24, y: 42 };
+</span><span class='line'>value.x = 42;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inherited mutability inherits throughout the ownership tree: the value, and
+everything the value owns, recursively.</p>
 </div>
 
 

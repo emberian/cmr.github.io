@@ -58,7 +58,7 @@
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/08/13/rust-by-concept/</loc>
-        <lastmod>2013-08-19T12:37:08-04:00</lastmod>
+        <lastmod>2013-09-17T23:50:49-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/08/19/this-week-in-rust/</loc>
@@ -81,8 +81,12 @@
         <lastmod>2013-09-15T19:09:29-04:00</lastmod>
     </url>
     <url>
+        <loc>http://cmr.github.io/blog/2013/09/23/this-week-in-rust/</loc>
+        <lastmod>2013-09-23T17:02:13-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2013-09-17T22:41:53-04:00</lastmod>
+        <lastmod>2013-09-23T17:02:13-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
@@ -90,6 +94,6 @@
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2013-09-17T22:41:53-04:00</lastmod>
+        <lastmod>2013-09-23T17:02:13-04:00</lastmod>
     </url>
 </urlset>
