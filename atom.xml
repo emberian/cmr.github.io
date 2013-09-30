@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-30T18:01:26-04:00</updated>
+  <updated>2013-09-30T18:58:18-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -59,7 +59,7 @@ map</a>.</li>
 <h2>Everything else</h2>
 
 <ul>
-<li>A ton of documentation work was put in this wee. The box section of the
+<li>A ton of documentation work was put in this week. The box section of the
 tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
 and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
 tutorial</a> too. The module
@@ -111,8 +111,9 @@ wxWidgets toolkit.</li>
 has been updated to generate only bindings for a select version / set of
 extensions.</li>
 <li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
-Eclipse</a>debugging_rust_in_eclipse)
-- Michael Woerister&rsquo;s final GSoC post. He did really great work this summer!</li>
+Eclipse</a>
+- Michael Woerister&rsquo;s final GSoC post. He did really great work this
+summer!</li>
 <li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
 been open sourced!</li>
 <li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
@@ -1986,7 +1987,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#99;&#x6f;&#x72;&#101;&#121;&#x2b;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#x6f;&#99;&#x74;&#97;&#121;&#x6e;&#x2e;&#110;&#101;&#x74;">&#x63;&#111;&#114;&#101;&#x79;&#43;&#98;&#108;&#111;&#x67;&#64;&#111;&#99;&#116;&#97;&#x79;&#110;&#x2e;&#x6e;&#x65;&#116;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#99;&#x6f;&#x72;&#101;&#x79;&#x2b;&#98;&#x6c;&#111;&#103;&#x40;&#111;&#99;&#116;&#97;&#121;&#110;&#x2e;&#x6e;&#101;&#116;">&#x63;&#111;&#x72;&#x65;&#121;&#43;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#111;&#x63;&#x74;&#x61;&#121;&#x6e;&#46;&#110;&#x65;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>

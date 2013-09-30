@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-30T18:01:26-04:00</updated>
+  <updated>2013-09-30T18:58:31-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -59,7 +59,7 @@ map</a>.</li>
 <h2>Everything else</h2>
 
 <ul>
-<li>A ton of documentation work was put in this wee. The box section of the
+<li>A ton of documentation work was put in this week. The box section of the
 tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
 and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
 tutorial</a> too. The module
@@ -111,8 +111,9 @@ wxWidgets toolkit.</li>
 has been updated to generate only bindings for a select version / set of
 extensions.</li>
 <li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
-Eclipse</a>debugging_rust_in_eclipse)
-- Michael Woerister&rsquo;s final GSoC post. He did really great work this summer!</li>
+Eclipse</a>
+- Michael Woerister&rsquo;s final GSoC post. He did really great work this
+summer!</li>
 <li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
 been open sourced!</li>
 <li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
