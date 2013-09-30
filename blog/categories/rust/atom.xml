@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-23T17:26:23-04:00</updated>
+  <updated>2013-09-30T17:48:14-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/09/30/this-week-in-rust/"/>
+    <updated>2013-09-30T13:11:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/09/30/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>! This week saw the release of
+0.8, the removal of <code>@fn</code>, and a bunch of other changes. The tutorial has been
+updated significantly, surrounding pointers and boxes, so you should re-read
+those sections if you&rsquo;re still feeling shaky on when you should use which.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>There were 79 PRs merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>printf!</code> and <code>printfln!</code> have been
+<a href="https://github.com/mozilla/rust/pull/9550">removed</a>.</li>
+<li><code>continue</code> is now a keyword, a <a href="https://github.com/mozilla/rust/pull/9504">synonym for
+<code>loop</code></a>, preceeding <code>loop</code>&rsquo;s
+removal (<a href="https://github.com/mozilla/rust/issues/9467">https://github.com/mozilla/rust/issues/9467</a>)</li>
+<li>Item visibility is <a href="https://github.com/mozilla/rust/pull/9432">properly encoded in
+metadata</a>, so code which used
+private items that may have worked before is now rejected.</li>
+<li>Char literals which should have been escaped <a href="https://github.com/mozilla/rust/pull/9335">are now rejected when they
+aren&rsquo;t escpated</a>.</li>
+<li><code>impl Foo for T;</code> is now <a href="https://github.com/mozilla/rust/pull/9336">disallowed</a>.
+Use <code>impl Foo for T {}</code>.</li>
+<li><code>@fn</code> has been <a href="https://github.com/mozilla/rust/pull/9310">removed from the
+language</a>. Replace it with
+<code>@Trait</code> objects, if you really need <code>@fn</code> (you probably don&rsquo;t).</li>
+<li><code>start</code> <a href="https://github.com/mozilla/rust/pull/9301">no longer takes a crate
+map</a>.</li>
+<li>Some more keywords have been
+<a href="https://github.com/mozilla/rust/pull/9389">reserved</a>: <code>alignof</code>,
+<code>offsetof</code>, and <code>sizeof</code>.</li>
+</ul>
+
+
+<h2>Everything else</h2>
+
+<ul>
+<li>A ton of documentation work was put in this wee. The box section of the
+tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
+and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
+tutorial</a> too. The module
+tutorial saw the file section
+<a href="https://github.com/mozilla/rust/pull/9398">extended</a>. There was a bunch of
+module documentation updated/added too.</li>
+<li>rustdoc(_ng) also saw a lot of work. It <a href="https://github.com/mozilla/rust/pull/9402">completely
+replaced</a> the old rustdoc, as
+well as seeing a <a href="https://github.com/mozilla/rust/pull/9577">lot</a> of
+<a href="https://github.com/mozilla/rust/pull/9475">fixes</a>. Huge thanks to Alex
+Crichton for all the work with it!</li>
+<li><code>std::vec</code> has seen some <a href="https://github.com/mozilla/rust/pull/9583">nice
+changes</a> to <code>connect_vec</code> and
+<code>concat_vec</code> (they were really awful before).</li>
+<li><code>rustpkg test</code> is <a href="https://github.com/mozilla/rust/pull/9549">implemented</a>.</li>
+<li><code>type_use</code> has been <a href="https://github.com/mozilla/rust/pull/9538">removed</a>.
+This did some nasty things and LLVM&rsquo;s <code>mergefunc</code> pass will do a better job
+of the same optimization (once it&rsquo;s enabled).</li>
+<li><code>with_c_str</code> is now <a href="https://github.com/mozilla/rust/pull/9352">optimized</a>
+to be allocation-free for short vectors.</li>
+<li>The logging system, when using the new formatting code (so <code>debug2</code> etc) is
+<a href="https://github.com/mozilla/rust/pull/9261">allocation-free</a>.</li>
+<li><code>std::rand</code> has seen some
+<a href="https://github.com/mozilla/rust/pull/9362">cleanup</a>, in preparation for its
+overhaul.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-24">weekly
+meeting</a>
+discussed a bunch of things, the main things of importance to me being:</p>
+
+<ul>
+<li><code>loop</code> &ndash;> <code>continue</code></li>
+<li>Allowing nested comments</li>
+</ul>
+
+
+<h1>Announcements</h1>
+
+<ul>
+<li><a href="https://github.com/kenz-gelsoft/wxRust">wxRust</a> &ndash; A binding to the
+wxWidgets toolkit.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1neu74/the_start_of_a_sinatra_clone/">widmann</a>
+-  A Sinatra clone</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1nab2s/rustdev_opengl_glrs_updated_with_command_line/">gl-rs</a>
+has been updated to generate only bindings for a select version / set of
+extensions.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
+Eclipse</a>debugging_rust_in_eclipse)
+- Michael Woerister&rsquo;s final GSoC post. He did really great work this summer!</li>
+<li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
+been open sourced!</li>
+<li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
+come to my attention. Apparently it has been going on for quite some time.
+There are some screenshots at <a href="http://claymore-dev.blogspot.com/">http://claymore-dev.blogspot.com/</a>.</li>
+<li>[rustenstein3d] &ndash; a Wolfenstein3D engine</li>
+<li><a href="https://github.com/eevee/clio">clio</a>, a roguelike. This one also slipped
+under my radar for a while.</li>
+<li><a href="https://github.com/thestinger/rust-gmp">rust-gmp</a> has been updated for
+0.8/master.</li>
+<li><a href="https://github.com/cmr/rustdoc_ng">rustdoc_ng</a>, being merged into mainline,
+has concluded as a project.</li>
+<li>And, of course, the <a href="http://www.reddit.com/r/rust/comments/1n7q8v/08_released/">0.8
+release</a>
+discussion on reddit.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -413,130 +533,6 @@ that doesn&rsquo;t fix it, pop into IRC: #q3 on irc.freenode.net.</li>
 Rust&rdquo;</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/1l8hd4/first_university_computer_science_class_taught/">&ldquo;First university computer science class taught in
 Rust&rdquo;</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/08/25/this-week-in-rust/"/>
-    <updated>2013-08-25T12:54:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/08/25/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the 12th issue of <em>This Week in Rust</em>. Sorry for the
-brevity, though most weeks are probably going to be like this, as I&rsquo;ve started
-uni and have much less free time than in the summer.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>A whopping 71 pull requests were merged this week, and issue churn remains
-negative at -32.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8560"><strong><code>yield</code> is now reserved as a
-keyword</strong></a>, with the hope of
-maybe using it for generators.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8666">The type of <code>extern fn foo</code> is now <code>extern "C" fn</code>, rather than
-<code>*u8</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8679">Some free functions in <code>extra::json</code> were turned into associated functions
-on the Json enum</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8558"><code>XorShiftRng::new()</code> now uses a random
-seed</a>. This is only breaking if
-you were depending on that constant seed, which you shouldn&rsquo;t have.</li>
-</ul>
-
-
-<h2>Library changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8710"><code>extra::getopts</code> aligns based on codepoint count and not byte
-count</a>, as a step towards more
-correct unicode handling.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8637"><code>fprintf</code> has been added, as well as some <code>ifmt</code>
-cleanup</a>.
-<a href="https://github.com/mozilla/rust/pull/8740">The new runtime has seen a lot of
-optimization</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8655">File IO has been added to the new
-runtime</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8616">Some parsing errors related to ports have been fixed in
-<code>extra::url</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8590">CharIterator has seen some optimization too, with reverse iterators being
-much closer in performance to forward iterators
-now</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8602">sysconf names have been added for
-android</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8631">The new runtime now has threadsafe
-IO</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8566">A callback optimization has sped up message passing benchmarks to the tune
-of 40%</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8584">jemalloc is back</a>.</li>
-</ul>
-
-
-<h2>Compiler changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8736">gnueabihf actually uses hard floats
-now</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8695">Frame pointer elimination is no longer
-disabled</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8684">Some debuginfo fixes landed</a>.
-Supposedly, libstd can now be compiled with <code>-Z debug-info</code>. Yay!</li>
-<li><a href="https://github.com/mozilla/rust/pull/8596">Stack unwinding on 32-bit windows now
-works</a>. This is a major step
-forward for Windows support, I&rsquo;m very excited to see it land.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8659">A handful of default method bugs have been
-fixed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8562">Inheriting from kinds now sorta
-works</a>, you can do <code>trait Foo:
-Freeze</code>, for example.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8519">Supertrait methods can now be used from a trait
-object</a>.</li>
-<li>The rest of pnkfelix&rsquo;s visitor trait rewrite series landed.
-<a href="https://github.com/mozilla/rust/pull/8539">2</a>,
-<a href="https://github.com/mozilla/rust/pull/8619">3</a>,
-<a href="https://github.com/mozilla/rust/pull/8623">4</a>, and
-<a href="https://github.com/mozilla/rust/pull/8638">5</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8535">Foreign function wrappers have been
-removed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8328">LLVM has been updated</a>.</li>
-</ul>
-
-
-<h2>Docs etc</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8563">A new condition tutorial has been
-added</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8725">Some docs for trait bounds have been
-added</a>.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-20">Tuesday
-meeting</a>
-discussed cycle time and how to fix it.</p>
-
-<h1>Projects and discussion</h1>
-
-<ul>
-<li><a href="https://github.com/bjz/gl-rs">gl-rs</a> is now ready for use, since the
-foreign function wrappers have been removed!</li>
-<li><p><a href="https://github.com/omasanori/msgpack-rust">msgpack-rust</a> has been created.
-It ties into <code>extra::serialize</code>.</p></li>
-<li><p><a href="https://github.com/jensnockert/dueboot">A template for Arduino Due
-projects</a>.</p></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1kxz7y/benchmarks_round_two_parallel_go_rust_d_scala_and/">Parallel cross-language level generation
-benchmarks</a>.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1ktjrw/a_week_with_mozillas_rust/">A Week with
-Rust</a>.</li>
 </ul>
 
 ]]></content>

@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-09-23T17:26:23-04:00</updated>
+  <updated>2013-09-30T17:48:14-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/09/30/this-week-in-rust/"/>
+    <updated>2013-09-30T13:11:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/09/30/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>! This week saw the release of
+0.8, the removal of <code>@fn</code>, and a bunch of other changes. The tutorial has been
+updated significantly, surrounding pointers and boxes, so you should re-read
+those sections if you&rsquo;re still feeling shaky on when you should use which.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>There were 79 PRs merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>printf!</code> and <code>printfln!</code> have been
+<a href="https://github.com/mozilla/rust/pull/9550">removed</a>.</li>
+<li><code>continue</code> is now a keyword, a <a href="https://github.com/mozilla/rust/pull/9504">synonym for
+<code>loop</code></a>, preceeding <code>loop</code>&rsquo;s
+removal (<a href="https://github.com/mozilla/rust/issues/9467">https://github.com/mozilla/rust/issues/9467</a>)</li>
+<li>Item visibility is <a href="https://github.com/mozilla/rust/pull/9432">properly encoded in
+metadata</a>, so code which used
+private items that may have worked before is now rejected.</li>
+<li>Char literals which should have been escaped <a href="https://github.com/mozilla/rust/pull/9335">are now rejected when they
+aren&rsquo;t escpated</a>.</li>
+<li><code>impl Foo for T;</code> is now <a href="https://github.com/mozilla/rust/pull/9336">disallowed</a>.
+Use <code>impl Foo for T {}</code>.</li>
+<li><code>@fn</code> has been <a href="https://github.com/mozilla/rust/pull/9310">removed from the
+language</a>. Replace it with
+<code>@Trait</code> objects, if you really need <code>@fn</code> (you probably don&rsquo;t).</li>
+<li><code>start</code> <a href="https://github.com/mozilla/rust/pull/9301">no longer takes a crate
+map</a>.</li>
+<li>Some more keywords have been
+<a href="https://github.com/mozilla/rust/pull/9389">reserved</a>: <code>alignof</code>,
+<code>offsetof</code>, and <code>sizeof</code>.</li>
+</ul>
+
+
+<h2>Everything else</h2>
+
+<ul>
+<li>A ton of documentation work was put in this wee. The box section of the
+tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
+and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
+tutorial</a> too. The module
+tutorial saw the file section
+<a href="https://github.com/mozilla/rust/pull/9398">extended</a>. There was a bunch of
+module documentation updated/added too.</li>
+<li>rustdoc(_ng) also saw a lot of work. It <a href="https://github.com/mozilla/rust/pull/9402">completely
+replaced</a> the old rustdoc, as
+well as seeing a <a href="https://github.com/mozilla/rust/pull/9577">lot</a> of
+<a href="https://github.com/mozilla/rust/pull/9475">fixes</a>. Huge thanks to Alex
+Crichton for all the work with it!</li>
+<li><code>std::vec</code> has seen some <a href="https://github.com/mozilla/rust/pull/9583">nice
+changes</a> to <code>connect_vec</code> and
+<code>concat_vec</code> (they were really awful before).</li>
+<li><code>rustpkg test</code> is <a href="https://github.com/mozilla/rust/pull/9549">implemented</a>.</li>
+<li><code>type_use</code> has been <a href="https://github.com/mozilla/rust/pull/9538">removed</a>.
+This did some nasty things and LLVM&rsquo;s <code>mergefunc</code> pass will do a better job
+of the same optimization (once it&rsquo;s enabled).</li>
+<li><code>with_c_str</code> is now <a href="https://github.com/mozilla/rust/pull/9352">optimized</a>
+to be allocation-free for short vectors.</li>
+<li>The logging system, when using the new formatting code (so <code>debug2</code> etc) is
+<a href="https://github.com/mozilla/rust/pull/9261">allocation-free</a>.</li>
+<li><code>std::rand</code> has seen some
+<a href="https://github.com/mozilla/rust/pull/9362">cleanup</a>, in preparation for its
+overhaul.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-24">weekly
+meeting</a>
+discussed a bunch of things, the main things of importance to me being:</p>
+
+<ul>
+<li><code>loop</code> &ndash;> <code>continue</code></li>
+<li>Allowing nested comments</li>
+</ul>
+
+
+<h1>Announcements</h1>
+
+<ul>
+<li><a href="https://github.com/kenz-gelsoft/wxRust">wxRust</a> &ndash; A binding to the
+wxWidgets toolkit.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1neu74/the_start_of_a_sinatra_clone/">widmann</a>
+-  A Sinatra clone</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1nab2s/rustdev_opengl_glrs_updated_with_command_line/">gl-rs</a>
+has been updated to generate only bindings for a select version / set of
+extensions.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
+Eclipse</a>debugging_rust_in_eclipse)
+- Michael Woerister&rsquo;s final GSoC post. He did really great work this summer!</li>
+<li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
+been open sourced!</li>
+<li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
+come to my attention. Apparently it has been going on for quite some time.
+There are some screenshots at <a href="http://claymore-dev.blogspot.com/">http://claymore-dev.blogspot.com/</a>.</li>
+<li>[rustenstein3d] &ndash; a Wolfenstein3D engine</li>
+<li><a href="https://github.com/eevee/clio">clio</a>, a roguelike. This one also slipped
+under my radar for a while.</li>
+<li><a href="https://github.com/thestinger/rust-gmp">rust-gmp</a> has been updated for
+0.8/master.</li>
+<li><a href="https://github.com/cmr/rustdoc_ng">rustdoc_ng</a>, being merged into mainline,
+has concluded as a project.</li>
+<li>And, of course, the <a href="http://www.reddit.com/r/rust/comments/1n7q8v/08_released/">0.8
+release</a>
+discussion on reddit.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -1866,7 +1986,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#99;&#111;&#114;&#101;&#x79;&#43;&#98;&#108;&#x6f;&#103;&#x40;&#x6f;&#x63;&#x74;&#x61;&#121;&#x6e;&#46;&#x6e;&#101;&#x74;">&#99;&#x6f;&#x72;&#101;&#x79;&#x2b;&#x62;&#108;&#x6f;&#x67;&#64;&#x6f;&#99;&#116;&#97;&#121;&#110;&#46;&#x6e;&#x65;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#99;&#111;&#114;&#x65;&#121;&#43;&#98;&#x6c;&#x6f;&#103;&#x40;&#111;&#99;&#116;&#97;&#x79;&#x6e;&#46;&#x6e;&#101;&#116;">&#99;&#111;&#114;&#101;&#121;&#x2b;&#98;&#108;&#x6f;&#103;&#64;&#x6f;&#x63;&#116;&#97;&#x79;&#110;&#x2e;&#110;&#101;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2650,145 +2770,6 @@ python replacement
 <li>bjz tells me lmath is <em>actually</em> fixed now, and is usable</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Reflection]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/15/a-reflection/"/>
-    <updated>2013-06-15T08:21:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/15/a-reflection</id>
-    <content type="html"><![CDATA[<p>Today I graduated high school. It was quite a journey and I feel some
-reflection is due.</p>
-
-<!-- more -->
-
-
-<h1>Regrets</h1>
-
-<p>Randy Pausch said &ldquo;It is not the things we do in life that we regret on our
-death bed. It is the things we do not.&rdquo; I agree with this. Fortunately, I have
-few regrets about high school. I did not party, drink, or drug. I did not
-participate in many clubs. I did not make many friends. I did, however, study,
-almost constantly. Not for tests or anything academic, as my transcript shows
-and my classmates can affirm, but my interests. I have learned more about my
-passion, computers, than I ever thought existed when I first got started.</p>
-
-<p>I have not been the most diligent student. Frequently I did not complete my
-work. This was probably a bad decision, but I justified it with the (dubiously
-attributed) Twain quote, &ldquo;Never let your schooling interfere with your
-education,&rdquo; although it was initially laziness combined with depression. As
-far back as 4th grade I&rsquo;ve been struggling to keep up with various assignments
-(I recall being a few chapters behind in math homework. Mrs. Marrotte made me
-stay after school every day until it was finished.) Later on, especially
-7th-11th grade, it was hard to rile up motivation to do homework when I could
-barely rile up motivation to continue being alive.</p>
-
-<p>By the time I had gone through counseling and started an anti-depressant and
-could function like a healthy human, I found I didn&rsquo;t have the skills to do
-what needed to be done. I had not had practice or experience doing non-trivial
-activities that I did not care about. I continue to struggle with this. It&rsquo;s
-part procrastination too, which there&rsquo;s no excuse for. Another Randy Pausch
-quote applies here: &ldquo;I&rsquo;ve always believed that if you took one tenth the
-energy you put into complaining and applied it to solving the problem, you&rsquo;d
-be surprised by how well things can work out.&rdquo;</p>
-
-<p>But I don&rsquo;t regret not completing all of my work. Even if I did not finish and
-pass in the homework, I did learn the content rather well. I wasn&rsquo;t content
-not understanding something (except transcendentalism, but that is its own
-story). I regret not making the most of my time in school. I could have been
-much more engaged with the community of my peers. I&rsquo;m not sure that I actually
-desire that difference, though. Time spent with my peers was instead spent
-studying, programming, or playing video games. I graduate with 2 of my close
-friends and a handful of good acquaintances (I use &ldquo;friend&rdquo; very reservedly).</p>
-
-<p>I definitely regret not being more involved and dedicated to Destination
-Imagination. It&rsquo;s a great program and I feel like I let down my teammates (and
-probably frustrated the advisor). This also applies to science club and mock
-trial, though to a lesser extent.</p>
-
-<p>I really wish depression hadn&rsquo;t hit me like a train. It was manageable until
-9th grade. From there it was a downward spiral of self-hatred, cutting, and
-suicidal thoughts (and one attempt sophomore year). I know we are the sum of
-our experience, and mine have made me stronger, but I would trade it in in a
-heartbeat.</p>
-
-<h1>Thanks</h1>
-
-<p>Beyond teaching the standard curricula, I owe some teachers huge amounts of
-thanks (roughly in chronological order):</p>
-
-<ul>
-<li>Mrs. Cook for encouraging me to be, as she phrased it, &ldquo;an odd duck.&rdquo; I was
-very sad to see her leave after a single year at the school, she was a
-good teacher.</li>
-<li>Julia Zimmerman and Paul Kreiner (during Junction 2011 at MIT) for so many
-reasons. They were constantly encouraging, even when my writing was
-terrible. They taught me how appreciate science fiction and all forms of
-writing, showing the science behind writing through linguistics.</li>
-<li>Mrs. Stroshine for <em>really</em> teaching how to analyze and appreciate usage of
-the English language, and also for putting up with me as I finished Junior
-English my Senior Year. I procrastinated so much and was actually afraid of
-you (although that construction was entirely in my head, you are a very nice
-person). You are a fantastic teacher and I hope you enjoy your retirement.</li>
-<li>Mr. Smith for his passion for history. It has definitely rubbed off on me,
-especially your message that history isn&rsquo;t static, it is constantly open to
-reinterpretation as more evidence is presented.</li>
-<li>Mr. Fazio for his gentle encouragement and toleration of my (usually
-advanced, sometimes off-topic) questions in the middle of his lessons, as
-well as not giving up near the end of the year in Senior Math Topics. I did
-actually learn in that class.</li>
-<li>Dr. Kaplan for fostering a healthy skepticism in me. Your occasional
-off-track discussions that you allowed (although never skipping a beat with
-the curriculum) throughout our two years were always informative. These will
-stick with me longer than how to balance redox reactions.</li>
-<li>Ms. Gigliello for understanding me almost uncannily (supposedly her daughter
-is just like me. Which is, of course, a good thing). The discussions you
-(lightly moderated) during class never failed to engage me. Circle time is a
-wonderful invention.</li>
-<li>Mr. Dunn for letting me work in his room all the time and for his farewell
-address. You are a great asset to the school, and your retirement has
-definitely been earned.</li>
-</ul>
-
-
-<p>And finally</p>
-
-<ul>
-<li>Mr. Kuhn. You are possibly the best teacher I ever had, especially
-considering some of the most important lessons you taught me were outside of
-any class I was in. You always challenged me to think creatively and to
-stretch beyond myself, but within my means. My biggest regret is not
-spending more time with you this year (I felt awful for the DI fiasco, I was
-embarrassed to even see you in the hall: an unfounded feeling I know).</li>
-</ul>
-
-
-<p>Not only have you taught me your respective curricula, you have <em>changed the
-way I think</em>. Your influence, and my appreciation, can not be overstated. You
-do not get paid nearly enough for what you do.</p>
-
-<p>There are some non-teachers that get some love too:</p>
-
-<ul>
-<li>Joanne Walsh, who always gave me crap for being late to school. You are an
-amazing, patient, kind person. It meant a lot to me to see you at
-graduation. Thank you.</li>
-<li>Roni Hoffmanm. You were my mom away from home and always made sure I was
-behaving as a decent human should. During conversation you called yourself a
-&ldquo;peon&rdquo; and a &ldquo;little person.&rdquo; Nothing could be further than the truth. You
-are incredibly important and a great role model.</li>
-</ul>
-
-
-<p>I will not miss Monadnock, but I will miss the faculty. The quality of the
-teachers is very high. The political changes happening around them are
-unfortunate.</p>
-
-<h1>The future</h1>
-
-<p>I will be studying Computer Science at Clarkson University in the fall. I will
-not squander my time there like I did my time in high school.</p>
 ]]></content>
   </entry>
   
