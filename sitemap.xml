@@ -86,11 +86,15 @@
     </url>
     <url>
         <loc>http://cmr.github.io/blog/2013/09/30/this-week-in-rust/</loc>
-        <lastmod>2013-09-30T18:58:15-04:00</lastmod>
+        <lastmod>2013-09-30T19:28:08-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://cmr.github.io/blog/2013/10/06/this-week-in-rust/</loc>
+        <lastmod>2013-10-06T20:18:26-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2013-09-30T18:58:15-04:00</lastmod>
+        <lastmod>2013-10-06T20:18:26-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
@@ -98,6 +102,6 @@
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2013-09-30T18:58:15-04:00</lastmod>
+        <lastmod>2013-10-06T20:18:26-04:00</lastmod>
     </url>
 </urlset>

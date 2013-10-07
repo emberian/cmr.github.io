@@ -1,0 +1,252 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust. What&rsquo;s cooking on master? Only 63 PRs were merged this week. Currently in the queue is the &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Only 63 PRs were merged this week. Currently in the queue is the massive
+privacy change, the path rewrite, enum descriminant shrinking, a <code>rand</code>
+rework, a lock-free scheduler message queue, and libuv signal bindings.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>float</code> has been <a href="https://github.com/mozilla/rust/pull/9519">removed from the
+language</a>.</li>
+<li><code>loop</code> has been <a href="https://github.com/mozilla/rust/pull/9665">removed</a>. The
+transition to <code>continue</code> is complete.</li>
+<li>A macro ignoring tokens now <a href="https://github.com/mozilla/rust/pull/9673">throws an
+error</a> rather than silently
+ignoring it.</li>
+<li><code>IntConvertible</code> has been
+<a href="https://github.com/mozilla/rust/pull/9250">replaced</a> with <code>ToPrimitive</code> and
+<code>FromPrimitive</code>. This also heralds the ability to derive to/from int methods
+on enums.</li>
+</ul>
+
+
+<h2>Everything Else</h2>
+
+<ul>
+<li><code>rustpkg</code> can <a href="https://github.com/mozilla/rust/pull/9741">fetch remote packages
+again</a>.</li>
+<li>A bunch of unsafe code surrounding logging <a href="https://github.com/mozilla/rust/pull/9593">has been
+remove</a>.</li>
+<li>A bunch of work was done to make more things immediate. A
+<a href="https://github.com/mozilla/rust/pull/9643">bugfix</a>, <a href="https://github.com/mozilla/rust/pull/9656">small
+tuples</a>, <a href="https://github.com/mozilla/rust/pull/9677">small
+enums</a>, and <a href="https://github.com/mozilla/rust/pull/9699">unit/C-like
+enums</a>.</li>
+<li>A bunch of work went into decreasing our memory usage. The massive spike at
+the beginning <a href="https://github.com/mozilla/rust/pull/9612">has been fixed</a>.
+The tcx (type context, holds the result of <em>all</em> compiler analysis) is also
+free&rsquo;d before translation now, reducing memory usage by a good <a href="https://github.com/mozilla/rust/pull/9686">500+
+MB</a>. Another cache during
+constant evaluation <a href="https://github.com/mozilla/rust/pull/9722">reduces memory usage by
+200MB</a>.</li>
+<li>We&rsquo;re now <a href="https://github.com/mozilla/rust/pull/9662">bundling our
+dependencies</a> on Windows, making
+it easier to bootstrap and to setup a working Rust environment.</li>
+<li>All of the really old obsolete syntax checkers <a href="https://github.com/mozilla/rust/pull/9712">have been
+removed</a>.</li>
+<li>Hyperlinking between crates is <a href="https://github.com/mozilla/rust/pull/9691">now
+reimplemented</a> in rustdoc.</li>
+<li>Gearing up for its removal, <a href="https://github.com/mozilla/rust/pull/9599">all <code>fmt!</code> usage in the compiler has been
+removed</a>.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-01">weekly
+meeting</a>
+discussed a bunch of proposed changes, including rustpkg submodules, removing
+float (which has already happened), raw string literals (which have a patch
+almost finished), and the changes to the Option API.</p>
+
+<h1>Announcements</h1>
+
+<ul>
+<li><a href="https://github.com/jeaye/ncurses-rs">ncurses-rs</a> &ndash; a safe wrapper that
+keeps the same ncurses interface you know and &ldquo;love&rdquo;, but more rustic.</li>
+<li><a href="https://github.com/mozilla/rust/wiki/The%20Rusticon">The Rusticon</a> &ndash; A
+living glossary of Rust terms.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1nqzth/zeromq_helping_us_block_malicious_domains_in_real/">A production use of
+Rust!</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ntnvf/understanding_the_servo_strategy/">Understanding the Servo
+Strategy</a>
+- The Servo presentation given at the various Mozilla Summits</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1nmarr/dynamic_typing_implemented_as_library_code/">Dynamic Typing implemented as a
+library</a>
+- a pretty cool use of our reflection.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ni84a/running_rust_tests_on_travis_ci/">Running Rust Tests on Travis
+CI</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ngqgr/rust_bindings_for_fuse_filesystem_in_userspace/">Rust bindings for
+FUSE</a></li>
+</ul>
+
+
+<h1>Meetups</h1>
+
+<p>Haven&rsquo;t had a meetup section in a long time, but two are forming!</p>
+
+<ul>
+<li><a href="http://www.meetup.com/Rust-Bay-Area/">Francisco Bay Area</a></li>
+<li><a href="http://www.meetup.com/rust-skane/">Rust Skåne (Lund, Sweden)</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-06T18:25:00-04:00"  data-updated="true">Oct 6<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
