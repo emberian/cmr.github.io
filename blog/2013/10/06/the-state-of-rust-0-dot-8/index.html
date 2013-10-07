@@ -1,0 +1,239 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>The State of Rust 0.8 - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Another 3 months, another release. This is the first release that I&rsquo;ve
+witnessed in its entirety! This is a summary of Rust: it&rsquo;s &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">The State of Rust 0.8</h2>
+	<div class="entry-content"><p>Another 3 months, another release. This is the first release that I&rsquo;ve
+witnessed in its entirety! This is a summary of Rust: it&rsquo;s compiler,
+libraries, documentation, and community.</p>
+
+<!-- more -->
+
+
+<h1>Compiler</h1>
+
+<p>The compiler is faring well. It received a lot of attention in compile speed,
+although memory usage regressed significantly. It is now mostly fixed in
+master. Time compiling <code>fn main() { }</code> went from 172ms to 112ms on my box.
+When compiling programs of any significance, the gap is much larger. There&rsquo;s
+also been some thought put into parallelizing rustc. Michael Woerister&rsquo;s GSoC
+project was debuginfo, and it&rsquo;s almost in a fully-working state. As of 0.8,
+it&rsquo;s not completely baked &mdash; libstd can&rsquo;t be compiled with it, and stepping
+through code isn&rsquo;t perfect &mdash; but it&rsquo;s a huge step forward, and he created an
+extensive testsuite, so it shouldn&rsquo;t regress. The pretty printer hasn&rsquo;t seen
+much improvement. Default methods, one of the major things Michael Sullivan
+worked on over the summer, are in a much better state. If there are any
+remaining bugs in them, I haven&rsquo;t seen them.</p>
+
+<h1>Iterators</h1>
+
+<p>Iterators are hugely improved for 0.8. The <code>for</code> loop syntax now uses the
+Iterator trait. Additionally, most uses of vector iterators now compile to the
+exact same code that indexing or iteration would in C or C++, including the
+ability to be vectorized. Additionally, they now use default methods instead
+of extension implementations. A bunch of other extensions to Iterator were
+added, such as DoubleEndedIterator and RandomAccessIterator.</p>
+
+<h1>Documentation</h1>
+
+<p>The documentation is in a much better state than it was 3 months ago. The new
+rustdoc was started and finished. I started it, and Alex Crichton really
+polished and finished it the last two weeks before the release. The API
+documentation is now navigable, and one can actually see the relationship
+between various types. A bunch of work also went into the tutorials, yielding
+three new documents: error handling and conditions, iterators and containers,
+and rustpkg.</p>
+
+<h1><code>rustpkg</code></h1>
+
+<p>Rustpkg continues to advance. Tim put out the call for community involvement,
+and it&rsquo;s getting significant traction in actual libraries. There are still a
+few kinks when using it for development, but when just fetching and building
+dependencies, it works very well. Servo is porting its whole mini-ecosystem
+over to rustpkg, uncovering bunches of problems and deficiencies in the
+process. If you&rsquo;re interested in helping out with Rust, rustpkg is a major
+area. Tim is also super nice, and will happily help you get into the codebase.</p>
+
+<h1>Libraries</h1>
+
+<p>Rust is slowly accreting more and more useful libraries: mostly coming from
+the gamedev community, but sometimes other useful things as well. The
+new runtime has completely replaced the old, a significant step forward for
+Rust&rsquo;s maturity. <code>rust-http</code> is making some really nice strides, as well as
+the opengl bindings. The standard libraries are becoming nicer to use.
+<code>std::run</code>, in particular, stands out to me as something that&rsquo;s quite easy to
+use, and <code>std::str</code> saw a lot of work making it more correct.</p>
+
+<h1>The Future</h1>
+
+<p>This was a great release cycle, and I think the next one will be even better.
+Alex Crichton was hired as a full-time Rust developer, and he has been doing a
+lot of important work that just would have taken a while to happen otherwise.
+I&rsquo;m very optimistic about this release, much more so than 0.7. I think we
+might be able to hit milestone 1 for 0.9 or 0.10, though that&rsquo;s just
+speculation on my part.</p>
+
+<h1>Is Rust Ready?</h1>
+
+<p>No. Rust is approaching maturity, but it isn&rsquo;t there yet. There are still
+backwards-incompatible changes being made to try and get to milestone 2.  The
+major things that come to mind are closure reform and privacy overhaul (which
+is being worked on in master <a href="https://github.com/mozilla/rust/pull/9735">right
+now</a>). Additionally, people in the
+gamedev community are starting to hit walls with the type system. Those
+probably won&rsquo;t be fixed in the time leading up to 1.0, but this is also
+speculation.</p>
+
+<p>Experimenting with Rust is becoming more viable as time goes on, but using it
+in production is a bad idea, especially if &ldquo;low maintenance&rdquo; is at all
+valuable.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-06T20:32:00-04:00"  data-updated="true">Oct 6<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
