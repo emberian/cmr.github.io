@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-08T03:26:49-04:00</updated>
+  <updated>2013-10-08T14:08:18-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -19,8 +19,9 @@
     <updated>2013-10-06T20:32:00-04:00</updated>
     <id>http://cmr.github.io/blog/2013/10/06/the-state-of-rust-0-dot-8</id>
     <content type="html"><![CDATA[<p>Another 3 months, another release. This is the first release that I&rsquo;ve
-witnessed in its entirety! This is a summary of Rust: it&rsquo;s compiler,
-libraries, documentation, and community.</p>
+witnessed in its entirety! This is a summary of Rust: its compiler,
+libraries, documentation, and community. (<a href="http://rust-lang.org">What is
+Rust?</a>)</p>
 
 <!-- more -->
 
