@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-08T14:08:18-04:00</updated>
+  <updated>2013-10-10T12:47:34-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -96,8 +96,9 @@ backwards-incompatible changes being made to try and get to milestone 2.  The
 major things that come to mind are closure reform and privacy overhaul (which
 is being worked on in master <a href="https://github.com/mozilla/rust/pull/9735">right
 now</a>). Additionally, people in the
-gamedev community are starting to hit walls with the type system. Those
-probably won&rsquo;t be fixed in the time leading up to 1.0, but this is also
+gamedev community are starting to <a href="http://www.reddit.com/r/rust/comments/1nxs1h/the_state_of_rust_08/ccnb8ya">hit walls with the type
+system</a>.
+Those probably won&rsquo;t be fixed in the time leading up to 1.0, but this is also
 speculation.</p>
 
 <p>Experimenting with Rust is becoming more viable as time goes on, but using it
