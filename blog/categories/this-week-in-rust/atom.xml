@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-10T12:47:34-04:00</updated>
+  <updated>2013-10-13T03:23:44-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/12/this-week-in-rust/"/>
+    <updated>2013-10-12T22:53:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/12/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>. This week introduces raw
+string literals, the removal of the <code>rust</code> tool, feature gating, and the
+privacy overhaul.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Only 51 PRs were merged this week, though the ones that were were fairly
+large.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Visibility and privacy have been defined, and the new semantics are slightly
+incompatible with the old. The details are
+<a href="https://github.com/mozilla/rust/pull/9735">here</a>.</li>
+<li>Feature gating has been <a href="https://github.com/mozilla/rust/pull/9703">added to the
+compiler</a>. This allows us to
+mask language features that we don&rsquo;t want to commit to for 1.0. The compiler
+will tell you when you are using an &ldquo;experimental&rdquo; feature. The current
+experimentals are glob imports, macro definitions, and struct-like variants
+in enums. This is an important step forward for 1.0 which,
+<a href="http://www.reddit.com/r/rust/comments/1o90f9/fn_types_in_rust_take_3/ccq8qev">apparently</a>,
+is right around the corner.</li>
+<li>The <code>rust</code> tool <a href="https://github.com/mozilla/rust/pull/9785">has been
+removed</a>.</li>
+<li><code>Option</code>&rsquo;s API has been <a href="https://github.com/mozilla/rust/pull/9359">massively
+simplified</a>, and changed to be
+composable.</li>
+<li>Strings are <a href="https://github.com/mozilla/rust/pull/9750">no longer allowed to be modified in safe
+code</a>. Things like <code>let s =
+~"abcdefg"; s[4] = 0x99;</code> are now rejected. This is because it allows one to
+create invalid (non-UTF8) string values.</li>
+<li><code>extra::rc</code> has <a href="https://github.com/mozilla/rust/pull/9794">graduated to
+<code>std::rc</code></a>.</li>
+<li><code>extra::tempfile::mkdtemp</code> <a href="https://github.com/mozilla/rust/pull/9802">has been replaced with an RAII
+wrapper</a>.</li>
+<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/9695">has been improved</a>,
+but changes the public API of Rng a bit.</li>
+<li><code>IntConvertible</code> has been removed in favor of <a href="https://github.com/mozilla/rust/pull/9250"><code>ToPrimitive</code> and
+<code>FromPrimitive</code></a>, which can be
+derived for enums, making interacting with C APIs substantially more
+<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/9674">Raw strings</a> are now supported.
+The basic syntax is <code>r"Foo"</code>, but also <code>r####"Foo"###</code>, for arbitrary
+nesting of raw strings.</li>
+<li>rustpkg&rsquo;s remote fetching <a href="https://github.com/mozilla/rust/pull/9741">is
+fixed</a>, but <a href="https://github.com/mozilla/rust/issues/9482">other
+problems</a> prevent it from being
+fully usable right now.</li>
+<li>debuginfo namespace handling <a href="https://github.com/mozilla/rust/pull/9658">has been
+unified</a>, and marks the ability
+to build all of Rust (libstd, libextra, compiler and tools) with debuginfo,
+which is very awesome.</li>
+<li>Small structs <a href="https://github.com/mozilla/rust/pull/9759">are immediate</a>.</li>
+<li>When there are unbalanced delimiters, <a href="https://github.com/mozilla/rust/pull/9756">the opening delimiters leading up to
+it</a> are printed, avoiding the
+&ldquo;Expected a }, saw EOF at line 9001&rdquo; problem.</li>
+<li>libuv and jemalloc are only <a href="https://github.com/mozilla/rust/pull/9772">built once, rather than once per
+stage</a>.</li>
+<li>Macros <a href="https://github.com/mozilla/rust/pull/9753">now take attributes</a> and,
+in turn, can be documented.</li>
+<li>In the opposite direction, <a href="https://github.com/mozilla/rust/pull/9783">macros can now expand to items with
+attributes</a>.</li>
+<li>There were some <a href="https://github.com/mozilla/rust/pull/9664">minor logging
+changes</a>, the biggest result of
+which is that inlined functions won&rsquo;t be logged by the modules they&rsquo;re
+inlined into.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9749"><code>std::rt::io::native</code> has been
+implemented</a>. The idea of this is
+to live in <code>std::io::native</code> and to use the OS&rsquo;s native APIs rather than
+libuv, and also to not require the scheduler or any other runtime support.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9732">marks checked out repos as
+read-only</a>, to prevent
+modifications.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-08">weekly
+meeting</a>
+discussed some administrative things, the removal of crypto code, the removal
+of the <code>rust</code> tool, and functions.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1o35ns/fuse_userspace_library_in_rust/">rust-fuse</a>
+- a FUSE userspace library in Rust. This is pure Rust, not using libfuse.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1o46cv/ears_a_simple_library_for_playing_sounds/">ears</a>
+- a simple library for playing sounds.</li>
+<li><a href="https://github.com/pcmattman/rustic">rustic</a> &ndash; another operating system
+project.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/005981.html">Refactoring the milestones on the issue
+tracker</a>.</li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/10/10/fn-types-in-rust/">Fn Types in Rust, Take
+3</a>
+- another attempt at tackling the problems with closures.</li>
+<li>mcpherrin in <code>#rust</code> says &ldquo;Hello, everyone!&rdquo;</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -458,102 +576,6 @@ Development</a>.
 Also note the <code>#rust-gamedev</code> channel.</li>
 <li><a href="https://github.com/FlaPer87/rust-for-real">rust-for-real</a>, a collection of
 Rust examples to aid in learning. Needs more examples!</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/09/07/this-week-in-rust/"/>
-    <updated>2013-09-07T18:30:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/09/07/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another <em>This Week in Rust</em>.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>65 pull requests were merged this week, and bors has had some idle time when
-there wasn&rsquo;t anything approved in the queue.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>std::os::glob</code> has been replaced with a <a href="https://github.com/mozilla/rust/pull/8914">pure Rust
-version</a>, for cross-platform and
-compatability reasons.</li>
-<li><code>std::str::from_bytes</code> has been
-<a href="https://github.com/mozilla/rust/pull/8997">renamed</a> to
-<code>std::str::from_utf8</code>, to be explicit about what it accepts.</li>
-<li>Casting to bool with <code>as</code> is <a href="https://github.com/mozilla/rust/pull/8980">no longer
-allowed</a>, and surrogate
-characters are no longer allowed in strings.</li>
-<li>char is <a href="https://github.com/mozilla/rust/pull/8974">no longer</a> treated as an
-integer type (meaning it can&rsquo;t be casted to/from them), which removes the
-ability for safe code to create invalid characters.</li>
-<li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
-split</a>. If you&rsquo;re jiggy with the
-jive, listen and accept are now separate operations. (<em>ed</em>: this used to say
-bind and accept wereseparate; thanks to ecr for the correction.)</li>
-</ul>
-
-
-<h2>Additions</h2>
-
-<ul>
-<li><code>let</code> var hygiene has <a href="https://github.com/mozilla/rust/pull/9026">landed</a>.
-I&rsquo;m sure this has cool implications, but I don&rsquo;t really know what they are.</li>
-<li>An <a href="https://github.com/mozilla/rust/pull/8903"><code>export_name</code> attribute</a> has
-been added to control what symbol name something is exported as (similar to
-<code>no_mangle</code>).</li>
-<li>An <code>ExactSize</code> trait <a href="https://github.com/mozilla/rust/pull/8884">has been
-added</a> to mark an iterator that
-always accurately reports its size in the <code>size_hint</code> method.</li>
-<li><code>ToStr</code> has been <a href="https://github.com/mozilla/rust/pull/8960">implemented</a>
-for char and Ascii.</li>
-<li>Safe accessors of <code>MutexArc</code> <a href="https://github.com/mozilla/rust/pull/8966">have been
-implemented</a></li>
-<li>A bytes iterator <a href="https://github.com/mozilla/rust/pull/8935">has been added</a>
-for newrt readers.</li>
-<li>Stream is <a href="https://github.com/mozilla/rust/pull/8984">automatically
-implemented</a> for types which
-implement Reader and Writer from newrt.</li>
-<li>An <code>unreachable</code> macro <a href="https://github.com/mozilla/rust/pull/8992">has been
-added</a> for better error reporting
-than a function could do.</li>
-<li>newrt <a href="https://github.com/mozilla/rust/pull/9000">can now do</a> simple DNS
-resolution.</li>
-<li>strptime/strftime <a href="https://github.com/mozilla/rust/pull/9016">now support</a>
-fractional seconds, out to tenths of a nanosecond.</li>
-</ul>
-
-
-<h2>Changes etc</h2>
-
-<ul>
-<li>Name mangling <a href="https://github.com/mozilla/rust/pull/8875">has been
-improved</a>.</li>
-<li><code>rust_log.cpp</code> <a href="https://github.com/mozilla/rust/pull/8880">has been
-converted</a> into pure Rust.</li>
-<li>Debuginfo <a href="https://github.com/mozilla/rust/pull/8855">now does closure
-capture</a> and very large structs.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/8947">bunch</a>
-<a href="https://github.com/mozilla/rust/pull/8927">of</a>
-<a href="https://github.com/mozilla/rust/pull/8928">repr</a> improvements landed.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>There was no meteting this week listed on the wiki or that I saw.</p>
-
-<h1>Projects</h1>
-
-<ul>
-<li><a href="https://github.com/glycerine/rust-nanomsg">rust-nanomsg</a> &ndash; bindings to the
-nanomsg library.</li>
 </ul>
 
 ]]></content>

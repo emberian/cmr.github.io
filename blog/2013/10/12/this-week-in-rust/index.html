@@ -1,0 +1,265 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust. This week introduces raw
+string literals, the removal of the rust tool, feature gating, and the &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust</em>. This week introduces raw
+string literals, the removal of the <code>rust</code> tool, feature gating, and the
+privacy overhaul.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Only 51 PRs were merged this week, though the ones that were were fairly
+large.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Visibility and privacy have been defined, and the new semantics are slightly
+incompatible with the old. The details are
+<a href="https://github.com/mozilla/rust/pull/9735">here</a>.</li>
+<li>Feature gating has been <a href="https://github.com/mozilla/rust/pull/9703">added to the
+compiler</a>. This allows us to
+mask language features that we don&rsquo;t want to commit to for 1.0. The compiler
+will tell you when you are using an &ldquo;experimental&rdquo; feature. The current
+experimentals are glob imports, macro definitions, and struct-like variants
+in enums. This is an important step forward for 1.0 which,
+<a href="http://www.reddit.com/r/rust/comments/1o90f9/fn_types_in_rust_take_3/ccq8qev">apparently</a>,
+is right around the corner.</li>
+<li>The <code>rust</code> tool <a href="https://github.com/mozilla/rust/pull/9785">has been
+removed</a>.</li>
+<li><code>Option</code>&rsquo;s API has been <a href="https://github.com/mozilla/rust/pull/9359">massively
+simplified</a>, and changed to be
+composable.</li>
+<li>Strings are <a href="https://github.com/mozilla/rust/pull/9750">no longer allowed to be modified in safe
+code</a>. Things like <code>let s =
+~"abcdefg"; s[4] = 0x99;</code> are now rejected. This is because it allows one to
+create invalid (non-UTF8) string values.</li>
+<li><code>extra::rc</code> has <a href="https://github.com/mozilla/rust/pull/9794">graduated to
+<code>std::rc</code></a>.</li>
+<li><code>extra::tempfile::mkdtemp</code> <a href="https://github.com/mozilla/rust/pull/9802">has been replaced with an RAII
+wrapper</a>.</li>
+<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/9695">has been improved</a>,
+but changes the public API of Rng a bit.</li>
+<li><code>IntConvertible</code> has been removed in favor of <a href="https://github.com/mozilla/rust/pull/9250"><code>ToPrimitive</code> and
+<code>FromPrimitive</code></a>, which can be
+derived for enums, making interacting with C APIs substantially more
+<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/9674">Raw strings</a> are now supported.
+The basic syntax is <code>r"Foo"</code>, but also <code>r####"Foo"###</code>, for arbitrary
+nesting of raw strings.</li>
+<li>rustpkg&rsquo;s remote fetching <a href="https://github.com/mozilla/rust/pull/9741">is
+fixed</a>, but <a href="https://github.com/mozilla/rust/issues/9482">other
+problems</a> prevent it from being
+fully usable right now.</li>
+<li>debuginfo namespace handling <a href="https://github.com/mozilla/rust/pull/9658">has been
+unified</a>, and marks the ability
+to build all of Rust (libstd, libextra, compiler and tools) with debuginfo,
+which is very awesome.</li>
+<li>Small structs <a href="https://github.com/mozilla/rust/pull/9759">are immediate</a>.</li>
+<li>When there are unbalanced delimiters, <a href="https://github.com/mozilla/rust/pull/9756">the opening delimiters leading up to
+it</a> are printed, avoiding the
+&ldquo;Expected a }, saw EOF at line 9001&rdquo; problem.</li>
+<li>libuv and jemalloc are only <a href="https://github.com/mozilla/rust/pull/9772">built once, rather than once per
+stage</a>.</li>
+<li>Macros <a href="https://github.com/mozilla/rust/pull/9753">now take attributes</a> and,
+in turn, can be documented.</li>
+<li>In the opposite direction, <a href="https://github.com/mozilla/rust/pull/9783">macros can now expand to items with
+attributes</a>.</li>
+<li>There were some <a href="https://github.com/mozilla/rust/pull/9664">minor logging
+changes</a>, the biggest result of
+which is that inlined functions won&rsquo;t be logged by the modules they&rsquo;re
+inlined into.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9749"><code>std::rt::io::native</code> has been
+implemented</a>. The idea of this is
+to live in <code>std::io::native</code> and to use the OS&rsquo;s native APIs rather than
+libuv, and also to not require the scheduler or any other runtime support.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9732">marks checked out repos as
+read-only</a>, to prevent
+modifications.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-08">weekly
+meeting</a>
+discussed some administrative things, the removal of crypto code, the removal
+of the <code>rust</code> tool, and functions.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1o35ns/fuse_userspace_library_in_rust/">rust-fuse</a>
+- a FUSE userspace library in Rust. This is pure Rust, not using libfuse.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1o46cv/ears_a_simple_library_for_playing_sounds/">ears</a>
+- a simple library for playing sounds.</li>
+<li><a href="https://github.com/pcmattman/rustic">rustic</a> &ndash; another operating system
+project.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/005981.html">Refactoring the milestones on the issue
+tracker</a>.</li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/10/10/fn-types-in-rust/">Fn Types in Rust, Take
+3</a>
+- another attempt at tackling the problems with closures.</li>
+<li>mcpherrin in <code>#rust</code> says &ldquo;Hello, everyone!&rdquo;</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-12T22:53:00-04:00"  data-updated="true">Oct 12<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

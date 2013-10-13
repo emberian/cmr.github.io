@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-10T12:47:34-04:00</updated>
+  <updated>2013-10-13T03:23:44-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/12/this-week-in-rust/"/>
+    <updated>2013-10-12T22:53:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/12/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>. This week introduces raw
+string literals, the removal of the <code>rust</code> tool, feature gating, and the
+privacy overhaul.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>Only 51 PRs were merged this week, though the ones that were were fairly
+large.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Visibility and privacy have been defined, and the new semantics are slightly
+incompatible with the old. The details are
+<a href="https://github.com/mozilla/rust/pull/9735">here</a>.</li>
+<li>Feature gating has been <a href="https://github.com/mozilla/rust/pull/9703">added to the
+compiler</a>. This allows us to
+mask language features that we don&rsquo;t want to commit to for 1.0. The compiler
+will tell you when you are using an &ldquo;experimental&rdquo; feature. The current
+experimentals are glob imports, macro definitions, and struct-like variants
+in enums. This is an important step forward for 1.0 which,
+<a href="http://www.reddit.com/r/rust/comments/1o90f9/fn_types_in_rust_take_3/ccq8qev">apparently</a>,
+is right around the corner.</li>
+<li>The <code>rust</code> tool <a href="https://github.com/mozilla/rust/pull/9785">has been
+removed</a>.</li>
+<li><code>Option</code>&rsquo;s API has been <a href="https://github.com/mozilla/rust/pull/9359">massively
+simplified</a>, and changed to be
+composable.</li>
+<li>Strings are <a href="https://github.com/mozilla/rust/pull/9750">no longer allowed to be modified in safe
+code</a>. Things like <code>let s =
+~"abcdefg"; s[4] = 0x99;</code> are now rejected. This is because it allows one to
+create invalid (non-UTF8) string values.</li>
+<li><code>extra::rc</code> has <a href="https://github.com/mozilla/rust/pull/9794">graduated to
+<code>std::rc</code></a>.</li>
+<li><code>extra::tempfile::mkdtemp</code> <a href="https://github.com/mozilla/rust/pull/9802">has been replaced with an RAII
+wrapper</a>.</li>
+<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/9695">has been improved</a>,
+but changes the public API of Rng a bit.</li>
+<li><code>IntConvertible</code> has been removed in favor of <a href="https://github.com/mozilla/rust/pull/9250"><code>ToPrimitive</code> and
+<code>FromPrimitive</code></a>, which can be
+derived for enums, making interacting with C APIs substantially more
+<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><a href="https://github.com/mozilla/rust/pull/9674">Raw strings</a> are now supported.
+The basic syntax is <code>r"Foo"</code>, but also <code>r####"Foo"###</code>, for arbitrary
+nesting of raw strings.</li>
+<li>rustpkg&rsquo;s remote fetching <a href="https://github.com/mozilla/rust/pull/9741">is
+fixed</a>, but <a href="https://github.com/mozilla/rust/issues/9482">other
+problems</a> prevent it from being
+fully usable right now.</li>
+<li>debuginfo namespace handling <a href="https://github.com/mozilla/rust/pull/9658">has been
+unified</a>, and marks the ability
+to build all of Rust (libstd, libextra, compiler and tools) with debuginfo,
+which is very awesome.</li>
+<li>Small structs <a href="https://github.com/mozilla/rust/pull/9759">are immediate</a>.</li>
+<li>When there are unbalanced delimiters, <a href="https://github.com/mozilla/rust/pull/9756">the opening delimiters leading up to
+it</a> are printed, avoiding the
+&ldquo;Expected a }, saw EOF at line 9001&rdquo; problem.</li>
+<li>libuv and jemalloc are only <a href="https://github.com/mozilla/rust/pull/9772">built once, rather than once per
+stage</a>.</li>
+<li>Macros <a href="https://github.com/mozilla/rust/pull/9753">now take attributes</a> and,
+in turn, can be documented.</li>
+<li>In the opposite direction, <a href="https://github.com/mozilla/rust/pull/9783">macros can now expand to items with
+attributes</a>.</li>
+<li>There were some <a href="https://github.com/mozilla/rust/pull/9664">minor logging
+changes</a>, the biggest result of
+which is that inlined functions won&rsquo;t be logged by the modules they&rsquo;re
+inlined into.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9749"><code>std::rt::io::native</code> has been
+implemented</a>. The idea of this is
+to live in <code>std::io::native</code> and to use the OS&rsquo;s native APIs rather than
+libuv, and also to not require the scheduler or any other runtime support.</li>
+<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9732">marks checked out repos as
+read-only</a>, to prevent
+modifications.</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-08">weekly
+meeting</a>
+discussed some administrative things, the removal of crypto code, the removal
+of the <code>rust</code> tool, and functions.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1o35ns/fuse_userspace_library_in_rust/">rust-fuse</a>
+- a FUSE userspace library in Rust. This is pure Rust, not using libfuse.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1o46cv/ears_a_simple_library_for_playing_sounds/">ears</a>
+- a simple library for playing sounds.</li>
+<li><a href="https://github.com/pcmattman/rustic">rustic</a> &ndash; another operating system
+project.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/005981.html">Refactoring the milestones on the issue
+tracker</a>.</li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/10/10/fn-types-in-rust/">Fn Types in Rust, Take
+3</a>
+- another attempt at tackling the problems with closures.</li>
+<li>mcpherrin in <code>#rust</code> says &ldquo;Hello, everyone!&rdquo;</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The State of Rust 0.8]]></title>
@@ -2188,7 +2306,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#99;&#x6f;&#x72;&#x65;&#121;&#43;&#x62;&#x6c;&#x6f;&#x67;&#x40;&#x6f;&#99;&#x74;&#x61;&#x79;&#x6e;&#46;&#x6e;&#101;&#x74;">&#x63;&#111;&#x72;&#101;&#x79;&#x2b;&#98;&#108;&#x6f;&#103;&#64;&#x6f;&#99;&#x74;&#x61;&#121;&#x6e;&#46;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x72;&#101;&#121;&#x2b;&#x62;&#x6c;&#x6f;&#103;&#x40;&#x6f;&#99;&#116;&#x61;&#x79;&#x6e;&#46;&#x6e;&#x65;&#116;">&#x63;&#111;&#x72;&#101;&#x79;&#43;&#x62;&#x6c;&#x6f;&#x67;&#64;&#x6f;&#99;&#116;&#x61;&#x79;&#110;&#46;&#110;&#101;&#x74;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2546,132 +2664,6 @@ punted to a library. The iterator discussion was not notable.</p>
 <li>RustGnuplot (<a href="https://github.com/SiegeLord/RustGnuplot">GitHub</a>)</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How I got started hacking rustc, and how you can too!]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust/"/>
-    <updated>2013-06-23T08:06:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/23/how-i-got-started-with-rust</id>
-    <content type="html"><![CDATA[<p><em>This is the first part of a planned series about <code>rustc</code>, the Rust compiler</em></p>
-
-<p>I remember first hearing about Rust during the summer of 2011. In fact, I
-remember the exact moment. I was at MIT, doing their Junction program. It was
-during a seminar about semiconductors. I remember browsing through the source on github,
-getting lost, and going home.</p>
-
-<!-- more -->
-
-
-<p>Fast forward to two months ago. A <a href="http://tech.slashdot.org/story/13/04/03/1646234/mozilla-and-samsung-collaborating-to-bring-new-browser-engine-to-android">slashdot post</a> appears, bringing Rust
-back to the forefront of my consciousness. By this point I&rsquo;d actually gained
-some programming chops, gotten a job, etc. I read through the Wikipedia
-article, though &ldquo;hey, this looks like it has potential,&rdquo; and forgot about it.</p>
-
-<p>Fast forward a week or two. The <a href="http://www.matasano.com/articles/crypto-challenges/">matasano crypto challenges</a> were linked
-on HN. &ldquo;Our friend Maciej says these challenges are a good way to learn a new
-language, so maybe now&rsquo;s the time to pick up Clojure or Rust.&rdquo; And pick up
-Rust I did. Rust was a pretty easy language to get started with, with my
-predominantly Python, C, and Lua background. Especially for the crypto
-challenges, which start off fairly basic.</p>
-
-<h1>First, some warnings:</h1>
-
-<p>Rust is pre-alpha software. Backwards incompatible changes happen <em>weekly</em>,
-either in the libraries, or in the language.  It&rsquo;s probably best to not write
-any &ldquo;serious&rdquo; code in Rust right now, unless you plan on fixing it every few
-weeks to keep up with the language. The nice part about contributing code to
-the compiler is that when someone changes the language or a library, it is
-their job to fix the code that uses it.</p>
-
-<p>Make sure to use the <code>master</code> branch, and <strong>use the doc links under &ldquo;Trunk&rdquo;.
-It will save you pain.</strong> Nothing is worse than accidentally using the 0.6
-documentation and finding that a method has been renamed or removed, and
-getting confused when the build fails halfway through.</p>
-
-<p><strong>The Rust compiler is poorly written.</strong> This is an artifact of being written
-in Rust, which, as stated, changes rapidly. Some code is very old, and uses
-very old idioms, or doesn&rsquo;t use newer language features that would be cleaner
-and easier to read. If you notice this, try and fix it! If you notice it, that
-means you already more-or-less know what needs to be done to clean it up a
-bit. If the change is very invasive, it&rsquo;s probably best to open an issue and
-let an experienced dev deal with it. An example of a cleanup is <a href="https://github.com/mozilla/rust/pull/7315">pull request
-7315</a>, which cleaned up indentation
-and replaced some <code>if</code>s with <code>match</code>es.</p>
-
-<p>Do not, repeat, <em>not</em>, use the <code>rustc</code> code as a source of &ldquo;how to write
-Rust.&rdquo; Almost all of it is bad code. I don&rsquo;t even know where to tell you to
-look to find consistently good code.  The upside is that generally reviewers
-will catch suboptimal code, and suggest improvements.  <a href="https://github.com/mozilla/rust/pull/7207">This pull request, for
-example</a>, used some old Rust
-idioms, which the reviewers suggested fixes for. So feel free to get
-elbow-deep in code without worrying <em>too</em> much about whether the code you&rsquo;re
-writing is good or bad. General guidelines: avoid <code>@</code> always, avoid <code>~</code>
-usually, use <code>Option</code> and <code>Result</code>, handle errors. That will guide you
-straight most of the time, and by the time you know when to ignore those, you
-probably already know what good Rust code is.</p>
-
-<h1>Getting started</h1>
-
-<p>The first thing I did was, of course, go to the <a href="http://www.rust-lang.org/">home page</a>. I read the
-feature summary (which seemed mostly unchanged from when I first saw it.
-Indeed, looking in the wayback machine, it is mostly unchanged). I read the
-example, and clicked <a href="http://static.rust-lang.org/doc/tutorial.html">&ldquo;tutorial&rdquo;</a> over on the left. I built the compiler
-while doing this. There are instructions for building Rust over at <a href="https://github.com/mozilla/rust/wiki/Note-getting-started-developing-Rust">the wiki</a>.
-It&rsquo;s a lot easier to get started if you&rsquo;re using Linux or Mac, though not
-impossible on Windows (just a bit more setup and waiting).</p>
-
-<p>The tutorial left me confused and alone, and I&rsquo;m sure it did the same to
-you. But it gave me enough information that I could write a base64 encode and
-decoder, although I constantly referenced the tutorial. By this point I had
-moved on to the second matasano challenge, and I found my first compiler bug:
-<a href="https://github.com/mozilla/rust/pull/6072">really poor error messages</a>. Of course I had to fix this! Error
-messages are easy, right?</p>
-
-<p>Yes and no. With a codebase as large and complex as a compiler, there are many
-layers of stuff you need to pick apart to figure out the cause and fix of an
-issue. In my case, it was easy, just grep for the error message. The fix,
-however, was more complex. I had to figure out how to turn a &ldquo;span&rdquo; (the
-compiler&rsquo;s way of matching up an AST node with a chunk of source code) in a
-string. Often you&rsquo;ll need to go digging through other files to figure out what
-you can do, what data structures there are, etc.</p>
-
-<p><strong>Rust makes this easy!</strong> There are no IDEs or any fancy tools, but Rust
-source is insanely <code>grep</code>able. You see a method call like
-<code>parser.parse_ident(...)</code>, you just need to grep for <code>fn parse_ident</code>.
-Of course, actually understanding what the method does is a whole new can of
-worms&hellip;</p>
-
-<h1>Picking an issue to fix</h1>
-
-<p>I think the best way to pick an issue to fix is to fix a bug you encounter
-yourself. Ask in IRC about it, often someone will be online that either knows
-about it and can point you in the right direction, or at the very least help
-reproduce, debug, and sift through the issue trcker.</p>
-
-<p>There is the <a href="https://github.com/mozilla/rust/issues?labels=E-easy"><code>E-easy</code></a>
-label on certain issues. This are issues that shouldn&rsquo;t take too much trickery
-to get done, though they might take some time to get &ldquo;acclimated&rdquo; to the
-codebase. <code>E-easy</code> doesn&rsquo;t mean fast, it means easy. It might be tedius or
-take non-trivial amounts of effort, but it shouldn&rsquo;t require overarching
-design issues or a lot of knowledge about rust or rust internals.</p>
-
-<p>Documentation always needs writing. Open a random file from libstd or
-libextra, look for functions, structs, enums, and traits that aren&rsquo;t
-documented. You&rsquo;ll get to see a bunch of Rust code, probably using features
-you wouldn&rsquo;t otherwise see writing &ldquo;normal&rdquo; code.</p>
-
-<h1>After you fix it</h1>
-
-<p>Once you fix the issue, open a pull request. See <a href="https://help.github.com/articles/using-pull-requests">GitHub&rsquo;s
-help</a> for how to do
-this. If you get stuck or need additional help, jump onto IRC
-(<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">webchat</a>)
-and ask. Someone will have to review your changes, ask &ldquo;r?
-$link_to_pull_request&rdquo; in IRC to expedite the process.</p>
-
-<p>Feel free to ping me (cmr) on IRC if you have any questions or problem.</p>
 ]]></content>
   </entry>
   
