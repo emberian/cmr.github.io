@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-13T03:36:28-04:00</updated>
+  <updated>2013-10-14T04:09:14-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rust Hiatus]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/"/>
+    <updated>2013-10-14T04:05:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/14/rust-hiatus</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m taking a temporary hiatus from all Rust work, to focus on academics. This
+includes IRC and <a href="http://docs.octayn.net">http://docs.octayn.net</a>. I will continue to publish This
+Week in Rust. If you need to contact me for any reason, please
+<a href="send%20me%20an%20email">mailto:corey@octayn.net</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Reflection]]></title>
