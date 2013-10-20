@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-19T22:23:49-04:00</updated>
+  <updated>2013-10-20T12:36:04-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ACM ICPC: What I Learned]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned/"/>
+    <updated>2013-10-20T10:47:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned</id>
+    <content type="html"><![CDATA[<p>Yesterday I participated in my first <a href="http://icpc.baylor.edu/">programming
+contest</a>. It was very fun, though challenging, and I
+learned a fair bit during it. <!-- more --> The content consisted of teams of
+3 working to solve 6 problems as fast as possible. The problems ranged from
+trivial (repeated arithmetic) to moderately complex.</p>
+
+<h2>Problem solving is fun.</h2>
+
+<p>I already knew this, but it has been some time since I&rsquo;ve done intense
+problem solving. It was nice to sit down for a few hours and bang my head
+on a problem. Creative problem solving just <em>feels</em> good, in a way that most
+activities don&rsquo;t.</p>
+
+<h2>I don&rsquo;t know much about algorithms or data structures</h2>
+
+<p>Of course I know the basic search and sorts, but anything involving
+anything more complex than binary trees is beyond my current knowledge. A
+few of the problems were solved very elegantly with tree operations. I was
+unable to come up with a way to express the operation I wanted to perform.
+It&rsquo;s a <a href="http://en.wikipedia.org/wiki/Longest_path_problem">standard problem</a>
+which I had not been aware of.</p>
+
+<p>Now that I <a href="http://en.wikipedia.org/wiki/There_are_known_knowns">know what I don&rsquo;t
+know</a>, I can expand my
+knowledge.</p>
+
+<h2>C++&rsquo;s iostreams are quite nice</h2>
+
+<p>Previously I haven&rsquo;t been a fan of iostreams, due to their misplaced
+pedagogical use. But, for simply reading whitespace-separated data from stdin
+and outputting the same to stdout, there probably isn&rsquo;t anything easier. I
+might implement something similar (though not using the <code>&gt;&gt;</code> and <code>&lt;&lt;</code>
+operators).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -448,128 +489,6 @@ FUSE</a></li>
 <ul>
 <li><a href="http://www.meetup.com/Rust-Bay-Area/">Francisco Bay Area</a></li>
 <li><a href="http://www.meetup.com/rust-skane/">Rust Skåne (Lund, Sweden)</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/09/30/this-week-in-rust/"/>
-    <updated>2013-09-30T13:11:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/09/30/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>! This week saw the release of
-0.8, the removal of <code>@fn</code>, and a bunch of other changes. The tutorial has been
-updated significantly, surrounding pointers and boxes, so you should re-read
-those sections if you&rsquo;re still feeling shaky on when you should use which.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>There were 79 PRs merged this week.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>printf!</code> and <code>printfln!</code> have been
-<a href="https://github.com/mozilla/rust/pull/9550">removed</a>.</li>
-<li><code>continue</code> is now a keyword, a <a href="https://github.com/mozilla/rust/pull/9504">synonym for
-<code>loop</code></a>, preceeding <code>loop</code>&rsquo;s
-removal (<a href="https://github.com/mozilla/rust/issues/9467">https://github.com/mozilla/rust/issues/9467</a>)</li>
-<li>Item visibility is <a href="https://github.com/mozilla/rust/pull/9432">properly encoded in
-metadata</a>, so code which used
-private items that may have worked before is now rejected.</li>
-<li>Char literals which should have been escaped <a href="https://github.com/mozilla/rust/pull/9335">are now rejected when they
-aren&rsquo;t escaped</a>.</li>
-<li><code>impl Foo for T;</code> is now <a href="https://github.com/mozilla/rust/pull/9336">disallowed</a>.
-Use <code>impl Foo for T {}</code>.</li>
-<li><code>@fn</code> has been <a href="https://github.com/mozilla/rust/pull/9310">removed from the
-language</a>. Replace it with
-<code>@Trait</code> objects, if you really need <code>@fn</code> (you probably don&rsquo;t).</li>
-<li><code>start</code> <a href="https://github.com/mozilla/rust/pull/9301">no longer takes a crate
-map</a>.</li>
-<li>Some more keywords have been
-<a href="https://github.com/mozilla/rust/pull/9389">reserved</a>: <code>alignof</code>,
-<code>offsetof</code>, and <code>sizeof</code>.</li>
-</ul>
-
-
-<h2>Everything else</h2>
-
-<ul>
-<li>A ton of documentation work was put in this week. The box section of the
-tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
-and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
-tutorial</a> too. The module
-tutorial saw the file section
-<a href="https://github.com/mozilla/rust/pull/9398">extended</a>. There was a bunch of
-module documentation updated/added too.</li>
-<li>rustdoc(_ng) also saw a lot of work. It <a href="https://github.com/mozilla/rust/pull/9402">completely
-replaced</a> the old rustdoc, as
-well as seeing a <a href="https://github.com/mozilla/rust/pull/9577">lot</a> of
-<a href="https://github.com/mozilla/rust/pull/9475">fixes</a>. Huge thanks to Alex
-Crichton for all the work with it!</li>
-<li><code>std::vec</code> has seen some <a href="https://github.com/mozilla/rust/pull/9583">nice
-changes</a> to <code>connect_vec</code> and
-<code>concat_vec</code> (they were really awful before).</li>
-<li><code>rustpkg test</code> is <a href="https://github.com/mozilla/rust/pull/9549">implemented</a>.</li>
-<li><code>type_use</code> has been <a href="https://github.com/mozilla/rust/pull/9538">removed</a>.
-This did some nasty things and LLVM&rsquo;s <code>mergefunc</code> pass will do a better job
-of the same optimization (once it&rsquo;s enabled).</li>
-<li><code>with_c_str</code> is now <a href="https://github.com/mozilla/rust/pull/9352">optimized</a>
-to be allocation-free for short vectors.</li>
-<li>The logging system, when using the new formatting code (so <code>debug2</code> etc) is
-<a href="https://github.com/mozilla/rust/pull/9261">allocation-free</a>.</li>
-<li><code>std::rand</code> has seen some
-<a href="https://github.com/mozilla/rust/pull/9362">cleanup</a>, in preparation for its
-overhaul.</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-24">weekly
-meeting</a>
-discussed a bunch of things, the main things of importance to me being:</p>
-
-<ul>
-<li><code>loop</code> &ndash;> <code>continue</code></li>
-<li>Allowing nested comments</li>
-</ul>
-
-
-<h1>Announcements</h1>
-
-<ul>
-<li><a href="https://github.com/kenz-gelsoft/wxRust">wxRust</a> &ndash; A binding to the
-wxWidgets toolkit.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1neu74/the_start_of_a_sinatra_clone/">widmann</a>
--  A Sinatra clone</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1nab2s/rustdev_opengl_glrs_updated_with_command_line/">gl-rs</a>
-has been updated to generate only bindings for a select version / set of
-extensions.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
-Eclipse</a>
-- Michael Woerister&rsquo;s final GSoC post. He did really great work this
-summer!</li>
-<li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
-been open sourced!</li>
-<li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
-come to my attention. Apparently it has been going on for quite some time.
-There are some screenshots at <a href="http://claymore-dev.blogspot.com/">http://claymore-dev.blogspot.com/</a>.</li>
-<li><a href="https://github.com/JeremyLetang/rustenstein3D/">rustenstein3d</a> &ndash; a
-Wolfenstein3D engine</li>
-<li><a href="https://github.com/eevee/clio">clio</a>, a roguelike. This one also slipped
-under my radar for a while.</li>
-<li><a href="https://github.com/thestinger/rust-gmp">rust-gmp</a> has been updated for
-0.8/master.</li>
-<li><a href="https://github.com/cmr/rustdoc_ng">rustdoc_ng</a>, being merged into mainline,
-has concluded as a project.</li>
-<li>And, of course, the <a href="http://www.reddit.com/r/rust/comments/1n7q8v/08_released/">0.8
-release</a>
-discussion on reddit.</li>
 </ul>
 
 ]]></content>
