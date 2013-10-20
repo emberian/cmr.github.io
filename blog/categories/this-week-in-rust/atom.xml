@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-14T04:09:14-04:00</updated>
+  <updated>2013-10-19T22:23:49-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/19/this-week-in-rust/"/>
+    <updated>2013-10-19T10:49:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly summary of Rust&rsquo;s
+progress and happenings in the community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>48 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Slices are now represented as <a href="https://github.com/mozilla/rust/pull/9885">number of elements, not number of
+bytes</a>.</li>
+<li><code>fmt!</code> has been <a href="https://github.com/mozilla/rust/pull/9919">completely
+removed</a>.</li>
+<li>Some fields in <code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/9935">have been made
+private</a>.</li>
+<li><code>std::sys::refcount</code> <a href="https://github.com/mozilla/rust/pull/9922">has been
+moved</a> to
+<code>std::managed::refcount</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9896/files#diff-69196c6d2488bf8d5b3471084e854407L22">A bunch of
+functions</a>
+have moved from <code>std::sys</code> to <code>std::mem</code>.</li>
+<li><code>once fn</code> is <a href="https://github.com/mozilla/rust/pull/9863">now a feature gate</a>
+rather than a <code>-Z</code> flag.</li>
+<li><code>Path</code> has been <a href="https://github.com/mozilla/rust/pull/9655">completely
+rewritten</a>.</li>
+<li><code>extra::flatpipes</code> <a href="https://github.com/mozilla/rust/pull/9886">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>jemalloc</code> has been <a href="https://github.com/mozilla/rust/pull/9933">removed from the
+runtime</a>. The <a href="https://github.com/mozilla/rust/issues/9925">associated
+issue</a> is quite scary.</li>
+<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/9946">struct field
+visibility</a> is now corrected (it
+stripped fields where it should not have).</li>
+<li><code>rustdoc</code> also <a href="https://github.com/mozilla/rust/pull/9941">uses the actual privacy
+rules</a> to strip methods.</li>
+<li><code>format!</code> now gives <a href="https://github.com/mozilla/rust/pull/9932">much better</a>
+error messages for invalid format strings.</li>
+<li>The <code>fmt::Default</code> trait, used for default formatting with <code>format!</code>, is
+<a href="https://github.com/mozilla/rust/pull/9938">now documented</a>.</li>
+<li><code>include_bin!</code> has been optimized, and the <code>k-nucleotides</code> benchmark now
+compiles <a href="https://github.com/mozilla/rust/pull/9851">187x faster</a>.</li>
+<li>Vectors now have <a href="https://github.com/mozilla/rust/pull/9907"><code>starts_with</code> and <code>ends_with</code>
+methods</a>, which take slices.</li>
+<li>An <code>abort</code> intrinsic <a href="https://github.com/mozilla/rust/pull/9860">has been
+added</a>.</li>
+<li>Vectors now have a <a href="https://github.com/mozilla/rust/pull/9608"><code>get_opt</code>
+method</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>A new section for new contributors! The new contributors this week are (as
+reported by git):</p>
+
+<ul>
+<li>Chris Sainty</li>
+<li>Eduard Burtescu</li>
+<li>Erik Lyon</li>
+<li>Harry Marr</li>
+<li>Sébastien Chauvel</li>
+<li>Vijay Korapaty</li>
+<li>Ziad Hatahet</li>
+<li>chitra</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-15">weekly
+meeting</a>
+discussed removing rusti, changing the attribute syntax, destructors in
+statics, and more multi-crate packages with rustpkg.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li>Rust (and Servo) are participating in the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/7kX_E0FlfkA">GNOME Outreach Program for
+Women</a>.
+A bunch of people have already come into IRC about it.</li>
+<li><a href="http://exercism.io">http://exercism.io</a> <a href="https://github.com/kytrinyx/exercism.io/pull/866">is getting full Rust
+support</a>. This is a very
+cool resource, and could help a lot getting newcomers acclimated.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/006034.html">Unified Function/method Call Syntax and further
+simplification</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1osbq2/safe_manual_memory_management_in_cyclone_research/">Safe Memory Management in
+Cyclone</a>.</li>
+<li><a href="http://opensourcebridge.org/sessions/970">Audio</a> from Tim&rsquo;s talk in June is
+finally available!</li>
+<li>An
+<a href="https://github.com/mozilla/rust/wiki/Operating-system-development">OSdev</a>
+community has sprung up! The channel is <code>#rust-osdev</code>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1omw47/should_io_use_conditions/">Should I/O use
+conditions?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1opo36/pointers_in_rust_a_guide/">Pointers in Rust: A
+Guide</a>.</li>
+<li>I am on a <a href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/">Rust hiatus</a>,
+for the time being. TWiR will still be happening, as you are reading it
+right now.</li>
+<li><a href="https://github.com/thestinger/rust-core">rust-core</a> &ndash; A stub standard
+library.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -485,98 +606,6 @@ library.</li>
 model?&rdquo;</a></li>
 <li><a href="https://raw.github.com/jeaye/q3/master/pics/016_1_animated_skele.png">q3 now has skeletal
 animation!</a>.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/09/15/this-week-in-rust/"/>
-    <updated>2013-09-15T17:59:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/09/15/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>. We&rsquo;re gearing up
-for the 0.8 release in 2-3 weeks. It looks like it&rsquo;s going to be a really
-solid release. I&rsquo;ll write another <code>State of Rust</code>, hopefully before it is
-released.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>68 PRs were merged this week.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>std::iterator</code> <a href="https://github.com/mozilla/rust/pull/9065">has been
-renamed</a> to <code>std::iter</code>.</li>
-<li>The <code>std::num::Primitive</code> trait is <a href="https://github.com/mozilla/rust/pull/9051">now
-constrained</a> by the <code>Clone</code> and
-<code>DeepClone</code> traits, as well as
-<a href="https://github.com/mozilla/rust/pull/9182"><code>Orderable</code></a>.</li>
-<li>Some <a href="https://github.com/mozilla/rust/pull/9062">more free functions</a> have
-been removed from <code>std::vec</code>. <code>unzip</code> now takes an iterator, a
-<code>Permutations</code> iterator has been added, and some rarely-used, obsolete,
-functions were removed.</li>
-<li>A bunch of changes to <code>Option</code> and <code>Result</code> <a href="https://github.com/mozilla/rust/pull/9115">were
-made</a>. Specifically, <code>chain</code> was
-changed to <code>and_then</code> and <code>unwrap_or_default</code> to <code>unwrap_or</code>.</li>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/9151">builds into
-target-specific</a> subdirectories
-now.</li>
-</ul>
-
-
-<h2>Additions and fixes</h2>
-
-<ul>
-<li>debuginfo now has <a href="https://github.com/mozilla/rust/pull/9097">namespace
-support</a>. Looking at all the
-various PRs Michael has opened over the summer, it seems DWARF is a very
-flexible, nice debuginfo format, but gdb and LLVM don&rsquo;t support it very
-well.</li>
-<li>Correct <code>range_step</code> and <code>range_step_inclusive</code> iterators <a href="https://github.com/mozilla/rust/pull/9199">have been
-added</a>. They are correct in cases
-of overflow, and are generic.</li>
-<li>A handy <code>sleep</code> function <a href="https://github.com/mozilla/rust/pull/9191">has been
-added</a> to newrt.</li>
-<li>File IO in newrt <a href="https://github.com/mozilla/rust/pull/9165">works on
-windows</a> now.</li>
-<li>A bug where nested items in a default method weren&rsquo;t compiled <a href="https://github.com/mozilla/rust/pull/9162">has been
-fixed</a>.</li>
-<li>A rendezvous concurrency structure, much like Ada&rsquo;s, <a href="https://github.com/mozilla/rust/pull/8908">has been
-added</a>.</li>
-<li>Buffered IO wrappers <a href="https://github.com/mozilla/rust/pull/9091">have been
-added</a>.</li>
-<li>nmatsakis landed a PR that <a href="https://github.com/mozilla/rust/pull/9088">closed 7 issues at
-once</a>.</li>
-<li>rustpkg now uses <code>extra::workcache</code> <a href="https://github.com/mozilla/rust/pull/9034">to prevent recompilation of
-already-compiled crates</a>.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-10">Tuesday
-meeting</a>
-discussed the github commit policy, implicit copyability, patterns, and the
-fate of <code>&amp;const</code>.</p>
-
-<h1>Other things</h1>
-
-<ul>
-<li>Eric Reed (ecr)&rsquo;s intern presentation: <a href="https://air.mozilla.org/intern-presentations-reed/">An I/O System for
-Rust</a>. Unfortunately,
-the audio cuts out.</li>
-<li><a href="https://github.com/singingboyo/evict">Evict-BT</a>, a git-integrated issue
-tracker.</li>
-<li><a href="https://github.com/mozilla/rust/wiki/Computer-Graphics-and-Game-Development">Computer Graphics and Game
-Development</a>.
-Also note the <code>#rust-gamedev</code> channel.</li>
-<li><a href="https://github.com/FlaPer87/rust-for-real">rust-for-real</a>, a collection of
-Rust examples to aid in learning. Needs more examples!</li>
 </ul>
 
 ]]></content>

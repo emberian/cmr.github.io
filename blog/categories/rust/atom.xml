@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-14T04:09:14-04:00</updated>
+  <updated>2013-10-19T22:23:49-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/19/this-week-in-rust/"/>
+    <updated>2013-10-19T10:49:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly summary of Rust&rsquo;s
+progress and happenings in the community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>48 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Slices are now represented as <a href="https://github.com/mozilla/rust/pull/9885">number of elements, not number of
+bytes</a>.</li>
+<li><code>fmt!</code> has been <a href="https://github.com/mozilla/rust/pull/9919">completely
+removed</a>.</li>
+<li>Some fields in <code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/9935">have been made
+private</a>.</li>
+<li><code>std::sys::refcount</code> <a href="https://github.com/mozilla/rust/pull/9922">has been
+moved</a> to
+<code>std::managed::refcount</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9896/files#diff-69196c6d2488bf8d5b3471084e854407L22">A bunch of
+functions</a>
+have moved from <code>std::sys</code> to <code>std::mem</code>.</li>
+<li><code>once fn</code> is <a href="https://github.com/mozilla/rust/pull/9863">now a feature gate</a>
+rather than a <code>-Z</code> flag.</li>
+<li><code>Path</code> has been <a href="https://github.com/mozilla/rust/pull/9655">completely
+rewritten</a>.</li>
+<li><code>extra::flatpipes</code> <a href="https://github.com/mozilla/rust/pull/9886">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>jemalloc</code> has been <a href="https://github.com/mozilla/rust/pull/9933">removed from the
+runtime</a>. The <a href="https://github.com/mozilla/rust/issues/9925">associated
+issue</a> is quite scary.</li>
+<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/9946">struct field
+visibility</a> is now corrected (it
+stripped fields where it should not have).</li>
+<li><code>rustdoc</code> also <a href="https://github.com/mozilla/rust/pull/9941">uses the actual privacy
+rules</a> to strip methods.</li>
+<li><code>format!</code> now gives <a href="https://github.com/mozilla/rust/pull/9932">much better</a>
+error messages for invalid format strings.</li>
+<li>The <code>fmt::Default</code> trait, used for default formatting with <code>format!</code>, is
+<a href="https://github.com/mozilla/rust/pull/9938">now documented</a>.</li>
+<li><code>include_bin!</code> has been optimized, and the <code>k-nucleotides</code> benchmark now
+compiles <a href="https://github.com/mozilla/rust/pull/9851">187x faster</a>.</li>
+<li>Vectors now have <a href="https://github.com/mozilla/rust/pull/9907"><code>starts_with</code> and <code>ends_with</code>
+methods</a>, which take slices.</li>
+<li>An <code>abort</code> intrinsic <a href="https://github.com/mozilla/rust/pull/9860">has been
+added</a>.</li>
+<li>Vectors now have a <a href="https://github.com/mozilla/rust/pull/9608"><code>get_opt</code>
+method</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>A new section for new contributors! The new contributors this week are (as
+reported by git):</p>
+
+<ul>
+<li>Chris Sainty</li>
+<li>Eduard Burtescu</li>
+<li>Erik Lyon</li>
+<li>Harry Marr</li>
+<li>Sébastien Chauvel</li>
+<li>Vijay Korapaty</li>
+<li>Ziad Hatahet</li>
+<li>chitra</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-15">weekly
+meeting</a>
+discussed removing rusti, changing the attribute syntax, destructors in
+statics, and more multi-crate packages with rustpkg.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li>Rust (and Servo) are participating in the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/7kX_E0FlfkA">GNOME Outreach Program for
+Women</a>.
+A bunch of people have already come into IRC about it.</li>
+<li><a href="http://exercism.io">http://exercism.io</a> <a href="https://github.com/kytrinyx/exercism.io/pull/866">is getting full Rust
+support</a>. This is a very
+cool resource, and could help a lot getting newcomers acclimated.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/006034.html">Unified Function/method Call Syntax and further
+simplification</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1osbq2/safe_manual_memory_management_in_cyclone_research/">Safe Memory Management in
+Cyclone</a>.</li>
+<li><a href="http://opensourcebridge.org/sessions/970">Audio</a> from Tim&rsquo;s talk in June is
+finally available!</li>
+<li>An
+<a href="https://github.com/mozilla/rust/wiki/Operating-system-development">OSdev</a>
+community has sprung up! The channel is <code>#rust-osdev</code>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1omw47/should_io_use_conditions/">Should I/O use
+conditions?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1opo36/pointers_in_rust_a_guide/">Pointers in Rust: A
+Guide</a>.</li>
+<li>I am on a <a href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/">Rust hiatus</a>,
+for the time being. TWiR will still be happening, as you are reading it
+right now.</li>
+<li><a href="https://github.com/thestinger/rust-core">rust-core</a> &ndash; A stub standard
+library.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rust Hiatus]]></title>
@@ -339,128 +460,6 @@ FUSE</a></li>
 <ul>
 <li><a href="http://www.meetup.com/Rust-Bay-Area/">Francisco Bay Area</a></li>
 <li><a href="http://www.meetup.com/rust-skane/">Rust Skåne (Lund, Sweden)</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/09/30/this-week-in-rust/"/>
-    <updated>2013-09-30T13:11:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/09/30/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>! This week saw the release of
-0.8, the removal of <code>@fn</code>, and a bunch of other changes. The tutorial has been
-updated significantly, surrounding pointers and boxes, so you should re-read
-those sections if you&rsquo;re still feeling shaky on when you should use which.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>There were 79 PRs merged this week.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>printf!</code> and <code>printfln!</code> have been
-<a href="https://github.com/mozilla/rust/pull/9550">removed</a>.</li>
-<li><code>continue</code> is now a keyword, a <a href="https://github.com/mozilla/rust/pull/9504">synonym for
-<code>loop</code></a>, preceeding <code>loop</code>&rsquo;s
-removal (<a href="https://github.com/mozilla/rust/issues/9467">https://github.com/mozilla/rust/issues/9467</a>)</li>
-<li>Item visibility is <a href="https://github.com/mozilla/rust/pull/9432">properly encoded in
-metadata</a>, so code which used
-private items that may have worked before is now rejected.</li>
-<li>Char literals which should have been escaped <a href="https://github.com/mozilla/rust/pull/9335">are now rejected when they
-aren&rsquo;t escaped</a>.</li>
-<li><code>impl Foo for T;</code> is now <a href="https://github.com/mozilla/rust/pull/9336">disallowed</a>.
-Use <code>impl Foo for T {}</code>.</li>
-<li><code>@fn</code> has been <a href="https://github.com/mozilla/rust/pull/9310">removed from the
-language</a>. Replace it with
-<code>@Trait</code> objects, if you really need <code>@fn</code> (you probably don&rsquo;t).</li>
-<li><code>start</code> <a href="https://github.com/mozilla/rust/pull/9301">no longer takes a crate
-map</a>.</li>
-<li>Some more keywords have been
-<a href="https://github.com/mozilla/rust/pull/9389">reserved</a>: <code>alignof</code>,
-<code>offsetof</code>, and <code>sizeof</code>.</li>
-</ul>
-
-
-<h2>Everything else</h2>
-
-<ul>
-<li>A ton of documentation work was put in this week. The box section of the
-tutorial has been <a href="https://github.com/mozilla/rust/pull/9589">rewritten</a>,
-and there&rsquo;s a new <a href="https://github.com/mozilla/rust/pull/9439">rustpkg
-tutorial</a> too. The module
-tutorial saw the file section
-<a href="https://github.com/mozilla/rust/pull/9398">extended</a>. There was a bunch of
-module documentation updated/added too.</li>
-<li>rustdoc(_ng) also saw a lot of work. It <a href="https://github.com/mozilla/rust/pull/9402">completely
-replaced</a> the old rustdoc, as
-well as seeing a <a href="https://github.com/mozilla/rust/pull/9577">lot</a> of
-<a href="https://github.com/mozilla/rust/pull/9475">fixes</a>. Huge thanks to Alex
-Crichton for all the work with it!</li>
-<li><code>std::vec</code> has seen some <a href="https://github.com/mozilla/rust/pull/9583">nice
-changes</a> to <code>connect_vec</code> and
-<code>concat_vec</code> (they were really awful before).</li>
-<li><code>rustpkg test</code> is <a href="https://github.com/mozilla/rust/pull/9549">implemented</a>.</li>
-<li><code>type_use</code> has been <a href="https://github.com/mozilla/rust/pull/9538">removed</a>.
-This did some nasty things and LLVM&rsquo;s <code>mergefunc</code> pass will do a better job
-of the same optimization (once it&rsquo;s enabled).</li>
-<li><code>with_c_str</code> is now <a href="https://github.com/mozilla/rust/pull/9352">optimized</a>
-to be allocation-free for short vectors.</li>
-<li>The logging system, when using the new formatting code (so <code>debug2</code> etc) is
-<a href="https://github.com/mozilla/rust/pull/9261">allocation-free</a>.</li>
-<li><code>std::rand</code> has seen some
-<a href="https://github.com/mozilla/rust/pull/9362">cleanup</a>, in preparation for its
-overhaul.</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-09-24">weekly
-meeting</a>
-discussed a bunch of things, the main things of importance to me being:</p>
-
-<ul>
-<li><code>loop</code> &ndash;> <code>continue</code></li>
-<li>Allowing nested comments</li>
-</ul>
-
-
-<h1>Announcements</h1>
-
-<ul>
-<li><a href="https://github.com/kenz-gelsoft/wxRust">wxRust</a> &ndash; A binding to the
-wxWidgets toolkit.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1neu74/the_start_of_a_sinatra_clone/">widmann</a>
--  A Sinatra clone</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1nab2s/rustdev_opengl_glrs_updated_with_command_line/">gl-rs</a>
-has been updated to generate only bindings for a select version / set of
-extensions.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1n8y5b/debugging_rust_in_eclipse/">Debugging Rust in
-Eclipse</a>
-- Michael Woerister&rsquo;s final GSoC post. He did really great work this
-summer!</li>
-<li><a href="https://github.com/steveklabnik/rust_for_rubyists">Rust for Rubyists</a> has
-been open sourced!</li>
-<li>The <a href="https://code.google.com/p/claymore-game/">Claymore</a> project has just
-come to my attention. Apparently it has been going on for quite some time.
-There are some screenshots at <a href="http://claymore-dev.blogspot.com/">http://claymore-dev.blogspot.com/</a>.</li>
-<li><a href="https://github.com/JeremyLetang/rustenstein3D/">rustenstein3d</a> &ndash; a
-Wolfenstein3D engine</li>
-<li><a href="https://github.com/eevee/clio">clio</a>, a roguelike. This one also slipped
-under my radar for a while.</li>
-<li><a href="https://github.com/thestinger/rust-gmp">rust-gmp</a> has been updated for
-0.8/master.</li>
-<li><a href="https://github.com/cmr/rustdoc_ng">rustdoc_ng</a>, being merged into mainline,
-has concluded as a project.</li>
-<li>And, of course, the <a href="http://www.reddit.com/r/rust/comments/1n7q8v/08_released/">0.8
-release</a>
-discussion on reddit.</li>
 </ul>
 
 ]]></content>

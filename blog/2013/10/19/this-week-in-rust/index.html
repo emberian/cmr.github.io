@@ -1,0 +1,268 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust, a weekly summary of Rust&rsquo;s
+progress and happenings in the community. What&rsquo;s cooking in &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust</em>, a weekly summary of Rust&rsquo;s
+progress and happenings in the community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>48 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Slices are now represented as <a href="https://github.com/mozilla/rust/pull/9885">number of elements, not number of
+bytes</a>.</li>
+<li><code>fmt!</code> has been <a href="https://github.com/mozilla/rust/pull/9919">completely
+removed</a>.</li>
+<li>Some fields in <code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/9935">have been made
+private</a>.</li>
+<li><code>std::sys::refcount</code> <a href="https://github.com/mozilla/rust/pull/9922">has been
+moved</a> to
+<code>std::managed::refcount</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9896/files#diff-69196c6d2488bf8d5b3471084e854407L22">A bunch of
+functions</a>
+have moved from <code>std::sys</code> to <code>std::mem</code>.</li>
+<li><code>once fn</code> is <a href="https://github.com/mozilla/rust/pull/9863">now a feature gate</a>
+rather than a <code>-Z</code> flag.</li>
+<li><code>Path</code> has been <a href="https://github.com/mozilla/rust/pull/9655">completely
+rewritten</a>.</li>
+<li><code>extra::flatpipes</code> <a href="https://github.com/mozilla/rust/pull/9886">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>jemalloc</code> has been <a href="https://github.com/mozilla/rust/pull/9933">removed from the
+runtime</a>. The <a href="https://github.com/mozilla/rust/issues/9925">associated
+issue</a> is quite scary.</li>
+<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/9946">struct field
+visibility</a> is now corrected (it
+stripped fields where it should not have).</li>
+<li><code>rustdoc</code> also <a href="https://github.com/mozilla/rust/pull/9941">uses the actual privacy
+rules</a> to strip methods.</li>
+<li><code>format!</code> now gives <a href="https://github.com/mozilla/rust/pull/9932">much better</a>
+error messages for invalid format strings.</li>
+<li>The <code>fmt::Default</code> trait, used for default formatting with <code>format!</code>, is
+<a href="https://github.com/mozilla/rust/pull/9938">now documented</a>.</li>
+<li><code>include_bin!</code> has been optimized, and the <code>k-nucleotides</code> benchmark now
+compiles <a href="https://github.com/mozilla/rust/pull/9851">187x faster</a>.</li>
+<li>Vectors now have <a href="https://github.com/mozilla/rust/pull/9907"><code>starts_with</code> and <code>ends_with</code>
+methods</a>, which take slices.</li>
+<li>An <code>abort</code> intrinsic <a href="https://github.com/mozilla/rust/pull/9860">has been
+added</a>.</li>
+<li>Vectors now have a <a href="https://github.com/mozilla/rust/pull/9608"><code>get_opt</code>
+method</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>A new section for new contributors! The new contributors this week are (as
+reported by git):</p>
+
+<ul>
+<li>Chris Sainty</li>
+<li>Eduard Burtescu</li>
+<li>Erik Lyon</li>
+<li>Harry Marr</li>
+<li>Sébastien Chauvel</li>
+<li>Vijay Korapaty</li>
+<li>Ziad Hatahet</li>
+<li>chitra</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-15">weekly
+meeting</a>
+discussed removing rusti, changing the attribute syntax, destructors in
+statics, and more multi-crate packages with rustpkg.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li>Rust (and Servo) are participating in the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/7kX_E0FlfkA">GNOME Outreach Program for
+Women</a>.
+A bunch of people have already come into IRC about it.</li>
+<li><a href="http://exercism.io">http://exercism.io</a> <a href="https://github.com/kytrinyx/exercism.io/pull/866">is getting full Rust
+support</a>. This is a very
+cool resource, and could help a lot getting newcomers acclimated.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/006034.html">Unified Function/method Call Syntax and further
+simplification</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1osbq2/safe_manual_memory_management_in_cyclone_research/">Safe Memory Management in
+Cyclone</a>.</li>
+<li><a href="http://opensourcebridge.org/sessions/970">Audio</a> from Tim&rsquo;s talk in June is
+finally available!</li>
+<li>An
+<a href="https://github.com/mozilla/rust/wiki/Operating-system-development">OSdev</a>
+community has sprung up! The channel is <code>#rust-osdev</code>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1omw47/should_io_use_conditions/">Should I/O use
+conditions?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1opo36/pointers_in_rust_a_guide/">Pointers in Rust: A
+Guide</a>.</li>
+<li>I am on a <a href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/">Rust hiatus</a>,
+for the time being. TWiR will still be happening, as you are reading it
+right now.</li>
+<li><a href="https://github.com/thestinger/rust-core">rust-core</a> &ndash; A stub standard
+library.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-19T10:49:00-04:00"  data-updated="true">Oct 19<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

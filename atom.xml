@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-14T04:09:14-04:00</updated>
+  <updated>2013-10-19T22:23:49-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/19/this-week-in-rust/"/>
+    <updated>2013-10-19T10:49:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly summary of Rust&rsquo;s
+progress and happenings in the community.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>48 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>Slices are now represented as <a href="https://github.com/mozilla/rust/pull/9885">number of elements, not number of
+bytes</a>.</li>
+<li><code>fmt!</code> has been <a href="https://github.com/mozilla/rust/pull/9919">completely
+removed</a>.</li>
+<li>Some fields in <code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/9935">have been made
+private</a>.</li>
+<li><code>std::sys::refcount</code> <a href="https://github.com/mozilla/rust/pull/9922">has been
+moved</a> to
+<code>std::managed::refcount</code>.</li>
+<li><a href="https://github.com/mozilla/rust/pull/9896/files#diff-69196c6d2488bf8d5b3471084e854407L22">A bunch of
+functions</a>
+have moved from <code>std::sys</code> to <code>std::mem</code>.</li>
+<li><code>once fn</code> is <a href="https://github.com/mozilla/rust/pull/9863">now a feature gate</a>
+rather than a <code>-Z</code> flag.</li>
+<li><code>Path</code> has been <a href="https://github.com/mozilla/rust/pull/9655">completely
+rewritten</a>.</li>
+<li><code>extra::flatpipes</code> <a href="https://github.com/mozilla/rust/pull/9886">has been
+removed</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>jemalloc</code> has been <a href="https://github.com/mozilla/rust/pull/9933">removed from the
+runtime</a>. The <a href="https://github.com/mozilla/rust/issues/9925">associated
+issue</a> is quite scary.</li>
+<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/9946">struct field
+visibility</a> is now corrected (it
+stripped fields where it should not have).</li>
+<li><code>rustdoc</code> also <a href="https://github.com/mozilla/rust/pull/9941">uses the actual privacy
+rules</a> to strip methods.</li>
+<li><code>format!</code> now gives <a href="https://github.com/mozilla/rust/pull/9932">much better</a>
+error messages for invalid format strings.</li>
+<li>The <code>fmt::Default</code> trait, used for default formatting with <code>format!</code>, is
+<a href="https://github.com/mozilla/rust/pull/9938">now documented</a>.</li>
+<li><code>include_bin!</code> has been optimized, and the <code>k-nucleotides</code> benchmark now
+compiles <a href="https://github.com/mozilla/rust/pull/9851">187x faster</a>.</li>
+<li>Vectors now have <a href="https://github.com/mozilla/rust/pull/9907"><code>starts_with</code> and <code>ends_with</code>
+methods</a>, which take slices.</li>
+<li>An <code>abort</code> intrinsic <a href="https://github.com/mozilla/rust/pull/9860">has been
+added</a>.</li>
+<li>Vectors now have a <a href="https://github.com/mozilla/rust/pull/9608"><code>get_opt</code>
+method</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>A new section for new contributors! The new contributors this week are (as
+reported by git):</p>
+
+<ul>
+<li>Chris Sainty</li>
+<li>Eduard Burtescu</li>
+<li>Erik Lyon</li>
+<li>Harry Marr</li>
+<li>Sébastien Chauvel</li>
+<li>Vijay Korapaty</li>
+<li>Ziad Hatahet</li>
+<li>chitra</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-15">weekly
+meeting</a>
+discussed removing rusti, changing the attribute syntax, destructors in
+statics, and more multi-crate packages with rustpkg.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li>Rust (and Servo) are participating in the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/7kX_E0FlfkA">GNOME Outreach Program for
+Women</a>.
+A bunch of people have already come into IRC about it.</li>
+<li><a href="http://exercism.io">http://exercism.io</a> <a href="https://github.com/kytrinyx/exercism.io/pull/866">is getting full Rust
+support</a>. This is a very
+cool resource, and could help a lot getting newcomers acclimated.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/006034.html">Unified Function/method Call Syntax and further
+simplification</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1osbq2/safe_manual_memory_management_in_cyclone_research/">Safe Memory Management in
+Cyclone</a>.</li>
+<li><a href="http://opensourcebridge.org/sessions/970">Audio</a> from Tim&rsquo;s talk in June is
+finally available!</li>
+<li>An
+<a href="https://github.com/mozilla/rust/wiki/Operating-system-development">OSdev</a>
+community has sprung up! The channel is <code>#rust-osdev</code>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1omw47/should_io_use_conditions/">Should I/O use
+conditions?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1opo36/pointers_in_rust_a_guide/">Pointers in Rust: A
+Guide</a>.</li>
+<li>I am on a <a href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/">Rust hiatus</a>,
+for the time being. TWiR will still be happening, as you are reading it
+right now.</li>
+<li><a href="https://github.com/thestinger/rust-core">rust-core</a> &ndash; A stub standard
+library.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rust Hiatus]]></title>
@@ -2319,7 +2440,7 @@ in <code>extra::stats</code>.</li>
 <p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-02">Tuesday meeting</a>
 featured more discussion about <code>@</code> and <code>@mut</code>, that was honestly over my head
 (as most of the type system stuff is). If someone wants to write some more
-here, feel free to email me (<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x63;&#x6f;&#114;&#x65;&#x79;&#43;&#98;&#108;&#111;&#103;&#x40;&#111;&#x63;&#116;&#97;&#x79;&#110;&#x2e;&#110;&#101;&#x74;">&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#98;&#x6c;&#111;&#x67;&#x40;&#x6f;&#99;&#116;&#97;&#121;&#110;&#46;&#x6e;&#101;&#x74;</a>) a paragraph or two. You
+here, feel free to email me (<a href="&#109;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x63;&#x6f;&#x72;&#x65;&#x79;&#x2b;&#98;&#x6c;&#111;&#103;&#x40;&#111;&#99;&#116;&#x61;&#x79;&#x6e;&#46;&#110;&#101;&#x74;">&#x63;&#111;&#114;&#101;&#x79;&#43;&#x62;&#x6c;&#x6f;&#103;&#64;&#111;&#99;&#116;&#97;&#x79;&#110;&#x2e;&#x6e;&#101;&#116;</a>) a paragraph or two. You
 will get attribution, of course.</p>
 
 <h1>Discussion + Blog posts</h1>
@@ -2456,112 +2577,6 @@ Channel</a>
 (it&rsquo;s <code>#rust</code> on irc.mozilla.org)</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Structure and organisation of rustc]]></title>
-    <link href="http://cmr.github.io/blog/2013/06/30/structure-and-organisation-of-rustc/"/>
-    <updated>2013-06-30T16:03:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/06/30/structure-and-organisation-of-rustc</id>
-    <content type="html"><![CDATA[<p><em>This is the second part of a planned series about <code>rustc</code>, the Rust compiler</em></p>
-
-<p>This post is going to discuss the structure and organisation of <code>rustc</code>,
-covering the major moving parts and how they interact. I&rsquo;ll start, of course,
-where it starts, and ending, of course, where it ends.</p>
-
-<!-- more -->
-
-
-<p><code>rustc</code> is a fairly large, complex beast. Unless otherwise mentioned, all
-paths are relative to <code>src/librustc</code>. If you&rsquo;re unfamiliar with Rust, a
-&ldquo;crate&rdquo; is a compilation unit: a library or an executable.</p>
-
-<h2>Beginning</h2>
-
-<p>The entry point, <code>run_compiler</code> in <code>rustc.rs</code>, does argument parsing, using
-<code>extra::getopts</code> and calls into the driver, in <code>driver/driver.rs</code>, which
-coordinates the various pieces of the compiler and the rest of the argument
-parsing. The key data structure here is the <code>Session</code>, which you can find
-(along with a bunch of other things like the option context) in
-<code>driver/session.rs</code>. Back to the driver, the function <code>compile_input</code> is where
-most of the magic happens. This function runs all the various passes over the
-crate. It starts with parsing and macro expansion and moves onto various
-static analysis of the code to make sure it is correct, finally generating
-LLVM IR (intermediate representation), running LLVM optimizations, and linking
-the final binary.</p>
-
-<h2>An interlude</h2>
-
-<p>If you&rsquo;re not familiar with compilers, you might find this process a
-labyrinthine fractal of complexity. Which it is, don&rsquo;t get me wrong. But the
-various pieces of the rust compiler are fairly well separated, even if they
-are complex. The basic structure of a compiler is operations on a tree data
-structure representing the crate called an AST or Abstract Syntax Tree. An AST
-is the output of parsing, and everything in the compiler is transforms or
-analysis of this tree. Once everything is done, it takes this AST and
-translates it into LLVM IR. This is probably the most hairy part of the
-compiler, and it lives in <code>middle/trans</code>. LLVM IR is a representation of code
-that the LLVM library can operate on to optimize and generate native machine
-code. LLVM does most of the heavy lifting that a traditional compiler would
-need to do (optimization and codegen), so the rest of <code>rustc</code> is largely
-dedicated to actually dealing with Rust programs.</p>
-
-<h2>Parsing + expansion</h2>
-
-<p>Parsing and macro expansion happen in <code>src/libsyntax</code>, so all paths in this
-section will be relative to that. This corresponds to <code>phase_1_parse_input</code>
-and <code>phase_2_configure_and_expand</code>. Phase 1 does the parsing, and results in
-an AST. If you want, you can look into <code>parse/parser.rs</code> for the
-<code>parse_crate_mod</code> method. Very rarely will one have to modify the parser. The
-most important part of the parser, from an outsider&rsquo;s perspective, is in
-<code>codemap.rs</code>. The codemap has the concept of a &ldquo;span&rdquo;, which is a piece of
-source code, represented by a start and an end. Whenever you see an error and
-a squiggly line underneath where the error happenes, that is the result of a
-span. Almost everything in the AST has a span.</p>
-
-<p>After phase 1 comes, of course, phase 2. Phase 2 is what does macro expansion,
-deriving implementations, and removal of items which are conditionally
-included with the <code>cfg</code> attribute. This all happens in the <code>ext</code> directory.
-Personally I haven&rsquo;t poked around too much at how macros work, but things to
-note are <code>cfg.rs</code>, <code>asm.rs</code>, <code>ifmt.rs</code>, and the <code>deriving</code> directory. These do
-<code>cfg!</code>, <code>asm!</code>, <code>format!</code> (and friends), and <code>#[deriving(...)]</code>,
-respectively.</p>
-
-<p>If you&rsquo;re curious how a syntax extension works, <code>env.rs</code> is a good example. In
-the <code>expand_env</code> function, it takes the syntax extension context (cx), a
-span of the macro invocation, and the &ldquo;token tree&rdquo; that the macro was invoked
-with.  When you do <code>foo!(....)</code>, the <code>....</code> is the token tree. It checks the
-structure of the token tree (it expects either one or two arguments), and then
-returns the environment variable referenced by constructing an <code>ast::Expr</code>,
-using the ExtCtxt to mark that the expression came from the given span. This
-is so the compiler can track which span a piece of macro-generated code
-initially came from, for better error reporting.</p>
-
-<p>You might notice that phase 2 actually runs the configuration step twice. This
-is so that macros that expand to items with a <code>cfg</code> attribute also get removed
-from the final output.</p>
-
-<h2>Analysis</h2>
-
-<p>Phase 3, the analysis phases, is the real meat of rustc. All of this code
-lives in <code>middle</code>. The most important passes are probably typeck, the type
-checker; resolve, the name resolver; borrowck, the borrow checker; and lint,
-the lint runner. Not to say the other passes aren&rsquo;t important, but they&rsquo;re
-less frequently worked or worried about by mere mortals such as myself.</p>
-
-<h2>Trans(lation)</h2>
-
-<p>trans is the part of the compiler that takes the AST from syntax as
-well as the tables created by analysis and outputs LLVM IR. All of this
-happens in <code>middle/trans</code>. There is a lot of code, and I&rsquo;ve never actually
-been able to figure out which piece generates what.</p>
-
-<h2>Conclusion</h2>
-
-<p>That&rsquo;s my basic overview of how the compiler is structured. If you want
-something added, or as questions get asked, I&rsquo;ll fill in more information. The
-analysis and trans sections are sparse as I&rsquo;ve little experience with them.</p>
 ]]></content>
   </entry>
   
