@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-21T10:46:15-04:00</updated>
+  <updated>2013-10-21T19:05:53-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -62,15 +62,15 @@ Rust: the very act of calling a function becomes unsafe.</p>
 <a href="http://dl.acm.org/citation.cfm?id=1631721">I</a>
 <a href="http://dl.acm.org/citation.cfm?doid=1375634.1375656">found</a> investigate stack
 depth in the case of no recursion (so the call graph is actually a call
-(directed-)tree) but with asynchronous interrupt handlers. Indeed, it&rsquo;s
-trivial to show that when recursion is disallowed, a conservative stack limit
-can be calculated just by taking the longest path through the call graph with
-the nodes being weighted by the size that function&rsquo;s stack frame needs (this
-is a slightly different construction than most weighted graphs). This solution
-is not viable either: recursion is perfectly valid, rejecting it would make
-Rust very crippled as a language. To my knowledge, no languages rely on this
-for stack safety, though in practice I am sure many applications apply this
-technique.</p>
+(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed,
+it&rsquo;s trivial to show that when recursion is disallowed, a conservative stack
+limit can be calculated just by taking the longest path through the call graph
+with the nodes being weighted by the size that function&rsquo;s stack frame needs
+(this is a slightly different construction than most weighted graphs). This
+solution is not viable either: recursion is perfectly valid, rejecting it
+would make Rust very crippled as a language. To my knowledge, no languages
+rely on this for stack safety, though in practice I am sure many applications
+apply this technique.</p>
 
 <p>This leaves us with strategy #3, dynamic checks. Dynamic checking is fairly
 easy to do. The size of a function&rsquo;s stack frame is easy to calculate. One
