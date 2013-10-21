@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-21T10:18:21-04:00</updated>
+  <updated>2013-10-21T10:46:15-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -90,7 +90,7 @@ they generally prevent stack overflow in a memory safe way.)</p>
 heavily depends on LLVM&rsquo;s <a href="http://llvm.org/releases/3.0/docs/SegmentedStacks.html">segmented
 stack</a> feature. On x86
 (and I assume other platforms as well), a pointer to the end of the stack is
-stored in thread-local storage. The prelude to every function call compared
+stored in thread-local storage. The prelude to every function call compares
 that value to the value of the stack pointer, and calls a special function
 <code>__morestack</code> which will allocate a new stack segment for the function call to
 take place on. The stack segment is freed afterwards. The kink comes when
@@ -156,6 +156,9 @@ in the face of trait objects, but for now we could simply disallow
 combinations and work them out later (it&rsquo;s a backwards compatible change). I
 think this is a good stack safety strategy, superior to the current one, and
 worth implementing.</p>
+
+<p>Please email me any comments, or see the <a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/">discussion on
+reddit</a>.</p>
 ]]></content>
   </entry>
   
