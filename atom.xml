@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-21T19:05:53-04:00</updated>
+  <updated>2013-10-23T07:18:38-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -1464,6 +1464,10 @@ fix</a></li>
     <id>http://cmr.github.io/blog/2013/08/13/rust-by-concept</id>
     <content type="html"><![CDATA[<p><strong>Note:</strong> I accidentally published this. I won&rsquo;t take it down, but it is
 incomplete and I do not guarantee its correctness.</p>
+
+<p><strong>Note 2:</strong> I don&rsquo;t think this post is necessary anymore, as the tutorial has
+been updated significantly, and is quite understandable. As such I don&rsquo;t plan
+on finishing this post. Email me if you&rsquo;d like to see it finished.</p>
 
 <p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
 think part of the problem is that the language tutorial introduces the memory
