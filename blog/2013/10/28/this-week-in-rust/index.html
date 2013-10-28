@@ -1,0 +1,252 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust! This week marks the addition
+of some more feature gates, removal of std::io, and some feature &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust!</em> This week marks the addition
+of some more feature gates, removal of <code>std::io</code>, and some feature proposals.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>47 PRs were merged this week, and we passed issue number 10000.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Most of the crypto in the stdlib <a href="https://github.com/mozilla/rust/pull/9744">has been
+removed</a>.</li>
+<li><code>std::io</code> <a href="https://github.com/mozilla/rust/pull/9901">has been removed</a>,
+with corresponding improvements in <code>std::rt::io</code>.</li>
+<li>The <code>frame_address</code> intrinsic <a href="https://github.com/mozilla/rust/pull/10040">has been
+removed</a>.</li>
+<li><code>@</code>-ptrs are <a href="https://github.com/mozilla/rust/pull/9923">now feature-gated</a>,
+reflecting the fact that they will exist in a very different form once they
+are finished.</li>
+<li>All of the logging that used <code>fmt</code> (<code>debug!</code> and so forth) <a href="https://github.com/mozilla/rust/pull/10006">have been
+transitioned to <code>format!</code></a>.</li>
+<li><code>asm!</code> <a href="https://github.com/mozilla/rust/pull/10009">is also featured gated</a>.</li>
+<li><code>sys::log_str</code> <a href="https://github.com/mozilla/rust/pull/9937">has moved</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li>The long-awaited addition of <code>mut</code> in patterns <a href="https://github.com/mozilla/rust/pull/10026">has finally
+happened</a>. <code>let (mut x, y) = (1,
+2);</code> works.</li>
+<li>The scheduler now uses <a href="https://github.com/mozilla/rust/pull/10080">lock free data
+structures</a>, which are supposed
+to perform much better.</li>
+<li>The homing code <a href="https://github.com/mozilla/rust/pull/10070">now does less
+work</a>, which does one third as
+many <code>write</code>&rsquo;s.</li>
+<li><code>stdout</code> <a href="https://github.com/mozilla/rust/pull/10060">is now buffered</a>.</li>
+<li>A <a href="https://github.com/mozilla/rust/pull/10054">non-libuv event loop</a> has
+been added.</li>
+<li><code>std::rand</code> has seen <a href="https://github.com/mozilla/rust/pull/9810">more</a>
+<a href="https://github.com/mozilla/rust/pull/10015">work</a>.</li>
+<li><code>rustpkg</code> <a href="https://github.com/mozilla/rust/pull/9654">now supports arbitrary
+dependencies</a>, such as C
+libraries.</li>
+<li><code>mut</code> is <a href="https://github.com/mozilla/rust/pull/9989">now allowed on self</a>.</li>
+<li>Nested comments <a href="https://github.com/mozilla/rust/pull/9936">are now
+allowed</a>.</li>
+<li><code>rustpkg</code> will now [find crates in the current directory], so you can say
+<code>rustpkg build</code> in a source dir and it will build in a workspace.</li>
+<li>Some new float intrinsics <a href="https://github.com/mozilla/rust/pull/9986">have been
+exposed</a>.</li>
+<li><code>println!</code> <a href="https://github.com/mozilla/rust/pull/9979">allocates less</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Igor Bukanov</li>
+<li>Mark Rowe</li>
+<li>Michael Letterle</li>
+<li>reedlepee</li>
+</ul>
+
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li>There will be a
+<a href="http://www.meetup.com/Rust-Bay-Area/events/143439552/">meetup</a> in the San
+Fransisco Mozilla office. Patrick Walton will be talking about sprocketnes.
+If you&rsquo;re in the area, you should definitely go!</li>
+<li><a href="http://hiho.io/rust-ci/">rust-ci</a> has been created, which lets you have
+travis automatically rebuild and test your repo daily, to reduce
+language/library breakage.</li>
+<li><a href="https://github.com/erickt/rust-mustache">rust-mustache</a> and
+<a href="https://github.com/erickt/rust-zmq">rust-zmq</a> have been updated for master.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1pdrv6/short_talk_about_rust_at_scalaio_in_paris_october/">Short talk about Rust at Scala.IO in Paris (October
+25th)</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1pe2lc/a_bit_of_functional_programming_in_rust_or_a/">A Bit of Functional Programming in Rust, or A Misguided First Look at Rust
+for ML
+    Programmers</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1p52tj/a_draft_proposal_for_single_inheritance_in_rust/">A draft proposal for single
+inheritance</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1p4vnk/iterators_yielding_mutable_references/">Iterators yielding mutable
+references</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1p4qeh/servo_transitions_from_libcss_to_a_new_css/">Servo transitions from libcss to a new CSS library written in
+Rust</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/">On stack
+safety</a>.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-28T16:20:00-04:00"  data-updated="true">Oct 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
