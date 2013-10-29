@@ -4,7 +4,7 @@
   <title><![CDATA[Category: idea | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/idea/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-28T17:46:41-04:00</updated>
+  <updated>2013-10-29T01:19:58-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[More On Stack Safety]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/28/more-on-stack-safety/"/>
+    <updated>2013-10-28T17:58:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/28/more-on-stack-safety</id>
+    <content type="html"><![CDATA[<p>I got a lot of great feedback on my <a href="http://cmr.github.io/blog/2013/10/21/on-stack-safety/">previous
+post</a>, and I&rsquo;ve done
+some thinking and come up with what I think is a better proposal, and a solid
+way forward.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>Teach the task API to allow spawning a task with a fixed stack size.</li>
+<li>Add the ability to query stack size from LLVM. This lets us implement stack
+guard zones precisely.</li>
+<li>Add a way to use the result of #2 in a clean way. This is probably the
+trickiest to get right.</li>
+</ol>
+
+
+<p>You&rsquo;ll note that this doesn&rsquo;t seem to support segmented stacks <em>or</em> omission
+of stack safety! I&rsquo;m now of the opinion that segmented stacks have no future.
+They currently only allow aborting on stack overflow, not unwinding, and their
+only other benefit (the ability to &ldquo;grow&rdquo; the stack) is niche. If someone
+really thinks growable stacks is desirable, and has valid, convincing
+usecases, they should contact me by email or IRC.  Otherwise, the guarantees
+they provide are the same as guard zones (abort on overflow).</p>
+
+<p>Omission of stack safety seems missing. But, it isn&rsquo;t needed when using guard
+zones! Since guard zones impose nothing on a function&rsquo;s generated code (ie,
+there&rsquo;s no prelude that looks into TLS, no need for a <code>__morestack</code>), an
+environment which can&rsquo;t provide guard zones simply does nothing special when
+setting up a task&rsquo;s stack.</p>
+
+<p>You&rsquo;ll also note that this ditches the static analysis I was so fond of. This
+sort of analysis really belongs in a lint pass, rather than as a core part of
+the safety feature. A crate can say <code>#[max_stack_size = "64K"];</code> or
+<code>#[deny(unbounded_stack)]</code> if it wants static stack size checking (which
+people
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwke1l">seem</a>
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwjhpn">to</a>
+<a href="http://www.reddit.com/r/programming/comments/1owjmi/on_stack_safety_in_rust/ccwei0c">want</a>).</p>
+
+<p>Requiring fixed-sized stacks seems like a step backwards, but I don&rsquo;t see a
+better path forward. Solving this problem can be left to a less-rusty, perhaps
+research, language.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On Stack Safety]]></title>
@@ -62,15 +113,15 @@ Rust: the very act of calling a function becomes unsafe.</p>
 <a href="http://dl.acm.org/citation.cfm?id=1631721">I</a>
 <a href="http://dl.acm.org/citation.cfm?doid=1375634.1375656">found</a> investigate stack
 depth in the case of no recursion (so the call graph is actually a call
-(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed,
-it&rsquo;s trivial to show that when recursion is disallowed, a conservative stack
-limit can be calculated just by taking the longest path through the call graph
-with the nodes being weighted by the size that function&rsquo;s stack frame needs
-(this is a slightly different construction than most weighted graphs). This
-solution is not viable either: recursion is perfectly valid, rejecting it
-would make Rust very crippled as a language. To my knowledge, no languages
-rely on this for stack safety, though in practice I am sure many applications
-apply this technique.</p>
+(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed, it&rsquo;s
+trivial to show that when recursion is disallowed, a conservative stack limit
+can be calculated just by taking the longest path through the call graph with
+the nodes being weighted by the size that function&rsquo;s stack frame needs (this
+is a slightly different construction than most weighted graphs). This solution
+is not viable either: recursion is perfectly valid, rejecting it would make
+Rust very crippled as a language. To my knowledge, no languages rely on this
+for stack safety, though in practice I am sure many applications apply this
+technique.</p>
 
 <p>This leaves us with strategy #3, dynamic checks. Dynamic checking is fairly
 easy to do. The size of a function&rsquo;s stack frame is easy to calculate. One

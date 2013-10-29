@@ -3,11 +3,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Category: idea - Ramblin's</title>
+	<title>More On Stack Safety - Ramblin's</title>
 	<meta name="author" content="Corey Richardson">
 
 	
-	<meta name="description" content="Category: idea">
+	<meta name="description" content="I got a lot of great feedback on my previous
+post, and I&rsquo;ve done
+some thinking and come up with what I think is a better proposal, and a solid &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -77,48 +79,89 @@
 	
 		
 	
-	<div id="content" class="inner">
-	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">More on Stack Safety</h2>
+	<div class="entry-content"><p>I got a lot of great feedback on my <a href="http://cmr.github.io/blog/2013/10/21/on-stack-safety/">previous
+post</a>, and I&rsquo;ve done
+some thinking and come up with what I think is a better proposal, and a solid
+way forward.</p>
+
+<!-- more -->
 
 
-	
-	
-	<section class="archives"><h1 class="year">2013</h1>
-	
+<ol>
+<li>Teach the task API to allow spawning a task with a fixed stack size.</li>
+<li>Add the ability to query stack size from LLVM. This lets us implement stack
+guard zones precisely.</li>
+<li>Add a way to use the result of #2 in a clean way. This is probably the
+trickiest to get right.</li>
+</ol>
 
-<article>
-	<h2 class="title"><a href="/blog/2013/10/28/more-on-stack-safety/">More On Stack Safety</a></h2>
-	<div class="meta">
-		<div class="date">Oct 28</div>
-		<div class="tags">
+
+<p>You&rsquo;ll note that this doesn&rsquo;t seem to support segmented stacks <em>or</em> omission
+of stack safety! I&rsquo;m now of the opinion that segmented stacks have no future.
+They currently only allow aborting on stack overflow, not unwinding, and their
+only other benefit (the ability to &ldquo;grow&rdquo; the stack) is niche. If someone
+really thinks growable stacks is desirable, and has valid, convincing
+usecases, they should contact me by email or IRC.  Otherwise, the guarantees
+they provide are the same as guard zones (abort on overflow).</p>
+
+<p>Omission of stack safety seems missing. But, it isn&rsquo;t needed when using guard
+zones! Since guard zones impose nothing on a function&rsquo;s generated code (ie,
+there&rsquo;s no prelude that looks into TLS, no need for a <code>__morestack</code>), an
+environment which can&rsquo;t provide guard zones simply does nothing special when
+setting up a task&rsquo;s stack.</p>
+
+<p>You&rsquo;ll also note that this ditches the static analysis I was so fond of. This
+sort of analysis really belongs in a lint pass, rather than as a core part of
+the safety feature. A crate can say <code>#[max_stack_size = "64K"];</code> or
+<code>#[deny(unbounded_stack)]</code> if it wants static stack size checking (which
+people
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwke1l">seem</a>
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwjhpn">to</a>
+<a href="http://www.reddit.com/r/programming/comments/1owjmi/on_stack_safety_in_rust/ccwei0c">want</a>).</p>
+
+<p>Requiring fixed-sized stacks seems like a step backwards, but I don&rsquo;t see a
+better path forward. Solving this problem can be left to a less-rusty, perhaps
+research, language.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-10-28T17:58:00-04:00"  data-updated="true">Oct 28<span>th</span>, 2013</time></div>
+	<div class="tags">
 
 
 	<a class='category' href='/blog/categories/idea/'>idea</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
 
 
 </div>
-	    
-	</div>
-</article>
-
-
 	
-
-
-<article>
-	<h2 class="title"><a href="/blog/2013/10/21/on-stack-safety/">On Stack Safety</a></h2>
-	<div class="meta">
-		<div class="date">Oct 21</div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/idea/'>idea</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
-
-
 </div>
-	    
-	</div>
 </article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
 
 
 </div>

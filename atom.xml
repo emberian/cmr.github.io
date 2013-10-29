@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-28T17:46:41-04:00</updated>
+  <updated>2013-10-29T01:19:58-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[More On Stack Safety]]></title>
+    <link href="http://cmr.github.io/blog/2013/10/28/more-on-stack-safety/"/>
+    <updated>2013-10-28T17:58:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2013/10/28/more-on-stack-safety</id>
+    <content type="html"><![CDATA[<p>I got a lot of great feedback on my <a href="http://cmr.github.io/blog/2013/10/21/on-stack-safety/">previous
+post</a>, and I&rsquo;ve done
+some thinking and come up with what I think is a better proposal, and a solid
+way forward.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>Teach the task API to allow spawning a task with a fixed stack size.</li>
+<li>Add the ability to query stack size from LLVM. This lets us implement stack
+guard zones precisely.</li>
+<li>Add a way to use the result of #2 in a clean way. This is probably the
+trickiest to get right.</li>
+</ol>
+
+
+<p>You&rsquo;ll note that this doesn&rsquo;t seem to support segmented stacks <em>or</em> omission
+of stack safety! I&rsquo;m now of the opinion that segmented stacks have no future.
+They currently only allow aborting on stack overflow, not unwinding, and their
+only other benefit (the ability to &ldquo;grow&rdquo; the stack) is niche. If someone
+really thinks growable stacks is desirable, and has valid, convincing
+usecases, they should contact me by email or IRC.  Otherwise, the guarantees
+they provide are the same as guard zones (abort on overflow).</p>
+
+<p>Omission of stack safety seems missing. But, it isn&rsquo;t needed when using guard
+zones! Since guard zones impose nothing on a function&rsquo;s generated code (ie,
+there&rsquo;s no prelude that looks into TLS, no need for a <code>__morestack</code>), an
+environment which can&rsquo;t provide guard zones simply does nothing special when
+setting up a task&rsquo;s stack.</p>
+
+<p>You&rsquo;ll also note that this ditches the static analysis I was so fond of. This
+sort of analysis really belongs in a lint pass, rather than as a core part of
+the safety feature. A crate can say <code>#[max_stack_size = "64K"];</code> or
+<code>#[deny(unbounded_stack)]</code> if it wants static stack size checking (which
+people
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwke1l">seem</a>
+<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwjhpn">to</a>
+<a href="http://www.reddit.com/r/programming/comments/1owjmi/on_stack_safety_in_rust/ccwei0c">want</a>).</p>
+
+<p>Requiring fixed-sized stacks seems like a step backwards, but I don&rsquo;t see a
+better path forward. Solving this problem can be left to a less-rusty, perhaps
+research, language.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -167,15 +218,15 @@ Rust: the very act of calling a function becomes unsafe.</p>
 <a href="http://dl.acm.org/citation.cfm?id=1631721">I</a>
 <a href="http://dl.acm.org/citation.cfm?doid=1375634.1375656">found</a> investigate stack
 depth in the case of no recursion (so the call graph is actually a call
-(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed,
-it&rsquo;s trivial to show that when recursion is disallowed, a conservative stack
-limit can be calculated just by taking the longest path through the call graph
-with the nodes being weighted by the size that function&rsquo;s stack frame needs
-(this is a slightly different construction than most weighted graphs). This
-solution is not viable either: recursion is perfectly valid, rejecting it
-would make Rust very crippled as a language. To my knowledge, no languages
-rely on this for stack safety, though in practice I am sure many applications
-apply this technique.</p>
+(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed, it&rsquo;s
+trivial to show that when recursion is disallowed, a conservative stack limit
+can be calculated just by taking the longest path through the call graph with
+the nodes being weighted by the size that function&rsquo;s stack frame needs (this
+is a slightly different construction than most weighted graphs). This solution
+is not viable either: recursion is perfectly valid, rejecting it would make
+Rust very crippled as a language. To my knowledge, no languages rely on this
+for stack safety, though in practice I am sure many applications apply this
+technique.</p>
 
 <p>This leaves us with strategy #3, dynamic checks. Dynamic checking is fairly
 easy to do. The size of a function&rsquo;s stack frame is easy to calculate. One
@@ -2278,168 +2329,6 @@ benchmarker</a></li>
 <li><a href="https://github.com/dobkeratops/rustfind">rustfind, a &ldquo;jump to definition&rdquo;
 tool</a></li>
 <li><a href="https://github.com/Florob/RustyXML">RustyXML, a pure-Rust XML parser</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/21/this-week-in-rust/"/>
-    <updated>2013-07-21T09:36:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/21/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the seventh issue of <em>This Week in Rust</em>, a weekly
-overview of Rust and its community. Things are calming down quite a bit, in
-that nothing extraordinarily exciting is happening. Lots of great work is
-being done everywhere, and good progress is being made in both bugfixes and
-cleanup. It has been a good week!</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>Issue churn this week was -15. A total of 59 PRs were merged.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><strong><a href="https://github.com/mozilla/rust/pull/7684">The semantics of <code>range_rev</code> have
-changed</a>. This will break your
-code without warning.</strong> It is now, to use <a href="https://en.wikipedia.org/wiki/Interval_%28mathematics%29#Notations_for_intervals">interval
-notation</a>,
-<code>(hi, lo]</code> rather than <code>[hi, lo)</code>.</li>
-<li><code>pub extern</code> and <code>priv extern</code> <a href="https://github.com/mozilla/rust/pull/7896">have been
-removed</a> from the language. This
-matches the previous similar change to <code>impl</code>. Place the visibility
-qualifier (<code>pub</code>/<code>priv</code>) on each item in the <code>extern</code> block instead.</li>
-<li><code>&amp;T</code> (besides <code>&amp;'static T</code>) is <a href="https://github.com/mozilla/rust/pull/7894">no longer allowed in
-<code>@T</code></a>.</li>
-<li>The <code>ThreadPerCore</code> spawn mode <a href="https://github.com/mozilla/rust/pull/7856">has been
-removed</a>, as it doesn&rsquo;t make
-sense with the new scheduler.</li>
-<li>The <code>consume</code> methods of the hash containers <a href="https://github.com/mozilla/rust/pull/7833">has been replaced with an
-external iterator</a>. The method
-name is the same, though.</li>
-<li>Moved values can <a href="https://github.com/mozilla/rust/pull/7849">no longer be captured
-twice</a>. This was a blatant
-soundness issue.</li>
-<li>The <code>swap_unwrap</code> method of Option has been <a href="https://github.com/mozilla/rust/pull/7831">renamed to
-<code>take_unwrap</code></a>.</li>
-<li><code>debug!</code> statements <a href="https://github.com/mozilla/rust/pull/7822">generate no
-code</a> unless you pass <code>--cfg
-debug</code> to <code>rustc</code>. This should help keep code size down and make your
-programs a (tiny bit) faster. Now you don&rsquo;t have to feel bad about having
-<code>debug!</code> in hot code.</li>
-<li>The <code>mutate_values</code> method of HashMap <a href="https://github.com/mozilla/rust/pull/7815">has been
-removed</a>.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>An iterator adaptor was added that <a href="https://github.com/mozilla/rust/pull/7882">endlessly repeats the iterator it is
-called on</a>.</li>
-<li>Generated test runners <a href="https://github.com/mozilla/rust/pull/7840">now have a
-<code>-h</code>/<code>--help</code></a> option.</li>
-<li>Metric capturing + racheting <a href="https://github.com/mozilla/rust/pull/7829">has been
-added</a> for benchmarks.</li>
-<li><code>local_data</code> <a href="https://github.com/mozilla/rust/pull/7841">now has a
-<code>get_mut</code></a> function.</li>
-<li><code>extra::semver</code> <a href="https://github.com/mozilla/rust/pull/7726">has been updated to SemVer
-2.0.0</a>.</li>
-<li>Consuming iterators <a href="https://github.com/mozilla/rust/pull/7806">have been
-added</a> for the hash structures.</li>
-<li><code>extra::ringbuf</code> <a href="https://github.com/mozilla/rust/pull/7808">now implements
-DoubleEndedIterator</a>.</li>
-<li><code>Eq</code> <a href="https://github.com/mozilla/rust/pull/7799">now has a default implementation of
-<code>ne</code></a>.</li>
-<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/7716">now knows how to handle more
-attributes</a>.</li>
-<li>More containers <a href="https://github.com/mozilla/rust/pull/7788">implement
-FromIter</a>. This means you can use
-<code>.collect()</code> to gather the elements from an iterator into those containers.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7858">Task killing, failure, and exit code
-propagation</a> in the new runtime
-has been implemented.</li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><code>syntax::attr</code> <a href="https://github.com/mozilla/rust/pull/7902">has been
-modernized</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7710">Tons of debuginfo work</a> from mw
-this week!</li>
-<li>Trait data structures <a href="https://github.com/mozilla/rust/pull/7886">have been cleaned
-up</a>, as well as a default method
-fix.</li>
-<li>Intrinsics <a href="https://github.com/mozilla/rust/pull/7851">now have much better
-codegen</a>.</li>
-<li>A <code>no_implicit_prelude</code> attribute <a href="https://github.com/mozilla/rust/pull/7844">has been
-added</a>, which prevents prelude
-injection in the module heirarchy starting at the item which that attribute
-is added to.</li>
-<li>C-style enum variants are <a href="https://github.com/mozilla/rust/pull/7827">now
-allowed</a> in <code>[T, ..n]</code>
-expressions.</li>
-<li>All language items are <a href="https://github.com/mozilla/rust/pull/7828">now
-optional</a>. The compiler emits an
-error if a language item is used but not provided.</li>
-<li>The removal of <code>spanned&lt;T&gt;</code> <a href="https://github.com/mozilla/rust/pull/7826">has
-begun</a>.</li>
-<li>Headers <a href="https://github.com/mozilla/rust/pull/7816">have been removed</a> for
-<code>~str</code> and <code>~[T]</code> where <code>T</code> is unmanaged.</li>
-</ul>
-
-
-<h2>Documentation, tools, and other stuff</h2>
-
-<ul>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7419">now works when you don&rsquo;t give it a package
-ID</a>. It builds/installs/cleans
-the package in the current directory, <em>iff</em> the current directory is in a
-rustpkg workspace.</li>
-<li><code>--quiet</code> is <a href="https://github.com/mozilla/rust/pull/7847">no longer passed</a>
-to git during submodule operations, so you can see the progress of the huge
-LLVM download.</li>
-<li>Documentation of the <a href="https://github.com/mozilla/rust/pull/7823">lint-controlling
-attributes</a> was added.</li>
-<li>rustpkg <a href="https://github.com/mozilla/rust/pull/7681">now handles cloning from local git
-repos</a>.</li>
-<li>The GtkSourceView highlighting file <a href="https://github.com/mozilla/rust/pull/7795">was
-improved</a>.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-16">Tuesday
-meeting</a>
-discussed nothing at all of importance.</p>
-
-<h1>Discussion + Blog posts</h1>
-
-<ul>
-<li><a href="http://www.reddit.com/r/rust/comments/1ibd48/proofofconcept_pure_rust_malloc_implementation/">A pure-Rust memory allocator
-(malloc)</a></li>
-<li><a href="http://michaelwoerister.github.io/2013/07/12/Status-Update-4.html">mw&rsquo;s fourth weekly
-update</a>.</li>
-<li><a href="http://michaelwoerister.github.io/2013/07/20/Status-Update-5.html">mw&rsquo;s fifth weekly
-update</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1imeac/guaranteeing_memory_safety_in_rust_niko_matsakis/">Discussion and slides from Niko&rsquo;s presentation at the Northeastern
-University Programming Language
-Seminar</a></li>
-<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/4829">A nightly Ubuntu
-PPA</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1igvye/vision_for_rust_simd/">SIMD
-discussion</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004841.html">Rust on bare metal
-ARM</a></li>
-<li><a href="http://www.oscon.com/oscon2013/public/schedule/detail/28741">dherman&rsquo;s OSCON
-presentation</a></li>
 </ul>
 
 ]]></content>
