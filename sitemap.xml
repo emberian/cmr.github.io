@@ -125,8 +125,12 @@
         <lastmod>2013-10-29T01:19:40-04:00</lastmod>
     </url>
     <url>
+        <loc>http://cmr.github.io/blog/2013/11/09/these-weeks-in-rust/</loc>
+        <lastmod>2013-11-09T07:13:10-05:00</lastmod>
+    </url>
+    <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2013-10-29T01:19:40-04:00</lastmod>
+        <lastmod>2013-11-09T07:13:10-05:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
@@ -134,6 +138,6 @@
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2013-10-29T01:19:40-04:00</lastmod>
+        <lastmod>2013-11-09T07:13:10-05:00</lastmod>
     </url>
 </urlset>

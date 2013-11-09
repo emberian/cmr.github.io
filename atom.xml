@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-10-29T01:19:58-04:00</updated>
+  <updated>2013-11-09T07:13:40-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[These Weeks in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/11/09/these-weeks-in-rust/"/>
+    <updated>2013-11-09T05:21:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/11/09/these-weeks-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to a mega-<em>This Week in Rust</em>. I was swamped this past week with
+schoolwork, so TWiR was put off. This week&rsquo;s combines the past two weeks of
+progress. These past two weeks were fairly exciting in terms of language and
+library progress. The next while should be equally exciting.</p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>There were 108 PRs merged these past two weeks.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>The very long-awaited <a href="https://github.com/mozilla/rust/pull/9613">enum discriminant size
+patch</a> has landed. This will
+affect FFI. Size of enum discriminant is now configurable via the <code>repr</code>
+attribute, and will by default shrink to the smallest needed.</li>
+<li>The extension traits for <code>Reader</code> and <code>Writer</code> have <a href="https://github.com/mozilla/rust/pull/10079">been transformed into
+default methods on their respective
+trait</a>.</li>
+<li>Non-string literals are now
+<a href="https://github.com/mozilla/rust/pull/10166">disallowed</a> in attributes.</li>
+<li>Type parameters are now
+<a href="https://github.com/mozilla/rust/pull/10189">forbidden</a> on inner statics
+(statics inside functions).</li>
+<li>The interface to flush stdout <a href="https://github.com/mozilla/rust/pull/10218">has
+changed</a>. It was previously
+unsound by allowing aliased <code>&amp;mut</code>.</li>
+<li><code>Result</code>&rsquo;s API has changed [quite a bit], to be more consistent with
+<code>Option</code>, and hopefully simpler.</li>
+<li>Linker arguments <a href="https://github.com/mozilla/rust/pull/10199">no longer</a>
+propagate across crates. This means that if you link to a crate, its linker
+arguments won&rsquo;t be automatically added when your crate is linked.</li>
+<li>The memory intrinsics <a href="https://github.com/mozilla/rust/pull/10251">have been
+simplified</a>. A single intrinsic
+for <code>memcpy</code>/<code>memmove</code>/<code>memset</code> is now exposed, rather than one per
+    platform.</li>
+<li><code>#[link(name = "...")]</code> is now <a href="https://github.com/mozilla/rust/pull/10260">taken into
+account</a> by rustc when creating
+build artifacts.</li>
+<li><code>std::rt::io::file</code> <a href="https://github.com/mozilla/rust/pull/10179">has been fleshed out and
+tweaked</a>. In particular, it has
+been renamed to <code>std::rt::io::fs</code>, many previously-free functions are now
+associated functions on <code>std::rt::io::File</code>, and <code>FileInfo</code> has been renamed
+to <code>FileStat</code>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Calling variadic functions with the C FFI <a href="https://github.com/mozilla/rust/pull/10064">is now
+implemented</a>. This is a pretty
+sweet change. The only thing missing in our C FFI now is unions.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/10243">now have</a> octal numeric
+literals, for all your esoteric numeric needs!</li>
+<li>An <code>Any</code> type <a href="https://github.com/mozilla/rust/pull/9967">has been added</a>,
+and it is now possible to retrieve the object a task failed with. Previously
+tasks could only fail with a string, now they can fail with anything.</li>
+<li>A <code>concat!</code> syntax extension <a href="https://github.com/mozilla/rust/pull/9740">has been
+added</a> for compile-time string
+concatenation.</li>
+<li>Timers are <a href="https://github.com/mozilla/rust/pull/10083">now also ports</a>, and
+the creator of a timer can cancel it.</li>
+<li><code>proc</code> is <a href="https://github.com/mozilla/rust/pull/10132">now sugar</a> for <code>~once
+fn</code>.</li>
+<li>The section in the tutorial on vectors and strings <a href="https://github.com/mozilla/rust/pull/10354">has been
+rewritten</a> for correctness with
+modern Rust.</li>
+<li>A bunch of C++ has been removed and rewritten. <a href="https://github.com/mozilla/rust/pull/10290">Thread
+creation</a>, <a href="https://github.com/mozilla/rust/pull/10094">memory
+regions</a> (used for debugging and
+<code>@</code>-boxes, from what I can tell), and an <a href="https://github.com/mozilla/rust/pull/10163/files">unused
+<code>array_list</code></a>.</li>
+<li>Bounds check failures are <a href="https://github.com/mozilla/rust/pull/10113">now marked as a cold
+path</a>, and a <code>cold</code> <a href="https://github.com/mozilla/rust/pull/10127">function
+attribute</a> has been added.</li>
+<li>The build system <a href="https://github.com/mozilla/rust/pull/10203">can cross-compile to iOS
+now</a>, even though Rust doesn&rsquo;t
+actually run on that platform (yet!).</li>
+<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/10223">now implements the Gamma
+distribution</a>.</li>
+<li>Cross-crate destructor inlining <a href="https://github.com/mozilla/rust/pull/10242">now
+works</a>.</li>
+<li>A <code>type_id</code> intrinsic <a href="https://github.com/mozilla/rust/pull/10182">has been
+added</a>.</li>
+<li>Everything in the runtime that uses <code>libuv</code> has been <a href="https://github.com/mozilla/rust/pull/10058">split into its own
+crate</a>. This means that the
+runtime really is pluggable: you can implement your own event loop and so
+forth.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<p>Welcome to our new contributors!</p>
+
+<ul>
+<li>Brian</li>
+<li>Carol Willing</li>
+<li>Dirkjan Bussink</li>
+<li>Guillaume Pinot</li>
+<li>Gyorgy Andrasek</li>
+<li>Joshua Yanovski</li>
+<li>Mat Carberry</li>
+<li>Noufal Ibrahim</li>
+<li>Robert Irelan</li>
+<li>Tomas Sedovic</li>
+<li>niftynif</li>
+<li>sh8281.kim</li>
+</ul>
+
+
+<p>At .85 new contributors a day, we&rsquo;ll soon dwarf every other language in the
+&ldquo;awesome volunteer&rdquo; category.</p>
+
+<h1>Weekly Meetings</h1>
+
+<p>Last week&rsquo;s
+<a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-29">meeting</a>
+discussed segmented stacks (spoiler: <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006314.html">they&rsquo;re going
+away</a> )
+and placement new (we want it, how do we want it?).</p>
+
+<p>This week&rsquo;s
+<a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-11-05">meeting</a>
+discussed the future of libextra, more stack things, octal literals, vector
+representation, and temporary (&ldquo;rvalue&rdquo;) lifetimes.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li><strong>Reminder from <del>the Ministry of Truth</del> ChrisMorgan</strong>: Rust is awesome.</li>
+<li>Rust Skåne, <a href="http://www.foocafe.org/event/a-friendly-introduction-to-rust">has an event page
+now</a>. It will
+be December 3 at 17:30 in Foo Cafe.</li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/10/29/intermingled-parameter-lists/">Integermingled Parameter
+Lists</a>,
+and <a href="http://smallcultfollowing.com/babysteps/blog/2013/11/04/intermingled-parameter-lists/">take
+2</a>.</li>
+<li><a href="https://github.com/haxney/speculate">speculate</a> &ndash; a parallel speculative
+execution library.</li>
+<li><a href="https://github.com/luqmana/mcchat">mcchat</a> &ndash; a pure-Rust Minecraft chat
+client.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[More On Stack Safety]]></title>
@@ -2165,170 +2318,6 @@ Keccak</a> has been created.</li>
 <li><a href="https://github.com/erickt/rust-zmq">rust-zmq</a> has been updated to latest
 Rust, as well as cleaner error/constant interface.</li>
 <li><a href="https://github.com/Jeaye/q3">q3</a> now does multithreaded rendering.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Last Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/07/29/last-week-in-rust/"/>
-    <updated>2013-07-29T06:55:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/07/29/last-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the eighth issue of <em>This Week in Rust</em>. Due to me being
-busy and forgetful over the weekend, this is a special issue, <em>Last Week in
-Rust</em>.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on <code>master</code>?</h1>
-
-<p>Issue churn continues to be negative, -15 this week. A total of 63 PRs were
-merged.</p>
-
-<h2>Breaking Changes</h2>
-
-<p>There were impressively few breaking changes last week.</p>
-
-<ul>
-<li><strong>You now need to pass <code>--cfg debug</code> to <code>rustc</code> to emit debug logging.</strong></li>
-<li><a href="https://github.com/mozilla/rust/pull/7926"><strong><code>mod.rs</code> is now &ldquo;blessed&rdquo;.</strong></a>.
-When loading <code>mod foo;</code>, rustc will now look for <code>foo.rs</code>, then
-<code>foo/mod.rs</code>, and will generate an error when both are present.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7996">A bunch of <code>str</code> functions</a> were
-renamed or shuffled around to be more consistent.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7934"><code>SmallIntSet</code> was removed</a> in
-favor for the more efficient, equivalent <code>BitvSet</code>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7703"><code>Bitv</code> and <code>Bitvset</code> have switched to external
-iterators</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7883"><code>extra::net</code> and a bunch of other obsolete
-features</a> have been removed.</li>
-</ul>
-
-
-<h2>Notable library additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li>Various <a href="https://github.com/mozilla/rust/pull/8040">TCP/UDP additions</a> have
-been made in the new rt.</li>
-<li>Some more <a href="https://github.com/mozilla/rust/pull/8039">atomic operations</a>
-have been added.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/7931"><code>chain_mut_ref</code> method</a> was
-added to <code>Option</code>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7982">Random access iterators</a> have
-been implemented.</li>
-<li>Some missing <a href="https://github.com/mozilla/rust/pull/7993">memory orderings on atomic
-types</a> have been added.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7885">workcache has seen a bunch of
-attention</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7944">DList has seen some more cleanup
-too</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7916">Timers have been added to the new
-rt</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7943">Vectors now implement <code>slice_from</code> and
-<code>slice_to</code></a>.</li>
-</ul>
-
-
-<h2>Notable compiler additions, bugfixes, and cleanup</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8045">debuginfo for destructured locals and function
-args</a> is now implemented.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7986">Raw representations are now
-consolidated</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8041">Impossible branches on
-constants</a> are now omitted.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7924">It is now possible to link against crates with
-<code>#[no_std]</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8029">There is now a warning when matching against
-NaN</a>, since it is impossible to
-match against NaN (NaN != NaN).</li>
-<li>A lot of <a href="https://github.com/mozilla/rust/pull/8015">default method and trait inheritance
-bugs</a> have been fixed.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8000"><code>uint</code> enum discriminants are now
-allowed</a>.</li>
-<li>The <a href="https://github.com/mozilla/rust/pull/7958">section placement of static and fn items is now
-configurable</a>.</li>
-<li>Some <a href="https://github.com/mozilla/rust/pull/7848">trans naming modernization has
-occured</a>.</li>
-<li>Some unnecessary branches and blocks <a href="https://github.com/mozilla/rust/pull/7941">have been
-removed</a>, resulting in a 10%
-speedup of unoptimized rustc.</li>
-</ul>
-
-
-<h2>Documentation, tools, and other stuff</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/7912">Some benchmarks</a>, and <a href="https://github.com/mozilla/rust/pull/7980">some more
-benchmarks</a>.</li>
-<li>Crnobog has <a href="https://github.com/mozilla/rust/pull/8001">fixed</a>
-<a href="https://github.com/mozilla/rust/pull/7979">some</a> Windows testsuite issues.</li>
-<li><a href="https://github.com/mozilla/rust/pull/7820"><code>Makefile</code> dependencies</a> have
-been fixed. <code>rustc</code> will never be invoked without its dependencies being
-built.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8031"><code>rust-mode</code> has been rewritten</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8020">There are some build system changes surrounding the <code>--cfg debug</code>
-changes</a>.</li>
-</ul>
-
-
-<h1>Meetings</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-07-23">Tuesday
-meeting</a> was
-quite productive. A quick summary:</p>
-
-<ul>
-<li>Graydon wants to investigate using the Memory Pool System as the Rust GC,
-rather than a bespoke one. The <a href="http://www.ravenbrook.com/project/mps/">MPS</a> is
-a very mature and robust memory management library.</li>
-<li>The buildbots now collect and report some metrics as JSON. Take a poke in
-<code>http://static.rust-lang.org/build-metrics/&lt;git-sha1&gt;/&lt;builder&gt;/&lt;slave&gt;/&lt;metricsfile&gt;.json</code>
-if you&rsquo;re interested.</li>
-<li>pcwalton proposes allowing <code>Self</code> in impls, like in trait definitions.</li>
-<li>There was some discussion of destructors taking <code>self</code> by value.</li>
-<li>There was a proposal to remove <code>*mut</code>, but it can be useful. There was no
-consensus.</li>
-<li>There was also some discussion on closures and mutable captures. I don&rsquo;t
-really have enough context to understand the conversation, something to do
-with &ldquo;thunks&rdquo;.</li>
-<li>Removing <code>&amp;const</code> was discussed as well. The &ldquo;plan is that we add a lint
-flag but document it as a reserved word&rdquo;, as it doesn&rsquo;t really seem to be
-useful.</li>
-</ul>
-
-
-<h1>Discussion + Blog posts</h1>
-
-<ul>
-<li><a href="http://michaelwoerister.github.io/2013/07/26/Iterator-Blocks.html">Iterator Blocks for
-Rust</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1j5vbn/rustdev_rfc_removing_t/">RFC: Removing
-<code>*T</code></a></li>
-<li><a href="https://speakerdeck.com/dherman/rust-low-level-programming-without-the-segfaults">dherman&rsquo;s OSCON
-slides</a></li>
-<li><a href="https://careers.mozilla.org/en-US/position/oKiEXfwn">Mozilla is hiring a Rust research
-engineer</a></li>
-<li><a href="http://blog.mongodb.org/post/56426792420/introducing-the-mongodb-driver-for-the-rust-programming">An alpha release of the MongoDB
-Driver</a></li>
-<li><a href="https://togototo.wordpress.com/2013/07/23/benchmarking-level-generation-go-rust-haskell-and-d/">A fairly useless benchmark of random number
-generation</a></li>
-</ul>
-
-
-<h1>Projects</h1>
-
-<ul>
-<li><a href="https://github.com/bjz/color-rs">color-rs: A library that provides types and conversions for working with
-various color formats.</a></li>
-<li><a href="https://github.com/Aatch/grease-bench">grease-bench: a runtimeless
-benchmarker</a></li>
-<li><a href="https://github.com/dobkeratops/rustfind">rustfind, a &ldquo;jump to definition&rdquo;
-tool</a></li>
-<li><a href="https://github.com/Florob/RustyXML">RustyXML, a pure-Rust XML parser</a></li>
 </ul>
 
 ]]></content>
