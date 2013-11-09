@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-09T07:13:40-05:00</updated>
+  <updated>2013-11-09T07:14:25-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -21,7 +21,10 @@
     <content type="html"><![CDATA[<p>Welcome to a mega-<em>This Week in Rust</em>. I was swamped this past week with
 schoolwork, so TWiR was put off. This week&rsquo;s combines the past two weeks of
 progress. These past two weeks were fairly exciting in terms of language and
-library progress. The next while should be equally exciting.</p>
+library progress. The next few weeks should be even more exciting.</p>
+
+<!-- more -->
+
 
 <h1>What&rsquo;s cooking on master?</h1>
 
