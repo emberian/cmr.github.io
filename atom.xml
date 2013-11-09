@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-09T07:20:06-05:00</updated>
+  <updated>2013-11-09T07:28:52-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -85,8 +85,9 @@ added</a> for compile-time string
 concatenation.</li>
 <li>Timers are <a href="https://github.com/mozilla/rust/pull/10083">now also ports</a>, and
 the creator of a timer can cancel it.</li>
-<li><code>proc</code> is <a href="https://github.com/mozilla/rust/pull/10132">now sugar</a> for <code>~once
-fn</code>.</li>
+<li>As the first part of closure reform, <code>proc</code> is <a href="https://github.com/mozilla/rust/pull/10132">now sugar</a> for <code>~once
+fn</code>, and <code>|A| -&gt; B</code> (and <code>fn(A) -&gt; B</code> for bare functions) <a href="https://github.com/mozilla/rust/pull/10187">are now
+allowed</a> in types.</li>
 <li>The section in the tutorial on vectors and strings <a href="https://github.com/mozilla/rust/pull/10354">has been
 rewritten</a> for correctness with
 modern Rust.</li>
@@ -129,7 +130,7 @@ forth.</li>
 <li>Noufal Ibrahim</li>
 <li>Robert Irelan</li>
 <li>Tomas Sedovic</li>
-<li>niftynif</li>
+<li>Jennifer Ward</li>
 <li>sh8281.kim</li>
 </ul>
 
