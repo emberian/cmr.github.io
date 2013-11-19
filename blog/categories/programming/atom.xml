@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-09T14:41:54-05:00</updated>
+  <updated>2013-11-19T03:13:52-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/11/19/this-week-in-rust/"/>
+    <updated>2013-11-19T01:42:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/11/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>46 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::rt::io</code> <a href="https://github.com/mozilla/rust/pull/10423">has moved on</a> to
+become <code>std::io</code>. Yay!</li>
+<li>The <code>#[fixed_stack_segment]</code> attribute <a href="https://github.com/mozilla/rust/pull/10407">has been
+removed</a>.</li>
+<li><code>as</code> casts to functions are <a href="https://github.com/mozilla/rust/pull/9788">no longer
+allowed</a>.</li>
+<li>The return value of the <code>io::process</code> is no longer an int, but <a href="https://github.com/mozilla/rust/pull/10109">an enum that
+also represents termination by
+signal</a>. It&rsquo;s also ostensibly
+more portable: to check if a subprocess succeeded, just call <code>.success()</code> on
+the return value.</li>
+<li><code>std::cast::unsafe_copy</code> has <a href="https://github.com/mozilla/rust/pull/10497">has been
+removed</a>. It is identical to
+<code>std::ptr::read_ptr</code>.</li>
+<li>Trailing <code>::</code> is <a href="https://github.com/mozilla/rust/pull/10420">no longer
+allowed</a> in paths</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Vectors have <a href="https://github.com/mozilla/rust/pull/10417">more overflow
+checking</a>. This was the cause
+of a few mysterious segfaults.</li>
+<li>Crate maps <a href="https://github.com/mozilla/rust/pull/10422">can now be generated for
+libraries</a>, for when you want to
+embed a Rust library in a non-Rust application.</li>
+<li>Creation of buffered readers/writers <a href="https://github.com/mozilla/rust/pull/10424">has been optimized a
+bit</a>.</li>
+<li>If you use OS X, you&rsquo;ll be happy to see that the frivolous &ldquo;no debug symbols
+in executable&rdquo; warning <a href="https://github.com/mozilla/rust/pull/10198">has been stomped
+out</a>.</li>
+<li>The missing-documentation lint is <a href="https://github.com/mozilla/rust/pull/10277">now more
+accepting</a>, and won&rsquo;t warn about
+private items.</li>
+<li><code>BufWriter</code>, an implementation of Writer for already-existing buffers, <a href="https://github.com/mozilla/rust/pull/10451">is
+now implemented</a>.</li>
+<li>The native IO backend has seen <a href="https://github.com/mozilla/rust/pull/10457">a good
+boost</a>; it will now be
+seamlessly fallen back to when the libuv backend isn&rsquo;t available (you can
+test this out by adding <code>#[no_uv];</code> to your crates).</li>
+<li>A lint for numeric literals which overflow their type <a href="https://github.com/mozilla/rust/pull/10018">has been
+implemented</a>.</li>
+<li>A <code>Buffer</code> trait <a href="https://github.com/mozilla/rust/pull/10466">has been
+added</a> to <code>std::io</code>, with
+<code>read_line</code>, <code>read_until</code>, and <code>read_char</code>.</li>
+<li>The error message when the trait&rsquo;s method declaration and the method
+declaration in the implementation aren&rsquo;t the same <a href="https://github.com/mozilla/rust/pull/10509">now includes the trait
+name</a>.</li>
+<li>The libuv bindings were <a href="https://github.com/mozilla/rust/pull/10321">largely
+rewritten</a> for performance, at
+the sacrifice of some flexibility (which was of questionable value).</li>
+<li><code>_</code>-prefixed variables <a href="https://github.com/mozilla/rust/pull/10518">no
+longer</a> get an unused <code>mut</code>
+warning.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<p>Our first-time contributors this week are:</p>
+
+<ul>
+<li>Jaemin Moon</li>
+<li>Jay Anderson</li>
+<li>Joe Schafer</li>
+<li>Matthew Iselin</li>
+<li>Zach Kamsler</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>There was no meeting this week, as a bunch of the core developers were in
+South Korea for the Servo workweek with Samsung.</p>
+
+<h2>Announcements etc</h2>
+
+<ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006686.html">(ML) Rethinking Linking in
+Rust</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006550.html">(ML) The future of M:N
+threading</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006714.html">(ML) Type system
+thoughts</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006431.html">(ML)Changing
+roles</a>,
+Tim&rsquo;s &ldquo;going-away&rdquo; post. He did great work on rustpkg, and I hope he finds
+time to continue to contribute to Rust.</li>
+<li><a href="http://blog.theincredibleholk.org/blog/2013/11/18/booting-to-rust/">Booting to Rust (with
+UEFI)</a></li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/11/14/treating-vectors-like-any-other-container/">Treating Vectors Like Any Other
+Container</a></li>
+<li><a href="http://adrientetar.legtux.org/blog_fr.php?post=0">Moving forward with Rust
+website</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[These Weeks in Rust]]></title>
@@ -473,47 +591,6 @@ worth implementing.</p>
 
 <p>Please email me any comments, or see the <a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/">discussion on
 reddit</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ACM ICPC: What I Learned]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned/"/>
-    <updated>2013-10-20T10:47:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned</id>
-    <content type="html"><![CDATA[<p>Yesterday I participated in my first <a href="http://icpc.baylor.edu/">programming
-contest</a>. It was very fun, though challenging, and I
-learned a fair bit during it. <!-- more --> The content consisted of teams of
-3 working to solve 6 problems as fast as possible. The problems ranged from
-trivial (repeated arithmetic) to moderately complex.</p>
-
-<h2>Problem solving is fun.</h2>
-
-<p>I already knew this, but it has been some time since I&rsquo;ve done intense
-problem solving. It was nice to sit down for a few hours and bang my head
-on a problem. Creative problem solving just <em>feels</em> good, in a way that most
-activities don&rsquo;t.</p>
-
-<h2>I don&rsquo;t know much about algorithms or data structures</h2>
-
-<p>Of course I know the basic search and sorts, but anything involving
-anything more complex than binary trees is beyond my current knowledge. A
-few of the problems were solved very elegantly with tree operations. I was
-unable to come up with a way to express the operation I wanted to perform.
-It&rsquo;s a <a href="http://en.wikipedia.org/wiki/Longest_path_problem">standard problem</a>
-which I had not been aware of.</p>
-
-<p>Now that I <a href="http://en.wikipedia.org/wiki/There_are_known_knowns">know what I don&rsquo;t
-know</a>, I can expand my
-knowledge.</p>
-
-<h2>C++&rsquo;s iostreams are quite nice</h2>
-
-<p>Previously I haven&rsquo;t been a fan of iostreams, due to their misplaced
-pedagogical use. But, for simply reading whitespace-separated data from stdin
-and outputting the same to stdout, there probably isn&rsquo;t anything easier. I
-might implement something similar (though not using the <code>&gt;&gt;</code> and <code>&lt;&lt;</code>
-operators).</p>
 ]]></content>
   </entry>
   

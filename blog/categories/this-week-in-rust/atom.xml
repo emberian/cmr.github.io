@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-09T14:41:54-05:00</updated>
+  <updated>2013-11-19T03:13:52-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/11/19/this-week-in-rust/"/>
+    <updated>2013-11-19T01:42:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/11/19/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>46 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::rt::io</code> <a href="https://github.com/mozilla/rust/pull/10423">has moved on</a> to
+become <code>std::io</code>. Yay!</li>
+<li>The <code>#[fixed_stack_segment]</code> attribute <a href="https://github.com/mozilla/rust/pull/10407">has been
+removed</a>.</li>
+<li><code>as</code> casts to functions are <a href="https://github.com/mozilla/rust/pull/9788">no longer
+allowed</a>.</li>
+<li>The return value of the <code>io::process</code> is no longer an int, but <a href="https://github.com/mozilla/rust/pull/10109">an enum that
+also represents termination by
+signal</a>. It&rsquo;s also ostensibly
+more portable: to check if a subprocess succeeded, just call <code>.success()</code> on
+the return value.</li>
+<li><code>std::cast::unsafe_copy</code> has <a href="https://github.com/mozilla/rust/pull/10497">has been
+removed</a>. It is identical to
+<code>std::ptr::read_ptr</code>.</li>
+<li>Trailing <code>::</code> is <a href="https://github.com/mozilla/rust/pull/10420">no longer
+allowed</a> in paths</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Vectors have <a href="https://github.com/mozilla/rust/pull/10417">more overflow
+checking</a>. This was the cause
+of a few mysterious segfaults.</li>
+<li>Crate maps <a href="https://github.com/mozilla/rust/pull/10422">can now be generated for
+libraries</a>, for when you want to
+embed a Rust library in a non-Rust application.</li>
+<li>Creation of buffered readers/writers <a href="https://github.com/mozilla/rust/pull/10424">has been optimized a
+bit</a>.</li>
+<li>If you use OS X, you&rsquo;ll be happy to see that the frivolous &ldquo;no debug symbols
+in executable&rdquo; warning <a href="https://github.com/mozilla/rust/pull/10198">has been stomped
+out</a>.</li>
+<li>The missing-documentation lint is <a href="https://github.com/mozilla/rust/pull/10277">now more
+accepting</a>, and won&rsquo;t warn about
+private items.</li>
+<li><code>BufWriter</code>, an implementation of Writer for already-existing buffers, <a href="https://github.com/mozilla/rust/pull/10451">is
+now implemented</a>.</li>
+<li>The native IO backend has seen <a href="https://github.com/mozilla/rust/pull/10457">a good
+boost</a>; it will now be
+seamlessly fallen back to when the libuv backend isn&rsquo;t available (you can
+test this out by adding <code>#[no_uv];</code> to your crates).</li>
+<li>A lint for numeric literals which overflow their type <a href="https://github.com/mozilla/rust/pull/10018">has been
+implemented</a>.</li>
+<li>A <code>Buffer</code> trait <a href="https://github.com/mozilla/rust/pull/10466">has been
+added</a> to <code>std::io</code>, with
+<code>read_line</code>, <code>read_until</code>, and <code>read_char</code>.</li>
+<li>The error message when the trait&rsquo;s method declaration and the method
+declaration in the implementation aren&rsquo;t the same <a href="https://github.com/mozilla/rust/pull/10509">now includes the trait
+name</a>.</li>
+<li>The libuv bindings were <a href="https://github.com/mozilla/rust/pull/10321">largely
+rewritten</a> for performance, at
+the sacrifice of some flexibility (which was of questionable value).</li>
+<li><code>_</code>-prefixed variables <a href="https://github.com/mozilla/rust/pull/10518">no
+longer</a> get an unused <code>mut</code>
+warning.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<p>Our first-time contributors this week are:</p>
+
+<ul>
+<li>Jaemin Moon</li>
+<li>Jay Anderson</li>
+<li>Joe Schafer</li>
+<li>Matthew Iselin</li>
+<li>Zach Kamsler</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>There was no meeting this week, as a bunch of the core developers were in
+South Korea for the Servo workweek with Samsung.</p>
+
+<h2>Announcements etc</h2>
+
+<ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006686.html">(ML) Rethinking Linking in
+Rust</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006550.html">(ML) The future of M:N
+threading</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006714.html">(ML) Type system
+thoughts</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006431.html">(ML)Changing
+roles</a>,
+Tim&rsquo;s &ldquo;going-away&rdquo; post. He did great work on rustpkg, and I hope he finds
+time to continue to contribute to Rust.</li>
+<li><a href="http://blog.theincredibleholk.org/blog/2013/11/18/booting-to-rust/">Booting to Rust (with
+UEFI)</a></li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/11/14/treating-vectors-like-any-other-container/">Treating Vectors Like Any Other
+Container</a></li>
+<li><a href="http://adrientetar.legtux.org/blog_fr.php?post=0">Moving forward with Rust
+website</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[These Weeks in Rust]]></title>
@@ -511,112 +629,6 @@ tracker</a>.</li>
 3</a>
 - another attempt at tackling the problems with closures.</li>
 <li>mcpherrin in <code>#rust</code> says &ldquo;Hello, everyone!&rdquo;</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/06/this-week-in-rust/"/>
-    <updated>2013-10-06T18:25:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/06/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>Only 63 PRs were merged this week. Currently in the queue is the massive
-privacy change, the path rewrite, enum descriminant shrinking, a <code>rand</code>
-rework, a lock-free scheduler message queue, and libuv signal bindings.</p>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li><code>float</code> has been <a href="https://github.com/mozilla/rust/pull/9519">removed from the
-language</a>.</li>
-<li><code>loop</code> has been <a href="https://github.com/mozilla/rust/pull/9665">removed</a>. The
-transition to <code>continue</code> is complete.</li>
-<li>A macro ignoring tokens now <a href="https://github.com/mozilla/rust/pull/9673">throws an
-error</a> rather than silently
-ignoring it.</li>
-<li><code>IntConvertible</code> has been
-<a href="https://github.com/mozilla/rust/pull/9250">replaced</a> with <code>ToPrimitive</code> and
-<code>FromPrimitive</code>. This also heralds the ability to derive to/from int methods
-on enums.</li>
-</ul>
-
-
-<h2>Everything Else</h2>
-
-<ul>
-<li><code>rustpkg</code> can <a href="https://github.com/mozilla/rust/pull/9741">fetch remote packages
-again</a>.</li>
-<li>A bunch of unsafe code surrounding logging <a href="https://github.com/mozilla/rust/pull/9593">has been
-remove</a>.</li>
-<li>A bunch of work was done to make more things immediate. A
-<a href="https://github.com/mozilla/rust/pull/9643">bugfix</a>, <a href="https://github.com/mozilla/rust/pull/9656">small
-tuples</a>, <a href="https://github.com/mozilla/rust/pull/9677">small
-enums</a>, and <a href="https://github.com/mozilla/rust/pull/9699">unit/C-like
-enums</a>.</li>
-<li>A bunch of work went into decreasing our memory usage. The massive spike at
-the beginning <a href="https://github.com/mozilla/rust/pull/9612">has been fixed</a>.
-The tcx (type context, holds the result of <em>all</em> compiler analysis) is also
-free&rsquo;d before translation now, reducing memory usage by a good <a href="https://github.com/mozilla/rust/pull/9686">500+
-MB</a>. Another cache during
-constant evaluation <a href="https://github.com/mozilla/rust/pull/9722">reduces memory usage by
-200MB</a>.</li>
-<li>We&rsquo;re now <a href="https://github.com/mozilla/rust/pull/9662">bundling our
-dependencies</a> on Windows, making
-it easier to bootstrap and to setup a working Rust environment.</li>
-<li>All of the really old obsolete syntax checkers <a href="https://github.com/mozilla/rust/pull/9712">have been
-removed</a>.</li>
-<li>Hyperlinking between crates is <a href="https://github.com/mozilla/rust/pull/9691">now
-reimplemented</a> in rustdoc.</li>
-<li>Gearing up for its removal, <a href="https://github.com/mozilla/rust/pull/9599">all <code>fmt!</code> usage in the compiler has been
-removed</a>.</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-01">weekly
-meeting</a>
-discussed a bunch of proposed changes, including rustpkg submodules, removing
-float (which has already happened), raw string literals (which have a patch
-almost finished), and the changes to the Option API.</p>
-
-<h1>Announcements</h1>
-
-<ul>
-<li><a href="https://github.com/jeaye/ncurses-rs">ncurses-rs</a> &ndash; a safe wrapper that
-keeps the same ncurses interface you know and &ldquo;love&rdquo;, but more rustic.</li>
-<li><a href="https://github.com/mozilla/rust/wiki/The%20Rusticon">The Rusticon</a> &ndash; A
-living glossary of Rust terms.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1nqzth/zeromq_helping_us_block_malicious_domains_in_real/">A production use of
-Rust!</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1ntnvf/understanding_the_servo_strategy/">Understanding the Servo
-Strategy</a>
-- The Servo presentation given at the various Mozilla Summits</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1nmarr/dynamic_typing_implemented_as_library_code/">Dynamic Typing implemented as a
-library</a>
-- a pretty cool use of our reflection.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1ni84a/running_rust_tests_on_travis_ci/">Running Rust Tests on Travis
-CI</a>.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1ngqgr/rust_bindings_for_fuse_filesystem_in_userspace/">Rust bindings for
-FUSE</a></li>
-</ul>
-
-
-<h1>Meetups</h1>
-
-<p>Haven&rsquo;t had a meetup section in a long time, but two are forming!</p>
-
-<ul>
-<li><a href="http://www.meetup.com/Rust-Bay-Area/">Francisco Bay Area</a></li>
-<li><a href="http://www.meetup.com/rust-skane/">Rust Skåne (Lund, Sweden)</a></li>
 </ul>
 
 ]]></content>

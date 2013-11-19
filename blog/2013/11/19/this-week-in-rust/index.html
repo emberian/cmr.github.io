@@ -1,0 +1,264 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust. What&rsquo;s cooking on master? 46 PRs were merged this week. Breaking changes std::rt::io has moved &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust</em>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>46 PRs were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>std::rt::io</code> <a href="https://github.com/mozilla/rust/pull/10423">has moved on</a> to
+become <code>std::io</code>. Yay!</li>
+<li>The <code>#[fixed_stack_segment]</code> attribute <a href="https://github.com/mozilla/rust/pull/10407">has been
+removed</a>.</li>
+<li><code>as</code> casts to functions are <a href="https://github.com/mozilla/rust/pull/9788">no longer
+allowed</a>.</li>
+<li>The return value of the <code>io::process</code> is no longer an int, but <a href="https://github.com/mozilla/rust/pull/10109">an enum that
+also represents termination by
+signal</a>. It&rsquo;s also ostensibly
+more portable: to check if a subprocess succeeded, just call <code>.success()</code> on
+the return value.</li>
+<li><code>std::cast::unsafe_copy</code> has <a href="https://github.com/mozilla/rust/pull/10497">has been
+removed</a>. It is identical to
+<code>std::ptr::read_ptr</code>.</li>
+<li>Trailing <code>::</code> is <a href="https://github.com/mozilla/rust/pull/10420">no longer
+allowed</a> in paths</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Vectors have <a href="https://github.com/mozilla/rust/pull/10417">more overflow
+checking</a>. This was the cause
+of a few mysterious segfaults.</li>
+<li>Crate maps <a href="https://github.com/mozilla/rust/pull/10422">can now be generated for
+libraries</a>, for when you want to
+embed a Rust library in a non-Rust application.</li>
+<li>Creation of buffered readers/writers <a href="https://github.com/mozilla/rust/pull/10424">has been optimized a
+bit</a>.</li>
+<li>If you use OS X, you&rsquo;ll be happy to see that the frivolous &ldquo;no debug symbols
+in executable&rdquo; warning <a href="https://github.com/mozilla/rust/pull/10198">has been stomped
+out</a>.</li>
+<li>The missing-documentation lint is <a href="https://github.com/mozilla/rust/pull/10277">now more
+accepting</a>, and won&rsquo;t warn about
+private items.</li>
+<li><code>BufWriter</code>, an implementation of Writer for already-existing buffers, <a href="https://github.com/mozilla/rust/pull/10451">is
+now implemented</a>.</li>
+<li>The native IO backend has seen <a href="https://github.com/mozilla/rust/pull/10457">a good
+boost</a>; it will now be
+seamlessly fallen back to when the libuv backend isn&rsquo;t available (you can
+test this out by adding <code>#[no_uv];</code> to your crates).</li>
+<li>A lint for numeric literals which overflow their type <a href="https://github.com/mozilla/rust/pull/10018">has been
+implemented</a>.</li>
+<li>A <code>Buffer</code> trait <a href="https://github.com/mozilla/rust/pull/10466">has been
+added</a> to <code>std::io</code>, with
+<code>read_line</code>, <code>read_until</code>, and <code>read_char</code>.</li>
+<li>The error message when the trait&rsquo;s method declaration and the method
+declaration in the implementation aren&rsquo;t the same <a href="https://github.com/mozilla/rust/pull/10509">now includes the trait
+name</a>.</li>
+<li>The libuv bindings were <a href="https://github.com/mozilla/rust/pull/10321">largely
+rewritten</a> for performance, at
+the sacrifice of some flexibility (which was of questionable value).</li>
+<li><code>_</code>-prefixed variables <a href="https://github.com/mozilla/rust/pull/10518">no
+longer</a> get an unused <code>mut</code>
+warning.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<p>Our first-time contributors this week are:</p>
+
+<ul>
+<li>Jaemin Moon</li>
+<li>Jay Anderson</li>
+<li>Joe Schafer</li>
+<li>Matthew Iselin</li>
+<li>Zach Kamsler</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>There was no meeting this week, as a bunch of the core developers were in
+South Korea for the Servo workweek with Samsung.</p>
+
+<h2>Announcements etc</h2>
+
+<ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006686.html">(ML) Rethinking Linking in
+Rust</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006550.html">(ML) The future of M:N
+threading</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006714.html">(ML) Type system
+thoughts</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006431.html">(ML)Changing
+roles</a>,
+Tim&rsquo;s &ldquo;going-away&rdquo; post. He did great work on rustpkg, and I hope he finds
+time to continue to contribute to Rust.</li>
+<li><a href="http://blog.theincredibleholk.org/blog/2013/11/18/booting-to-rust/">Booting to Rust (with
+UEFI)</a></li>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2013/11/14/treating-vectors-like-any-other-container/">Treating Vectors Like Any Other
+Container</a></li>
+<li><a href="http://adrientetar.legtux.org/blog_fr.php?post=0">Moving forward with Rust
+website</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-11-19T01:42:00-05:00"  data-updated="true">Nov 19<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
