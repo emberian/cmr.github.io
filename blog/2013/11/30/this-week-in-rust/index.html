@@ -1,0 +1,338 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Ramblin's</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Welcome to another issue of This Week in Rust, a weekly newsletter
+summarizing Rust&rsquo;s progress and community activity. As always, if you have &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ramblin's" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Ramblin's</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Welcome to another issue of <em>This Week in Rust</em>, a weekly newsletter
+summarizing Rust&rsquo;s progress and community activity. As always, if you have
+something you&rsquo;d like to be featured, just <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">send me an
+email</a>.</p>
+
+<p>Last week was very slow, but this week more than makes up for it I think!
+Static linking landed, and there&rsquo;s been some nice cleanup of error messages
+and various APIs.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>59 PRs were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Names of methods creating iterators have <a href="https://github.com/mozilla/rust/pull/10622">changed
+drastically</a> to remove the
+<code>_iter</code> suffix. This reflects that iterators are a primary focus of APIs.
+The PR description has all of the changes summarized.</li>
+<li>We now have <a href="https://github.com/mozilla/rust/pull/10528">static linking
+support</a>! It does, however,
+involve some changes with how the <code>link</code> attribute works. The error messages
+should guide you to the fixes.</li>
+<li>In preparation for the placement new changes, the <code>Path</code> constructor has
+been <a href="https://github.com/mozilla/rust/pull/10697">renamed from <code>new</code> to
+<code>init</code></a>,.</li>
+<li>Some overly-permissive borrow checking for <code>&amp;mut &amp;mut</code> <a href="https://github.com/mozilla/rust/pull/10519">has been
+fixed</a>. This is fairly obscure,
+most code shouldn&rsquo;t have hit it.</li>
+<li>The parser is <a href="https://github.com/mozilla/rust/pull/10642">more strict</a>
+about what it accepts as a doc comment. Now, only <code>///</code> and <code>/**</code>  are
+counted as introducing doc comments (previously, <code>////</code> and <code>/***</code> would
+also introduce a doc comment).</li>
+<li><code>std::{uint, int}::{min, max}</code> <a href="https://github.com/mozilla/rust/pull/10719">have been
+removed</a>. They were identical to
+the functions in <code>std::cmp</code>, so use those instead.</li>
+<li><code>extra::json</code> <a href="https://github.com/mozilla/rust/pull/10727">has been rid of @
+boxes</a>, and now uses idiomatic
+constructor names.</li>
+<li>The <code>type_id</code> intrinsic <a href="https://github.com/mozilla/rust/pull/10722">now uses a language item as its return
+value</a>.</li>
+<li>Some <a href="https://github.com/mozilla/rust/pull/10662">cleanup</a> has been done to
+<code>std::rt::thread</code>, which is an interface to native threads (rather than
+tasks).</li>
+<li><code>do</code> blocks are <a href="https://github.com/mozilla/rust/pull/10581">no longer
+allowed</a> in non-<code>proc</code> contexts.
+This means that <code>do</code> can not be used with a function whose last argument is
+not a <code>proc</code>. A fairly large <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006999.html">thread on the mailing
+list</a>
+is ongoing about this change.</li>
+<li><code>LittleLock</code> now <a href="https://github.com/mozilla/rust/pull/10660">uses RAII</a>.</li>
+<li>C-like enums are <a href="https://github.com/mozilla/rust/pull/10652">now represented as an
+integer</a> rather than a struct,
+at the LLVM level. This affects ABI.</li>
+<li>Linked failure <a href="https://github.com/mozilla/rust/pull/10603">has been
+removed</a> from the runtime.</li>
+<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/10637">no longer uses <code>@mut
+Writer</code></a>, instead taking the
+writer to use by value.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>RefCell&lt;T&gt;</code>, previously known as <code>Mut&lt;T&gt;</code>, <a href="https://github.com/mozilla/rust/pull/10514">has finally
+landed</a>, for all your dynamic
+borrow checking needs.</li>
+<li>A lint for unknown attributes <a href="https://github.com/mozilla/rust/pull/10316">has finally been
+added</a>. The compiler will now
+warn when it sees an attribute it doesn&rsquo;t recognize.</li>
+<li>A lock-free <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&amp;rep=rep1&amp;type=pdf">Chase-Lev
+deque</a>
+has <a href="https://github.com/mozilla/rust/pull/10678">been added to the runtime</a>.</li>
+<li>The shootout-spectralnorm benchmark <a href="https://github.com/mozilla/rust/pull/10704">has been
+resurrected</a>.</li>
+<li>Unknown feature gates <a href="https://github.com/mozilla/rust/pull/10680">are now
+linted</a>, rather than being a
+hard failure.</li>
+<li>The AST is <a href="https://github.com/mozilla/rust/pull/10693">now frozen</a>!</li>
+<li><code>GenericPort</code> <a href="https://github.com/mozilla/rust/pull/10688">now has an
+iterator</a> over the messages it
+receives.</li>
+<li><code>NodeId</code>, <code>CrateNum</code>, <code>Name</code>, and <code>Mrk</code> (types in libsyntax) <a href="https://github.com/mozilla/rust/pull/10670">have been
+shrunk to 32 bits</a>.</li>
+<li>The restriction on macros expanding to a single item <a href="https://github.com/mozilla/rust/pull/10649">has been
+lifted</a>. This obviates the need
+for macros hackily expanding to a module containing the desired items. Do
+note that this only works when the macro is in &ldquo;item position&rdquo;, or where an
+item is expected. There is an
+<a href="https://github.com/mozilla/rust/issues/10681">issue</a> open for lifting this
+restriction.</li>
+<li>A <code>thread_local</code> attribute <a href="https://github.com/mozilla/rust/pull/10312">has been
+added</a>, which exposes a
+platform&rsquo;s native TLS, a la C11/C++11 <code>thread_local</code>.</li>
+<li>Cross compilation to win64 (via mingw-w64) <a href="https://github.com/mozilla/rust/pull/10578">is now
+supported</a>. There were also a
+<a href="https://github.com/mozilla/rust/pull/10631">bunch of fixes</a> on real win64.</li>
+<li>The parser gives a <a href="https://github.com/mozilla/rust/pull/10641">better error
+message</a> when it encounters an
+unclosed delimiter it didn&rsquo;t expect.</li>
+<li>There is a <a href="https://github.com/mozilla/rust/pull/10475">better error
+message</a> when a module name is
+used as a type (the motivating example being <code>impl SomeTrait for some_module</code>).</li>
+<li>JSON decoding <a href="https://github.com/mozilla/rust/pull/10625">now gives better
+errors</a>.</li>
+<li>Linker optimizations are <a href="https://github.com/mozilla/rust/pull/10620">now
+used</a> on Linux.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>Our first-time contributors this week are:</p>
+
+<ul>
+<li>Andreas Ots</li>
+<li>Eric Biggers</li>
+<li>Jannis Harder</li>
+<li>Kiet Tran</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-11-26">weekly
+meeting</a>
+discussed bootstrap times, the <code>thread_local</code> PR, mutexes, and the GC. In
+particular, it was decided that we should have nightlies.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This was a short week due to the US Thanksgiving holiday, but there were still
+17 landed PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Hyunjune Kim and Sammy Kim landed some border style extensions in
+<a href="http://github.com/mozilla/servo/pull/1322">#1276</a>.</li>
+<li>Youngmin Yoo, Seonghyun Kim, and Jaemin Moon landed overflow:hidden in
+<a href="http://github.com/mozilla/servo/pull/1298">#1298</a>.</li>
+<li>Isabelle Carter landed changing the unrendered portion of content to use the
+doc&rsquo;s background color in <a href="http://github.com/mozilla/servo/pull/1210">#1210</a>.</li>
+<li>Patrick Walton has been experimenting with some very promising parallel
+layout work, which he described in a
+<a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/1nKmBvFewIs">message</a>
+to the mailing list.</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>This week&rsquo;s <a href="https://github.com/mozilla/servo/wiki/Meeting-2013-11-25">meeting</a>
+covered the poor situation with Nvidia support on Linux, fleshed out the string
+interning plan during CSS selector parsing/matching, and went into some Servo
+and Rust-related build issues.</p>
+
+<h1>Announcements etc</h1>
+
+<p>Do note that all the links are pulled directly from the
+<a href="https://reddit.com/r/rust">subreddit</a>.</p>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1rf8rz/matrix_multiply_performance_in_rust/">Matrix Multiply Performance in Rust</a></li>
+<li><a href="https://github.com/sebcrozet/nrays">nrays</a> &ndash; a 3d/4d raytracer</li>
+<li><a href="https://air.mozilla.org/sprocketnes-practical-systems-programming-in-rust/">SprocketNES: Practical Systems Programming in
+Rust</a>.
+Contrary to the title, this is actually a recording of the presentations at
+the Bay Area meetup.</li>
+<li><a href="https://github.com/uutils/coreutils">uutils</a> &ndash; an attempt at writing
+universal (as in cross-platform) CLI utils in Rust</li>
+<li><a href="https://github.com/cmr/lets-build-a-compiler">lbac</a> &ndash; a Rust port of Jack
+Crenshaw&rsquo;s &ldquo;Let&rsquo;s Build a Compiler&rdquo;</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-11-30T15:56:00-05:00"  data-updated="true">Nov 30<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

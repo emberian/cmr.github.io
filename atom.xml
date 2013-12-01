@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblin's]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-24T14:22:27-05:00</updated>
+  <updated>2013-11-30T21:59:00-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,197 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/11/30/this-week-in-rust/"/>
+    <updated>2013-11-30T15:56:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/11/30/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly newsletter
+summarizing Rust&rsquo;s progress and community activity. As always, if you have
+something you&rsquo;d like to be featured, just <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">send me an
+email</a>.</p>
+
+<p>Last week was very slow, but this week more than makes up for it I think!
+Static linking landed, and there&rsquo;s been some nice cleanup of error messages
+and various APIs.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>59 PRs were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Names of methods creating iterators have <a href="https://github.com/mozilla/rust/pull/10622">changed
+drastically</a> to remove the
+<code>_iter</code> suffix. This reflects that iterators are a primary focus of APIs.
+The PR description has all of the changes summarized.</li>
+<li>We now have <a href="https://github.com/mozilla/rust/pull/10528">static linking
+support</a>! It does, however,
+involve some changes with how the <code>link</code> attribute works. The error messages
+should guide you to the fixes.</li>
+<li>In preparation for the placement new changes, the <code>Path</code> constructor has
+been <a href="https://github.com/mozilla/rust/pull/10697">renamed from <code>new</code> to
+<code>init</code></a>,.</li>
+<li>Some overly-permissive borrow checking for <code>&amp;mut &amp;mut</code> <a href="https://github.com/mozilla/rust/pull/10519">has been
+fixed</a>. This is fairly obscure,
+most code shouldn&rsquo;t have hit it.</li>
+<li>The parser is <a href="https://github.com/mozilla/rust/pull/10642">more strict</a>
+about what it accepts as a doc comment. Now, only <code>///</code> and <code>/**</code>  are
+counted as introducing doc comments (previously, <code>////</code> and <code>/***</code> would
+also introduce a doc comment).</li>
+<li><code>std::{uint, int}::{min, max}</code> <a href="https://github.com/mozilla/rust/pull/10719">have been
+removed</a>. They were identical to
+the functions in <code>std::cmp</code>, so use those instead.</li>
+<li><code>extra::json</code> <a href="https://github.com/mozilla/rust/pull/10727">has been rid of @
+boxes</a>, and now uses idiomatic
+constructor names.</li>
+<li>The <code>type_id</code> intrinsic <a href="https://github.com/mozilla/rust/pull/10722">now uses a language item as its return
+value</a>.</li>
+<li>Some <a href="https://github.com/mozilla/rust/pull/10662">cleanup</a> has been done to
+<code>std::rt::thread</code>, which is an interface to native threads (rather than
+tasks).</li>
+<li><code>do</code> blocks are <a href="https://github.com/mozilla/rust/pull/10581">no longer
+allowed</a> in non-<code>proc</code> contexts.
+This means that <code>do</code> can not be used with a function whose last argument is
+not a <code>proc</code>. A fairly large <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-November/006999.html">thread on the mailing
+list</a>
+is ongoing about this change.</li>
+<li><code>LittleLock</code> now <a href="https://github.com/mozilla/rust/pull/10660">uses RAII</a>.</li>
+<li>C-like enums are <a href="https://github.com/mozilla/rust/pull/10652">now represented as an
+integer</a> rather than a struct,
+at the LLVM level. This affects ABI.</li>
+<li>Linked failure <a href="https://github.com/mozilla/rust/pull/10603">has been
+removed</a> from the runtime.</li>
+<li><code>extra::term</code> <a href="https://github.com/mozilla/rust/pull/10637">no longer uses <code>@mut
+Writer</code></a>, instead taking the
+writer to use by value.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>RefCell&lt;T&gt;</code>, previously known as <code>Mut&lt;T&gt;</code>, <a href="https://github.com/mozilla/rust/pull/10514">has finally
+landed</a>, for all your dynamic
+borrow checking needs.</li>
+<li>A lint for unknown attributes <a href="https://github.com/mozilla/rust/pull/10316">has finally been
+added</a>. The compiler will now
+warn when it sees an attribute it doesn&rsquo;t recognize.</li>
+<li>A lock-free <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&amp;rep=rep1&amp;type=pdf">Chase-Lev
+deque</a>
+has <a href="https://github.com/mozilla/rust/pull/10678">been added to the runtime</a>.</li>
+<li>The shootout-spectralnorm benchmark <a href="https://github.com/mozilla/rust/pull/10704">has been
+resurrected</a>.</li>
+<li>Unknown feature gates <a href="https://github.com/mozilla/rust/pull/10680">are now
+linted</a>, rather than being a
+hard failure.</li>
+<li>The AST is <a href="https://github.com/mozilla/rust/pull/10693">now frozen</a>!</li>
+<li><code>GenericPort</code> <a href="https://github.com/mozilla/rust/pull/10688">now has an
+iterator</a> over the messages it
+receives.</li>
+<li><code>NodeId</code>, <code>CrateNum</code>, <code>Name</code>, and <code>Mrk</code> (types in libsyntax) <a href="https://github.com/mozilla/rust/pull/10670">have been
+shrunk to 32 bits</a>.</li>
+<li>The restriction on macros expanding to a single item <a href="https://github.com/mozilla/rust/pull/10649">has been
+lifted</a>. This obviates the need
+for macros hackily expanding to a module containing the desired items. Do
+note that this only works when the macro is in &ldquo;item position&rdquo;, or where an
+item is expected. There is an
+<a href="https://github.com/mozilla/rust/issues/10681">issue</a> open for lifting this
+restriction.</li>
+<li>A <code>thread_local</code> attribute <a href="https://github.com/mozilla/rust/pull/10312">has been
+added</a>, which exposes a
+platform&rsquo;s native TLS, a la C11/C++11 <code>thread_local</code>.</li>
+<li>Cross compilation to win64 (via mingw-w64) <a href="https://github.com/mozilla/rust/pull/10578">is now
+supported</a>. There were also a
+<a href="https://github.com/mozilla/rust/pull/10631">bunch of fixes</a> on real win64.</li>
+<li>The parser gives a <a href="https://github.com/mozilla/rust/pull/10641">better error
+message</a> when it encounters an
+unclosed delimiter it didn&rsquo;t expect.</li>
+<li>There is a <a href="https://github.com/mozilla/rust/pull/10475">better error
+message</a> when a module name is
+used as a type (the motivating example being <code>impl SomeTrait for some_module</code>).</li>
+<li>JSON decoding <a href="https://github.com/mozilla/rust/pull/10625">now gives better
+errors</a>.</li>
+<li>Linker optimizations are <a href="https://github.com/mozilla/rust/pull/10620">now
+used</a> on Linux.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<p>Our first-time contributors this week are:</p>
+
+<ul>
+<li>Andreas Ots</li>
+<li>Eric Biggers</li>
+<li>Jannis Harder</li>
+<li>Kiet Tran</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-11-26">weekly
+meeting</a>
+discussed bootstrap times, the <code>thread_local</code> PR, mutexes, and the GC. In
+particular, it was decided that we should have nightlies.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This was a short week due to the US Thanksgiving holiday, but there were still
+17 landed PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Hyunjune Kim and Sammy Kim landed some border style extensions in
+<a href="http://github.com/mozilla/servo/pull/1322">#1276</a>.</li>
+<li>Youngmin Yoo, Seonghyun Kim, and Jaemin Moon landed overflow:hidden in
+<a href="http://github.com/mozilla/servo/pull/1298">#1298</a>.</li>
+<li>Isabelle Carter landed changing the unrendered portion of content to use the
+doc&rsquo;s background color in <a href="http://github.com/mozilla/servo/pull/1210">#1210</a>.</li>
+<li>Patrick Walton has been experimenting with some very promising parallel
+layout work, which he described in a
+<a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/1nKmBvFewIs">message</a>
+to the mailing list.</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>This week&rsquo;s <a href="https://github.com/mozilla/servo/wiki/Meeting-2013-11-25">meeting</a>
+covered the poor situation with Nvidia support on Linux, fleshed out the string
+interning plan during CSS selector parsing/matching, and went into some Servo
+and Rust-related build issues.</p>
+
+<h1>Announcements etc</h1>
+
+<p>Do note that all the links are pulled directly from the
+<a href="https://reddit.com/r/rust">subreddit</a>.</p>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1rf8rz/matrix_multiply_performance_in_rust/">Matrix Multiply Performance in Rust</a></li>
+<li><a href="https://github.com/sebcrozet/nrays">nrays</a> &ndash; a 3d/4d raytracer</li>
+<li><a href="https://air.mozilla.org/sprocketnes-practical-systems-programming-in-rust/">SprocketNES: Practical Systems Programming in
+Rust</a>.
+Contrary to the title, this is actually a recording of the presentations at
+the Bay Area meetup.</li>
+<li><a href="https://github.com/uutils/coreutils">uutils</a> &ndash; an attempt at writing
+universal (as in cross-platform) CLI utils in Rust</li>
+<li><a href="https://github.com/cmr/lets-build-a-compiler">lbac</a> &ndash; a Rust port of Jack
+Crenshaw&rsquo;s &ldquo;Let&rsquo;s Build a Compiler&rdquo;</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -2025,224 +2216,6 @@ Portable</a>.
 fix</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rust's Memory Management]]></title>
-    <link href="http://cmr.github.io/blog/2013/08/13/rust-by-concept/"/>
-    <updated>2013-08-13T01:14:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/08/13/rust-by-concept</id>
-    <content type="html"><![CDATA[<p><strong>Note:</strong> I accidentally published this. I won&rsquo;t take it down, but it is
-incomplete and I do not guarantee its correctness.</p>
-
-<p><strong>Note 2:</strong> I don&rsquo;t think this post is necessary anymore, as the tutorial has
-been updated significantly, and is quite understandable. As such I don&rsquo;t plan
-on finishing this post. Email me if you&rsquo;d like to see it finished.</p>
-
-<p>Rust seems to intimidate newcomers, as its memory model is fairly complex. I
-think part of the problem is that the language tutorial introduces the memory
-model by feature.  Rather, I&rsquo;ll introduce it by concept, showing examples of
-code that breaks memory safety in C, and how Rust&rsquo;s memory model prevents the
-error. Hopefully I can convince you that Rust isn&rsquo;t as complex as it looks,
-and that the extra syntax is well-worth the zero-cost memory safety. I&rsquo;ll be
-comparing Rust code to equivalent C idioms using the <a href="http://zeromq.org/"><code>zeromq
-library</code></a> because it has a very clean API in both
-languages. As such, I assume basic familiarity with C. Rust is not a very
-suitable language for new programmers, and neither is this tutorial.</p>
-
-<!-- more -->
-
-
-<p>The core concepts driving Rust&rsquo;s memory management are, in reverse order of
-simplicity, <em>ownership</em>, <em>mutability</em>, and <em>lifetime</em>. It&rsquo;s not that other
-languages don&rsquo;t have them, it&rsquo;s just that they&rsquo;re implicit or convention. I
-won&rsquo;t be using many fancy features of Rust here. They aren&rsquo;t needed to explain
-the memory management, variables and functions suffice.</p>
-
-<h1>Ownership</h1>
-
-<p>Ownership is simply who is responsibile for freeing an object. If you own an
-object, you are ensured it is valid.</p>
-
-<p>An example in C would be:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void *context = zmq_ctx_new(); // zeromq owns the context, you just get to use it
-</span><span class='line'>// ...
-</span><span class='line'>zmq_ctx_destroy(context); // you need to tell zeromq to free it, you aren't allowed to do so</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Rust:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let context: ~Context = zmq_ctx_new();
-</span><span class='line'>// ....
-</span><span class='line'>// context implicitly freed when no one owns it anymore</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice that the C uses an opaque <code>void*</code> and that Rust uses
-the explicitly-named <code>~Context</code>. In C, you often use opaque types because the
-language offers no control over visibility of struct members. In Rust, you can
-mark the fields of a struct <code>priv</code>, which will disallow users of the library
-from using those fields. This is a bit nuanced, and I&rsquo;ll explain it in a later
-tutorial on privacy and the module system.</p>
-
-<p>The tilde means &ldquo;owned pointer&rdquo;, in that if you have an owned pointer to an
-object, you are the owner. Creating an owned pointer involves a heap
-allocation (malloc). I use an owned pointer in these examples to mirror the C,
-but idiomatic Rust uses values on the stack much more frequently than values
-on the heap.</p>
-
-<h2>Taking ownership</h2>
-
-<p>Rust goes one step further with ownership. The compiler asserts that an object
-cannot be owned multiple times. An object can be owned by a stack frame
-(locals and function arguments), a scope, or a struct. For lack of a better
-term, I&rsquo;ll call these &ldquo;owners.&rdquo; You transfer ownership by &ldquo;moving&rdquo; into an
-owner. Once an owner loses ownership, the compiler will error if you try to
-use the object again through that owner.  This disallows dangling pointers and
-prevents an entire class of error (and potentially vulnerability), &ldquo;use after
-free.&rdquo;</p>
-
-<p>In C, it&rsquo;s perfectly valid to do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void *context = zmq_ctx_new();
-</span><span class='line'>zmq_ctx_destroy(context);
-</span><span class='line'>use_context(context); // compiles fine, but clearly incorrect</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whereas in Rust:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let context: ~Context = zmq_ctx_new();
-</span><span class='line'>{ // introduce a scope
-</span><span class='line'>  let context2: ~Context = context; // context moved into the variable in this scope
-</span><span class='line'>} // context2 freed at scope close
-</span><span class='line'>use_context(context); // error: use of moved value: `context`</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Not taking ownership</h2>
-
-<p>Most functions that take arguments don&rsquo;t need to take ownership. To express
-this, Rust has the &ldquo;borrowed pointer.&rdquo; For example, in C you would write this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int length(some_large_struct_t *datum) {
-</span><span class='line'>  return datum-&gt;x - datum-&gt;padding;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The function does not care who owns the object, it doesn&rsquo;t need to free it, as
-there&rsquo;s no reason the object can&rsquo;t be used again after this computation. In
-Rust, it&rsquo;s:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>fn length(datum: &some_large_struct) -&gt; int {
-</span><span class='line'>  datum.x - datum.padding
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The first thing you&rsquo;ll notice is that there is no dereference to be found in
-the source. In C, <code>-&gt;</code> is the dereferencing struct member extraction operator.
-In Rust, <code>.</code> will dereference if it needs to. You&rsquo;ll also notice that Rust
-uses <code>&amp;</code> rather than <code>*</code> to indicate this type of a pointer. It&rsquo;s the same
-operator used to take a pointer (address-of), as in C. C, however, doesn&rsquo;t
-enforce the non-transfer of ownership. It&rsquo;s perfectly valid to do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int length(some_large_struct_t *datum) {
-</span><span class='line'>  int l = datum-&gt;x - datum-&gt;padding;
-</span><span class='line'>  free(datum);
-</span><span class='line'>  return l;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>length</code> has now incorrectly taken ownership of <code>datum</code>, by <code>free</code>ing it. Any
-code which had a pointer to <code>datum</code> has now been rendered incorrect. In Rust,
-there is no way to safely free memory. It is automatically free&rsquo;d.</p>
-
-<h2>Multiple ownership</h2>
-
-<p>There are situations when ownership isn&rsquo;t so black and white, and for that
-Rust has the &ldquo;managed pointer.&rdquo; The type of a managed pointer is <code>@'static T</code>.
-The <code>'static</code> means &ldquo;this type cannot contain any borrowed pointers.&rdquo; The
-shorthand for <code>@'static T</code> is just <code>@T</code>: it&rsquo;s impossible to have a managed
-pointer to a type that doesn&rsquo;t fulfill <code>'static</code>. Using only owned and
-borrowed pointers, ownership forms a DAG. Managed pointers allow cycles. They
-are GC-managed, and allow multiple pointers to the same object. The way this
-is enabled is that the pointer&rsquo;s contents (the pointee) are immutable. If
-they were allowed to be mutable, data races would occur. In the next section
-I&rsquo;ll show the mutable version.</p>
-
-<p>These have no direct comparison in C. The closest comparison is probably
-GObject&rsquo;s memory management API. Managed pointers aren&rsquo;t explicit memory
-management. As the name suggests, the runtime manages it for you. Managed
-pointers are usually considered as a &ldquo;last resort&rdquo;. Even though GC in Rust can
-be fast because all managed pointers are task-local, no GC is always faster
-than some GC.</p>
-
-<h1>Mutability</h1>
-
-<p>Mutability is whether you are allowed to mutate, or modify, some data. There
-are two pieces to mutability: mutability of things an object owns (inherited
-mutability), and mutability of data through a pointer.</p>
-
-<h2>Inherited Mutability</h2>
-
-<p>Say you have a point on the stack:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>struct Point {
-</span><span class='line'>  x: int,
-</span><span class='line'>  y: int
-</span><span class='line'>}
-</span><span class='line'>let value: Point = Point { x: 24, y: 42 };</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you try to mutate the point by, say, changing the <code>x</code> field, the compiler
-will complain:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>value.x = 42; //~ ERROR: cannot assign to immutable field</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The error message is actualy a bit misleading: there is no such thing as a
-mutable field! &ldquo;Point&rdquo; is said to have inherited mutability; its mutability is
-determined by the mutability of the thing that holds it. So, to fix this
-example, we&rsquo;d use:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let mut value: Point = Point { x: 24, y: 42 };
-</span><span class='line'>value.x = 42;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inherited mutability inherits throughout the ownership tree: the value, and
-everything the value owns, recursively.</p>
 ]]></content>
   </entry>
   
