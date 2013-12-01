@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Ramblin's]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-11-30T21:59:00-05:00</updated>
+  <updated>2013-11-30T22:41:15-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -20,7 +20,7 @@
     <id>http://cmr.github.io/blog/2013/11/30/this-week-in-rust</id>
     <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly newsletter
 summarizing Rust&rsquo;s progress and community activity. As always, if you have
-something you&rsquo;d like to be featured, just <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">send me an
+something you&rsquo;d like to be featured, just <a href="mailto:corey@octayn.net?subject=This+Week+in+Rust+Suggestion">send me an
 email</a>.</p>
 
 <p>Last week was very slow, but this week more than makes up for it I think!
