@@ -1,0 +1,333 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust! It&rsquo;s a bit delayed
+due to finals, but like the spinning of the Earth it goes on. &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>! It&rsquo;s a bit delayed
+due to finals, but like the spinning of the Earth it goes on.</p>
+
+<p>Shameless plug: <a href="http://www.reddit.com/r/rust/comments/1sikak/ask_cmr_to_do_things/">ask me to do
+things</a>
+over my winter break!</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>52 PRs were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>The much-discussed <a href="https://github.com/mozilla/rust/pull/10364"><code>Result</code> API
+changes</a> have happened. The gist
+of it is that <code>.ok()</code> and <code>.err()</code> return Options. The other changes didn&rsquo;t
+land, I assume they will be coming later.</li>
+<li>The <a href="https://github.com/mozilla/rust/pull/10758">JIT support has been
+removed</a>, due to lack of maintenance and upstream
+changes (this came with the LLVM upgrade).</li>
+<li>Keywords (except self) are <a href="https://github.com/mozilla/rust/pull/10675">no longer allowed as lifetime
+parameters</a>.</li>
+<li><code>Path::new</code> has been <a href="https://github.com/mozilla/rust/pull/10796">renamed</a>
+back to <code>Path::init</code>.</li>
+<li><code>std::str::from_utf8</code> <a href="https://github.com/mozilla/rust/pull/10701">no longer
+allocates</a>.</li>
+<li><code>std::util::ignore</code> <a href="https://github.com/mozilla/rust/pull/10701">has been
+renamed</a> to <code>std::util::drop</code>, to
+better reflect what it does.</li>
+<li>Duplicate bindings are <a href="https://github.com/mozilla/rust/pull/10776">no longer
+allowed</a> in struct bindings. That
+is, <code>let SomeStruct { foo, foo } = baz;</code> is no longer legal.</li>
+<li>Dynamic library propagation <a href="https://github.com/mozilla/rust/pull/10777">is
+reimplemented</a>.</li>
+<li><code>extra::c_vec</code> <a href="https://github.com/mozilla/rust/pull/10736">has been
+modernized</a>.</li>
+<li><code>MutableVector::mut_split</code> <a href="https://github.com/mozilla/rust/pull/10757">has been
+renamed</a> to <code>mut_split_at</code>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li>A part of the tutorial <a href="https://github.com/mozilla/rust/pull/10690">has been
+rewritten</a>.</li>
+<li>Vim highlighting <a href="https://github.com/mozilla/rust/pull/10793">has been
+updated</a>.</li>
+<li><code>deriving</code> <a href="https://github.com/mozilla/rust/pull/10844">has better error
+messages</a>.</li>
+<li><code>StrSlice</code> has <a href="https://github.com/mozilla/rust/pull/10824">grown some
+documentation</a>.</li>
+<li>Snapshots are now <a href="https://github.com/mozilla/rust/pull/10809">statically
+linked</a>.</li>
+<li>From the &ldquo;changes I don&rsquo;t really understand&rdquo; department, <a href="https://github.com/mozilla/rust/pull/10506">trait lifetime
+parameters</a> are early bound in
+associated functions.</li>
+<li>A race in the scheduler <a href="https://github.com/mozilla/rust/pull/10817">has been
+squelched</a>.</li>
+<li>extra now has an <a href="https://github.com/mozilla/rust/pull/10211">LRU cache</a>.</li>
+<li>A <code>log_enabled!(level)</code> macro <a href="https://github.com/mozilla/rust/pull/10768">has been
+added</a>, for checking if the
+program is being run at a given log level.</li>
+<li>Static linking <a href="https://github.com/mozilla/rust/pull/10742">now has docs</a>!</li>
+<li>Memory usage when compiling librustc has been killed by 130MB with some
+<a href="https://github.com/mozilla/rust/pull/10676">well-placed indirection</a>.</li>
+<li><code>MutableVector</code> has <a href="https://github.com/mozilla/rust/pull/10739">another
+iterator</a>: <code>mut_chunks()</code>, for
+iterating over mutable slices.</li>
+<li>The <code>reverse-complement</code> shootout benchmark <a href="https://github.com/mozilla/rust/pull/10799">has been
+rewritten</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Alexandros Tasos</li>
+<li>Diego Ongaro</li>
+<li>Julia Evans</li>
+<li>osa1</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-12-03">weekly
+meeting</a>
+discussed using <code>box</code> for placement new, some rustpkg discussion, dropping the
+dependency on a system C++ library, and the above <code>from_utf8</code> and <code>Result</code>
+pull requests.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>We landed 19 PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Simon Sapin added the CSS visibility property in
+<a href="https://github.com/mozilla/servo/pull/1331">#1331</a>.</li>
+<li>Juneyoung Cho landed local bookmark navigation in
+<a href="https://github.com/mozilla/servo/pull/1262">#1262</a>.</li>
+<li>ms2ger added reporting exceptions to JS when the DOM implementation fails in
+<a href="https://github.com/mozilla/servo/pull/1304">#1304</a>.</li>
+<li>Keegan McAllister and Patrick Kim landed several changes to continue our
+push to remove @-boxes to open up more of our data to safe parallel access
+across task boundaries.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Bruno de Oliveira Abinader</li>
+<li>Daniel Hedlund</li>
+</ul>
+
+
+<h2>New intern</h2>
+
+<ul>
+<li>Isabelle Carter will be joining us as part of the GNOME Outreach Program for
+Women, <a href="https://wiki.gnome.org/OutreachProgramForWomen">OPW</a>, and will be
+working on adding <code>position:fixed</code> support to Servo. The internship runs from
+December 10 through March 10.</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>This week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2013-12-02">meeting</a> was short
+and mostly covered some build system changes that Jack is working on. In
+short, we will use Rust&rsquo;s static linking to make it easier to distribute a
+Servo binary and we are making a larger change to CMake in order to get both
+more reliable parallel/incremental builds and get support for
+cross-compilation.</p>
+
+<h1>Announcements etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1s5laq/evictbt_an_issue_tracker_written_in_rust_that/">Evict-BT</a>
+- an issue tracker that integrates loosely with git.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s8c0j/rust_with_emscripten/">Rust with
+Emscripten</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s3jgd/day_36_on_programming_without_malloc/">Day 36: On programming without
+malloc</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s3osp/blast_from_the_past_pre01_raytracer_rustdev_rust/">Rust experience
+report</a>
+- a pre-0.1 raytracer and response to the language.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s0aj5/rust_frontend_to_gcc/">Rust frontend to
+GCC</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ry4ym/types_in_rust_for_beginners/">Types in Rust, for
+Beginners</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1rxj0x/thoughts_on_dst_part_4_including_a_recap_of_parts/">Thoughts on DST, part
+4</a></li>
+<li><a href="http://pnkfelix.github.io/present-rust-codemesh2013/fklock-rust-codemesh2013.pdf">Slides from pnkfelix&rsquo;s codemash
+presentation</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1seoe1/lets_avoid_having_both_foo_and_foo_opt/">An ML thread on redundant APIs involving
+<code>Option</code></a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1se6qa/rfc_what_do_you_want_in_a_rust_docker_image/">What do you want in a Rust Docker
+image?</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s9y7o/less_is_more_lambda_the_ultimate/">A huge thread on lots of things
+Rust</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s8opt/sodium_oxide_fast_cryptographic_library_for_rust/">Sodium
+Oxide</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1s8opt/sodium_oxide_fast_cryptographic_library_for_rust/">Rust bindings to
+libsodium/NaCl</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-12-09T13:13:00-05:00"  data-updated="true">Dec 9<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
