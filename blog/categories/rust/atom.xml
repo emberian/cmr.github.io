@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-12-16T19:09:01-05:00</updated>
+  <updated>2013-12-16T19:32:13-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -46,7 +46,7 @@ changed</a>. <code>use {foo, bar}</code> is now
 permitted, and the old <code>use foo, bar</code> is not.</li>
 <li><code>Cell</code> <a href="https://github.com/mozilla/rust/pull/10791">has been removed</a>.
 <code>RefCell</code> supersedes it.</li>
-<li>Attempting to implement private traits <a href="https://github.com/mozilla/rust/pull/10593">no longer
+<li>Attempting to implement private traits <a href="https://github.com/mozilla/rust/pull/10862">no longer
 works</a>.</li>
 <li>The coherence <code>-Z</code> flag <a href="https://github.com/mozilla/rust/pull/10909">has been
 removed</a>.</li>
