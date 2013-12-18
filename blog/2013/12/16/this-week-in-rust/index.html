@@ -114,7 +114,7 @@ works</a>.</li>
 removed</a>.</li>
 <li>The <code>self</code> lifetime <a href="https://github.com/mozilla/rust/pull/10897">is now
 illegal</a>, like the rest of the
-keywords. Now, lifetimes are truly only identifiers.</li>
+keywords. Now, lifetime parameters are truly only identifiers.</li>
 </ul>
 
 
@@ -137,15 +137,17 @@ and looks nicer.</li>
 function prelude</a>.</li>
 <li>The vector <code>move_iter</code> <a href="https://github.com/mozilla/rust/pull/10995">has been made
 faster</a>.</li>
+<li>A single <a href="https://github.com/mozilla/rust/pull/10918"><code>#[inline]</code></a>  has made
+<code>vec::from_elem</code> 20x faster</li>
 <li><code>Buffer</code> <a href="https://github.com/mozilla/rust/pull/10856">now has an iterator over its
 lines</a>. The gotcha is that the
 newlines are included in the yielded strings.</li>
 <li>Struct pattern shorthand <a href="https://github.com/mozilla/rust/pull/10833">has been
 improved</a> by allowing ref/mut,
 like <code>let Foo { mut x, .. } = some_foo</code>, rather than the previous <code>let Foo {
-x: mut x } = some_foo</code>.</li>
-<li>LTO <a href="https://github.com/mozilla/rust/pull/10812">has been implemented</a>.
-Rejoice.</li>
+x: mut x, .. } = some_foo</code>.</li>
+<li>LTO (link time optimization) <a href="https://github.com/mozilla/rust/pull/10812">has been
+implemented</a>.  Rejoice.</li>
 <li>All landing pads (and thus unwinding!) <a href="https://github.com/mozilla/rust/pull/10916">can now be
 omitted</a> when doing LTO.</li>
 <li><code>std::io::util</code> <a href="https://github.com/mozilla/rust/pull/10895">has been added</a>
