@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-12-18T10:06:21-05:00</updated>
+  <updated>2013-12-22T11:16:17-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,171 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/12/22/this-week-in-rust/"/>
+    <updated>2013-12-22T06:57:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/12/22/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>.</p>
+
+<p>This week brings a bunch of optimizations, cleanups, and the <code>std::comm</code>
+rewrite. The <code>pkgid</code> attribute has also seen some changes.</p>
+
+<!-- more -->
+
+
+<p>This week also brings a bunch of tiny bugfixes, many of which I do not mention
+below. Out of the 52 PRs this week, I only mention 16. The decision to include
+a PR or not is fairly arbitrary, but I try to maintain a &ldquo;significance
+barrier&rdquo; so that the list is not huge and hard to read (and also to save me
+work!). Examples of things which I will stop including mentions of are test
+fixes, minor documentation changes, build infrastructure fixes, and any
+cleanup to the compiler that doesn&rsquo;t result in a relatively significant
+speedup or memory usage decrease. I don&rsquo;t do this out of malice, but out of
+laziness and convenience. <code>&lt;3</code></p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>52 PRs were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/10830">has been
+rewritten</a>. In short, use
+<code>Chan::new</code> and <code>SharedChan::new</code> to construct a Port/Chan pair. We&rsquo;re in the
+ballpark of Go&rsquo;s performance, which is exciting. Read the PR for more details.</li>
+<li>Some more <code>std::vec::raw</code>
+<a href="https://github.com/mozilla/rust/pull/10996">cleanup</a> has turned some free
+functions into methods. <code>.as_mut_buf</code> and friends <a href="https://github.com/mozilla/rust/pull/11029">have also been
+removed</a>, replaced by using
+<code>.as_ptr</code>, <code>.as_mut_ptr</code>, and <code>.len</code>.</li>
+<li><code>extra::ebml</code> <a href="https://github.com/mozilla/rust/pull/11057">has been partially
+de-@d</a>.</li>
+<li>A ton of useless traits, <code>ToOption</code> etc,  <a href="https://github.com/mozilla/rust/pull/10967">have been
+removed</a>.</li>
+<li>A nasty bug where having an <code>impl</code> for a type forced it to be public <a href="https://github.com/mozilla/rust/pull/11019">has
+been fixed</a>. Some types which were
+previously accessible may not be anymore, due to this.</li>
+<li>The <code>pkgid</code> crate attribute <a href="https://github.com/mozilla/rust/pull/11041">has been
+renamed</a> to <code>crate_id</code>.</li>
+<li><code>extra::sort</code> <a href="https://github.com/mozilla/rust/pull/11064">has been
+removed</a>, and there is now a
+<code>sort</code> method on mutable slices (<code>&amp;mut [T]</code>).</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>The <code>remove</code> and <code>insert</code> methods on vectors have had some unsafe code added
+to make them <a href="https://github.com/mozilla/rust/pull/11061">3x faster</a>.</li>
+<li>The <code>sum</code> method on <code>extra::stat::Stat</code> <a href="https://github.com/mozilla/rust/pull/10927">has been made more
+accurate</a>.</li>
+<li>debuginfo for by-value <code>self</code> <a href="https://github.com/mozilla/rust/pull/11033">has been
+fixed</a>.</li>
+<li><code>return</code> is now <a href="https://github.com/mozilla/rust/pull/11024">allowed in
+closures</a> for early return.</li>
+<li><code>crate_id</code> (then <code>pkgid</code>) <a href="https://github.com/mozilla/rust/pull/10972">now
+supports</a> specifying the crate
+name. <code>#foo:1.0</code> as the fragment will make the crate name <code>foo</code>, for example
+<code>gl</code> in <code>github.com/bjz/gl-rs#gl:1.0</code>.</li>
+<li>A <code>Pod</code> kind <a href="https://github.com/mozilla/rust/pull/10924">has been added</a>
+for types where a memcpy is a logical copy. This behaves very similarly to the
+old <code>Copy</code> kind.</li>
+<li>Stability attributes (<code>#[deprecated]</code>, <code>#[experimental]</code>, etc) <a href="https://github.com/mozilla/rust/pull/10990">are now
+checked for method calls</a>.</li>
+<li>Metadata reading has been made <a href="https://github.com/mozilla/rust/pull/11017">4x
+faster</a>.</li>
+<li>msys terminals are <a href="https://github.com/mozilla/rust/pull/11031">now
+supported</a> by <code>extra::term</code>.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Carter Tazio Schonwald</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-12-17">weekly
+meeting</a>
+discusses some pull requests, <code>pkgid</code>, renaming <code>extern mod</code>, the stdlib
+module hierarchy, and renaming some of the vector methods.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>We landed 19 PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Pradeep Kumar re-enabled parallel selector matching
+<a href="https://github.com/mozilla/servo/pull/1429">#1429</a>.</li>
+<li>Daniel Hedlund fixed window redraw on Linux
+<a href="https://github.com/mozilla/servo/pull/1414">#1414</a>.</li>
+<li>Tetsuharu Ohzeki significantly cleaned up the compositor source code in
+<a href="https://github.com/mozilla/servo/pull/1425">#1425</a>.</li>
+<li>Simon Sapin added support for non-UTF8 stylesheets
+<a href="https://github.com/mozilla/servo/pull/1377">#1377</a>.</li>
+<li>Patrick Walton cleaned up made several PRs that clean up layout&rsquo;s dependency
+on DOM nodes.</li>
+<li>Isabelle Carter added support for positioned offsets for layout in
+<a href="https://github.com/mozilla/servo/pull/1407">#1407</a>.</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2013-12-16">meeting</a>, we
+discussed using the Critic review tool from Opera with github. We are
+currently experimenting it, with jgraham&rsquo;s support. Jack also discussed his
+ongoing Rust upgrade which, as always, has uncovered several interesting Rust
+compiler bugs.</p>
+
+<p>We also sketched out our current planning
+<a href="https://github.com/mozilla/servo/wiki/Roadmap">roadmap</a>, along with a cheat
+sheet of some of the
+<a href="https://github.com/mozilla/servo/wiki/Research">research</a> topics we&rsquo;re also
+investigating.</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li>The SF meetup happened. It was recorded and <a href="https://air.mozilla.org/rust-meetup-december-2013/">is available on Air
+Mozilla</a>. The video is
+well worth watching.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1t87a3/a_broad_vision_for_the_rust_docs_stack/">A broad vision for the Rust docs
+stack</a>.</li>
+<li><a href="http://blog.ezyang.com/2013/12/two-bugs-in-the-borrow-checker-every-rust-developer-should-know-about/">Two bugs in the borrow checker every Rust developer should know
+about</a>.</li>
+<li><a href="http://metajack.im/2013/12/19/building-rust-code--using-make-part-2/">Building Rust Code &ndash; Using Make Part
+2</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1tdw88/video_2d_portaling_demo_in_rust_rustsdl2/">Video: 2D portaling demo in Rust and
+rust-sdl2</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1teet8/what_do_you_want_in_a_rust_book/">What do you want in a Rust
+book?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1tcat1/i_etched_myself_a_rust_logo/">An etched copper Rust
+logo</a>.</li>
+<li><a href="https://github.com/blackducksw/ohcount/pull/30">Ohcount Rust support</a> has
+been merged, so hopefully ohloh will have more accurate information for Rust
+projects soon.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -2213,93 +2378,6 @@ capture</a> and very large structs.</li>
 <ul>
 <li><a href="https://github.com/glycerine/rust-nanomsg">rust-nanomsg</a> &ndash; bindings to the
 nanomsg library.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/08/31/this-week-in-rust/"/>
-    <updated>2013-08-31T19:10:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/08/31/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to the lucky 13th issue of <em>This Week in Rust</em>. Graydon has
-stepped down as project lead. It seems to be a bit ambiguous whether he&rsquo;ll
-still be working on the project. Brian (brson) will be taking over as lead.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8857">Some functions have been removed from
-<code>std::str</code></a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8823">The unit test framework now uses RUST_TEST_TASKS instead of
-RUST_THREADS</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8718"><code>typeof</code> is now a reserved
-keyword</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8807"><code>offset_inbounds</code> has been
-removed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8797">Some edge cases with writing to a borrowed <code>&amp;mut</code> have been
-closed</a>, rejecting more incorrect
-programs.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8772">Option no longer implements
-Add</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8700">Some pass handling stuff has
-changed</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8744">Enum descriminants are now always
-u64</a>.</li>
-</ul>
-
-
-<h2>Other Changes</h2>
-
-<ul>
-<li><a href="https://github.com/mozilla/rust/pull/8750">String byte conversion functions which return an Option have been
-added</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8764">The main tutorial links to the condition and error handling
-tutorials</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8438">A trait for default initialization has been
-added</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8757">debuginfo tests have been enabled on Windows, and debuginfo generation
-works on Windows!</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8777">A better, more complete module tutorial has been
-written</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8771">Some fixes to repr (the code that powers <code>%?</code> in fmt) have been
-made</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8697"><code>rustpkg build</code> with no arguments now behaves a bit
-differently</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8645"><code>std::run</code> has been reimplemented on top of
-libuv</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8838">Frame pointer elimination has been
-re-disabled</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8840">LLVM has been updated, giving us mingw-w64
-support</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8819">Unit tests have been enabled on
-Windows</a>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/8802">Some compile speedups landed</a>.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-08-27">Tuesday
-meeting</a>
-discussed rustpkg&rsquo;s timeline, extern fns, and LLVM asserts.</p>
-
-<h1>Projects, discussion, and announcements</h1>
-
-<ul>
-<li>Jeaye says that anyone having problems with the q3 repo should re-clone. If
-that doesn&rsquo;t fix it, pop into IRC: #q3 on irc.freenode.net.</li>
-<li><a href="http://tim.dreamwidth.org/1820526.html">&ldquo;Making rustpkg work&rdquo;</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1lai9u/nphysics_a_2d_and_3d_rigid_body_physics_engine/">&ldquo;nphysics: a 2d and 3d rigid body physics engine for
-Rust&rdquo;</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1l8hd4/first_university_computer_science_class_taught/">&ldquo;First university computer science class taught in
-Rust&rdquo;</a></li>
 </ul>
 
 ]]></content>

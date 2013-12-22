@@ -1,0 +1,313 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>.</p>
+
+<p>This week brings a bunch of optimizations, cleanups, and the <code>std::comm</code>
+rewrite. The <code>pkgid</code> attribute has also seen some changes.</p>
+
+<!-- more -->
+
+
+<p>This week also brings a bunch of tiny bugfixes, many of which I do not mention
+below. Out of the 52 PRs this week, I only mention 16. The decision to include
+a PR or not is fairly arbitrary, but I try to maintain a &ldquo;significance
+barrier&rdquo; so that the list is not huge and hard to read (and also to save me
+work!). Examples of things which I will stop including mentions of are test
+fixes, minor documentation changes, build infrastructure fixes, and any
+cleanup to the compiler that doesn&rsquo;t result in a relatively significant
+speedup or memory usage decrease. I don&rsquo;t do this out of malice, but out of
+laziness and convenience. <code>&lt;3</code></p>
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>52 PRs were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/10830">has been
+rewritten</a>. In short, use
+<code>Chan::new</code> and <code>SharedChan::new</code> to construct a Port/Chan pair. We&rsquo;re in the
+ballpark of Go&rsquo;s performance, which is exciting. Read the PR for more details.</li>
+<li>Some more <code>std::vec::raw</code>
+<a href="https://github.com/mozilla/rust/pull/10996">cleanup</a> has turned some free
+functions into methods. <code>.as_mut_buf</code> and friends <a href="https://github.com/mozilla/rust/pull/11029">have also been
+removed</a>, replaced by using
+<code>.as_ptr</code>, <code>.as_mut_ptr</code>, and <code>.len</code>.</li>
+<li><code>extra::ebml</code> <a href="https://github.com/mozilla/rust/pull/11057">has been partially
+de-@d</a>.</li>
+<li>A ton of useless traits, <code>ToOption</code> etc,  <a href="https://github.com/mozilla/rust/pull/10967">have been
+removed</a>.</li>
+<li>A nasty bug where having an <code>impl</code> for a type forced it to be public <a href="https://github.com/mozilla/rust/pull/11019">has
+been fixed</a>. Some types which were
+previously accessible may not be anymore, due to this.</li>
+<li>The <code>pkgid</code> crate attribute <a href="https://github.com/mozilla/rust/pull/11041">has been
+renamed</a> to <code>crate_id</code>.</li>
+<li><code>extra::sort</code> <a href="https://github.com/mozilla/rust/pull/11064">has been
+removed</a>, and there is now a
+<code>sort</code> method on mutable slices (<code>&amp;mut [T]</code>).</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>The <code>remove</code> and <code>insert</code> methods on vectors have had some unsafe code added
+to make them <a href="https://github.com/mozilla/rust/pull/11061">3x faster</a>.</li>
+<li>The <code>sum</code> method on <code>extra::stat::Stat</code> <a href="https://github.com/mozilla/rust/pull/10927">has been made more
+accurate</a>.</li>
+<li>debuginfo for by-value <code>self</code> <a href="https://github.com/mozilla/rust/pull/11033">has been
+fixed</a>.</li>
+<li><code>return</code> is now <a href="https://github.com/mozilla/rust/pull/11024">allowed in
+closures</a> for early return.</li>
+<li><code>crate_id</code> (then <code>pkgid</code>) <a href="https://github.com/mozilla/rust/pull/10972">now
+supports</a> specifying the crate
+name. <code>#foo:1.0</code> as the fragment will make the crate name <code>foo</code>, for example
+<code>gl</code> in <code>github.com/bjz/gl-rs#gl:1.0</code>.</li>
+<li>A <code>Pod</code> kind <a href="https://github.com/mozilla/rust/pull/10924">has been added</a>
+for types where a memcpy is a logical copy. This behaves very similarly to the
+old <code>Copy</code> kind.</li>
+<li>Stability attributes (<code>#[deprecated]</code>, <code>#[experimental]</code>, etc) <a href="https://github.com/mozilla/rust/pull/10990">are now
+checked for method calls</a>.</li>
+<li>Metadata reading has been made <a href="https://github.com/mozilla/rust/pull/11017">4x
+faster</a>.</li>
+<li>msys terminals are <a href="https://github.com/mozilla/rust/pull/11031">now
+supported</a> by <code>extra::term</code>.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Carter Tazio Schonwald</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-12-17">weekly
+meeting</a>
+discusses some pull requests, <code>pkgid</code>, renaming <code>extern mod</code>, the stdlib
+module hierarchy, and renaming some of the vector methods.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>We landed 19 PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Pradeep Kumar re-enabled parallel selector matching
+<a href="https://github.com/mozilla/servo/pull/1429">#1429</a>.</li>
+<li>Daniel Hedlund fixed window redraw on Linux
+<a href="https://github.com/mozilla/servo/pull/1414">#1414</a>.</li>
+<li>Tetsuharu Ohzeki significantly cleaned up the compositor source code in
+<a href="https://github.com/mozilla/servo/pull/1425">#1425</a>.</li>
+<li>Simon Sapin added support for non-UTF8 stylesheets
+<a href="https://github.com/mozilla/servo/pull/1377">#1377</a>.</li>
+<li>Patrick Walton cleaned up made several PRs that clean up layout&rsquo;s dependency
+on DOM nodes.</li>
+<li>Isabelle Carter added support for positioned offsets for layout in
+<a href="https://github.com/mozilla/servo/pull/1407">#1407</a>.</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2013-12-16">meeting</a>, we
+discussed using the Critic review tool from Opera with github. We are
+currently experimenting it, with jgraham&rsquo;s support. Jack also discussed his
+ongoing Rust upgrade which, as always, has uncovered several interesting Rust
+compiler bugs.</p>
+
+<p>We also sketched out our current planning
+<a href="https://github.com/mozilla/servo/wiki/Roadmap">roadmap</a>, along with a cheat
+sheet of some of the
+<a href="https://github.com/mozilla/servo/wiki/Research">research</a> topics we&rsquo;re also
+investigating.</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li>The SF meetup happened. It was recorded and <a href="https://air.mozilla.org/rust-meetup-december-2013/">is available on Air
+Mozilla</a>. The video is
+well worth watching.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1t87a3/a_broad_vision_for_the_rust_docs_stack/">A broad vision for the Rust docs
+stack</a>.</li>
+<li><a href="http://blog.ezyang.com/2013/12/two-bugs-in-the-borrow-checker-every-rust-developer-should-know-about/">Two bugs in the borrow checker every Rust developer should know
+about</a>.</li>
+<li><a href="http://metajack.im/2013/12/19/building-rust-code--using-make-part-2/">Building Rust Code &ndash; Using Make Part
+2</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1tdw88/video_2d_portaling_demo_in_rust_rustsdl2/">Video: 2D portaling demo in Rust and
+rust-sdl2</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1teet8/what_do_you_want_in_a_rust_book/">What do you want in a Rust
+book?</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1tcat1/i_etched_myself_a_rust_logo/">An etched copper Rust
+logo</a>.</li>
+<li><a href="https://github.com/blackducksw/ohcount/pull/30">Ohcount Rust support</a> has
+been merged, so hopefully ohloh will have more accurate information for Rust
+projects soon.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-12-22T06:57:00-05:00"  data-updated="true">Dec 22<span>nd</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
