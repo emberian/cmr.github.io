@@ -1,0 +1,264 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions.</a>.</p>
+
+<p>It&rsquo;s been a slow week due to the holidays. In the next week or two 0.9 is
+being released. It&rsquo;s an exciting release, but in more subtler ways than the
+previous 3. Many small details, especially around the runtime and linking,
+have changed that make Rust faster and more flexible without necessarily being
+a breaking change. As always, the detailed changelog will have the
+nitty-gritties.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>36 pull requests were merged this week. bors was feeling unwell for a bit,
+due to a deadlock in a scheduler test that was fixed today and a deadlock in
+(incorrect usage of) LLVM.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>The <code>comm</code> primitives are <a href="https://github.com/mozilla/rust/pull/11111">never <code>Freeze</code>
+anymore</a>.</li>
+<li>The <code>link</code> attribute is <a href="https://github.com/mozilla/rust/pull/11091">now
+forbidden</a> on crates. All hail
+<code>crate_id</code>!</li>
+<li><a href="https://github.com/mozilla/rust/pull/11121">All of our C++ dependencies have been
+removed</a>. This is only breaking
+because it changes the debugging experience; <code>rust_begin_unwind</code> is gone and
+<code>catch throw</code> doesn&rsquo;t work because we don&rsquo;t use C++ exceptions anymore. To set
+a breakpoint on task failure, <code>break _Unwind_RaiseException</code>.</li>
+<li>The underbelly of the runtime has been <a href="https://github.com/mozilla/rust/pull/10965">completely
+overhauled</a>. Alex wrote an <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007565.html">email
+to the
+list</a>
+about the practical implications of this.</li>
+<li><code>std::result::collect</code> <a href="https://github.com/mozilla/rust/pull/11098">now uses an
+iterator</a>.</li>
+<li><code>ClonableIterator</code> <a href="https://github.com/mozilla/rust/pull/11160">has been
+renamed</a> to <code>CloneableIterator</code>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>libnative has <a href="https://github.com/mozilla/rust/pull/11159">process and TCP</a>
+implementations.</li>
+<li>Coercion of types into trait objects <a href="https://github.com/mozilla/rust/pull/11156">is now
+supported</a>, which means <code>as
+~SomeTrait</code> and <code>as &amp;Reader</code> can be left out.</li>
+<li>I normally wouldn&rsquo;t mention this since it&rsquo;s internal to the compiler, but
+Patrick made a heroic effort to <a href="https://github.com/mozilla/rust/pull/11058">remove <code>@mut</code> from all the
+places</a>.</li>
+<li>rustdoc can <a href="https://github.com/mozilla/rust/pull/11120">now test doc
+comments</a>. See the pull request
+for details on how and what is tested (also in the rustdoc manual).</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Sébastien Paolacci</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>There was no meeting this week due to the holiday.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>Mozilla is on an extended holiday break until January 2nd, but we still landed
+2 PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Jack Moffitt re-enabled building with make to enable work on cross-targeting
+ARM in <a href="https://github.com/mozilla/servo/pull/1441">#1441</a>.</li>
+<li>ms2ger cleaned up how we handle namespaces in DOM elements
+<a href="https://github.com/mozilla/servo/pull/1438">#1438</a></li>
+</ul>
+
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007575.html">rust-openssl</a>
+has been formed from the union of sfackler&rsquo;s rust-ssl and erickt&rsquo;s rustcrypto.</li>
+<li><a href="http://www.lars.com/concurrency/rust/servo/2013/12/21/concurrency-rust-and-servo.html">Concurrency models, Rust, and
+Servo</a>.</li>
+<li><a href="http://words.steveklabnik.com/rust-is-surprisingly-expressive">Rust is surprisingly
+expressive</a>.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007486.html">irust</a>,
+a basic REPL written in Ruby.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2013-12-30T00:48:00-05:00"  data-updated="true">Dec 30<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

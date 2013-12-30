@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2013-12-22T11:16:17-05:00</updated>
+  <updated>2013-12-30T10:57:13-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -15,6 +15,122 @@
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2013/12/30/this-week-in-rust/"/>
+    <updated>2013-12-30T00:48:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2013/12/30/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions.</a>.</p>
+
+<p>It&rsquo;s been a slow week due to the holidays. In the next week or two 0.9 is
+being released. It&rsquo;s an exciting release, but in more subtler ways than the
+previous 3. Many small details, especially around the runtime and linking,
+have changed that make Rust faster and more flexible without necessarily being
+a breaking change. As always, the detailed changelog will have the
+nitty-gritties.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>36 pull requests were merged this week. bors was feeling unwell for a bit,
+due to a deadlock in a scheduler test that was fixed today and a deadlock in
+(incorrect usage of) LLVM.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li>The <code>comm</code> primitives are <a href="https://github.com/mozilla/rust/pull/11111">never <code>Freeze</code>
+anymore</a>.</li>
+<li>The <code>link</code> attribute is <a href="https://github.com/mozilla/rust/pull/11091">now
+forbidden</a> on crates. All hail
+<code>crate_id</code>!</li>
+<li><a href="https://github.com/mozilla/rust/pull/11121">All of our C++ dependencies have been
+removed</a>. This is only breaking
+because it changes the debugging experience; <code>rust_begin_unwind</code> is gone and
+<code>catch throw</code> doesn&rsquo;t work because we don&rsquo;t use C++ exceptions anymore. To set
+a breakpoint on task failure, <code>break _Unwind_RaiseException</code>.</li>
+<li>The underbelly of the runtime has been <a href="https://github.com/mozilla/rust/pull/10965">completely
+overhauled</a>. Alex wrote an <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007565.html">email
+to the
+list</a>
+about the practical implications of this.</li>
+<li><code>std::result::collect</code> <a href="https://github.com/mozilla/rust/pull/11098">now uses an
+iterator</a>.</li>
+<li><code>ClonableIterator</code> <a href="https://github.com/mozilla/rust/pull/11160">has been
+renamed</a> to <code>CloneableIterator</code>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>libnative has <a href="https://github.com/mozilla/rust/pull/11159">process and TCP</a>
+implementations.</li>
+<li>Coercion of types into trait objects <a href="https://github.com/mozilla/rust/pull/11156">is now
+supported</a>, which means <code>as
+~SomeTrait</code> and <code>as &amp;Reader</code> can be left out.</li>
+<li>I normally wouldn&rsquo;t mention this since it&rsquo;s internal to the compiler, but
+Patrick made a heroic effort to <a href="https://github.com/mozilla/rust/pull/11058">remove <code>@mut</code> from all the
+places</a>.</li>
+<li>rustdoc can <a href="https://github.com/mozilla/rust/pull/11120">now test doc
+comments</a>. See the pull request
+for details on how and what is tested (also in the rustdoc manual).</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Sébastien Paolacci</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>There was no meeting this week due to the holiday.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>Mozilla is on an extended holiday break until January 2nd, but we still landed
+2 PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Jack Moffitt re-enabled building with make to enable work on cross-targeting
+ARM in <a href="https://github.com/mozilla/servo/pull/1441">#1441</a>.</li>
+<li>ms2ger cleaned up how we handle namespaces in DOM elements
+<a href="https://github.com/mozilla/servo/pull/1438">#1438</a></li>
+</ul>
+
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007575.html">rust-openssl</a>
+has been formed from the union of sfackler&rsquo;s rust-ssl and erickt&rsquo;s rustcrypto.</li>
+<li><a href="http://www.lars.com/concurrency/rust/servo/2013/12/21/concurrency-rust-and-servo.html">Concurrency models, Rust, and
+Servo</a>.</li>
+<li><a href="http://words.steveklabnik.com/rust-is-surprisingly-expressive">Rust is surprisingly
+expressive</a>.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007486.html">irust</a>,
+a basic REPL written in Ruby.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
     <link href="http://cmr.github.io/blog/2013/12/22/this-week-in-rust/"/>
     <updated>2013-12-22T06:57:00-05:00</updated>
     <id>http://cmr.github.io/blog/2013/12/22/this-week-in-rust</id>
@@ -22,7 +138,7 @@
 <a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
 safe, concurrent, and fast. This is a weekly summary of its progress and
 community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
-email!</a>.</p>
+email!</a></p>
 
 <p>This week brings a bunch of optimizations, cleanups, and the <code>std::comm</code>
 rewrite. The <code>pkgid</code> attribute has also seen some changes.</p>
@@ -2282,102 +2398,6 @@ Development</a>.
 Also note the <code>#rust-gamedev</code> channel.</li>
 <li><a href="https://github.com/FlaPer87/rust-for-real">rust-for-real</a>, a collection of
 Rust examples to aid in learning. Needs more examples!</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/09/07/this-week-in-rust/"/>
-    <updated>2013-09-07T18:30:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/09/07/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another <em>This Week in Rust</em>.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>65 pull requests were merged this week, and bors has had some idle time when
-there wasn&rsquo;t anything approved in the queue.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li><code>std::os::glob</code> has been replaced with a <a href="https://github.com/mozilla/rust/pull/8914">pure Rust
-version</a>, for cross-platform and
-compatability reasons.</li>
-<li><code>std::str::from_bytes</code> has been
-<a href="https://github.com/mozilla/rust/pull/8997">renamed</a> to
-<code>std::str::from_utf8</code>, to be explicit about what it accepts.</li>
-<li>Casting to bool with <code>as</code> is <a href="https://github.com/mozilla/rust/pull/8980">no longer
-allowed</a>, and surrogate
-characters are no longer allowed in strings.</li>
-<li>char is <a href="https://github.com/mozilla/rust/pull/8974">no longer</a> treated as an
-integer type (meaning it can&rsquo;t be casted to/from them), which removes the
-ability for safe code to create invalid characters.</li>
-<li>Opening a listening socket and actually listening on it <a href="https://github.com/mozilla/rust/pull/8954">have been
-split</a>. If you&rsquo;re jiggy with the
-jive, listen and accept are now separate operations. (<em>ed</em>: this used to say
-bind and accept wereseparate; thanks to ecr for the correction.)</li>
-</ul>
-
-
-<h2>Additions</h2>
-
-<ul>
-<li><code>let</code> var hygiene has <a href="https://github.com/mozilla/rust/pull/9026">landed</a>.
-I&rsquo;m sure this has cool implications, but I don&rsquo;t really know what they are.</li>
-<li>An <a href="https://github.com/mozilla/rust/pull/8903"><code>export_name</code> attribute</a> has
-been added to control what symbol name something is exported as (similar to
-<code>no_mangle</code>).</li>
-<li>An <code>ExactSize</code> trait <a href="https://github.com/mozilla/rust/pull/8884">has been
-added</a> to mark an iterator that
-always accurately reports its size in the <code>size_hint</code> method.</li>
-<li><code>ToStr</code> has been <a href="https://github.com/mozilla/rust/pull/8960">implemented</a>
-for char and Ascii.</li>
-<li>Safe accessors of <code>MutexArc</code> <a href="https://github.com/mozilla/rust/pull/8966">have been
-implemented</a></li>
-<li>A bytes iterator <a href="https://github.com/mozilla/rust/pull/8935">has been added</a>
-for newrt readers.</li>
-<li>Stream is <a href="https://github.com/mozilla/rust/pull/8984">automatically
-implemented</a> for types which
-implement Reader and Writer from newrt.</li>
-<li>An <code>unreachable</code> macro <a href="https://github.com/mozilla/rust/pull/8992">has been
-added</a> for better error reporting
-than a function could do.</li>
-<li>newrt <a href="https://github.com/mozilla/rust/pull/9000">can now do</a> simple DNS
-resolution.</li>
-<li>strptime/strftime <a href="https://github.com/mozilla/rust/pull/9016">now support</a>
-fractional seconds, out to tenths of a nanosecond.</li>
-</ul>
-
-
-<h2>Changes etc</h2>
-
-<ul>
-<li>Name mangling <a href="https://github.com/mozilla/rust/pull/8875">has been
-improved</a>.</li>
-<li><code>rust_log.cpp</code> <a href="https://github.com/mozilla/rust/pull/8880">has been
-converted</a> into pure Rust.</li>
-<li>Debuginfo <a href="https://github.com/mozilla/rust/pull/8855">now does closure
-capture</a> and very large structs.</li>
-<li>A <a href="https://github.com/mozilla/rust/pull/8947">bunch</a>
-<a href="https://github.com/mozilla/rust/pull/8927">of</a>
-<a href="https://github.com/mozilla/rust/pull/8928">repr</a> improvements landed.</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>There was no meteting this week listed on the wiki or that I saw.</p>
-
-<h1>Projects</h1>
-
-<ul>
-<li><a href="https://github.com/glycerine/rust-nanomsg">rust-nanomsg</a> &ndash; bindings to the
-nanomsg library.</li>
 </ul>
 
 ]]></content>
