@@ -1,0 +1,323 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<p>0.9 is on the brink. Perhaps this week, the next at the latest. Some hefty
+changes come this week.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>63 pull requests were merged this week.</p>
+
+<h2>Breaking changes</h2>
+
+<ul>
+<li><code>@mut</code> <a href="https://github.com/mozilla/rust/pull/11251">has been removed</a>. The
+replacements are <code>Gc&lt;RefCell&lt;T&gt;&gt;</code> or, preferably, <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>. See also
+<code>Cell&lt;T&gt;</code> for <code>Pod</code> types.</li>
+<li>Dereferencing of unary tuple structs and enums (tuple structs with one field
+and enums with one variant) <a href="https://github.com/mozilla/rust/pull/11188">has been
+removed</a>. An example:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo(int);;
+</span><span class='line'>
+</span><span class='line'>fn bar() {
+</span><span class='line'>  let x = Foo(42);
+</span><span class='line'>  // previously `*x` would return 42
+</span><span class='line'>  let Foo(y) = x; // but now you do this pattern matching</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>Either</code> <a href="https://github.com/mozilla/rust/pull/11149">has been removed</a>.</li>
+<li><code>extern mod foo (name="bar")</code> syntax <a href="https://github.com/mozilla/rust/pull/10696">has been
+removed</a>. The newer <code>extern mod
+foo = "bar"</code> syntax replaces it.</li>
+<li>The hashmap iterators <a href="https://github.com/mozilla/rust/pull/11242">have
+changed</a>. Use <code>.keys()</code> and
+<code>.values()</code> respectively.</li>
+<li>rustc now outputs <a href="https://github.com/mozilla/rust/pull/11184">1-based column
+numbers</a>. This shouldn&rsquo;t will
+affect any tooling that assume columns are 0-based. But, this brings us in
+line with gcc, so it shouldn&rsquo;t.</li>
+<li>The <code>cfg</code> attribute <a href="https://github.com/mozilla/rust/pull/11093">will now strip struct fields and enum
+variants</a>.</li>
+<li>The contents of the <code>crate_type</code> attribute <a href="https://github.com/mozilla/rust/pull/11264">are now checked for
+validity</a>.</li>
+</ul>
+
+
+<h2>Other changes</h2>
+
+<ul>
+<li><code>Reader</code>/<code>Writer</code> have regrown some functionality. It can now <a href="https://github.com/mozilla/rust/pull/10861">read and
+write strings</a>, though <em>only</em> real
+UTF-8 strings. Encoding support will come later. <code>write_char</code> <a href="https://github.com/mozilla/rust/pull/11310">also
+reappeared</a>.</li>
+<li>Unwinding on ARM <a href="https://github.com/mozilla/rust/pull/11301">has been
+fixed</a>. Still no C++!</li>
+<li>Native UDP IO <a href="https://github.com/mozilla/rust/pull/11186">has been
+implemented</a>.</li>
+<li>A <code>rust_fail</code> function <a href="https://github.com/mozilla/rust/pull/11231">has been
+added</a>. Break on this function to
+catch failure. Should be easier to remember! Certainly better than
+<code>_Unwind_RaiseException</code>.</li>
+<li>Some more C <a href="https://github.com/mozilla/rust/pull/11208">has been converted to
+Rust</a>.</li>
+<li>volatile load and store intrinsics <a href="https://github.com/mozilla/rust/pull/11173">have been
+added</a>.</li>
+</ul>
+
+
+<p>Additionally, it hasn&rsquo;t landed yet, but <a href="https://github.com/mozilla/rust/pull/11151">external syntax
+extensions</a>, aka loadable syntax
+extensions, aka procedural macros, seem to be really close to landing. This is
+quite exciting!</p>
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Alan Andrade</li>
+<li>Carl-Anton Ingmarsson</li>
+<li>John Louis Walker</li>
+<li>Peter Zotov</li>
+<li>lyuts</li>
+<li>Matthew Auld</li>
+</ul>
+
+
+<h1>Meeting</h1>
+
+<p>Once again, no meeting due to the holidays. There will be one January 8,
+however.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>Mozilla Corp. came back from vacation this Thursday, January 2nd. We landed 14
+PRs this week.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Aydin Kim fixed Android support &ndash; hooray! &ndash; in
+<a href="https://github.com/mozilla/servo/pull/1445">#1445</a>.</li>
+<li>Mike Blumenkrantz cleaned up our configure script to avoid the &ldquo;configure
+smashed my submodule edits&rdquo; problem in
+<a href="https://github.com/mozilla/servo/pull/1449">#1449</a>.</li>
+<li>deokjinkim fixed several font-related issues in
+<a href="https://github.com/mozilla/servo/pull/1454">#1454</a> and
+<a href="https://github.com/mozilla/servo/pull/1452">#1452</a>.</li>
+<li>Simon Sapin refactored font styles in
+<a href="https://github.com/mozilla/servo/pull/1455">#1455</a>.</li>
+<li>Shamir Khodzha implemented <code>child_elements</code> for filtered iteration in
+<a href="https://github.com/mozilla/servo/pull/1443">#1443</a>.</li>
+<li>ms2ger landed several changes to attributes in
+<a href="https://github.com/mozilla/servo/pull/1439">#1439</a>,
+<a href="https://github.com/mozilla/servo/pull/1456">#1456</a>, and
+<a href="https://github.com/mozilla/servo/pull/1460">#1460</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Shamir Khodzha</li>
+<li>Mike Blumenkrantz</li>
+</ul>
+
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2014/01/05/dst-take-5/">DST, take
+5</a>. I
+think this might be the last DST proposal, and I quite like it.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/007687.html">rust-redis and
+rust-msgpack</a>.</li>
+<li><a href="http://dwrensha.github.io/capnproto-rust/2014/01/04/zmq-explorers.html">A capnproto-rust and zmq
+example</a>.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ucrfg/using_rust_for_an_undergraduate_os_course/">Post-mortem from the OS class taught in
+Rust</a>.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/007659.html">Using CMake with
+Rust</a></li>
+<li><a href="https://github.com/huonw/boehm-rs">boehm-rs</a>, a <code>Gc&lt;T&gt;</code> type with a real
+GC!</li>
+<li><a href="https://github.com/wellposed/rust-OpenBLAS">rust-OpenBLAS</a>, a (in-progress)
+library for using OpenBLAS and LAPACK.</li>
+<li><a href="https://github.com/WebeWizard/libhttpd/tree/master">libhttpd</a>, a library
+for writing web servers. Intended to be similar to jetty.</li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-01-06T01:09:00-05:00"  data-updated="true">Jan 6<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
