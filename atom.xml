@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-06T02:32:42-05:00</updated>
+  <updated>2014-01-06T02:36:46-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -54,12 +54,14 @@ removed</a>. An example:</li>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo(int);;
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo(int);
 </span><span class='line'>
 </span><span class='line'>fn bar() {
 </span><span class='line'>  let x = Foo(42);
 </span><span class='line'>  // previously `*x` would return 42
-</span><span class='line'>  let Foo(y) = x; // but now you do this pattern matching</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  let Foo(y) = x; // but now you do this pattern matching
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -71,9 +73,9 @@ foo = "bar"</code> syntax replaces it.</li>
 changed</a>. Use <code>.keys()</code> and
 <code>.values()</code> respectively.</li>
 <li>rustc now outputs <a href="https://github.com/mozilla/rust/pull/11184">1-based column
-numbers</a>. This shouldn&rsquo;t will
+numbers</a>. This shouldn&rsquo;t
 affect any tooling that assume columns are 0-based. But, this brings us in
-line with gcc, so it shouldn&rsquo;t.</li>
+line with gcc.</li>
 <li>The <code>cfg</code> attribute <a href="https://github.com/mozilla/rust/pull/11093">will now strip struct fields and enum
 variants</a>.</li>
 <li>The contents of the <code>crate_type</code> attribute <a href="https://github.com/mozilla/rust/pull/11264">are now checked for
