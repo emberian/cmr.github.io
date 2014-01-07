@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-06T19:49:23-05:00</updated>
+  <updated>2014-01-07T14:33:15-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -31,7 +31,7 @@ intellectual cruft that can accumulate around a subject, be it jargon or just
 gross mutation of ideas.  Especially reading some foundational papers, or
 books that were written when a subject was still young and exciting, a very
 good historical perspective can be developed. I often find a conceptual
-clarity that most new books simple don&rsquo;t give.</p>
+clarity that most new books simply don&rsquo;t give.</p>
 
 <p>On the other hand, I&rsquo;ve yet to find old code that was truly worth reading. Old
 code is frequently buggy, poorly written, or just plain unfinished. No code
