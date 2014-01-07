@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-06T02:36:46-05:00</updated>
+  <updated>2014-01-06T19:15:27-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Reading Old Things]]></title>
+    <link href="http://cmr.github.io/blog/2014/01/06/reading-old-things/"/>
+    <updated>2014-01-06T19:00:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/01/06/reading-old-things</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m learning Haskell. I&rsquo;m doing this for many reasons, but the most important
+is to expand my knowledge and form a more principled understanding of
+languages. So, I&rsquo;m reading a <a href="http://www.stanford.edu/class/cs242/readings/backus.pdf">paper</a>. It&rsquo;s a very good paper, but the
+thing most striking about it is its age. 1977! My father was five. It occurred
+to me that I read a lot of old things. I grab interesting books from book
+sales, yard sales, thrift shops, and the &ldquo;Transfer Station &amp; Recycling Center&rdquo;
+(aka the dump). Most of the time they&rsquo;re garbage, but I sometimes find true
+gems. It&rsquo;s how I discovered Plato&rsquo;s <em>The Republic</em>, among other things. The
+best part about reading older books is that they often strip away decades of
+intellectual cruft that can accumulate around a subject, be it jargon or just
+gross mutation of ideas.  Especially reading some foundational papers, or
+books that were written when a subject was still young and exciting, a very
+good historical perspective can be developed. I often find a conceptual
+clarity that most new books simple don&rsquo;t give.</p>
+
+<p>Observation bias? Perhaps. It could be that that&rsquo;s the only reason these books
+have survived so long.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ACM ICPC: What I Learned]]></title>
