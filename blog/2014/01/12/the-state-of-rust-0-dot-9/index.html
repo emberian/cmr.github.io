@@ -1,0 +1,256 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>The State of Rust 0.9 - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is my post-mortem of the past 3 months, the
+current status of Rust &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">The State of Rust 0.9</h2>
+	<div class="entry-content"><p><a href="http://www.rust-lang.org/">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is my post-mortem of the past 3 months, the
+current status of Rust, and its future.</p>
+
+<!-- more -->
+
+
+<h1>Compiler</h1>
+
+<p>The compiler saw a fair bit of work this release cycle. Some polish has gone
+into <code>mut</code> in patterns. For example, <code>let (mut x, y) = foo();</code> now works as
+expected. We now have &ldquo;feature gates&rdquo;, or feature flags, that let us mark
+certain features as either deprecated or experimental and subject to change.
+<code>@mut</code> has been removed. Slice representation has been optimized (we now store
+number of elements, not number of bytes). Soundness bugs have been fixed, and
+some bugs in our name resolution have been patched up. We have a dead code
+warning, stability annotations, crate introspection, and lots more.</p>
+
+<p>On top of all that, we also have support for static linking and LTO. Compiler
+performance has further improved. From the 112ms compiling <code>fn main() { }</code> in
+0.8, we now do 91ms with static linking (the default) and 68ms for dynamic
+linking (<code>-Z prefer-dynamic</code>). Our debuginfo is in a much better state. The
+entire codebase (compiler + standard library + tools) compiles with it, and
+<a href="https://github.com/mozilla/servo/">Servo</a> compiles with it by default.</p>
+
+<h1>Runtime</h1>
+
+<p>The runtime has seen tons of work this release. <code>std::io</code> has been swapped
+over to the new runtime, which is written entirely in Rust. We now support
+both 1:1 and M:N threading models, their respective runtimes supplied by
+&ldquo;libnative&rdquo; and &ldquo;libgreen&rdquo;. libgreen (the &ldquo;old new runtime&rdquo;) has seen some
+performance improvements. Chris Morgan reports that the scalability of his
+<a href="https://github.com/chris-morgan/rust-http/">rust-http</a> benchmarks has
+improved from 1.25x to 1.75x from 1 to 8 concurrent request handlers. On my
+machine, using libnative gives an impressive performance boost, pushing us
+ahead of go&rsquo;s performance (graph below). libnative has yet to see any optimization work.
+David Renshaw reports roughly a 2x performance increase on his <a href="http://dwrensha.github.io/capnproto-rust/2013/11/16/benchmark.html">capn proto
+benchmark</a>
+when using libnative for I/O.</p>
+
+<p><noscript></p>
+
+<pre><code>&lt;img src="https://docs.google.com/a/octayn.net/spreadsheet/oimg?key=0ArjzeYh7LqL2dENRREdRbDljajR4LWt1RlozM2YyY0E&amp;oid=1&amp;zx=xnqmqanhavt" /&gt;
+&lt;p&gt;(This would be interactive if you had JavaScript enabled)&lt;/p&gt;
+</code></pre>
+
+<p></noscript></p>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/static/modules/gviz/1.0/chart.js"> {"dataSourceUrl":"//docs.google.com/a/octayn.net/spreadsheet/tq?key=0ArjzeYh7LqL2dENRREdRbDljajR4LWt1RlozM2YyY0E&transpose=0&headers=1&range=A1%3AE6&gid=0&pub=1","options":{"titleTextStyle":{"bold":true,"color":"#000","fontSize":16},"series":{"0":{"errorBars":{"errorType":"none","magnitude":10}}},"animation":{"duration":500},"width":600,"hAxis":{"useFormatFromData":true,"title":"Concurrency (\"threads\")","minValue":null,"viewWindowMode":null,"viewWindow":null,"maxValue":null},"vAxes":[{"title":"Requests / second","useFormatFromData":true,"minorGridlines":{"count":"4"},"minValue":null,"viewWindow":{"min":null,"max":null},"logScale":false,"gridlines":{"count":"5"},"maxValue":null},{"useFormatFromData":true,"minValue":null,"viewWindow":{"min":null,"max":null},"logScale":false,"maxValue":null}],"booleanRole":"certainty","title":"rust-http comparison benchmark","height":371,"domainAxis":{"direction":1},"legend":"right","focusTarget":"series","useFirstColumnAsDomain":true,"tooltip":{},"isStacked":false},"state":{},"view":{"columns":[{"calc":"stringify","type":"string","sourceColumn":0},1,2,3,4]},"isDefaultVisualization":false,"chartType":"ColumnChart","chartName":"Chart 1"} </script>
+
+
+<p>You can run the benchmarks yourself. <code>cd comparisons; python run.py</code>. You&rsquo;ll
+need to build rust-http first (<code>make</code>), and have go, nodejs, and ab (apache
+bench) installed.</p>
+
+<h1>Documentation</h1>
+
+<p>Our documentation hasn&rsquo;t been in the best state in the past. It still isn&rsquo;t
+where it should be, but <a href="http://static.rust-lang.org/doc/master/index.html">they have been
+reorganized</a>, on top of
+seeing the usual work. We&rsquo;re in the process of moving all of the documentation
+from the wiki onto that site, to make it easier to find and search. Steve
+Klabnik gave a <a href="https://air.mozilla.org/rust-meetup-december-2013/">critical but very constructive
+presentation</a> at the Bay
+Area meetup about what we are doing wrong and how we can improve. At the same
+meetup, Chris Morgan talked about the technologies we use in our documentation
+stack. In the long run, the consensus seems to be that reStructuredText and
+Sphinx are they way forward. Thanks to the rustdoc rewrite, it will be able to
+have first-class status as a documentation backend.</p>
+
+<h1>The Future</h1>
+
+<p>For 0.10, we have <a href="http://smallcultfollowing.com/babysteps/blog/2014/01/05/dst-take-5/">Dynamically Sized Types
+(DST)</a> to
+look forward to, as well as the removal of <code>@</code> pointers. <code>box</code>, aka &ldquo;placement
+new&rdquo;, along with smart pointer sugar (overloadable dereferencing/borrowing),
+should also be in by then. We may also see an actual garbage collector.</p>
+
+<h1>Is Rust Ready Yet?</h1>
+
+<p>Nope. It still has some work to do. 1.0 is estimated before the end of 2014,
+though that may slip depending on how things land. An early estimate puts the
+release over the summer! We still need a robust package manager. We now have
+<a href="http://rust-ci.org/">rust-ci</a>, which makes it easy to keep code up to date,
+and know if a library is up to date.</p>
+
+<p>The breaking changes, especially language changes, are slowing down, besides
+bug fixes. The standard library is also starting to shake itself out, though
+it still has a lot of work before they will be stable. There are currently two
+known uses of Rust in production: <a href="http://www.tilde.io/">Tilde</a> is using it in
+<a href="https://www.skylight.io/">Skylight</a>, and <a href="http://opendns.com">OpenDNS</a> is
+using it for <a href="http://labs.umbrella.com/2013/10/04/zeromq-helping-us-block-malicious-domains/">real-time data
+processing</a>.</p>
+
+<p>It has been a good release, and the next will be even better. Want to get
+involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributors</a>.
+Want to follow development? I post a <a href="http://cmr.github.io/blog/categories/this-week-in-rust/">weekly
+newsletter</a>
+summarizing the important changes. Here&rsquo;s to an awesome 0.10!</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-01-12T21:13:00-05:00"  data-updated="true">Jan 12<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
