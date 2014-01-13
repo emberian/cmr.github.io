@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-12T23:51:38-05:00</updated>
+  <updated>2014-01-12T23:52:49-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -114,10 +114,11 @@ processing</a>.</p>
 
 <p>It has been a good release, and the next will be even better. Want to get
 involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
-contributors</a>.
+contributions</a>.
 Want to follow development? I post a <a href="http://cmr.github.io/blog/categories/this-week-in-rust/">weekly
 newsletter</a>
-summarizing the important changes. Here&rsquo;s to an awesome 0.10!</p>
+summarizing the important changes. There is also a
+<a href="http://reddit.com/r/rust">subreddit</a>. Here&rsquo;s to an awesome 0.10!</p>
 ]]></content>
   </entry>
   
