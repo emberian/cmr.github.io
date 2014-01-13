@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-12T20:48:00-05:00</updated>
+  <updated>2014-01-12T21:07:07-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -158,7 +158,7 @@ breaking in <a href="https://github.com/mozilla/servo/pull/1461">#1461</a> and
 <p>In this week&rsquo;s
 <a href="https://github.com/mozilla/servo/wiki/Meeting-2014-01-06">meeting</a>, we
 discussed the upcoming workweek, the Rust upgrade, ARM buildbots for Rust and
-Servo, and some research we&rsquo;re doing into the breakdown of page</p>
+Servo, and some research we&rsquo;re doing into the breakdown of page load.</p>
 
 <h1>Announcements, etc</h1>
 
