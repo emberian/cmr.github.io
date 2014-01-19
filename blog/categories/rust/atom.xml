@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-18T23:10:00-05:00</updated>
+  <updated>2014-01-18T23:41:34-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -185,6 +185,10 @@ support of the next Rust upgrade, and the workweek..</p>
 <h1>Announcements, etc</h1>
 
 <ul>
+<li><a href="https://github.com/DaGenix/rust-crypto/pull/21">The first pure-Rust AES
+implementation</a>. According to
+enix in IRC, this is also the first bit slicing implementation in a high level
+language (ie, not assembly or a port of assembly).</li>
 <li><a href="https://github.com/nickdesaulniers/rust-re2">rust-re2</a>, re2 bindings</li>
 <li><a href="http://words.steveklabnik.com/a-30-minute-introduction-to-rust">A 30 Minute Introduction to
 Rust</a></li>
