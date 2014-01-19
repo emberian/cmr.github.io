@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-18T23:41:34-05:00</updated>
+  <updated>2014-01-19T13:08:59-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -51,11 +51,6 @@ BitCount and removes Bounded and Bitwise from the prelude.
 <a href="https://github.com/mozilla/rust/pull/11622">#11622</a> simplifies Primitive.</li>
 <li>Destructuring <code>@</code> patterns are <a href="https://github.com/mozilla/rust/pull/11305">no longer
 supported</a>.</li>
-<li>Owned boxes may no longer contain managed pointers, because <a href="https://github.com/mozilla/rust/pull/11535">the
-reference-counting headers have been
-removed</a>. The associated
-&ldquo;managed-unique&rdquo; concept <a href="https://github.com/mozilla/rust/pull/11565">has also been
-removed</a>.</li>
 <li>The return type of <code>Chan::try_recv</code> has been extended to <a href="https://github.com/mozilla/rust/pull/11112">indicate why it
 did not return a value</a>. That is,
 whether there was legitimately no value, or if the other end had hung up.</li>
@@ -104,6 +99,10 @@ accepts.</li>
 code</a>. Its iterator has <a href="https://github.com/mozilla/rust/pull/11497">also been
 optimized</a>, albeit with unsafe
 code.</li>
+<li><a href="https://github.com/mozilla/rust/pull/11535">The reference-counting headers have been
+removed</a>. The associated
+&ldquo;managed-unique&rdquo; concept <a href="https://github.com/mozilla/rust/pull/11565">has also been
+removed</a>.</li>
 <li>The recent OS X 10.9 breakage <a href="https://github.com/mozilla/rust/pull/11604">should be
 fixed</a>, as we will no longer use
 <code>ar s</code> on that platform.</li>
