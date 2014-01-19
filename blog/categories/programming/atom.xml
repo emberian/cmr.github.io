@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-18T22:52:29-05:00</updated>
+  <updated>2014-01-18T23:10:00-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -202,8 +202,8 @@ also serves as a demonstration of loadable syntax extensions!</li>
 loops</a>,
 a dirty hack no one should use.</li>
 <li><a href="http://paulkoerbitz.de/posts/Understanding-Pointers-Ownership-and-Lifetimes-in-Rust.html">Understanding Pointers, Ownership, and Lifetimes in
-Rust</a>
-<a href="http://hydrocodedesign.com/2014/01/17/jit-just-in-time-compiler-rust/">A Just-in-time Compiler (Written) In
+Rust</a></li>
+<li><a href="http://hydrocodedesign.com/2014/01/17/jit-just-in-time-compiler-rust/">A Just-in-time Compiler (Written) In
 Rust</a></li>
 <li><a href="https://github.com/alexcrichton/jba/tree/rust">jba</a>, a GameBoy emulator
 written in Rust.</li>
