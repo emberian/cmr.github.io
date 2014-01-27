@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-26T21:38:57-05:00</updated>
+  <updated>2014-01-26T21:48:55-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -42,8 +42,8 @@ itself</a>.</li>
 type could ever be constructed) <a href="https://github.com/mozilla/rust/pull/11661">has been
 fixed</a>.</li>
 <li><code>Zero</code> and <code>One</code> <a href="https://github.com/mozilla/rust/pull/11664">have been tightened
-up</a>, and less types implement them
-now.</li>
+up</a>, and fewer types implement
+them now.</li>
 <li><a href="https://github.com/mozilla/rust/pull/11129">A lot of things have changed</a>
 regarding functions that fail or return Options. Almost everything that used
 to fail now returns an Option instead.</li>
@@ -62,7 +62,7 @@ around</a>.</li>
 <h2>Other Changes</h2>
 
 <ul>
-<li>Macros are <a href="https://github.com/mozilla/rust/pull/11774">no longer injected as a hard-coded
+<li>Most macros are <a href="https://github.com/mozilla/rust/pull/11774">no longer injected as a hard-coded
 string</a> and in fact live in
 libstd.</li>
 <li>Using <code>-Z no-landing-pads</code> <a href="https://github.com/mozilla/rust/pull/11653">actually disables landing pad
@@ -170,6 +170,8 @@ creation</a>.</p>
 <h1>Announcements, etc</h1>
 
 <ul>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008214.html">Rust contribution
+ideas</a></li>
 <li><a href="https://github.com/SiegeLord/RustAlgebloat">RustAlgebloat</a>, a linear
 algebra library</li>
 <li><a href="http://glaebhoerl.tumblr.com/rust_closure_types">Table of Potential Closure
