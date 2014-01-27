@@ -1,0 +1,319 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking in master?</h1>
+
+<p>74 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Struct fields <a href="https://github.com/mozilla/rust/pull/11777">now inherit the privacy of the struct
+itself</a>.</li>
+<li>A bug in instantiability checking (determining whether a value of a given
+type could ever be constructed) <a href="https://github.com/mozilla/rust/pull/11661">has been
+fixed</a>.</li>
+<li><code>Zero</code> and <code>One</code> <a href="https://github.com/mozilla/rust/pull/11664">have been tightened
+up</a>, and less types implement them
+now.</li>
+<li><a href="https://github.com/mozilla/rust/pull/11129">A lot of things have changed</a>
+regarding functions that fail or return Options. Almost everything that used
+to fail now returns an Option instead.</li>
+<li>Many incorrect usages of types from <code>std::libc</code> <a href="https://github.com/mozilla/rust/pull/10943">now use Rust
+types</a>. This might introduce an
+extra <code>as</code> or few in code using these (relatively obscure) interfaces.</li>
+<li><code>invert</code> on <code>DoubleEndedIterator</code> <a href="https://github.com/mozilla/rust/pull/11686">has been
+renamed</a> to <code>rev</code>.</li>
+<li>The numeric constants <a href="https://github.com/mozilla/rust/pull/11790">have been
+uppercased</a>.</li>
+<li>Some privacy in std and extra <a href="https://github.com/mozilla/rust/pull/11808">has been shuffled
+around</a>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Macros are <a href="https://github.com/mozilla/rust/pull/11774">no longer injected as a hard-coded
+string</a> and in fact live in
+libstd.</li>
+<li>Using <code>-Z no-landing-pads</code> <a href="https://github.com/mozilla/rust/pull/11653">actually disables landing pad
+generation</a>. It was accidentally
+broken.</li>
+<li>The FFI documentation <a href="https://github.com/mozilla/rust/pull/11486">now includes a section on
+callbacks</a>.</li>
+<li>A lint for unnecessary parens on control flow conditions etc <a href="https://github.com/mozilla/rust/pull/11663">has been
+added</a>.</li>
+<li>Support for ARM&rsquo;s thumb instructions <a href="https://github.com/mozilla/rust/pull/11700">has been
+added</a>.</li>
+<li>libnative <a href="https://github.com/mozilla/rust/pull/11294">now implements
+timers</a>.</li>
+<li>There is now <a href="https://github.com/mozilla/rust/pull/11611">exponential notation for float
+formatting</a>.</li>
+<li><code>Vec&lt;T&gt;</code> <a href="https://github.com/mozilla/rust/pull/11682">has been added</a>, which
+is intended to eventually replace <code>~[T]</code>.</li>
+<li>Borrow checker errors <a href="https://github.com/mozilla/rust/pull/11718">now have better
+spans</a> and should be more
+understandable.</li>
+<li>It is now possible to <a href="https://github.com/mozilla/rust/pull/11744">opt out of using
+rpaths</a>.</li>
+<li>libnative <a href="https://github.com/mozilla/rust/pull/11732">now implements
+<code>get_host_addresses</code></a>.</li>
+<li>A new synchronization primitive, Barrier, <a href="https://github.com/mozilla/rust/pull/11725">has been
+added</a>.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Andre Arko</li>
+<li>Aydin Kim</li>
+<li>Ben Harris</li>
+<li>Ben Noordhuis</li>
+<li>Chris Wong</li>
+<li>Daniel MacDougall</li>
+<li>Hong Chulju</li>
+<li>Jake Greenfield</li>
+<li>Matthias Einwag</li>
+<li>Philippe Delrieu</li>
+<li>Salem Talha</li>
+<li>Sean Chalmers</li>
+<li>Trent Ogren</li>
+<li>Virgile Andreani</li>
+<li>comex</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-01-21">weekly
+meeting</a>
+discussed a bunch of open pull requests, but nothing too groudbreaking.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 19 PRs and had a Servo workweek in the Mozilla San
+Francisco office from Tuesday through Friday (Monday was a US federal
+holiday).</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Bruno Abinader implemented Document::createHTMLDocument in
+<a href="https://github.com/mozilla/servo/pull/1523">#1523</a>.</li>
+<li>Patrick Walton implemented parallel layout for two of our three layout
+passes in <a href="https://github.com/mozilla/servo/pull/1493">#1493</a>.</li>
+<li>Patrick Kim fixed computation of image box sizes in
+<a href="https://github.com/mozilla/servo/pull/1520">#1520</a> and text-decoration in
+<a href="https://github.com/mozilla/servo/pull/1506">#1506</a>.</li>
+<li>Deokjin Kim landed the <code>white-space:pre</code> property in
+<a href="https://github.com/mozilla/servo/pull/1507">#1507</a>.</li>
+<li>Aydin Kim and Lars Bergstrom landed fixes for Servo on Android.</li>
+<li>Teodor Szente fixed up a type signature in
+<a href="https://github.com/mozilla/servo/pull/1541">#1541</a>.</li>
+<li>Lars Bergstrom changed ref tests so that they now emit a PNG showing the
+image-diff between the baseline and incorrect rendering in
+<a href="https://github.com/mozilla/servo/pull/1544">#1544</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Teodor Szente</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>There was no separate Servo meeting, but during the workweek we discussed
+details in our designs for
+<a href="https://etherpad.mozilla.org/Servo-workweek-layers">layers</a>, <a href="https://etherpad.mozilla.org/Servo-workweek-generated-content">generated
+content</a>,
+<a href="https://etherpad.mozilla.org/Servo-workweek-tables">tables</a>,
+<a href="https://etherpad.mozilla.org/Servo-workweek-pixels">HiDPI/pixels</a>, and
+<a href="https://etherpad.mozilla.org/Servo-workweek-displaylist">DisplayList
+creation</a>.</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="https://github.com/SiegeLord/RustAlgebloat">RustAlgebloat</a>, a linear
+algebra library</li>
+<li><a href="http://glaebhoerl.tumblr.com/rust_closure_types">Table of Potential Closure
+Types</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008088.html">rust-ci
+updates</a>,
+categorization and documentation uploading</li>
+<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/7848">Channel API
+proposal</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-01-26T19:00:00-05:00"  data-updated="true">Jan 26<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
