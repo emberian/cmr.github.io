@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-30T00:48:53-05:00</updated>
+  <updated>2014-01-30T01:59:01-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Asus Vivobook X200]]></title>
+    <link href="http://cmr.github.io/blog/2014/01/30/asus-vivobook-x200/"/>
+    <updated>2014-01-30T01:36:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/01/30/asus-vivobook-x200</id>
+    <content type="html"><![CDATA[<p>I recently upgraded my aging <a href="http://amzn.to/1fhxWj4">Acer Aspire One</a> with a
+new <a href="http://amzn.to/1e9k4ct">Asus Vivobook</a>. It was running a really slow
+Intel Atom processor, one of the first generations. It literally took a day to
+bootstrap Rust, and not all of that time was spent swapping! It worked well
+for what I originally bought it for, which was as a dumb terminal SSHing into
+my desktop. I wanted to upgrade to something that could actually run OpenGL
+things, as well as browse the web without me wanting to give up and go to bed.</p>
+
+<!-- more -->
+
+
+<p>The vivobook has served these purposes very well, and at a price that I find
+very compelling. It has a decent keyboard layout, as well as a fairly nice
+screen, though the viewing angle leaves much to be desired. The webcam and
+microphone are of good quality. It has full OpenGL 3.3 (possibly later
+versions, once Mesa supports them). It can max out Xonotic and still be
+relatively playable (15-20 FPS), with 40+ FPS at high quality. The CPU is only
+dual-core, however. It also only has 2G of non-upgradable RAM, which is
+problematic but was still an upgrade from the older netbook. The screen also
+goes very dim (yay my eyes!), and fairly bright too.</p>
+
+<p>I would recommend it to anyone looking for a cheap laptop. It fits my
+ssh-heavy usecase perfectly. My only hesitation is the battery. It only lasts
+about 2.5 hours, and almost as long to charge. I bought this after sending
+back a <a href="http://amzn.to/1fhALRc">similarly-priced Chromebook</a>, due to the
+Chromebook&rsquo;s unfortunate keyboard layout, and poor screen quality.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Intellectual Growth]]></title>
@@ -2507,127 +2541,6 @@ pedagogical use. But, for simply reading whitespace-separated data from stdin
 and outputting the same to stdout, there probably isn&rsquo;t anything easier. I
 might implement something similar (though not using the <code>&gt;&gt;</code> and <code>&lt;&lt;</code>
 operators).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/19/this-week-in-rust/"/>
-    <updated>2013-10-19T10:49:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/19/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Welcome to another issue of <em>This Week in Rust</em>, a weekly summary of Rust&rsquo;s
-progress and happenings in the community.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking in master?</h1>
-
-<p>48 PRs were merged this week.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li>Slices are now represented as <a href="https://github.com/mozilla/rust/pull/9885">number of elements, not number of
-bytes</a>.</li>
-<li><code>fmt!</code> has been <a href="https://github.com/mozilla/rust/pull/9919">completely
-removed</a>.</li>
-<li>Some fields in <code>std::comm</code> <a href="https://github.com/mozilla/rust/pull/9935">have been made
-private</a>.</li>
-<li><code>std::sys::refcount</code> <a href="https://github.com/mozilla/rust/pull/9922">has been
-moved</a> to
-<code>std::managed::refcount</code>.</li>
-<li><a href="https://github.com/mozilla/rust/pull/9896/files#diff-69196c6d2488bf8d5b3471084e854407L22">A bunch of
-functions</a>
-have moved from <code>std::sys</code> to <code>std::mem</code>.</li>
-<li><code>once fn</code> is <a href="https://github.com/mozilla/rust/pull/9863">now a feature gate</a>
-rather than a <code>-Z</code> flag.</li>
-<li><code>Path</code> has been <a href="https://github.com/mozilla/rust/pull/9655">completely
-rewritten</a>.</li>
-<li><code>extra::flatpipes</code> <a href="https://github.com/mozilla/rust/pull/9886">has been
-removed</a>.</li>
-</ul>
-
-
-<h2>Other changes</h2>
-
-<ul>
-<li><code>jemalloc</code> has been <a href="https://github.com/mozilla/rust/pull/9933">removed from the
-runtime</a>. The <a href="https://github.com/mozilla/rust/issues/9925">associated
-issue</a> is quite scary.</li>
-<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/9946">struct field
-visibility</a> is now corrected (it
-stripped fields where it should not have).</li>
-<li><code>rustdoc</code> also <a href="https://github.com/mozilla/rust/pull/9941">uses the actual privacy
-rules</a> to strip methods.</li>
-<li><code>format!</code> now gives <a href="https://github.com/mozilla/rust/pull/9932">much better</a>
-error messages for invalid format strings.</li>
-<li>The <code>fmt::Default</code> trait, used for default formatting with <code>format!</code>, is
-<a href="https://github.com/mozilla/rust/pull/9938">now documented</a>.</li>
-<li><code>include_bin!</code> has been optimized, and the <code>k-nucleotides</code> benchmark now
-compiles <a href="https://github.com/mozilla/rust/pull/9851">187x faster</a>.</li>
-<li>Vectors now have <a href="https://github.com/mozilla/rust/pull/9907"><code>starts_with</code> and <code>ends_with</code>
-methods</a>, which take slices.</li>
-<li>An <code>abort</code> intrinsic <a href="https://github.com/mozilla/rust/pull/9860">has been
-added</a>.</li>
-<li>Vectors now have a <a href="https://github.com/mozilla/rust/pull/9608"><code>get_opt</code>
-method</a>.</li>
-</ul>
-
-
-<h2>New contributors</h2>
-
-<p>A new section for new contributors! The new contributors this week are (as
-reported by git):</p>
-
-<ul>
-<li>Chris Sainty</li>
-<li>Eduard Burtescu</li>
-<li>Erik Lyon</li>
-<li>Harry Marr</li>
-<li>Sébastien Chauvel</li>
-<li>Vijay Korapaty</li>
-<li>Ziad Hatahet</li>
-<li>chitra</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2013-10-15">weekly
-meeting</a>
-discussed removing rusti, changing the attribute syntax, destructors in
-statics, and more multi-crate packages with rustpkg.</p>
-
-<h1>Announcements etc</h1>
-
-<ul>
-<li>Rust (and Servo) are participating in the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.servo/7kX_E0FlfkA">GNOME Outreach Program for
-Women</a>.
-A bunch of people have already come into IRC about it.</li>
-<li><a href="http://exercism.io">http://exercism.io</a> <a href="https://github.com/kytrinyx/exercism.io/pull/866">is getting full Rust
-support</a>. This is a very
-cool resource, and could help a lot getting newcomers acclimated.</li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-October/006034.html">Unified Function/method Call Syntax and further
-simplification</a>.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1osbq2/safe_manual_memory_management_in_cyclone_research/">Safe Memory Management in
-Cyclone</a>.</li>
-<li><a href="http://opensourcebridge.org/sessions/970">Audio</a> from Tim&rsquo;s talk in June is
-finally available!</li>
-<li>An
-<a href="https://github.com/mozilla/rust/wiki/Operating-system-development">OSdev</a>
-community has sprung up! The channel is <code>#rust-osdev</code>.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1omw47/should_io_use_conditions/">Should I/O use
-conditions?</a>.</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1opo36/pointers_in_rust_a_guide/">Pointers in Rust: A
-Guide</a>.</li>
-<li>I am on a <a href="http://cmr.github.io/blog/2013/10/14/rust-hiatus/">Rust hiatus</a>,
-for the time being. TWiR will still be happening, as you are reading it
-right now.</li>
-<li><a href="https://github.com/thestinger/rust-core">rust-core</a> &ndash; A stub standard
-library.</li>
-</ul>
-
 ]]></content>
   </entry>
   
