@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: academic | Rust 'n Stuffs]]></title>
+  <link href="http://cmr.github.io/blog/categories/academic/atom.xml" rel="self"/>
+  <link href="http://cmr.github.io/"/>
+  <updated>2014-01-30T00:48:53-05:00</updated>
+  <id>http://cmr.github.io/</id>
+  <author>
+    <name><![CDATA[Corey Richardson]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Intellectual Growth]]></title>
+    <link href="http://cmr.github.io/blog/2014/01/30/intellectual-growth/"/>
+    <updated>2014-01-30T00:15:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/01/30/intellectual-growth</id>
+    <content type="html"><![CDATA[<p>I have a <a href="http://amzn.to/1aJdedm">textbook on logic</a>, I found it at the
+<a href="http://cmr.github.io/blog/2014/01/06/reading-old-things/">dump</a> probably 3
+years ago, during my second year of high school. I tried working through it
+many times, but simply could not wrap my head around some of the concepts it
+presents. In particular, I found its treatment of formal languages to be
+very confusing. I could, for the most part, follow the material as I read it,
+but attempting any of the exercises quickly became an exercise in futility.</p>
+
+<p>Currently, I am in the so-called &ldquo;Foundations&rdquo; course (MA211) at my
+<a href="http://clarkson.edu/">university</a>. Currently it is covering basic logic:
+quantifiers, proofs, etc. Suddenly, I find myself able to tackle some of the
+problems from the earlier textbook. Indeed, it is actually starting to make
+sense. I find this feeling, the wave of understanding of a previously
+impenetrable subject, very pleasant. It usually corresponds with a massive
+increase in breadth of understanding, as I make connections to other subjects.
+Hopefully I&rsquo;ll get these moments more often as I intensify my studies.</p>
+]]></content>
+  </entry>
+  
+</feed>
