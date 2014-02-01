@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-30T01:59:01-05:00</updated>
+  <updated>2014-02-01T17:34:55-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Parametric Polymorphism Declaration Syntax in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/02/01/polymorphic-declaration-syntax-in-rust/"/>
+    <updated>2014-02-01T17:06:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/02/01/polymorphic-declaration-syntax-in-rust</id>
+    <content type="html"><![CDATA[<h1>Summary</h1>
+
+<p>Change the following syntax:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo&lt;T, U&gt; { ... }
+</span><span class='line'>impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>fn foo&lt;T, U&gt;(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>forall&lt;T, U&gt; struct Foo { ... }
+</span><span class='line'>forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>forall&lt;T, U&gt; fn foo(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h1>The Problem</h1>
+
+<p>The immediate, and most pragmatic, problem is that in today&rsquo;s Rust one cannot
+easily search for implementations of a trait. Why? <code>grep 'impl Clone'</code> is
+itself not sufficient, since many types have parametric polymorphism. Now I
+need to come up with some sort of regex that can handle this. An easy
+first-attempt is <code>grep 'impl(&lt;.*?&gt;)? Clone'</code> but that is quite inconvenient to
+type and remember. (Here I ignore the issue of tooling, as I do not find the
+argument of &ldquo;But a tool can do it!&rdquo; valid in language design.)</p>
+
+<p>A deeper, more pedagogical problem, is the mismatch between how <code>struct
+Foo&lt;...&gt; { ... }</code> is read and how it is actually treated. The straightforward,
+left-to-right reading says &ldquo;There is a struct Foo which, given the types &hellip;
+has the members &hellip;&rdquo;. This might lead one to believe that <code>Foo</code> is a single
+type, but it is not. <code>Foo&lt;int&gt;</code> (that is, type <code>Foo</code> instantiated with type
+<code>int</code>) is not the same type as <code>Foo&lt;unit&gt;</code> (that is, type <code>Foo</code> instantiated
+with type <code>uint</code>). Of course, with a small amount of experience or a very
+simple explanation, that becomes obvious.</p>
+
+<p>Something less obvious is the treatment of functions. What does <code>fn
+foo&lt;...&gt;(...) { ... }</code> say? &ldquo;There is a function foo which, given types &hellip;
+and arguments &hellip;, does the following computation: &hellip;&rdquo; is not very adequate.
+It leads one to believe there is a <em>single</em> function <code>foo</code>, whereas there is
+actually a single <code>foo</code> for every substitution of type parameters! This also
+holds for implementations (both of traits and of inherent methods).</p>
+
+<p>Another minor problem is that nicely formatting long lists of type parameters
+or type parameters with many bounds is difficult.</p>
+
+<h1>Proposed Solution</h1>
+
+<p>Introduce a new keyword, <code>forall</code>. This choice of keyword reads very well and
+will not conflict with any identifiers in code which follows the <a href="https://github.com/mozilla/rust/wiki/Note-style-guide">style
+guide</a>.</p>
+
+<p>Change the following declarations from</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo&lt;T, U&gt; { ... }
+</span><span class='line'>impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>fn foo&lt;T, U&gt;(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>forall&lt;T, U&gt; struct Foo { ... }
+</span><span class='line'>forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>forall&lt;T, U&gt; fn foo(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These read very well. &ldquo;for all types T and U, there is a struct Foo &hellip;&rdquo;, &ldquo;for
+all types T and U, there is a function foo &hellip;&rdquo;, etc. These reflect that there
+are in fact multiple functions <code>foo</code> and structs <code>Foo</code> and implementations of
+<code>Trait</code>, due to monomorphization. It also allows for grepping for &ldquo;impl
+Trait&rdquo;.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Asus Vivobook X200]]></title>
@@ -2500,47 +2595,6 @@ worth implementing.</p>
 
 <p>Please email me any comments, or see the <a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/">discussion on
 reddit</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ACM ICPC: What I Learned]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned/"/>
-    <updated>2013-10-20T10:47:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/20/acm-icpc-what-i-learned</id>
-    <content type="html"><![CDATA[<p>Yesterday I participated in my first <a href="http://icpc.baylor.edu/">programming
-contest</a>. It was very fun, though challenging, and I
-learned a fair bit during it. <!-- more --> The content consisted of teams of
-3 working to solve 6 problems as fast as possible. The problems ranged from
-trivial (repeated arithmetic) to moderately complex.</p>
-
-<h2>Problem solving is fun.</h2>
-
-<p>I already knew this, but it has been some time since I&rsquo;ve done intense
-problem solving. It was nice to sit down for a few hours and bang my head
-on a problem. Creative problem solving just <em>feels</em> good, in a way that most
-activities don&rsquo;t.</p>
-
-<h2>I don&rsquo;t know much about algorithms or data structures</h2>
-
-<p>Of course I know the basic search and sorts, but anything involving
-anything more complex than binary trees is beyond my current knowledge. A
-few of the problems were solved very elegantly with tree operations. I was
-unable to come up with a way to express the operation I wanted to perform.
-It&rsquo;s a <a href="http://en.wikipedia.org/wiki/Longest_path_problem">standard problem</a>
-which I had not been aware of.</p>
-
-<p>Now that I <a href="http://en.wikipedia.org/wiki/There_are_known_knowns">know what I don&rsquo;t
-know</a>, I can expand my
-knowledge.</p>
-
-<h2>C++&rsquo;s iostreams are quite nice</h2>
-
-<p>Previously I haven&rsquo;t been a fan of iostreams, due to their misplaced
-pedagogical use. But, for simply reading whitespace-separated data from stdin
-and outputting the same to stdout, there probably isn&rsquo;t anything easier. I
-might implement something similar (though not using the <code>&gt;&gt;</code> and <code>&lt;&lt;</code>
-operators).</p>
 ]]></content>
   </entry>
   

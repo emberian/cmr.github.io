@@ -1,0 +1,246 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Parametric Polymorphism Declaration Syntax in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Summary Change the following syntax: 1
+2
+3
+struct Foo&lt;T, U&gt; { ... }
+impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+fn foo&lt;T, U& &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Parametric Polymorphism Declaration Syntax in Rust</h2>
+	<div class="entry-content"><h1>Summary</h1>
+
+<p>Change the following syntax:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo&lt;T, U&gt; { ... }
+</span><span class='line'>impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>fn foo&lt;T, U&gt;(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>forall&lt;T, U&gt; struct Foo { ... }
+</span><span class='line'>forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>forall&lt;T, U&gt; fn foo(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h1>The Problem</h1>
+
+<p>The immediate, and most pragmatic, problem is that in today&rsquo;s Rust one cannot
+easily search for implementations of a trait. Why? <code>grep 'impl Clone'</code> is
+itself not sufficient, since many types have parametric polymorphism. Now I
+need to come up with some sort of regex that can handle this. An easy
+first-attempt is <code>grep 'impl(&lt;.*?&gt;)? Clone'</code> but that is quite inconvenient to
+type and remember. (Here I ignore the issue of tooling, as I do not find the
+argument of &ldquo;But a tool can do it!&rdquo; valid in language design.)</p>
+
+<p>A deeper, more pedagogical problem, is the mismatch between how <code>struct
+Foo&lt;...&gt; { ... }</code> is read and how it is actually treated. The straightforward,
+left-to-right reading says &ldquo;There is a struct Foo which, given the types &hellip;
+has the members &hellip;&rdquo;. This might lead one to believe that <code>Foo</code> is a single
+type, but it is not. <code>Foo&lt;int&gt;</code> (that is, type <code>Foo</code> instantiated with type
+<code>int</code>) is not the same type as <code>Foo&lt;unit&gt;</code> (that is, type <code>Foo</code> instantiated
+with type <code>uint</code>). Of course, with a small amount of experience or a very
+simple explanation, that becomes obvious.</p>
+
+<p>Something less obvious is the treatment of functions. What does <code>fn
+foo&lt;...&gt;(...) { ... }</code> say? &ldquo;There is a function foo which, given types &hellip;
+and arguments &hellip;, does the following computation: &hellip;&rdquo; is not very adequate.
+It leads one to believe there is a <em>single</em> function <code>foo</code>, whereas there is
+actually a single <code>foo</code> for every substitution of type parameters! This also
+holds for implementations (both of traits and of inherent methods).</p>
+
+<p>Another minor problem is that nicely formatting long lists of type parameters
+or type parameters with many bounds is difficult.</p>
+
+<h1>Proposed Solution</h1>
+
+<p>Introduce a new keyword, <code>forall</code>. This choice of keyword reads very well and
+will not conflict with any identifiers in code which follows the <a href="https://github.com/mozilla/rust/wiki/Note-style-guide">style
+guide</a>.</p>
+
+<p>Change the following declarations from</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>struct Foo&lt;T, U&gt; { ... }
+</span><span class='line'>impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>fn foo&lt;T, U&gt;(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>forall&lt;T, U&gt; struct Foo { ... }
+</span><span class='line'>forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+</span><span class='line'>forall&lt;T, U&gt; fn foo(...) { ... }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These read very well. &ldquo;for all types T and U, there is a struct Foo &hellip;&rdquo;, &ldquo;for
+all types T and U, there is a function foo &hellip;&rdquo;, etc. These reflect that there
+are in fact multiple functions <code>foo</code> and structs <code>Foo</code> and implementations of
+<code>Trait</code>, due to monomorphization. It also allows for grepping for &ldquo;impl
+Trait&rdquo;.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-02-01T17:06:00-05:00"  data-updated="true">Feb 1<span>st</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

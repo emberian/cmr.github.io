@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-01-30T01:59:01-05:00</updated>
+  <updated>2014-02-01T17:34:55-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Parametric Polymorphism Declaration Syntax in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/02/01/polymorphic-declaration-syntax-in-rust/"/>
+    <updated>2014-02-01T17:06:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/02/01/polymorphic-declaration-syntax-in-rust</id>
+    <content type="html"><![CDATA[<h1>Summary</h1>
+
+<p>Change the following syntax:</p>
+
+<p><code>
+struct Foo&lt;T, U&gt; { ... }
+impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+fn foo&lt;T, U&gt;(...) { ... }
+</code></p>
+
+<p>to:</p>
+
+<p><code>
+forall&lt;T, U&gt; struct Foo { ... }
+forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+forall&lt;T, U&gt; fn foo(...) { ... }
+</code></p>
+
+<!-- more -->
+
+
+<h1>The Problem</h1>
+
+<p>The immediate, and most pragmatic, problem is that in today&rsquo;s Rust one cannot
+easily search for implementations of a trait. Why? <code>grep 'impl Clone'</code> is
+itself not sufficient, since many types have parametric polymorphism. Now I
+need to come up with some sort of regex that can handle this. An easy
+first-attempt is <code>grep 'impl(&lt;.*?&gt;)? Clone'</code> but that is quite inconvenient to
+type and remember. (Here I ignore the issue of tooling, as I do not find the
+argument of &ldquo;But a tool can do it!&rdquo; valid in language design.)</p>
+
+<p>A deeper, more pedagogical problem, is the mismatch between how <code>struct
+Foo&lt;...&gt; { ... }</code> is read and how it is actually treated. The straightforward,
+left-to-right reading says &ldquo;There is a struct Foo which, given the types &hellip;
+has the members &hellip;&rdquo;. This might lead one to believe that <code>Foo</code> is a single
+type, but it is not. <code>Foo&lt;int&gt;</code> (that is, type <code>Foo</code> instantiated with type
+<code>int</code>) is not the same type as <code>Foo&lt;unit&gt;</code> (that is, type <code>Foo</code> instantiated
+with type <code>uint</code>). Of course, with a small amount of experience or a very
+simple explanation, that becomes obvious.</p>
+
+<p>Something less obvious is the treatment of functions. What does <code>fn
+foo&lt;...&gt;(...) { ... }</code> say? &ldquo;There is a function foo which, given types &hellip;
+and arguments &hellip;, does the following computation: &hellip;&rdquo; is not very adequate.
+It leads one to believe there is a <em>single</em> function <code>foo</code>, whereas there is
+actually a single <code>foo</code> for every substitution of type parameters! This also
+holds for implementations (both of traits and of inherent methods).</p>
+
+<p>Another minor problem is that nicely formatting long lists of type parameters
+or type parameters with many bounds is difficult.</p>
+
+<h1>Proposed Solution</h1>
+
+<p>Introduce a new keyword, <code>forall</code>. This choice of keyword reads very well and
+will not conflict with any identifiers in code which follows the <a href="https://github.com/mozilla/rust/wiki/Note-style-guide">style
+guide</a>.</p>
+
+<p>Change the following declarations from</p>
+
+<p><code>
+struct Foo&lt;T, U&gt; { ... }
+impl&lt;T, U&gt; Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+fn foo&lt;T, U&gt;(...) { ... }
+</code></p>
+
+<p>to:</p>
+
+<p><code>
+forall&lt;T, U&gt; struct Foo { ... }
+forall&lt;T, U&gt; impl Trait&lt;T&gt; for Foo&lt;T, U&gt; { ... }
+forall&lt;T, U&gt; fn foo(...) { ... }
+</code></p>
+
+<p>These read very well. &ldquo;for all types T and U, there is a struct Foo &hellip;&rdquo;, &ldquo;for
+all types T and U, there is a function foo &hellip;&rdquo;, etc. These reflect that there
+are in fact multiple functions <code>foo</code> and structs <code>Foo</code> and implementations of
+<code>Trait</code>, due to monomorphization. It also allows for grepping for &ldquo;impl
+Trait&rdquo;.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -677,37 +762,6 @@ Announcement</a></li>
 logo</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Reading Old Things]]></title>
-    <link href="http://cmr.github.io/blog/2014/01/06/reading-old-things/"/>
-    <updated>2014-01-06T19:00:00-05:00</updated>
-    <id>http://cmr.github.io/blog/2014/01/06/reading-old-things</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m learning Haskell. I&rsquo;m doing this for many reasons, but the most important
-is to expand my knowledge and form a more principled understanding of
-languages. So, I&rsquo;m reading a <a href="http://www.stanford.edu/class/cs242/readings/backus.pdf">paper</a>. It&rsquo;s a very good paper, but the
-thing most striking about it is its age. 1977! My father was five. It occurred
-to me that I read a lot of old things. I grab interesting books from book
-sales, yard sales, thrift shops, and the &ldquo;Transfer Station &amp; Recycling Center&rdquo;
-(aka the dump). Most of the time they&rsquo;re garbage, but I sometimes find true
-gems. It&rsquo;s how I discovered Plato&rsquo;s <em>The Republic</em>, among other things. The
-best part about reading older books is that they often strip away decades of
-intellectual cruft that can accumulate around a subject, be it jargon or just
-gross mutation of ideas.  Especially reading some foundational papers, or
-books that were written when a subject was still young and exciting, a very
-good historical perspective can be developed. I often find a conceptual
-clarity that most new books simply don&rsquo;t give.</p>
-
-<p>On the other hand, I&rsquo;ve yet to find old code that was truly worth reading. Old
-code is frequently buggy, poorly written, or just plain unfinished. No code
-remains dormant for too long. The only exception I can think of is TeX.</p>
-
-<p>Observation bias? Perhaps. It could be that that&rsquo;s the only reason these books
-have survived so long. Try reading some older books and papers. <a href="mailto:corey@octayn.net">Let me know
-how it goes</a>. Have some suggestions for great books
-and papers, old or others? I&rsquo;d like to hear those too.</p>
 ]]></content>
   </entry>
   
