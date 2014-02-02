@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-02T03:16:37-05:00</updated>
+  <updated>2014-02-02T03:20:21-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -18,7 +18,21 @@
     <link href="http://cmr.github.io/blog/2014/02/01/this-week-in-rust/"/>
     <updated>2014-02-01T18:45:00-05:00</updated>
     <id>http://cmr.github.io/blog/2014/02/01/this-week-in-rust</id>
-    <content type="html"><![CDATA[<h1>What&rsquo;s cooking on master?</h1>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<p>This was a good week, with default type parameters, <code>do</code> removal, <code>@[]</code>
+removal, and some code bloat reduction.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
 
 <p>61 pull requests were merged this week.</p>
 
