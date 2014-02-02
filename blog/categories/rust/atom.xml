@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-01T17:34:55-05:00</updated>
+  <updated>2014-02-02T03:16:37-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/02/01/this-week-in-rust/"/>
+    <updated>2014-02-01T18:45:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/02/01/this-week-in-rust</id>
+    <content type="html"><![CDATA[<h1>What&rsquo;s cooking on master?</h1>
+
+<p>61 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>do</code> <a href="https://github.com/mozilla/rust/pull/11868">has been removed</a>. Replace
+<code>do spawn { ... }</code> with <code>spawn(proc() { ... })</code>.</li>
+<li><code>libextra</code> <a href="https://github.com/mozilla/rust/pull/11787">has exploded</a>. <a href="https://github.com/mozilla/rust/pull/11867">It
+exploded some more</a>. It will
+continue to explode until it no longer exists.</li>
+<li><code>#[simd]</code> <a href="https://github.com/mozilla/rust/pull/11738">has been feature
+gated</a>.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/11706">now generate static
+libraries</a> by default, rather than
+dynamic libraries.</li>
+<li><code>@[]</code> and <code>@str</code> <a href="https://github.com/mozilla/rust/pull/11974">have been removed from the
+language</a>. All that is left is
+<code>@T</code>!</li>
+<li>Various methods on vectors <a href="https://github.com/mozilla/rust/pull/11944">now return
+Options</a>, to be in line with the
+rest of everything else.</li>
+<li><code>next_power_of_two_opt</code> [has been renamed to] <code>checked_next_power_of_two</code>.
+Additionally, the various functions for division in <code>std::uint</code> were removed.</li>
+<li><code>#[no_send]</code> etc <a href="https://github.com/mozilla/rust/pull/11768">have been removed in favor of marker
+types</a>. Additionally, variance of
+types and lifetimes can explicitly be annotated with these marker types. They
+are zero-sized and have no runtime impact.</li>
+<li><code>std::borrow</code> <a href="https://github.com/mozilla/rust/pull/11895">has been
+removed</a>.</li>
+<li><code>Times</code> <a href="https://github.com/mozilla/rust/pull/11672">has finally been
+removed</a>. Good riddance.</li>
+<li>The various <code>CopyableVector</code>-like types have [been renamed] to
+<code>CloneableVector</code> etc.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>There are now lints for <a href="https://github.com/mozilla/rust/pull/11754">unused
+values</a>. Types annotated with
+<code>#[must_use]</code> will now warn when (surprise) their results are not used.</li>
+<li>debuginfo <a href="https://github.com/mozilla/rust/pull/11864">should now be fixed on OS
+X</a>, due to us now explicitly
+setting the DWARF version.</li>
+<li><code>fp-elim</code> <a href="https://github.com/mozilla/rust/pull/11879">has been re-disabled, but only if debuginfo generation is
+disabled</a>.</li>
+<li>Errors from <code>#[deriving(...)]</code> have
+<a href="https://github.com/mozilla/rust/pull/11826">seen</a> some
+<a href="https://github.com/mozilla/rust/pull/11834">work</a>.</li>
+<li>The evil environment pointers <a href="https://github.com/mozilla/rust/pull/11595">has been removed from bare
+functions</a>, as well as <code>self</code> now
+being a mostly-normal argument, to the compiler. This was a huge effort (88
+changed files with 1,436 additions and 2,138 deletions) by Eduard Burtescu,
+and is awesome!</li>
+<li>Also from Eduard is <a href="https://github.com/mozilla/rust/pull/11217">default type
+parameters</a>! They are currently
+behind a feature flag, but allow you to say, for example, <code>struct Foo&lt;T =
+uint&gt;</code> and use <code>Foo</code> as a bare type.</li>
+<li>The tydesc <a href="https://github.com/mozilla/rust/pull/11909">is used in less
+places</a> to help fend off code
+bloat.</li>
+<li>The occasional infinite recursion in some recursive types <a href="https://github.com/mozilla/rust/pull/11839">has been
+fixed</a>.</li>
+<li>Take glue <a href="https://github.com/mozilla/rust/pull/11723">has been removed from
+tydescs</a>, also to fend off code
+bloat.</li>
+<li><code>fail!()</code> <a href="https://github.com/mozilla/rust/pull/11841">also generates less code
+now</a>, to fend off bloat. In
+particular, <code>fn main() { fail!() }</code> now compiles 2-3x faster due to generating
+less code.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>JeremyLetang</li>
+<li>Johannes Muenzel</li>
+<li>Keshav Kini</li>
+<li>Michael Darakananda</li>
+<li>Nathaniel Herman</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-01-28">weekly
+meeting</a>
+discussed default type parameters, the unused result lint, minor changes to
+the attribute syntax, how to deal with I/O splitting, and the visit glue.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 32 PRs, significantly above our usual PR landing rate!</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Patrick Walton landed a huge number of PRs that significantly improved our
+performance and parallelism
+<a href="https://github.com/mozilla/servo/pull/1600">#1600</a>,
+<a href="https://github.com/mozilla/servo/pull/1564">#1564</a>,
+<a href="https://github.com/mozilla/servo/pull/1567">#1567</a>,
+<a href="https://github.com/mozilla/servo/pull/1589">#1589</a>,
+<a href="https://github.com/mozilla/servo/pull/1566">#1566</a>
+<a href="https://github.com/mozilla/servo/pull/1574">#1574</a>,
+<a href="https://github.com/mozilla/servo/pull/1571">#1571</a>,
+<a href="https://github.com/mozilla/servo/pull/1559">#1559</a>, etc.</li>
+<li>Rui (xiongmao86) fixed a linking issue in our Makefiles in
+<a href="https://github.com/mozilla/servo/pull/1603">#1603</a>.</li>
+<li>Isabelle Carter landed multiple display list support in
+<a href="https://github.com/mozilla/servo/pull/1579">#1579</a>.</li>
+<li>Lars Bergstrom finally re-enabled ref tests in
+<a href="https://github.com/mozilla/servo/pull/1565">#1565</a> and started a quest to
+improve test reliability in
+<a href="https://github.com/mozilla/servo/pull/1597">#1597</a> and
+<a href="https://github.com/mozilla/servo/pull/1570">#1570</a>.</li>
+<li>Bruno Abinader pushed on more DOM features in
+<a href="https://github.com/mozilla/servo/pull/1583">#1583</a> and
+<a href="https://github.com/mozilla/servo/pull/1580">#1580</a>.</li>
+<li>Clark Gaebel (wowus) enabled a limit on the number of redirects Servo
+follows in <a href="https://github.com/mozilla/servo/pull/1562">#1562</a>.</li>
+<li>Tetsuharu Ohzeki cleaned up Node&rsquo;s <code>remove</code> and <code>insert</code> members
+<a href="https://github.com/mozilla/servo/pull/1582">#1582</a>.</li>
+<li>Deokjin Kim implemented <code>whitespace:pre</code> in
+<a href="https://github.com/mozilla/servo/pull/1547">#1547</a>.</li>
+<li>Patrick Kim landed border support for inline flows in
+<a href="https://github.com/mozilla/servo/pull/1546">#1546</a>.</li>
+<li>Simon Sapin used his CSS wizardry to redo a performance tweak we made so
+that it&rsquo;s actually spec-compliant in
+<a href="https://github.com/mozilla/servo/pull/1560">#1560</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Clark Gaebel (wowus)</li>
+<li>Rui (xiongmao86)</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-01-27">meeting</a>, we
+discussed moving the build of fontconfig on Linux into Servo to avoid
+situations where the system version is old and not threadsafe, what&rsquo;s blocking
+the JSManaged conversion (which is required for our next Rust upgrade), and
+the status of ref and content tests.</p>
+
+<p>Josh Matthews is at FOSDEM this weekend, giving a
+<a href="http://www.joshmatthews.net/fosdemservo/">talk</a> on Servo. Look for video on
+air.mozilla.org shortly!</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1wqjsf/more_xxhash_benchmarks/">An xxHash implementation in
+Rust</a>,
+as well as some benchmarks comparing to gcc and clang.</li>
+<li><a href="http://hydrocodedesign.com/2014/01/31/llvm-with-rust/">Using LLVM From Within
+Rust</a></li>
+<li><a href="http://vimeo.com/85253071">Felix&rsquo;s CodeMesh presentation</a></li>
+<li><a href="https://docs.google.com/a/octayn.net/spreadsheet/ccc?key=0AlWBWplsaTZvdGdSdEVzZW1BeDA5dm0zM2FFeW0ySEE&amp;usp=drive_web#gid=0">A 1.0 roadmap
+spreadsheet</a></li>
+<li><a href="https://github.com/kballard/rust-lua">rust-lua</a>, safe bindings to Lua 5.1</li>
+<li><a href="http://www.infoq.com/interviews/klock-rust?utm_source=infoq&amp;utm_medium=videos_homepage&amp;utm_campaign=videos_row1#.Uupx3qddN-w.reddit">InfoQ interview with
+Felix</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/30/parameters-bounds-rust/">Parameters and Bounds in
+Rust</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/28/network-communication-serialization-rust/">Network Communication and Serialization in
+Rust</a></li>
+<li><a href="https://air.mozilla.org/rust-meetup-january-2014/">Recording of the Bay Area Rust January
+meetup</a>, wherein Brian
+talks about 1.0, Niko talks about DST, Kevin talks about rust-lua, and I talk
+about evangelism.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008224.html">Deprecating
+rustpkg</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Parametric Polymorphism Declaration Syntax in Rust]]></title>
@@ -579,189 +774,6 @@ Want to follow development? I post a <a href="http://cmr.github.io/blog/categori
 newsletter</a>
 summarizing the important changes. There is also a
 <a href="http://reddit.com/r/rust">subreddit</a>. Here&rsquo;s to an awesome 0.10!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2014/01/11/this-week-in-rust/"/>
-    <updated>2014-01-11T16:23:00-05:00</updated>
-    <id>http://cmr.github.io/blog/2014/01/11/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
-<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
-safe, concurrent, and fast. This is a weekly summary of its progress and
-community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
-email!</a>
-Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
-contributions</a>.</p>
-
-<p>0.9 was released this week, bringing with it a restructuring of our
-documentation and the usual influx of attention.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>57 pull requests were merged this week.</p>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li>Float literals are now <a href="https://github.com/mozilla/rust/pull/11480">more
-strict</a>. Octal and hex float
-literals are no longer allowed.</li>
-<li>A nasty soundness bug <a href="http://www.reddit.com/r/rust/comments/1uxbgm/moving_ownership_via_borrowed_reference/">reported on
-reddit</a>
-<a href="https://github.com/mozilla/rust/pull/11465">has been fixed</a>.</li>
-<li><code>print</code> and <code>println</code> <a href="https://github.com/mozilla/rust/pull/11416">have been removed from the
-prelude</a>. Use the <code>print!</code> and
-<code>println!</code> macros instead.</li>
-<li><code>Rc</code> <a href="https://github.com/mozilla/rust/pull/10926/files">now supports weak
-pointers</a>, and it no longer
-requires the wrapped type to be Freeze or Send. That is, it no longer
-statically avoids cycles using the type system. It was found to be too
-restrictive. The only constructor is now <code>Rc::new</code>.</li>
-<li>The <code>eof</code> method on <code>Reader</code> <a href="https://github.com/mozilla/rust/pull/11376">has been
-removed</a>, as only files really
-know when they are at eof. It is now a method on the types it makes sense for
-<a href="https://github.com/mozilla/rust/pull/11437">such as <code>MemReader</code> and
-<code>BufReader</code></a>.</li>
-<li><code>std::num</code> is seeing some simplification. <a href="https://github.com/mozilla/rust/pull/11412">Many traits have been merged into
-<code>Real</code></a>.</li>
-<li>Similarly, <a href="https://github.com/mozilla/rust/pull/11402"><code>ApproxEq</code> has been
-removed</a>.</li>
-<li>The <code>std::io::Decorator</code> trait <a href="https://github.com/mozilla/rust/pull/11394">has been
-removed</a>.</li>
-<li>A nasty resolve bug <a href="https://github.com/mozilla/rust/pull/11370">has been
-fixed</a>. Importing a trait made it
-available to all child modules; now it is only available in the module that
-imported it, as it should be.</li>
-<li>Some <a href="https://github.com/mozilla/rust/pull/10854">method renaming</a> has been
-done to <code>Option</code>. <code>map_default</code> is now <code>map_or</code> and <code>mutate_default</code> is now
-<code>mutate_or_set</code>.</li>
-</ul>
-
-
-<h2>Other Changes</h2>
-
-<ul>
-<li>A <a href="https://github.com/mozilla/rust/pull/11329">lint for unnecessary casts</a>
-has been added. It is set to allow by default.</li>
-<li><a href="https://github.com/mozilla/rust/pull/11342">Mutable iterators</a> have been
-added to <code>std::trie</code>.</li>
-<li>A bug in rustpkg preventing it from finding any static libraries, and
-libnative, <a href="https://github.com/mozilla/rust/pull/11338">has been fixed</a>.</li>
-<li><code>u64_from_be_bytes</code> <a href="https://github.com/mozilla/rust/pull/11448">has seen some
-optimization</a>, it is 3-6x faster.</li>
-<li><code>box</code> has been
-<a href="https://github.com/mozilla/rust/pull/11055">kinda-implemented</a>. <code>box(GC)</code> and
-<code>box(HEAP)</code> now work.</li>
-<li>Typed arenas <a href="https://github.com/mozilla/rust/pull/11358">have been added</a>.
-They&rsquo;re really fast!</li>
-<li><code>stderr</code>/<code>stdout</code> is now
-<a href="https://github.com/mozilla/rust/pull/11353">per-task</a>, which will allow
-capturing or redirecting a task&rsquo;s output.</li>
-</ul>
-
-
-<h2>New Contributors</h2>
-
-<ul>
-<li>Andrew Chin</li>
-<li>Clinton Ryan</li>
-<li>Derek Chiang</li>
-<li>Mick Koch</li>
-<li>Nick Cameron</li>
-<li>Niels langager Ellegaard</li>
-<li>Nif Ward</li>
-<li>Raphael Catolino</li>
-<li>Rich Lane</li>
-<li>Dzmitry Malyshau</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-01-07">weekly
-meeting</a>
-discussed Windows XP support, bounded channels, the Rc changes, using guard
-pages, loadable syntax extensions, and functions that fail.</p>
-
-<h1>Quotes of the Week</h1>
-
-<p>&ldquo;[I] find it easy to get lost in this file.&rdquo; &ndash;
-<a href="https://github.com/mozilla/rust/pull/11472/files#r8810362">kud1ing</a> on
-<code>libc.rs</code>
-&ndash; &ldquo;A language is more than just semantics, syntax, and an implementation &ndash;
-it&rsquo;s about an ecosystem and a community. Without that it dies.&rdquo; &ndash;
-<a href="https://botbot.me/mozilla/rust-internals/msg/9689869/">bjz</a></p>
-
-<h1>This Week in Servo</h1>
-
-<p>Servo is a web browser engine written in Rust and is one of the primary test
-cases for the Rust language.</p>
-
-<p>The Servo tree has been mostly frozen for a large part of this week, as the
-nearly month-long Rust upgrade is finally getting close and we wanted to avoid
-additional rebases. We did land 7 PRs, many with associated fixes, however.</p>
-
-<h2>Notable additions</h2>
-
-<ul>
-<li>Patrick Kim fixed anonymous boxes and images disappearing during line
-breaking in <a href="https://github.com/mozilla/servo/pull/1461">#1461</a> and
-<a href="https://github.com/mozilla/servo/pull/1463">#1463</a>.</li>
-<li>Patrick Walton fixed a race issue with window sizes and script code in
-<a href="https://github.com/mozilla/servo/pull/1409">#1409</a>.</li>
-<li>Jaeman Park landed CSS parsing and selector matching for pseudo element
-:before and :after in <a href="https://github.com/mozilla/servo/pull/1464">#1464</a>.</li>
-<li>Bruno Abinder made some DOM additions in
-<a href="https://github.com/mozilla/servo/pull/1466">#1466</a> and
-<a href="https://github.com/mozilla/servo/pull/1472">#1472</a>.</li>
-</ul>
-
-
-<h2>Meetings</h2>
-
-<p>In this week&rsquo;s
-<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-01-06">meeting</a>, we
-discussed the upcoming workweek, the Rust upgrade, ARM buildbots for Rust and
-Servo, and some research we&rsquo;re doing into the breakdown of page load.</p>
-
-<h1>Announcements, etc</h1>
-
-<ul>
-<li><a href="http://www.meetup.com/Rust-Bay-Area/events/153909222/">Bay Area Rust Meetup:
-1/28/2014</a></li>
-<li><a href="http://www.youtube.com/watch?v=gfCtbGiHcg0">The Rust language: memory, ownership and
-lifetimes</a>,
-Niko&rsquo;s presentation at Linux.conf.au</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1uy7rt/an_appeal_for_correct_capable_futureproof_math_in/">An appeal for correct, capable, future-proof math in nascent programming
-languages</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1v10ac/thehydroimpulserustwebsite/">An in-progress redesign of the
-website</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1v104e/combining_rusthttp_with_routerecognizerrs_to/">Combining rust-http with route-recognizer.rs to create routable
-HTTP</a></li>
-<li><a href="https://github.com/mneumann/rust-toml">A TOML configuration file parser</a></li>
-<li><a href="http://llvm.lyngvig.org/Articles/Mapping-High-Level-Constructs-to-LLVM-IR">Mapping High-Level Constructs to LLVM
-IR</a>,
-a peek at what drives the underbelly of the compiler</li>
-<li><a href="https://github.com/mozilla/rust/pull/11399">Add garbage collector to
-<code>std::gc</code></a></li>
-<li><a href="https://github.com/HeroesGrave/rust-workspace">rust-workspace</a>, a simple
-shell to make maintaining Rust projects easier</li>
-<li><a href="http://www.reddit.com/r/rust/comments/1usupv/semantic_code_browser_for_rust/">Semantic code browser for
-Rust</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2014/01/09/rvalue-lifetimes-in-rust/">Rvalue Lifetimes in
-Rust</a></li>
-<li><a href="http://steveklabnik.github.io/nobody_knows_rust/#/">Nobody Knows Rust &ndash; Steve Klabnik&rsquo;s slides</a></li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/007753.html">0.9 Release
-Announcement</a></li>
-<li><a href="https://github.com/cmr/rust-logo-3d/blob/master/rlogo.stl">A 3d-printable Rust
-logo</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

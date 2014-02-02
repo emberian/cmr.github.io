@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-01T17:34:55-05:00</updated>
+  <updated>2014-02-02T03:16:37-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/02/01/this-week-in-rust/"/>
+    <updated>2014-02-01T18:45:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/02/01/this-week-in-rust</id>
+    <content type="html"><![CDATA[<h1>What&rsquo;s cooking on master?</h1>
+
+<p>61 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>do</code> <a href="https://github.com/mozilla/rust/pull/11868">has been removed</a>. Replace
+<code>do spawn { ... }</code> with <code>spawn(proc() { ... })</code>.</li>
+<li><code>libextra</code> <a href="https://github.com/mozilla/rust/pull/11787">has exploded</a>. <a href="https://github.com/mozilla/rust/pull/11867">It
+exploded some more</a>. It will
+continue to explode until it no longer exists.</li>
+<li><code>#[simd]</code> <a href="https://github.com/mozilla/rust/pull/11738">has been feature
+gated</a>.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/11706">now generate static
+libraries</a> by default, rather than
+dynamic libraries.</li>
+<li><code>@[]</code> and <code>@str</code> <a href="https://github.com/mozilla/rust/pull/11974">have been removed from the
+language</a>. All that is left is
+<code>@T</code>!</li>
+<li>Various methods on vectors <a href="https://github.com/mozilla/rust/pull/11944">now return
+Options</a>, to be in line with the
+rest of everything else.</li>
+<li><code>next_power_of_two_opt</code> [has been renamed to] <code>checked_next_power_of_two</code>.
+Additionally, the various functions for division in <code>std::uint</code> were removed.</li>
+<li><code>#[no_send]</code> etc <a href="https://github.com/mozilla/rust/pull/11768">have been removed in favor of marker
+types</a>. Additionally, variance of
+types and lifetimes can explicitly be annotated with these marker types. They
+are zero-sized and have no runtime impact.</li>
+<li><code>std::borrow</code> <a href="https://github.com/mozilla/rust/pull/11895">has been
+removed</a>.</li>
+<li><code>Times</code> <a href="https://github.com/mozilla/rust/pull/11672">has finally been
+removed</a>. Good riddance.</li>
+<li>The various <code>CopyableVector</code>-like types have [been renamed] to
+<code>CloneableVector</code> etc.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>There are now lints for <a href="https://github.com/mozilla/rust/pull/11754">unused
+values</a>. Types annotated with
+<code>#[must_use]</code> will now warn when (surprise) their results are not used.</li>
+<li>debuginfo <a href="https://github.com/mozilla/rust/pull/11864">should now be fixed on OS
+X</a>, due to us now explicitly
+setting the DWARF version.</li>
+<li><code>fp-elim</code> <a href="https://github.com/mozilla/rust/pull/11879">has been re-disabled, but only if debuginfo generation is
+disabled</a>.</li>
+<li>Errors from <code>#[deriving(...)]</code> have
+<a href="https://github.com/mozilla/rust/pull/11826">seen</a> some
+<a href="https://github.com/mozilla/rust/pull/11834">work</a>.</li>
+<li>The evil environment pointers <a href="https://github.com/mozilla/rust/pull/11595">has been removed from bare
+functions</a>, as well as <code>self</code> now
+being a mostly-normal argument, to the compiler. This was a huge effort (88
+changed files with 1,436 additions and 2,138 deletions) by Eduard Burtescu,
+and is awesome!</li>
+<li>Also from Eduard is <a href="https://github.com/mozilla/rust/pull/11217">default type
+parameters</a>! They are currently
+behind a feature flag, but allow you to say, for example, <code>struct Foo&lt;T =
+uint&gt;</code> and use <code>Foo</code> as a bare type.</li>
+<li>The tydesc <a href="https://github.com/mozilla/rust/pull/11909">is used in less
+places</a> to help fend off code
+bloat.</li>
+<li>The occasional infinite recursion in some recursive types <a href="https://github.com/mozilla/rust/pull/11839">has been
+fixed</a>.</li>
+<li>Take glue <a href="https://github.com/mozilla/rust/pull/11723">has been removed from
+tydescs</a>, also to fend off code
+bloat.</li>
+<li><code>fail!()</code> <a href="https://github.com/mozilla/rust/pull/11841">also generates less code
+now</a>, to fend off bloat. In
+particular, <code>fn main() { fail!() }</code> now compiles 2-3x faster due to generating
+less code.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>JeremyLetang</li>
+<li>Johannes Muenzel</li>
+<li>Keshav Kini</li>
+<li>Michael Darakananda</li>
+<li>Nathaniel Herman</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-01-28">weekly
+meeting</a>
+discussed default type parameters, the unused result lint, minor changes to
+the attribute syntax, how to deal with I/O splitting, and the visit glue.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 32 PRs, significantly above our usual PR landing rate!</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Patrick Walton landed a huge number of PRs that significantly improved our
+performance and parallelism
+<a href="https://github.com/mozilla/servo/pull/1600">#1600</a>,
+<a href="https://github.com/mozilla/servo/pull/1564">#1564</a>,
+<a href="https://github.com/mozilla/servo/pull/1567">#1567</a>,
+<a href="https://github.com/mozilla/servo/pull/1589">#1589</a>,
+<a href="https://github.com/mozilla/servo/pull/1566">#1566</a>
+<a href="https://github.com/mozilla/servo/pull/1574">#1574</a>,
+<a href="https://github.com/mozilla/servo/pull/1571">#1571</a>,
+<a href="https://github.com/mozilla/servo/pull/1559">#1559</a>, etc.</li>
+<li>Rui (xiongmao86) fixed a linking issue in our Makefiles in
+<a href="https://github.com/mozilla/servo/pull/1603">#1603</a>.</li>
+<li>Isabelle Carter landed multiple display list support in
+<a href="https://github.com/mozilla/servo/pull/1579">#1579</a>.</li>
+<li>Lars Bergstrom finally re-enabled ref tests in
+<a href="https://github.com/mozilla/servo/pull/1565">#1565</a> and started a quest to
+improve test reliability in
+<a href="https://github.com/mozilla/servo/pull/1597">#1597</a> and
+<a href="https://github.com/mozilla/servo/pull/1570">#1570</a>.</li>
+<li>Bruno Abinader pushed on more DOM features in
+<a href="https://github.com/mozilla/servo/pull/1583">#1583</a> and
+<a href="https://github.com/mozilla/servo/pull/1580">#1580</a>.</li>
+<li>Clark Gaebel (wowus) enabled a limit on the number of redirects Servo
+follows in <a href="https://github.com/mozilla/servo/pull/1562">#1562</a>.</li>
+<li>Tetsuharu Ohzeki cleaned up Node&rsquo;s <code>remove</code> and <code>insert</code> members
+<a href="https://github.com/mozilla/servo/pull/1582">#1582</a>.</li>
+<li>Deokjin Kim implemented <code>whitespace:pre</code> in
+<a href="https://github.com/mozilla/servo/pull/1547">#1547</a>.</li>
+<li>Patrick Kim landed border support for inline flows in
+<a href="https://github.com/mozilla/servo/pull/1546">#1546</a>.</li>
+<li>Simon Sapin used his CSS wizardry to redo a performance tweak we made so
+that it&rsquo;s actually spec-compliant in
+<a href="https://github.com/mozilla/servo/pull/1560">#1560</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Clark Gaebel (wowus)</li>
+<li>Rui (xiongmao86)</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-01-27">meeting</a>, we
+discussed moving the build of fontconfig on Linux into Servo to avoid
+situations where the system version is old and not threadsafe, what&rsquo;s blocking
+the JSManaged conversion (which is required for our next Rust upgrade), and
+the status of ref and content tests.</p>
+
+<p>Josh Matthews is at FOSDEM this weekend, giving a
+<a href="http://www.joshmatthews.net/fosdemservo/">talk</a> on Servo. Look for video on
+air.mozilla.org shortly!</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1wqjsf/more_xxhash_benchmarks/">An xxHash implementation in
+Rust</a>,
+as well as some benchmarks comparing to gcc and clang.</li>
+<li><a href="http://hydrocodedesign.com/2014/01/31/llvm-with-rust/">Using LLVM From Within
+Rust</a></li>
+<li><a href="http://vimeo.com/85253071">Felix&rsquo;s CodeMesh presentation</a></li>
+<li><a href="https://docs.google.com/a/octayn.net/spreadsheet/ccc?key=0AlWBWplsaTZvdGdSdEVzZW1BeDA5dm0zM2FFeW0ySEE&amp;usp=drive_web#gid=0">A 1.0 roadmap
+spreadsheet</a></li>
+<li><a href="https://github.com/kballard/rust-lua">rust-lua</a>, safe bindings to Lua 5.1</li>
+<li><a href="http://www.infoq.com/interviews/klock-rust?utm_source=infoq&amp;utm_medium=videos_homepage&amp;utm_campaign=videos_row1#.Uupx3qddN-w.reddit">InfoQ interview with
+Felix</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/30/parameters-bounds-rust/">Parameters and Bounds in
+Rust</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/28/network-communication-serialization-rust/">Network Communication and Serialization in
+Rust</a></li>
+<li><a href="https://air.mozilla.org/rust-meetup-january-2014/">Recording of the Bay Area Rust January
+meetup</a>, wherein Brian
+talks about 1.0, Niko talks about DST, Kevin talks about rust-lua, and I talk
+about evangelism.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008224.html">Deprecating
+rustpkg</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Parametric Polymorphism Declaration Syntax in Rust]]></title>
@@ -2446,155 +2641,6 @@ Rust</a>.</li>
 safety</a>.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[On Stack Safety]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/21/on-stack-safety/"/>
-    <updated>2013-10-21T00:42:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/21/on-stack-safety</id>
-    <content type="html"><![CDATA[<p>Stack safety is a sticky topic in Rust right now. There are multiple
-conflicting tensions. My goal is to lay them bare, untangle the mess, and see
-if there&rsquo;s a better way forward (spoiler: there is!).</p>
-
-<!-- more -->
-
-
-<p>When a program is &ldquo;stack safe&rdquo;, the <a href="http://en.wikipedia.org/wiki/Call_stack#Structure">stack
-pointer</a> never points
-outside of allocated memory specifically dedicated to the stack. The
-most interesting violation of stack safety as it applies to Rust is the <a href="http://en.wikipedia.org/wiki/Stack_overflow">stack
-overflow</a>. (In fact, given
-safe code, or even unsafe code as long as it doesn&rsquo;t putz with the stack
-pointer or the stack frame, it is the <em>only</em> possible violation of stack
-safety). Stack overflow happens when the stack does not have enough space to
-store the full stack frame.</p>
-
-<p>There are three basic ways of dealing with stack overflow:</p>
-
-<ol>
-<li>Give up and accept the potential memory unsafety and resulting bugs.</li>
-<li>Do static analysis to determine the maximum stack size, and make sure
-that the stack is at least that large.</li>
-<li>Do runtime checks to make sure that there is always enough space on the
-stack for a function to proceed, and handle violation of that condition
-somehow.</li>
-</ol>
-
-
-<p>(<em>Note</em>: in what follows, I conflate &ldquo;language&rdquo; with &ldquo;implementation of a
-given language&rdquo; for clarity)</p>
-
-<p>Examples of languages that take strategy #1 are C, C++, Nimrod, and
-Objective-C. Stack overflow usually manifests as a segmentation fault or bus
-error, though more colorful errors are possible when a thread runs into
-another thread&rsquo;s stack, or onto the heap, causing heap corruption or threads
-stomping on each others&#8217; stack. Clearly this is not a viable solution for
-Rust: the very act of calling a function becomes unsafe.</p>
-
-<p>Strategy #2 is tempting, but cannot be used in the general case. The
-<a href="http://dl.acm.org/citation.cfm?id=1113833&amp;bnc=1">research</a>
-<a href="http://dl.acm.org/citation.cfm?id=1631721">I</a>
-<a href="http://dl.acm.org/citation.cfm?doid=1375634.1375656">found</a> investigate stack
-depth in the case of no recursion (so the call graph is actually a call
-(directed-)acyclic graph) but with asynchronous interrupt handlers. Indeed, it&rsquo;s
-trivial to show that when recursion is disallowed, a conservative stack limit
-can be calculated just by taking the longest path through the call graph with
-the nodes being weighted by the size that function&rsquo;s stack frame needs (this
-is a slightly different construction than most weighted graphs). This solution
-is not viable either: recursion is perfectly valid, rejecting it would make
-Rust very crippled as a language. To my knowledge, no languages rely on this
-for stack safety, though in practice I am sure many applications apply this
-technique.</p>
-
-<p>This leaves us with strategy #3, dynamic checks. Dynamic checking is fairly
-easy to do. The size of a function&rsquo;s stack frame is easy to calculate. One
-need only increment/decrement some global (or, rather, thread-local) counter
-by the stack frame size. When it becomes negative, there is no more stack.
-Almost every language I&rsquo;ve used (the exceptions are noted above) use this
-technique. Java, Python, Lua, Ruby, Go, the list goes on. The only differences
-between the languages is what they do when the stack does overflow. Most throw
-an exception. Another method of implementing dynamic checks is to leave a
-&ldquo;guard zone&rdquo; after the stack. This zone is mapped in a way that accessing it
-causes a page fault, which sends a signal or kills the process. (The exact
-implementation of this strategy differs; some allocate a stack frame for a
-function on the heap. Things get blurry with the interpreted languages, but
-they generally prevent stack overflow in a memory safe way.)</p>
-
-<p>Rust currently uses strategy #3, with tweaks. The current implementation
-heavily depends on LLVM&rsquo;s <a href="http://llvm.org/releases/3.0/docs/SegmentedStacks.html">segmented
-stack</a> feature. On x86
-(and I assume other platforms as well), a pointer to the end of the stack is
-stored in thread-local storage. The prelude to every function call compares
-that value to the value of the stack pointer, and calls a special function
-<code>__morestack</code> which will allocate a new stack segment for the function call to
-take place on. The stack segment is freed afterwards. The kink comes when
-using the FFI to call C code. C assumes a single, large stack. In order to
-fulfill that expectation, we have the <code>fixed_stack_segment</code> attribute to
-give a function a large stack segment: hopefully large enough that the C
-function doesn&rsquo;t overflow the stack.</p>
-
-<p>Segmented stacks are of questionable utility. On large systems, such as x64,
-address space is practically boundless, so lazily allocating stack segments is
-going to be slower than just requesting a very large mmap&rsquo;d stack that the OS
-will lazily allocate. On small, resource-constrained systems, the overhead of
-stack size checking (it requires TLS <em>and</em> stack size checks) is too much.
-Segmented stacks only optimize for mid-sized address spaces. And the entire
-purpose of segmented stacks (conservative but growable stack sizes) is moot if
-one is not using many tasks with small stacks.
-(<a href="https://mail.mozilla.org/pipermail/rust-dev/2013-July/004686.html">Previously</a>,
-<a href="https://github.com/mozilla/rust/issues/8345">previously</a>)</p>
-
-<p>All of the solutions so far are inadequate. They&rsquo;re inflexible and have poor
-composability in the case where a crate wants custom stack safety. I propose a
-hybrid:</p>
-
-<ol>
-<li>If there is no recursion or other sources of stack size uncertainty, the
-maximum stack size is decidable and is used as the only stack size, like
-strategy #2. Every function would be annotated with the total stack size it
-could possibly use, given static function calls. This fails at the first
-introduction of function pointers: it is impossible to know how much stack
-they need until runtime. However, this is not as limiting as it may sound,
-as long as one only tries to achieve a conservative estimate of maximum
-stack size. Since function pointers only come from trait objects and
-closures, the compiler can take the max of the stack frame for <em>every
-implemention</em> of the trait. I would assume closures could work in a similar
-way, in limited cases. There will always be cases where this analysis
-fails.</li>
-<li>If the analysis in step 1 results in indeterminate stack sizes, rustc will
-check a crate attribute. This crate attribute indicates which stack safety
-strategy should be used: either guard zones, stack size checks, segmented
-stacks, or no stack safety at all (note that stack size checks is segmented
-stacks minus expanding the stack with <code>__morestack</code>).  Disabling stack
-safety &ldquo;taints&rdquo; a crate, and any use of its functions requires <code>unsafe</code>,
-like calling C code, and they cannot be coerced to closures (this would
-lose the &ldquo;taint&rdquo; bit). Note that when the maximum stack size is decidable,
-this attribute won&rsquo;t be checked.</li>
-</ol>
-
-
-<p>All of the trickiness comes from compiling libraries with this. Executables
-are easy: since they define the execution context, they can decide how they
-want the stack to be secured. Libraries, being embedded in other contexts,
-need to obey their execution environment. At the very least, no-stack-safety
-will make it possible to implement libraries exposing a native ABI in Rust
-without requiring weirdness in the FFI, as well as implement custom stack
-safety when it&rsquo;s desired.</p>
-
-<p>By allowing crates to chose how they want stack safety to be implemented, we
-retain flexibility to fit any situation. By making it a crate attribute, we
-can handle combination of crates using different stack safety schemes in a
-sane way. There are still some niggling details with combining crates using
-different stack safety schemes (propagating the taint bit is quite difficult
-in the face of trait objects, but for now we could simply disallow
-combinations and work them out later (it&rsquo;s a backwards compatible change). I
-think this is a good stack safety strategy, superior to the current one, and
-worth implementing.</p>
-
-<p>Please email me any comments, or see the <a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/">discussion on
-reddit</a>.</p>
 ]]></content>
   </entry>
   

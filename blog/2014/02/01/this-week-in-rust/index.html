@@ -1,0 +1,342 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="What&rsquo;s cooking on master? 61 pull requests were merged this week. Breaking Changes do has been removed. Replace
+do spawn { ... } with spawn( &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><h1>What&rsquo;s cooking on master?</h1>
+
+<p>61 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>do</code> <a href="https://github.com/mozilla/rust/pull/11868">has been removed</a>. Replace
+<code>do spawn { ... }</code> with <code>spawn(proc() { ... })</code>.</li>
+<li><code>libextra</code> <a href="https://github.com/mozilla/rust/pull/11787">has exploded</a>. <a href="https://github.com/mozilla/rust/pull/11867">It
+exploded some more</a>. It will
+continue to explode until it no longer exists.</li>
+<li><code>#[simd]</code> <a href="https://github.com/mozilla/rust/pull/11738">has been feature
+gated</a>.</li>
+<li>We <a href="https://github.com/mozilla/rust/pull/11706">now generate static
+libraries</a> by default, rather than
+dynamic libraries.</li>
+<li><code>@[]</code> and <code>@str</code> <a href="https://github.com/mozilla/rust/pull/11974">have been removed from the
+language</a>. All that is left is
+<code>@T</code>!</li>
+<li>Various methods on vectors <a href="https://github.com/mozilla/rust/pull/11944">now return
+Options</a>, to be in line with the
+rest of everything else.</li>
+<li><code>next_power_of_two_opt</code> [has been renamed to] <code>checked_next_power_of_two</code>.
+Additionally, the various functions for division in <code>std::uint</code> were removed.</li>
+<li><code>#[no_send]</code> etc <a href="https://github.com/mozilla/rust/pull/11768">have been removed in favor of marker
+types</a>. Additionally, variance of
+types and lifetimes can explicitly be annotated with these marker types. They
+are zero-sized and have no runtime impact.</li>
+<li><code>std::borrow</code> <a href="https://github.com/mozilla/rust/pull/11895">has been
+removed</a>.</li>
+<li><code>Times</code> <a href="https://github.com/mozilla/rust/pull/11672">has finally been
+removed</a>. Good riddance.</li>
+<li>The various <code>CopyableVector</code>-like types have [been renamed] to
+<code>CloneableVector</code> etc.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>There are now lints for <a href="https://github.com/mozilla/rust/pull/11754">unused
+values</a>. Types annotated with
+<code>#[must_use]</code> will now warn when (surprise) their results are not used.</li>
+<li>debuginfo <a href="https://github.com/mozilla/rust/pull/11864">should now be fixed on OS
+X</a>, due to us now explicitly
+setting the DWARF version.</li>
+<li><code>fp-elim</code> <a href="https://github.com/mozilla/rust/pull/11879">has been re-disabled, but only if debuginfo generation is
+disabled</a>.</li>
+<li>Errors from <code>#[deriving(...)]</code> have
+<a href="https://github.com/mozilla/rust/pull/11826">seen</a> some
+<a href="https://github.com/mozilla/rust/pull/11834">work</a>.</li>
+<li>The evil environment pointers <a href="https://github.com/mozilla/rust/pull/11595">has been removed from bare
+functions</a>, as well as <code>self</code> now
+being a mostly-normal argument, to the compiler. This was a huge effort (88
+changed files with 1,436 additions and 2,138 deletions) by Eduard Burtescu,
+and is awesome!</li>
+<li>Also from Eduard is <a href="https://github.com/mozilla/rust/pull/11217">default type
+parameters</a>! They are currently
+behind a feature flag, but allow you to say, for example, <code>struct Foo&lt;T =
+uint&gt;</code> and use <code>Foo</code> as a bare type.</li>
+<li>The tydesc <a href="https://github.com/mozilla/rust/pull/11909">is used in less
+places</a> to help fend off code
+bloat.</li>
+<li>The occasional infinite recursion in some recursive types <a href="https://github.com/mozilla/rust/pull/11839">has been
+fixed</a>.</li>
+<li>Take glue <a href="https://github.com/mozilla/rust/pull/11723">has been removed from
+tydescs</a>, also to fend off code
+bloat.</li>
+<li><code>fail!()</code> <a href="https://github.com/mozilla/rust/pull/11841">also generates less code
+now</a>, to fend off bloat. In
+particular, <code>fn main() { fail!() }</code> now compiles 2-3x faster due to generating
+less code.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>JeremyLetang</li>
+<li>Johannes Muenzel</li>
+<li>Keshav Kini</li>
+<li>Michael Darakananda</li>
+<li>Nathaniel Herman</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-01-28">weekly
+meeting</a>
+discussed default type parameters, the unused result lint, minor changes to
+the attribute syntax, how to deal with I/O splitting, and the visit glue.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 32 PRs, significantly above our usual PR landing rate!</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Patrick Walton landed a huge number of PRs that significantly improved our
+performance and parallelism
+<a href="https://github.com/mozilla/servo/pull/1600">#1600</a>,
+<a href="https://github.com/mozilla/servo/pull/1564">#1564</a>,
+<a href="https://github.com/mozilla/servo/pull/1567">#1567</a>,
+<a href="https://github.com/mozilla/servo/pull/1589">#1589</a>,
+<a href="https://github.com/mozilla/servo/pull/1566">#1566</a>
+<a href="https://github.com/mozilla/servo/pull/1574">#1574</a>,
+<a href="https://github.com/mozilla/servo/pull/1571">#1571</a>,
+<a href="https://github.com/mozilla/servo/pull/1559">#1559</a>, etc.</li>
+<li>Rui (xiongmao86) fixed a linking issue in our Makefiles in
+<a href="https://github.com/mozilla/servo/pull/1603">#1603</a>.</li>
+<li>Isabelle Carter landed multiple display list support in
+<a href="https://github.com/mozilla/servo/pull/1579">#1579</a>.</li>
+<li>Lars Bergstrom finally re-enabled ref tests in
+<a href="https://github.com/mozilla/servo/pull/1565">#1565</a> and started a quest to
+improve test reliability in
+<a href="https://github.com/mozilla/servo/pull/1597">#1597</a> and
+<a href="https://github.com/mozilla/servo/pull/1570">#1570</a>.</li>
+<li>Bruno Abinader pushed on more DOM features in
+<a href="https://github.com/mozilla/servo/pull/1583">#1583</a> and
+<a href="https://github.com/mozilla/servo/pull/1580">#1580</a>.</li>
+<li>Clark Gaebel (wowus) enabled a limit on the number of redirects Servo
+follows in <a href="https://github.com/mozilla/servo/pull/1562">#1562</a>.</li>
+<li>Tetsuharu Ohzeki cleaned up Node&rsquo;s <code>remove</code> and <code>insert</code> members
+<a href="https://github.com/mozilla/servo/pull/1582">#1582</a>.</li>
+<li>Deokjin Kim implemented <code>whitespace:pre</code> in
+<a href="https://github.com/mozilla/servo/pull/1547">#1547</a>.</li>
+<li>Patrick Kim landed border support for inline flows in
+<a href="https://github.com/mozilla/servo/pull/1546">#1546</a>.</li>
+<li>Simon Sapin used his CSS wizardry to redo a performance tweak we made so
+that it&rsquo;s actually spec-compliant in
+<a href="https://github.com/mozilla/servo/pull/1560">#1560</a>.</li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Clark Gaebel (wowus)</li>
+<li>Rui (xiongmao86)</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-01-27">meeting</a>, we
+discussed moving the build of fontconfig on Linux into Servo to avoid
+situations where the system version is old and not threadsafe, what&rsquo;s blocking
+the JSManaged conversion (which is required for our next Rust upgrade), and
+the status of ref and content tests.</p>
+
+<p>Josh Matthews is at FOSDEM this weekend, giving a
+<a href="http://www.joshmatthews.net/fosdemservo/">talk</a> on Servo. Look for video on
+air.mozilla.org shortly!</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/1wqjsf/more_xxhash_benchmarks/">An xxHash implementation in
+Rust</a>,
+as well as some benchmarks comparing to gcc and clang.</li>
+<li><a href="http://hydrocodedesign.com/2014/01/31/llvm-with-rust/">Using LLVM From Within
+Rust</a></li>
+<li><a href="http://vimeo.com/85253071">Felix&rsquo;s CodeMesh presentation</a></li>
+<li><a href="https://docs.google.com/a/octayn.net/spreadsheet/ccc?key=0AlWBWplsaTZvdGdSdEVzZW1BeDA5dm0zM2FFeW0ySEE&amp;usp=drive_web#gid=0">A 1.0 roadmap
+spreadsheet</a></li>
+<li><a href="https://github.com/kballard/rust-lua">rust-lua</a>, safe bindings to Lua 5.1</li>
+<li><a href="http://www.infoq.com/interviews/klock-rust?utm_source=infoq&amp;utm_medium=videos_homepage&amp;utm_campaign=videos_row1#.Uupx3qddN-w.reddit">InfoQ interview with
+Felix</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/30/parameters-bounds-rust/">Parameters and Bounds in
+Rust</a></li>
+<li><a href="http://blog.safaribooksonline.com/2014/01/28/network-communication-serialization-rust/">Network Communication and Serialization in
+Rust</a></li>
+<li><a href="https://air.mozilla.org/rust-meetup-january-2014/">Recording of the Bay Area Rust January
+meetup</a>, wherein Brian
+talks about 1.0, Niko talks about DST, Kevin talks about rust-lua, and I talk
+about evangelism.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008224.html">Deprecating
+rustpkg</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-02-01T18:45:00-05:00"  data-updated="true">Feb 1<span>st</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
