@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-02T03:20:21-05:00</updated>
+  <updated>2014-02-02T03:43:56-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -55,7 +55,8 @@ language</a>. All that is left is
 <li>Various methods on vectors <a href="https://github.com/mozilla/rust/pull/11944">now return
 Options</a>, to be in line with the
 rest of everything else.</li>
-<li><code>next_power_of_two_opt</code> [has been renamed to] <code>checked_next_power_of_two</code>.
+<li><code>next_power_of_two_opt</code> <a href="https://github.com/mozilla/rust/pull/11930">has been renamed
+to</a> <code>checked_next_power_of_two</code>.
 Additionally, the various functions for division in <code>std::uint</code> were removed.</li>
 <li><code>#[no_send]</code> etc <a href="https://github.com/mozilla/rust/pull/11768">have been removed in favor of marker
 types</a>. Additionally, variance of
@@ -65,7 +66,8 @@ are zero-sized and have no runtime impact.</li>
 removed</a>.</li>
 <li><code>Times</code> <a href="https://github.com/mozilla/rust/pull/11672">has finally been
 removed</a>. Good riddance.</li>
-<li>The various <code>CopyableVector</code>-like types have [been renamed] to
+<li>The various <code>CopyableVector</code>-like types have <a href="https://github.com/mozilla/rust/pull/11893">been
+renamed</a> to
 <code>CloneableVector</code> etc.</li>
 </ul>
 
