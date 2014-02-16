@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-15T23:20:32-05:00</updated>
+  <updated>2014-02-16T00:34:34-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -183,8 +183,9 @@ HashMap</a></li>
 <li><a href="https://gist.github.com/bvssvni/8970459">State machines using phantom
 types</a></li>
 <li><a href="http://golo-lang.org/">golo-lang.org</a>&rsquo;s homepage design <a href="http://adridu59.github.io/rust-www/">adapted to
-Rust</a>. There is some discussion on
-reddit about this.</li>
+Rust</a>. There is some discussion <a href="http://www.reddit.com/r/rust/comments/1xx3ll/rfc_gololangorg_ported_to_rust/">on
+reddit</a>
+about this.</li>
 </ul>
 
 ]]></content>
