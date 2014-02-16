@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-10T03:33:52-05:00</updated>
+  <updated>2014-02-15T23:20:32-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,183 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/02/15/this-week-in-rust/"/>
+    <updated>2014-02-15T23:20:00-05:00</updated>
+    <id>http://cmr.github.io/blog/2014/02/15/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>86 pull requests were merged this week. This ties for week with most merged
+pull requests. <a href="http://cmr.github.io/blog/2013/09/23/this-week-in-rust/">A week in September 2013 is the other record
+holder</a>. To cope with
+the massively inflated queue, there were two roll-ups (not counted).</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>extern mod</code> <a href="https://github.com/mozilla/rust/pull/12017">is now written</a>
+<code>extern crate</code>.</li>
+<li>The big codegen compiler flags pull request I warned about last week <a href="https://github.com/mozilla/rust/pull/12084">indeed
+landed</a>. Many <code>-Z</code> options are now
+under <code>-C</code>, and a lot of previously-bare flags (such as <code>--linker</code>) are now
+also under <code>-C</code>.</li>
+<li><code>std::util</code> <a href="https://github.com/mozilla/rust/pull/11956">has been removed</a>.
+<code>swap</code> and <code>replace</code> now live in <code>std::mem</code>.</li>
+<li><code>do</code> is once again <a href="https://github.com/mozilla/rust/pull/12170">a reserved
+word</a>.</li>
+<li><code>extra::rational</code>, <code>extra::bigint</code>, and <code>extra::complex</code> <a href="https://github.com/mozilla/rust/pull/12154">have been
+moved</a> into <code>libnum</code> as part of
+the libextra dissolution.</li>
+<li>The borrow checker&rsquo;s treatment of closures <a href="https://github.com/mozilla/rust/pull/12158">has been
+revamped</a>. It fixes all known
+soundness issues with closures. Unfortunately, it also breaks some programs
+that used to compile.</li>
+<li>Channels <a href="https://github.com/mozilla/rust/pull/11578">have been rewritten</a>
+to use the internally-upgradable design <a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/007924.html">that was hashed out on the
+list</a>.
+Rather than having a separate <code>SharedChan</code>, <code>Chan</code> is now cloneable.</li>
+<li>The <code>Seek</code> API <a href="https://github.com/mozilla/rust/pull/12204">has changed a
+bit</a>.</li>
+<li>The breaking changes in the <a href="https://github.com/mozilla/rust/pull/12248">first
+rollup</a> are the removal of
+<code>ptr::offset</code>, <code>ptr::mut_offset</code>, <code>ptr::is_null</code>, and <code>ptr::is_not_null</code> as
+free functions and the movement of <code>extra::hex</code> and <code>extra::base64</code> to
+<code>libserialize</code>.</li>
+<li><code>std::num::Orderable</code> <a href="https://github.com/mozilla/rust/pull/12061">has been
+removed</a>.</li>
+<li><code>std::ptr</code> <a href="https://github.com/mozilla/rust/pull/12282">saw some more
+cleanup</a>, most notably every
+function ending in <code>_ptr</code> has had that suffix removed. <code>to_unsafe_ptr</code> and
+<code>to_mut_unsafe_ptr</code> have also been removed.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Process arguments and environment variables <a href="https://github.com/mozilla/rust/pull/12283">now use the
+<code>from_utf8_lossy</code> function</a> that
+was introduced last week, rather than failing on invalid utf8. Additionally,
+there are now <code>args_as_bytes</code> and <code>env_as_bytes</code> functions to get arguments
+and the environment raw.</li>
+<li>The makefiles <a href="https://github.com/mozilla/rust/pull/12274">have been
+refactored</a>, and there is now a
+<code>make help</code> and <code>make tips</code> for hints on how to use the build system.</li>
+<li>In yet another multi-thousand-line patch by eddyb, <a href="https://github.com/mozilla/rust/pull/12162"><code>ast_map::Path</code> no
+longer requires cloning</a>, due to
+clever devilry.</li>
+<li>green task spawning <a href="https://github.com/mozilla/rust/pull/12172">was sped up by almost
+5x</a>.</li>
+<li>We now <a href="https://github.com/mozilla/rust/pull/12027">bundle and use
+compiler-rt</a> for intrinsics rather
+than using the system libgcc. We still depend on libgcc for unwinding,</li>
+<li>The pidights benchmark was made 20x faster <a href="https://github.com/alexcrichton/rust/commit/7dc187afd8a19dad05dbf1a689e6b6f400f7bc0a">by optimizing
+bigint</a>.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Bruno de Oliveira Abinader</li>
+<li>Eduard Bopp</li>
+<li>Edward Wang</li>
+<li>Jake Kerr</li>
+<li>Liigo Zhuang</li>
+<li>Matthijs van der Vleuten</li>
+<li>Peiyong Lin</li>
+<li>Tobias Bucher</li>
+<li>WebeWizard</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-02-11">weekly
+meeting</a>
+discussed struct construction sugar, what to allow in statics, the crate
+keyword, a <code>finally</code> macro, and implicit trait bounds.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 18 PRs.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Bruno Abinader landed several DOM fixes, including
+<a href="https://github.com/mozilla/servo/pull/1648">#1648</a> and
+<a href="https://github.com/mozilla/servo/pull/1646">#1646</a></li>
+<li>Hyun June Kim landed initial <code>:hover</code> support in
+<a href="https://github.com/mozilla/servo/pull/1633">#1633</a></li>
+<li>Keegan McAllister restored task failure handling in
+<a href="https://github.com/mozilla/servo/pull/1691">#1691</a></li>
+<li>Rui renamed the .rc files to .rs in the main Servo repository in
+<a href="https://github.com/mozilla/servo/pull/1617">#1617</a></li>
+<li>Simon Sapin made some updates to attribute selector namespaces in
+<a href="https://github.com/mozilla/servo/pull/1653">#1653</a> and
+<a href="https://github.com/mozilla/servo/pull/1661">#1661</a></li>
+<li>Lars Bergstrom began the removal of non-script-crate <code>@mut</code>s in preparation
+for a Rust upgrade in <a href="https://github.com/mozilla/servo/pull/1663">#1663</a></li>
+<li>Austin King added some <code>window.console</code> support in
+<a href="https://github.com/mozilla/servo/pull/1666">#1666</a></li>
+<li>Marek Šuppa landed a fix to our contributing document in
+<a href="https://github.com/mozilla/servo/pull/1649">#1649</a></li>
+<li>Patrick Walton made extensive optimizations to style sharing in
+<a href="https://github.com/mozilla/servo/pull/1644">#1644</a></li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Austin King (ozten)</li>
+<li>Marek Šuppa (mrshu)</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-02-10">meeting</a>, we
+discussed our embedding plans, ACID2 status, improving the availability of
+E-Easy issues, and doing a Rust upgrade (we are more than one month behind
+Rust master).</p>
+
+<h1>Announcements, etc</h1>
+
+<p>There is simply too much happening in the community to keep track of! I
+recommend browsing <a href="http://www.reddit.com/r/rust">the Rust subreddit</a> for
+goings-on. Some notable ones:</p>
+
+<ul>
+<li><a href="http://pzol.github.io/getting_rusty/posts/20140203_hashmap/">Rust By Example:
+HashMap</a></li>
+<li><a href="https://gist.github.com/bvssvni/8970459">State machines using phantom
+types</a></li>
+<li><a href="http://golo-lang.org/">golo-lang.org</a>&rsquo;s homepage design <a href="http://adridu59.github.io/rust-www/">adapted to
+Rust</a>. There is some discussion on
+reddit about this.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -26,11 +203,12 @@ email!</a>
 Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
 contributions</a>.</p>
 
-<p>There were a surprising number of breaking changes this week. The libextra
-dissolution continues. Condition removal and the IO error overhaul also
-landed. <code>rustpkg</code> was also removed, and rustc&rsquo;s CLI interface has changed.
-Additionally, Rust gained another full-time developer! A big hello to Nick
-Cameron, I look forward to seeing his work.</p>
+<p>There were a surprising number of breaking changes this week. The <a href="https://github.com/mozilla/rust/issues/8784">libextra
+dissolution continues</a>. Condition
+removal and the IO error overhaul also landed. <code>rustpkg</code> was also removed, and
+rustc&rsquo;s CLI interface has changed.  Additionally, Rust gained another
+full-time developer! A big hello to Nick Cameron, I look forward to seeing his
+work.</p>
 
 <p>It was also <a href="http://octoverse.github.com/">discovered</a> that we closed the
 second largest number of issues of any repository on GitHub! We trailed behind
@@ -119,15 +297,17 @@ inherited <code>extra::semver</code>.</li>
 <li>A <code>black_box</code> function <a href="https://github.com/mozilla/rust/pull/12105">has been added to
 <code>extra::test</code></a>, and the <code>iter</code>
 method on BenchHarness can now return values. As
-<a href="https://github.com/mozilla/rust/pull/12119">documented</a>, these exist to make
-sure that LLVM will not optimize out benchmarks.</li>
+<a href="https://github.com/mozilla/rust/pull/12119">documented</a> (<a href="http://static.rust-lang.org/doc/master/guide-testing.html#benchmarks-and-the-optimizer">generated
+version</a>),
+these exist to make sure that LLVM will not optimize out benchmarks.</li>
 <li>A <code>fourcc!</code> syntax extension <a href="https://github.com/mozilla/rust/pull/12034">has been
 added</a>.</li>
 <li>A <code>unimplemented!</code> macro <a href="https://github.com/mozilla/rust/pull/12090">has been
 added</a>, used much the same as
 <code>unreachable!()</code>.</li>
-<li>The runtime libraries <a href="https://github.com/mozilla/rust/pull/12073">have gained
-examples</a>, and libgreen now has an
+<li>The [runtime libraries <a href="https://github.com/mozilla/rust/pull/12073">have gained
+examples</a>, and
+<a href="http://static.rust-lang.org/doc/master/green/index.html">libgreen</a> now has an
 explanation of how it is structured at a high level, specifically where
 concurrency and parallelism come from.</li>
 <li>A <code>from_utf8_lossy</code> function <a href="https://github.com/mozilla/rust/pull/12062">has been
@@ -206,12 +386,12 @@ markers, tables, initial pseudo-class and pseudo-element support).</p>
 <li>Patrick Walton further improved layout performance in
 <a href="https://github.com/mozilla/servo/pull/1630">#1630</a> and
 <a href="https://github.com/mozilla/servo/pull/1615">#1615</a></li>
-<li>Adrian Bustany fixed <code>insertBefore</code> in
+<li>Adrien Bustany fixed <code>insertBefore</code> in
 <a href="https://github.com/mozilla/servo/pull/1621">#1621</a></li>
 <li>Lars Bergstrom landed reftest stabilization fixes in
 <a href="https://github.com/mozilla/servo/pull/1623">#1623</a> &ndash; we are almost ready to
 gate landing commits on content and ref tests passing on Linux, once we get
-more fonts <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=3D968375">installed</a>
+more fonts <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=968375">installed</a>
 on our Linux buildbots</li>
 </ul>
 
@@ -231,7 +411,7 @@ discussed display list construction with respect to layering and stacking
 contexts.</p>
 
 <p>Josh Matthews&#8217; talk on Servo at FOSDEM is available
-<a href="http://mirrors.dotsrc.org/fosdem/2014/UD2218A/Saturday/Servo_buildi%0Ang_a_parallel_web_browser.webm">here</a>.</p>
+<a href="http://mirrors.dotsrc.org/fosdem/2014/UD2218A/Saturday/Servo_building_a_parallel_web_browser.webm">here</a>.</p>
 
 <h1>Announcements, etc</h1>
 
@@ -2755,57 +2935,6 @@ execution library.</li>
 client.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[More On Stack Safety]]></title>
-    <link href="http://cmr.github.io/blog/2013/10/28/more-on-stack-safety/"/>
-    <updated>2013-10-28T17:58:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2013/10/28/more-on-stack-safety</id>
-    <content type="html"><![CDATA[<p>I got a lot of great feedback on my <a href="http://cmr.github.io/blog/2013/10/21/on-stack-safety/">previous
-post</a>, and I&rsquo;ve done
-some thinking and come up with what I think is a better proposal, and a solid
-way forward.</p>
-
-<!-- more -->
-
-
-<ol>
-<li>Teach the task API to allow spawning a task with a fixed stack size.</li>
-<li>Add the ability to query stack size from LLVM. This lets us implement stack
-guard zones precisely.</li>
-<li>Add a way to use the result of #2 in a clean way. This is probably the
-trickiest to get right.</li>
-</ol>
-
-
-<p>You&rsquo;ll note that this doesn&rsquo;t seem to support segmented stacks <em>or</em> omission
-of stack safety! I&rsquo;m now of the opinion that segmented stacks have no future.
-They currently only allow aborting on stack overflow, not unwinding, and their
-only other benefit (the ability to &ldquo;grow&rdquo; the stack) is niche. If someone
-really thinks growable stacks is desirable, and has valid, convincing
-usecases, they should contact me by email or IRC.  Otherwise, the guarantees
-they provide are the same as guard zones (abort on overflow).</p>
-
-<p>Omission of stack safety seems missing. But, it isn&rsquo;t needed when using guard
-zones! Since guard zones impose nothing on a function&rsquo;s generated code (ie,
-there&rsquo;s no prelude that looks into TLS, no need for a <code>__morestack</code>), an
-environment which can&rsquo;t provide guard zones simply does nothing special when
-setting up a task&rsquo;s stack.</p>
-
-<p>You&rsquo;ll also note that this ditches the static analysis I was so fond of. This
-sort of analysis really belongs in a lint pass, rather than as a core part of
-the safety feature. A crate can say <code>#[max_stack_size = "64K"];</code> or
-<code>#[deny(unbounded_stack)]</code> if it wants static stack size checking (which
-people
-<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwke1l">seem</a>
-<a href="http://www.reddit.com/r/rust/comments/1owhwi/on_stack_safety/ccwjhpn">to</a>
-<a href="http://www.reddit.com/r/programming/comments/1owjmi/on_stack_safety_in_rust/ccwei0c">want</a>).</p>
-
-<p>Requiring fixed-sized stacks seems like a step backwards, but I don&rsquo;t see a
-better path forward. Solving this problem can be left to a less-rusty, perhaps
-research, language.</p>
 ]]></content>
   </entry>
   

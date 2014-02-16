@@ -89,11 +89,12 @@ email!</a>
 Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
 contributions</a>.</p>
 
-<p>There were a surprising number of breaking changes this week. The libextra
-dissolution continues. Condition removal and the IO error overhaul also
-landed. <code>rustpkg</code> was also removed, and rustc&rsquo;s CLI interface has changed.
-Additionally, Rust gained another full-time developer! A big hello to Nick
-Cameron, I look forward to seeing his work.</p>
+<p>There were a surprising number of breaking changes this week. The <a href="https://github.com/mozilla/rust/issues/8784">libextra
+dissolution continues</a>. Condition
+removal and the IO error overhaul also landed. <code>rustpkg</code> was also removed, and
+rustc&rsquo;s CLI interface has changed.  Additionally, Rust gained another
+full-time developer! A big hello to Nick Cameron, I look forward to seeing his
+work.</p>
 
 <p>It was also <a href="http://octoverse.github.com/">discovered</a> that we closed the
 second largest number of issues of any repository on GitHub! We trailed behind
@@ -182,15 +183,17 @@ inherited <code>extra::semver</code>.</li>
 <li>A <code>black_box</code> function <a href="https://github.com/mozilla/rust/pull/12105">has been added to
 <code>extra::test</code></a>, and the <code>iter</code>
 method on BenchHarness can now return values. As
-<a href="https://github.com/mozilla/rust/pull/12119">documented</a>, these exist to make
-sure that LLVM will not optimize out benchmarks.</li>
+<a href="https://github.com/mozilla/rust/pull/12119">documented</a> (<a href="http://static.rust-lang.org/doc/master/guide-testing.html#benchmarks-and-the-optimizer">generated
+version</a>),
+these exist to make sure that LLVM will not optimize out benchmarks.</li>
 <li>A <code>fourcc!</code> syntax extension <a href="https://github.com/mozilla/rust/pull/12034">has been
 added</a>.</li>
 <li>A <code>unimplemented!</code> macro <a href="https://github.com/mozilla/rust/pull/12090">has been
 added</a>, used much the same as
 <code>unreachable!()</code>.</li>
-<li>The runtime libraries <a href="https://github.com/mozilla/rust/pull/12073">have gained
-examples</a>, and libgreen now has an
+<li>The [runtime libraries <a href="https://github.com/mozilla/rust/pull/12073">have gained
+examples</a>, and
+<a href="http://static.rust-lang.org/doc/master/green/index.html">libgreen</a> now has an
 explanation of how it is structured at a high level, specifically where
 concurrency and parallelism come from.</li>
 <li>A <code>from_utf8_lossy</code> function <a href="https://github.com/mozilla/rust/pull/12062">has been
@@ -269,12 +272,12 @@ markers, tables, initial pseudo-class and pseudo-element support).</p>
 <li>Patrick Walton further improved layout performance in
 <a href="https://github.com/mozilla/servo/pull/1630">#1630</a> and
 <a href="https://github.com/mozilla/servo/pull/1615">#1615</a></li>
-<li>Adrian Bustany fixed <code>insertBefore</code> in
+<li>Adrien Bustany fixed <code>insertBefore</code> in
 <a href="https://github.com/mozilla/servo/pull/1621">#1621</a></li>
 <li>Lars Bergstrom landed reftest stabilization fixes in
 <a href="https://github.com/mozilla/servo/pull/1623">#1623</a> &ndash; we are almost ready to
 gate landing commits on content and ref tests passing on Linux, once we get
-more fonts <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=3D968375">installed</a>
+more fonts <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=968375">installed</a>
 on our Linux buildbots</li>
 </ul>
 
@@ -294,7 +297,7 @@ discussed display list construction with respect to layering and stacking
 contexts.</p>
 
 <p>Josh Matthews&#8217; talk on Servo at FOSDEM is available
-<a href="http://mirrors.dotsrc.org/fosdem/2014/UD2218A/Saturday/Servo_buildi%0Ang_a_parallel_web_browser.webm">here</a>.</p>
+<a href="http://mirrors.dotsrc.org/fosdem/2014/UD2218A/Saturday/Servo_building_a_parallel_web_browser.webm">here</a>.</p>
 
 <h1>Announcements, etc</h1>
 
