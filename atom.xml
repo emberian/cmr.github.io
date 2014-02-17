@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-16T00:34:34-05:00</updated>
+  <updated>2014-02-17T17:29:40-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -95,7 +95,7 @@ clever devilry.</li>
 <li>We now <a href="https://github.com/mozilla/rust/pull/12027">bundle and use
 compiler-rt</a> for intrinsics rather
 than using the system libgcc. We still depend on libgcc for unwinding,</li>
-<li>The pidights benchmark was made 20x faster <a href="https://github.com/alexcrichton/rust/commit/7dc187afd8a19dad05dbf1a689e6b6f400f7bc0a">by optimizing
+<li>The pidigits benchmark was made 20x faster <a href="https://github.com/alexcrichton/rust/commit/7dc187afd8a19dad05dbf1a689e6b6f400f7bc0a">by optimizing
 bigint</a>.</li>
 </ul>
 
