@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-02-24T01:50:46-05:00</updated>
+  <updated>2014-02-24T01:53:20-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -75,9 +75,6 @@ liberated</a> into a <code>libtime</code>.</li>
 <code>libcollections</code>.</li>
 <li>The <code>Integer</code> trait <a href="https://github.com/mozilla/rust/pull/12326">has
 migrated</a> to <code>libnum</code>.</li>
-<li>All language items <a href="https://github.com/mozilla/rust/pull/11603">must now be
-reachable</a>. Previously this caused
-a linker error.</li>
 <li><code>std::hash</code> <a href="https://github.com/mozilla/rust/pull/11863">has been rewritten and
 redesigned</a>.</li>
 <li><code>std::trie</code> and <code>std::hashmap</code> <a href="https://github.com/mozilla/rust/pull/12428">have been
@@ -125,6 +122,9 @@ rewritten</a>. It&rsquo;s now cleaner, does
 less allocation, and is 3-6x faster in many cases.</li>
 <li><code>std::io::stdin</code> <a href="https://github.com/mozilla/rust/pull/12422">is now buffered by
 default</a>.</li>
+<li>All language items <a href="https://github.com/mozilla/rust/pull/11603">must now be
+reachable</a>. Previously this caused
+a linker error.</li>
 </ul>
 
 
