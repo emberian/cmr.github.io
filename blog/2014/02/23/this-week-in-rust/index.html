@@ -1,0 +1,344 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<p>This is the busiest week in This Week in Rust&rsquo;s history, <a href="http://buildbot.rust-lang.org/bors/bors.html">and the pull request
+queue isn&rsquo;t getting any
+shorter</a>. This is a mixed
+blessing: tons of work is getting done, but it takes forever to get merged.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>89 pull requests were merged this week. This is the most pull requests merged
+in a week, ever. 10 1.0 issues were closed this week, and 0 opened.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Unique vector patterns (matching on a <code>~[]</code>) <a href="https://github.com/mozilla/rust/pull/12244">has been removed from the
+language</a>. One can still match
+against a slice.</li>
+<li><code>std::unstable</code> <a href="https://github.com/mozilla/rust/pull/12311">has been
+dismantled</a>. Even as we march
+towards 1.0 stability, I will still consider changed to any public interface
+breaking.</li>
+<li><code>Bitwise::population_count</code> <a href="https://github.com/mozilla/rust/pull/12331">has been
+renamed</a> to
+<code>Bitwise::count_ones</code>.</li>
+<li><code>TaskBuilder</code> <a href="https://github.com/mozilla/rust/pull/12232">has seen some
+cleanup</a> to actually use the
+emerging &ldquo;builder&rdquo; pattern.</li>
+<li>As part of <code>std::num</code>s <a href="https://github.com/mozilla/rust/issues/10387">continued
+revamp</a>, <a href="https://github.com/mozilla/rust/pull/12321">the <code>Real</code> trait has
+been dismantled</a> in favor of the
+<code>Float</code> trait.</li>
+<li>Another issue with imports <a href="https://github.com/mozilla/rust/pull/12245">has been
+fixed</a>. In particular, when
+importing an item where there are two items with the name, one private and one
+public, the private one was accidentally imported too. This shouldn&rsquo;t affect
+any code, as it&rsquo;s a fairly convoluted case.</li>
+<li>UTF-16 handling <a href="https://github.com/mozilla/rust/pull/12317">has been
+refactored</a> to match the standard
+string APIs.</li>
+<li><code>extra::test</code> <a href="https://github.com/mozilla/rust/pull/12343">has been
+liberated</a> into a <code>libtest</code>.</li>
+<li><code>extra::time</code> <a href="https://github.com/mozilla/rust/pull/12411">has been
+liberated</a> into a <code>libtime</code>.</li>
+<li><code>EnumSet</code> <a href="https://github.com/mozilla/rust/pull/12415">has been moved</a> into
+<code>libcollections</code>.</li>
+<li>The <code>Integer</code> trait <a href="https://github.com/mozilla/rust/pull/12326">has
+migrated</a> to <code>libnum</code>.</li>
+<li>All language items <a href="https://github.com/mozilla/rust/pull/11603">must now be
+reachable</a>. Previously this caused
+a linker error.</li>
+<li><code>std::hash</code> <a href="https://github.com/mozilla/rust/pull/11863">has been rewritten and
+redesigned</a>.</li>
+<li><code>std::trie</code> and <code>std::hashmap</code> <a href="https://github.com/mozilla/rust/pull/12428">have been
+moved</a> into <code>libcollections</code>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Pull request 12345 was opened. In the spirit of significant arbitrary
+numbers, <a href="https://github.com/mozilla/rust/pull/12345">it is absolutely
+menial</a>.</li>
+<li><code>rustdoc</code> <a href="https://github.com/mozilla/rust/pull/12298">will now test code blocks by
+default</a>, not requiring a &ldquo;rust&rdquo;
+annotation.</li>
+<li>Unix domain sockets <a href="https://github.com/mozilla/rust/pull/12103">are now
+implemented</a> in <code>libnative</code>.</li>
+<li><code>MutexArc</code> <a href="https://github.com/mozilla/rust/pull/12336">no longer has a <code>Freeze</code>
+bound</a>.</li>
+<li>rustdoc has seen <a href="https://github.com/mozilla/rust/pull/12339">a bunch of minor
+fixes</a>.</li>
+<li>More noteworthy, there is now <a href="https://github.com/mozilla/rust/pull/12416">syntax
+highlighting</a> in rustdoc output!</li>
+<li>The <code>unnecessary_parens</code> lint <a href="https://github.com/mozilla/rust/pull/12366">now looks at
+assignments</a> for extraneous
+parenthesis.</li>
+<li>A bug with infinitely recursing macro errors <a href="https://github.com/mozilla/rust/pull/12370">has been
+fixed</a>.</li>
+<li><code>std::str::is_utf8</code> <a href="https://github.com/mozilla/rust/pull/12314">has been internally
+refactored</a> to use 100% safe code,
+as well as get a bit of a speed boost.</li>
+<li><code>format!</code> <a href="https://github.com/mozilla/rust/pull/12349">now handles temporaries
+better</a>.</li>
+<li>If you find yourself working with libsyntax, <a href="https://github.com/mozilla/rust/pull/12387">there is now a <code>-Z</code>
+option</a> for dumping the AST as
+JSON. This can be useful when trying to figure out what code corresponds to
+what structure or enum variant.</li>
+<li>Using channels outside of the runtime <a href="https://github.com/mozilla/rust/pull/12397">has been
+fixed</a>.</li>
+<li>Generic Drop implementations with trait bounds <a href="https://github.com/mozilla/rust/pull/12403">has been
+fixed</a>. Yay!</li>
+<li>Integer formatting <a href="https://github.com/mozilla/rust/pull/12382">has been
+rewritten</a>. It&rsquo;s now cleaner, does
+less allocation, and is 3-6x faster in many cases.</li>
+<li><code>std::io::stdin</code> <a href="https://github.com/mozilla/rust/pull/12422">is now buffered by
+default</a>.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Axel Viala</li>
+<li>Craig MacKenzie</li>
+<li>Douglas Young</li>
+<li>Dylan Braithwaite</li>
+<li>Ehsanul Hoque</li>
+<li>Sterling Greene</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-02-18">weekly
+meeting</a>
+discussed the Hash changes, debug assertions, and commit log administrivia.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>This week, we landed 15 PRs.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Sankha Narayan Guria made drawing a single line much more efficient in
+<a href="https://github.com/mozilla/servo/pull/1709">#1709</a></li>
+<li>Lars Bergstrom removed the last of the <code>@mut</code>s not in script in
+<a href="https://github.com/mozilla/servo/pull/1712">#1712</a></li>
+<li>Junyoung Cho fixed up a bug where we were removing <code>&amp;nbsp;</code>s in
+<a href="https://github.com/mozilla/servo/issues/1727">#1727</a></li>
+<li>Youngmin Yoo added support for the <code>&lt;object&gt;</code> element in
+<a href="https://github.com/mozilla/servo/pull/1664">#1664</a></li>
+<li>Keegan McAllister made use of the border box more consistent in layout
+in <a href="https://github.com/mozilla/servo/pull/1699">#1699</a></li>
+<li>Peiyong Lin fixed up the naming of some of our flow methods in
+<a href="https://github.com/mozilla/servo/pull/1693">#1693</a></li>
+<li>Simon Sapin refactored the <code>cascade</code> methods in
+<a href="https://github.com/mozilla/servo/pull/1706">#1706</a></li>
+<li>Adam Sinnett corrected the parent type names of Text, Comment, and PI
+types in <a href="https://github.com/mozilla/servo/pull/1702">#1702</a></li>
+<li>Patrick Walton added some inlining that sped up flow contruction even
+more in <a href="https://github.com/mozilla/servo/pull/1602">#1602</a></li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Peiyong Lin (lpy)</li>
+<li>Adam Sinnett (quandrum)</li>
+</ul>
+
+
+<h2>Meetings</h2>
+
+<p>We did not have a meeting this week because of President&rsquo;s Day in the US.</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="https://github.com/drbawb/rust-story"><code>rust-story</code></a>, a Rust port of the
+&ldquo;Reconstructing Cave Story&rdquo; video series</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1y69r0/rlanerustgamedevkit/"><code>rust-gamedev-kit</code></a>,
+a collection of libraries for gamdev</li>
+<li><a href="http://www.reddit.com/r/rust/comments/1yfdzh/the_periodic_table_of_rust_types/">Periodic Table of Rust
+Types</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ykop6/so_i_wrote_a_dominion_simulator_in_rust_though/">A Dominion simulator, in
+Rust</a></li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-February/008763.html">Travis CI is building pull
+requests</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1yr2uz/tetris_game_in_rust/">A terminal tetris game, in
+Rust</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-02-23T16:09:00-05:00"  data-updated="true">Feb 23<span>rd</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
