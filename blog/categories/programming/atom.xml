@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-03-02T16:14:51-05:00</updated>
+  <updated>2014-03-02T17:25:07-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -41,7 +41,8 @@ removed</a>. If you were depending on
 them for anything non-<code>Hash</code> related, look into using <code>serialize</code> instead.</li>
 <li><code>break</code> and <code>continue</code> <a href="https://github.com/mozilla/rust/pull/12338">are now hygienic in
 macros</a>, with respect to labels.
-This is very unlikely to have broken anything.</li>
+Unfortunately there&rsquo;s a bug in it where <a href="https://github.com/mozilla/rust/issues/12512">loop labels hide variables of the
+same name</a>.</li>
 <li><code>extern fn</code> <a href="https://github.com/mozilla/rust/pull/12328">now always means <code>extern "C"
 fn</code></a>, rather than being
 context-dependent.</li>
@@ -77,14 +78,8 @@ iterators</a>.</li>
 hashers</a>.</li>
 <li><code>assert_eq!</code> <a href="https://github.com/mozilla/rust/pull/12626">now uses <code>{}</code> instead of <code>{:?}</code> for the error
 message</a>.</li>
-<li><p>Type parameter overrides <a href="https://github.com/mozilla/rust/pull/12525">are now feature
-gated</a>.</p></li>
-<li><p>&ldquo;Strict Version Hashes&rdquo; <a href="https://github.com/mozilla/rust/pull/12533">have been
-introduced</a>. Crate hashes now hash
-everything the crate exposes publicly, rather than just the Crate ID. Right
-now this is the entirety of its AST, but over time we can work towards more
-stability. This is unlikely to break much, if anything, but notably the crate
-hash can no longer be calculated by non-rustc tools.</p></li>
+<li>Type parameter overrides <a href="https://github.com/mozilla/rust/pull/12525">are now feature
+gated</a>.</li>
 </ul>
 
 
@@ -105,6 +100,10 @@ rustc uses libnative by default now.</li>
 <li>Generated binary size <a href="https://github.com/mozilla/rust/pull/12616">has been brought down a
 bit</a>. There is much more room for
 improvement.</li>
+<li>&ldquo;Strict Version Hashes&rdquo; <a href="https://github.com/mozilla/rust/pull/12533">have been
+introduced</a>. This is a purely
+internal change. The hash is of the crate&rsquo;s public ABI and rustc checks this
+when linking crates together, to avoid problems such as &ldquo;def id drift&rdquo;.</li>
 </ul>
 
 
