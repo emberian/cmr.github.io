@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-03-02T15:33:44-05:00</updated>
+  <updated>2014-03-02T16:14:51-05:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -93,7 +93,7 @@ hash can no longer be calculated by non-rustc tools.</p></li>
 <ul>
 <li>Invalid crate handling <a href="https://github.com/mozilla/rust/pull/12645">is now more
 graceful</a>.</li>
-<li><code>std::io::stdin()</code> and <code>stderr()</code> <a href="https://github.com/mozilla/rust/pull/12630">are buffered by default
+<li><code>std::io::stdout()</code> and <code>stderr()</code> <a href="https://github.com/mozilla/rust/pull/12630">are buffered by default
 now</a>.</li>
 <li>Improper operator overloads <a href="https://github.com/mozilla/rust/pull/12638">are no longer an
 ICE</a>.</li>
