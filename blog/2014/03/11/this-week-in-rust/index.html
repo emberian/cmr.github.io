@@ -1,0 +1,244 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<p>This week was the Winter Workweek.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>66 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>Any</code> <a href="https://github.com/mozilla/rust/pull/12667">has been cleaned up</a>, and
+in particular the <code>as_void_ptr</code> and <code>as_mut_void_ptr</code> methods are gone.</li>
+<li>Patterns are <a href="https://github.com/mozilla/rust/pull/12715">no longer allowed in extern function
+declarations</a>. Previously, they
+either silently passed or ICEd.</li>
+<li>Comparison traits <a href="https://github.com/mozilla/rust/pull/12520">have been
+reworked</a>.</li>
+<li>DeepClone <a href="https://github.com/mozilla/rust/pull/12706">has been removed</a>.</li>
+<li>Compound assignment (eg, <code>+=</code>) <a href="https://github.com/mozilla/rust/pull/12733">is no longer
+allowed</a> on potentially
+uninitialized variables.</li>
+<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/12650">has been moved into a
+<code>librand</code></a>.</li>
+<li>debuginfo flags <a href="https://github.com/mozilla/rust/pull/12714">have changed
+slightly</a>, and more limited
+debuginfo is supported again (only line number information).</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Dereferencing <a href="https://github.com/mozilla/rust/pull/12491">is now
+overloadable</a>. This is another
+part of the smart pointer changes. Code like <code>let x = *Rc::new(5);</code> is now
+valid. There is a follow-up pull request that will automatically dereference
+smart pointers where appropriate, to avoid expressions like
+<code>foo.borrow().get().borrow_mut().get()</code>.</li>
+<li>Hexadecimal floating point literals <a href="https://github.com/mozilla/rust/pull/12652">are now
+available</a> through a syntax
+extension.</li>
+<li>Support for creating binary installer tarballs <a href="https://github.com/mozilla/rust/pull/12793">has
+landed</a>.</li>
+<li>Linker arguments <a href="https://github.com/mozilla/rust/pull/12688">are no longer
+deduplicated</a>.</li>
+<li>Weak linkage etc <a href="https://github.com/mozilla/rust/pull/12556">is now
+possible</a> via a <code>linkage</code>
+attribute.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Dmitry Promsky</li>
+<li>Mike Boutin</li>
+<li>Robert Gawdzik</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>There was no weekly meeting due to the workweek. There are <a href="https://github.com/mozilla/rust/wiki/Meeting-workweek-2014-03-03">notes and
+minutes</a>,
+however, and there will be many <a href="https://github.com/rust-lang/rfcs">RFCs</a> from
+it.</p>
+
+<h1>Announcements, etc</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/20143y/leveraging_tuples_to_make_a_statically_typed/">Leveraging tuples to make a statically-typed, concatenative
+EDSL</a></li>
+<li><a href="http://featherweightmusings.blogspot.com/2014/03/subtyping-and-coercion-in-rust.html">Subtyping and coercion in
+Rust</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/1ztahv/rust_language_support_in_atom/">Rust support for the Atom
+editor</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-03-11T23:45:00-04:00"  data-updated="true">Mar 11<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
