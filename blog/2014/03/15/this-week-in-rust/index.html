@@ -124,24 +124,24 @@ purged</a>.</li>
 <li>Another great PR from the illustrious ktt3ja, the compiler <a href="https://github.com/mozilla/rust/pull/12238">will now give
 suggestions</a> on how to fix
 lifetime woes. This is an awesome usability improvement.</li>
-<li><code>HashMap</code> <a href="https://github.com/mozilla/rust/pull/12081">has been
-reimplemented</a> to use <a href="http://codecapsule.com/2013/11/11/robin-hood-hashing/">Robin Hood
-hashing</a>. It&rsquo;s now much
-more faster, and uses less space.</li>
-<li>There is a <a href="http://static.rust-lang.org/doc/master/guide-unsafe.html">new
-guide</a> for &ldquo;low level and unsafe code&rdquo;.
-<a href="https://github.com/mozilla/rust/pull/12887">PR</a>.</li>
+<li>Implementations of <code>Deref</code> and <code>DerefMut</code> <a href="https://github.com/mozilla/rust/pull/12610">are now
+considered</a> for automatic
+dereferencing.</li>
 <li>Partial type hints <a href="https://github.com/mozilla/rust/pull/12764">are now
 implemented</a>, but not at the item
 level (in function returns etc). The eventual goal is to have
 <code>some_iter.collect::&lt;Vec&lt;_&gt;&gt;()</code> be possible.</li>
+<li>There is a <a href="http://static.rust-lang.org/doc/master/guide-unsafe.html">new
+guide</a> for &ldquo;low level and unsafe code&rdquo;.
+<a href="https://github.com/mozilla/rust/pull/12887">PR</a>.</li>
 <li>There is now a lint for <a href="https://github.com/mozilla/rust/pull/12861">uses of
 <code>~[T]</code></a>. It&rsquo;s very verbose. The
 replacement for <code>~[T]</code>, as recommended by the lint, is <code>std::vec_ng::Vec&lt;T&gt;</code>.
 It implements almost everything <code>~[T]</code> does.</li>
-<li>Implementations of <code>Deref</code> and <code>DerefMut</code> <a href="https://github.com/mozilla/rust/pull/12610">are now
-considered</a> for automatic
-dereferencing.</li>
+<li><code>HashMap</code> <a href="https://github.com/mozilla/rust/pull/12081">has been
+reimplemented</a> to use <a href="http://codecapsule.com/2013/11/11/robin-hood-hashing/">Robin Hood
+hashing</a>. It&rsquo;s now much
+more faster, and uses less space.</li>
 <li>Support for basic backtracing <a href="https://github.com/mozilla/rust/pull/12602">has been
 reimplemented</a>.</li>
 <li><code>char</code> <a href="https://github.com/mozilla/rust/pull/12561">now has simple case
