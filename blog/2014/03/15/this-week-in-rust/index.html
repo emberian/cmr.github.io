@@ -1,0 +1,366 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>This Week in Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="Hello and welcome to another issue of This Week in Rust!
+Rust is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">This Week in Rust</h2>
+	<div class="entry-content"><p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>66 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li>Some more string methods <a href="https://github.com/mozilla/rust/pull/12797">now return
+Option</a>.</li>
+<li>Matching on <code>~str</code> <a href="https://github.com/mozilla/rust/pull/12756">has been
+removed</a>.</li>
+<li>IO iterators <a href="https://github.com/mozilla/rust/pull/12414">now yield
+IoResult</a>.</li>
+<li>The channel types and constructor <a href="https://github.com/mozilla/rust/pull/12815">have been
+renamed</a>. <code>Chan</code> is now <code>Sender</code>,
+<code>Port</code> is now <code>Receiver</code>, and <code>Chan::new</code> is now <code>std::comm::channel</code>.</li>
+<li><code>std::cmp::{min, max}</code> <a href="https://github.com/mozilla/rust/pull/12869">now require
+TotalOrd</a>. For floats, use
+<code>a.min(b)</code>.</li>
+<li>The handling of <code>cfg(not(a, b))</code> <a href="https://github.com/mozilla/rust/pull/12893">has changed
+slightly</a>.</li>
+<li><code>libextra</code> <a href="https://github.com/mozilla/rust/pull/12896">has finally been
+purged</a>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li>Another great PR from the illustrious ktt3ja, the compiler <a href="https://github.com/mozilla/rust/pull/12238">will now give
+suggestions</a> on how to fix
+lifetime woes. This is an awesome usability improvement.</li>
+<li>There is a <a href="http://static.rust-lang.org/doc/master/guide-unsafe.html">new
+guide</a> for &ldquo;low level and unsafe code&rdquo;.
+<a href="https://github.com/mozilla/rust/pull/12887">PR</a>.</li>
+<li>Partial type hints <a href="https://github.com/mozilla/rust/pull/12764">are now
+implemented</a>, but not at the item
+level (in function returns etc). This now lets one say <code>some_iter.collect::&lt;~[_]&gt;()</code>, which can very convenient.</li>
+<li>There is now a lint for <a href="https://github.com/mozilla/rust/pull/12861">uses of
+<code>~[T]</code></a>. It&rsquo;s very verbose.</li>
+<li>Inline assembly <a href="https://github.com/mozilla/rust/pull/12798">now supports the <code>+</code>
+modifier</a>.</li>
+<li><code>char</code> <a href="https://github.com/mozilla/rust/pull/12561">now has simple case
+folding</a>. That is, basic
+locale-ignorant case conversion.</li>
+<li>Support for basic backtracing <a href="https://github.com/mozilla/rust/pull/12602">has been
+reimplemented</a>.</li>
+<li><code>HashMap</code> <a href="https://github.com/mozilla/rust/pull/12081">has been
+reimplemented</a> to use <a href="http://codecapsule.com/2013/11/11/robin-hood-hashing/">Robin Hood
+hashing</a>. It&rsquo;s now much
+more faster, and uses less space.</li>
+<li>Implementations of <code>Deref</code> and <code>DerefMut</code> <a href="https://github.com/mozilla/rust/pull/12610">are now
+considered</a> for automatic
+dereferencing.</li>
+</ul>
+
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Adolfo Ochagavía</li>
+<li>Clark Gaebel</li>
+<li>Peter Marheine</li>
+<li>Piotr Czarnecki</li>
+<li>Piotr Zolnierek</li>
+<li>Robert Gawdzik</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-03-11">weekly
+meeting</a>
+discussed the new hashmap, destructuring the <code>self</code> argument, partial type
+hints, coercion of returned values, as well as the requirements of unsafe
+pointers and the continued existence of <code>*mut</code>.</p>
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test
+cases for the Rust language.</p>
+
+<p>In the last two weeks, we landed 56 PRs.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>Patrick Walton made fixes to ACID in
+<a href="https://github.com/mozilla/servo/pull/1905">#1905</a></li>
+<li>Along with about 20 other PRs, ms2ger brought WindowTimers up to date with
+the spec in <a href="https://github.com/mozilla/servo/pull/1890">#1890</a></li>
+<li>Pradeep Kumar implemented <code>position:absolute</code> in
+<a href="https://github.com/mozilla/servo/pull/1681">#1681</a> and fixed up relative
+positioning in <a href="https://github.com/mozilla/servo/pull/1808">#1808</a></li>
+<li>Bill Yang fixed up our instructions for installation on Ubuntu Linux in
+<a href="https://github.com/mozilla/servo/pull/1881">#1881</a></li>
+<li>Bruno Abinader fixed up HTMLCollection in
+<a href="https://github.com/mozilla/servo/pull/1838">#1838</a></li>
+<li>Isabelle Carter ensured that children of <code>position:fixed</code> items make it into
+the correct DisplayList in <a href="https://github.com/mozilla/servo/pull/1832">#1832</a></li>
+<li>Manish Goregaokar made <code>getElementsByName</code> return a <code>NodeList</code> in
+<a href="https://github.com/mozilla/servo/pull/1756">#1756</a></li>
+<li>Keegan McAllister cleaned up our reftest harness and made them test both the
+CPU and GPU rendering paths in
+<a href="https://github.com/mozilla/servo/pull/1804">#1804</a></li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Bill Yang (analyst74)</li>
+<li>Manish Goregaokar (manishearth)</li>
+</ul>
+
+
+<h2>Meetings and Notes</h2>
+
+<p>At this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-03-10">meeting</a>, we
+discussed HTML parsing, embedding, writing modes, the ACID2 burndown, and the
+Rust upgrade.</p>
+
+<h1>RFCs</h1>
+
+<p><a href="https://github.com/rust-lang/rfcs/blob/master/active/0001-rfc-process.md">We have a new RFC
+process</a>!
+Every week I&rsquo;ll list the new RFCs and RFCs that have been accepted.
+Contributing to the discussions around these RFCs is the easiest way to drive
+the design of Rust.</p>
+
+<p>As an aside, I will no longer include any RFCs in the &ldquo;Announcements&rdquo; section
+that are not sent to the RFC repository.</p>
+
+<ul>
+<li><a href="https://github.com/rust-lang/rfcs/pull/1">Private Fields by Default</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/3">Rearchitecting the attribute-usage lint</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/4">Unified Function Call Syntax</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/5">Virtual Structs</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/7">Add OsUnknown as a target operating system</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/8">Redesign Compiler Intrinsics</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/9">&ldquo;Fat Objects&rdquo; for DSTs</a>, an
+alternative to &ldquo;Virtual Structs&rdquo;.</li>
+</ul>
+
+
+<h1>Project Updates</h1>
+
+<p><a href="https://github.com/arjantop/rust-bencode">rust-bencode</a>, a pure Rust
+implementation of Bencode encoding.
+<a href="http://en.wikipedia.org/wiki/Bencode">Bencode</a> is used primarily in the
+BitTorrent protocol. This implementation leverages the <code>serialize</code> crate for
+automatic Encodable/Decodable implementation as well as custom, more flexible
+FromBencode/ToBencode traits.</p>
+
+<p><a href="https://gist.github.com/Kimundi/8782487">Lazily initialized statics v0.2</a>.
+This makes safe use of statics for types which require runtime initialization
+almost trivial. It utilizes the recent overloadable deref to do optional
+initialization before returning the reference to the wrapped type. It&rsquo;s an
+example that the right amount of abstractions, but syntactic (macros) and
+semantic (operator overloading) can reduce boilerplate for a more pleasant
+experience.</p>
+
+<p><a href="https://github.com/phildawes/racer">Racer</a> &ndash; code completion for Rust. This
+project is in its early stages, but can already do a fair bit of useful
+completion. It is not using the parser (libsyntax) or compiler (librustc), so
+it will likely always be inaccurate in some respect. Nevertheless, this may
+prove to be an incredibly useful tool.</p>
+
+<p><a href="https://github.com/BurntSushi/quickcheck">QuickCheck for Rust</a>. This has some
+seriously great docs. QuickCheck, originally from Haskell, is a way of doing
+property-based testing. You describe certain properties your code should have
+and it generates random inputs, trying to find inputs that violate those
+properties. This is a modern, featureful port of QuickCheck and hopefully gets
+even more useful as time goes on.</p>
+
+<p>The <a href="https://github.com/uutils/coreutils">coreutils port</a> is still alive and
+making progress. 32 out of 119 programs are implemented. This is a great
+project to contribute to if you want a relatively self-contained,
+goal-oriented task. It&rsquo;s great practice both for learning Unix* (some of these
+utilities are quirky or not-frequently-used) and Rust.</p>
+
+<p>* Well, specifically GNU, which as we all know, <a href="https://en.wikipedia.org/wiki/GNU">ain&rsquo;t
+Unix</a>.</p>
+
+<h1>Other Announcements</h1>
+
+<ul>
+<li><a href="http://www.fastcolabs.com/3027664/under-the-hood-of-mozillas-new-multi-core-browser-and-the-open-source-language-that-powers-i">Under The Hood Of Mozilla&rsquo;s New Multi-Core Browser And The Open Source
+Language That Powers
+It</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/20ct5c/march_meetup_live_stream_link_oss_parallel_layout/">Bay Area Rust, March 2014
+Meetup</a></li>
+<li><a href="http://www.reddit.com/r/rust/comments/20aj03/writing_an_os_in_rust_in_tiny_steps_steps_15/">Writing an OS in Rust in tiny
+steps</a></li>
+<li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/8878">&ldquo;Virtual fn&rdquo; is a bad
+idea</a></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-03-15T23:33:00-04:00"  data-updated="true">Mar 15<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/this-week-in-rust/'>this-week-in-rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
