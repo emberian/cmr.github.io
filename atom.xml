@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-03-24T17:41:04-04:00</updated>
+  <updated>2014-03-24T18:32:24-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -60,8 +60,8 @@ expressible by safe code.</li>
 <li><code>libnative</code> <a href="https://github.com/mozilla/rust/pull/12833">is now the default
 runtime</a>. In the process, the
 <code>#[no_uv]</code> attribute was renamed to <code>#[no_start]</code>.</li>
-<li>Atomics <a href="https://github.com/mozilla/rust/pull/13036">are no longer
-immutable</a>, due to the work on
+<li>Atomics <a href="https://github.com/mozilla/rust/pull/13036">no longer require mutable references to
+change</a>, due to the work on
 <code>Share</code>, they can safely use interior mutability. Additionally, the generic
 atomics have been hidden and <code>AtomicU64</code> has been removed, because not all
 targets support it.</li>
@@ -97,9 +97,9 @@ twice.</li>
 fixed</a>.</li>
 <li>Some Windows issues with non-English locales <a href="https://github.com/mozilla/rust/pull/13078">have been
 fixed</a>.</li>
-<li>Removing a word from a structure in libsyntax <a href="https://github.com/mozilla/rust/pull/13016">shaved 100MB off the
+<li>Removing two words from a structure in libsyntax <a href="https://github.com/mozilla/rust/pull/13016">shaved 100MB off the
 librustc compile</a>.</li>
-<li>Some well-placed indirection in libsyntax <a href="https://github.com/mozilla/rust/pull/13013">shaved 200MB off the librustc
+<li>Some well-placed indirection in librustc <a href="https://github.com/mozilla/rust/pull/13013">shaved 200MB off the librustc
 compile</a>.</li>
 <li>Discarding some data after it&rsquo;s no longer useful <a href="https://github.com/mozilla/rust/pull/12770">shaved another 100MB off
 the librustc compile</a>.</li>
@@ -116,7 +116,7 @@ fixed</a>.</li>
 allowed</a>.</li>
 <li>Some <code>@</code> has been removed from rustc, <a href="https://github.com/mozilla/rust/pull/12735">yielding an 11k line
 patch</a>.</li>
-<li><code>bignum</code> <a href="https://github.com/mozilla/rust/pull/12924">has seen some
+<li><code>bigint</code> <a href="https://github.com/mozilla/rust/pull/12924">has seen some
 optimization</a>, though not major.</li>
 </ul>
 
@@ -130,7 +130,7 @@ happened last week. A bunch of pull requests for docs for this landed:</p>
 <li><a href="https://github.com/mozilla/rust/pull/12942"><code>getopts</code></a></li>
 <li><a href="https://github.com/mozilla/rust/pull/12944">Endian conversion in
 <code>std::mem</code></a></li>
-<li>[<code>std::sync::atomics</code>]</li>
+<li><a href="https://github.com/mozilla/rust/pull/12954"><code>std::sync::atomics</code></a></li>
 <li><a href="https://github.com/mozilla/rust/pull/12955"><code>std::vec_ng</code></a></li>
 <li><a href="https://github.com/mozilla/rust/pull/12982"><code>std::option</code></a></li>
 <li><a href="https://github.com/mozilla/rust/pull/12948"><code>term</code></a></li>
