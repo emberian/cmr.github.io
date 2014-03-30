@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-03-29T23:44:57-04:00</updated>
+  <updated>2014-03-30T09:42:21-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -44,7 +44,7 @@ cleanup</a>. In particular,
 have been introduced, and can be used as <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> and
 <code>Arc&lt;RWLock&lt;T&gt;&gt;</code> to replace <code>RWArc</code> and <code>MutexArc</code>. There are some other
 minor changes, see the pull request.</li>
-<li>Take a reference to a static whose type contains an <code>Unsafe&lt;T&gt;</code> somewhere
+<li>Taking a reference to a static whose type contains an <code>Unsafe&lt;T&gt;</code> somewhere
 <a href="https://github.com/mozilla/rust/pull/13083">is now forbidden</a>.</li>
 <li><code>Extendable</code> and <code>FromIterator</code> <a href="https://github.com/mozilla/rust/pull/13039">now take their argument
 by-value</a>.</li>
@@ -138,8 +138,8 @@ parameters</a></li>
 <li><a href="https://github.com/KokaKiwi/rust-highlight">rust-highlight</a> can be used to
 highlight Rust code in LaTeX, HTML, and JSON.</li>
 <li><a href="https://github.com/arjantop/rust-tabular">rust-tabular</a>, a library for
-handling delimiter-separated values (either commas or tabs), as well as
-fixed columns of fixed width.</li>
+handling delimiter-separated values (commas, tabs, or any other character),
+as well as fixed columns of fixed width.</li>
 <li><a href="https://github.com/BurntSushi/rust-csv">rust-csv</a>, a CSV library which
 implements <code>Encoder</code> and <code>Decoder</code> for <code>serialize</code> support.</li>
 </ul>
