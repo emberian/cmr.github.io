@@ -229,8 +229,12 @@
         <lastmod>2014-03-30T09:42:18-04:00</lastmod>
     </url>
     <url>
+        <loc>http://cmr.github.io/blog/2014/04/01/type-based-alias-analysis-in-rust/</loc>
+        <lastmod>2014-04-01T06:07:22-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2014-03-30T09:42:18-04:00</lastmod>
+        <lastmod>2014-04-01T06:07:22-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
@@ -238,6 +242,6 @@
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2014-03-30T09:42:18-04:00</lastmod>
+        <lastmod>2014-04-01T06:07:22-04:00</lastmod>
     </url>
 </urlset>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-03-30T09:42:21-04:00</updated>
+  <updated>2014-04-01T06:08:12-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,223 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Type-Based Alias Analysis for Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/04/01/type-based-alias-analysis-in-rust/"/>
+    <updated>2014-04-01T05:48:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2014/04/01/type-based-alias-analysis-in-rust</id>
+    <content type="html"><![CDATA[<p>This post examines type-based alias analysis and how a simple one can be
+implemented for <a href="http://www.rust-lang.org/">Rust</a>.</p>
+
+<!-- more -->
+
+
+<h2>Background</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Alias_analysis">Alias analysis</a>, in the context of LLVM, is an analysis which determines
+whether two pointers can point to the same data, or &ldquo;alias&rdquo;. <a href="http://llvm.org/docs/AliasAnalysis.html">More
+specifically</a>, two pointers <code>a</code> and <code>b</code> alias if uses of a pointer
+&ldquo;based&rdquo; on <code>a</code> can ever have a dependence on use of a pointer based on <code>b</code>. In
+practice, this means that any valid use of the pointers cannot influence the
+contents of the other. The LLVM Language Reference has a <a href="http://llvm.org/docs/LangRef.html#pointeraliasing">more precise
+definition of aliasing</a>.</p>
+
+<p>Type-based alias analysis (TBAA) is a specific kind of analysis which uses type
+information from the frontend to determine whether two pointers can alias. It
+is a very coarse analysis, but is very easy and fast to do (linear time with
+respect to the number of types, constant time with respect to the size of the
+code). <a href="http://llvm.org/docs/LangRef.html#tbaa-metadata">LLVM&rsquo;s TBAA</a> metadata describe a tree of types. Loads, stores,
+and calls can then be annotated with which type they use:</p>
+
+<pre><code>store %struct.Foo { ... }, %struct.Foo* %42, !tbaa !0
+%val = load %struct.Foo* %42, !tbaa !0
+call void @foo(i32* %p), !tbaa !1
+</code></pre>
+
+<p>The metadata node referenced has the form:</p>
+
+<pre><code>!0 = metadata !{ metadata !"root node" }
+!1 = metadata !{ metadata !"a type", metadata !0 }
+!2 = metadata !{ metadata !"another type", metadata !0, i64 1}
+!3 = metadata !{ metadata !"root node two" }
+!4 = metadata !{ metadata !"yet another type", metadata !3 }
+</code></pre>
+
+<p>The first field is the name of the type, the second field is the parent node
+in the tree, and the third field is 1 if the pointer &ldquo;pointsToConstantMemory&rdquo;.
+A pointer to a type may alias with a pointer to any type which is either an
+ancestor or descendent of it in the TBAA tree, or if the types exist in
+different TBAA trees. In the above example, pointers of type !1 and !2 can
+never alias, whereas pointers of type !1 and !4 may alias, because they exist
+in different trees.</p>
+
+<h2>Rust&rsquo;s Aliasing Rules</h2>
+
+<p>Rust&rsquo;s <a href="http://static.rust-lang.org/doc/master/rust.html#type-system">type
+system</a> has some
+guarantees about pointer aliasing.</p>
+
+<p>The simplest rule is that raw pointers (<code>*T</code> and <code>*mut T</code>) may alias with
+anything and everything. <code>*T</code> and <code>*mut T</code> are not segregated, to avoid
+punishing misusers of raw pointers with very hard to debug bugs. <code>*T</code> and <code>*U</code>
+(raw pointers to unrelated types) may alias freely.</p>
+
+<p>More complexly, <code>&amp;mut T</code>, and <code>&amp;T</code> cannot alias with each other, nor with <code>&amp;U</code>
+etc. This is not strictly true, according to <a href="http://llvm.org/docs/LangRef.html#pointeraliasing">LLVM&rsquo;s definition</a> of
+&ldquo;alias&rdquo;. However, a <code>&amp;mut T</code> and a <code>&amp;T</code>, if aliasing, can never impose a
+memory dependence on each other. The borrow checker will guarantee this. If a
+<code>&amp;mut T</code> is live, there cannot be a <code>&amp;T</code> which aliases with it, and vice
+versa. Consider the following program:</p>
+
+<pre><code>fn foo(mut x: int) {
+    let y = &amp;mut x;
+    let z: &amp;int = &amp;*y;
+    *y = 32;
+}
+</code></pre>
+
+<p>This is rejected with the error &ldquo;cannot assign to <code>*y</code> because it is
+borrowed&rdquo;. If we instead put the borrow in its own scope:</p>
+
+<pre><code>fn foo(mut x: int) {
+    let y = &amp;mut x;
+    { let z: &amp;int = &amp;*y; }
+    *y = 32;
+}
+</code></pre>
+
+<p>Compilation will succeed, but any use of <code>y</code> cannot possibly influence any use
+of <code>z</code>.</p>
+
+<p>Owning pointers (<code>~T</code>) are a curious case. They are never used directly, but
+rather borrowed as <code>&amp;T</code> or <code>&amp;mut T</code>. I believe they can be safely omitted from
+this analysis.</p>
+
+<p>Trait objects and closures are somewhat more complicated. They consist of two
+pointers, one of which is pointsToConstantMemory (the function pointer), and
+the other which obeys the aliasing rules above. I will omit metadata for those
+(though see the &ldquo;Moving Forward&rdquo; section)</p>
+
+<h2>Implementing TBAA</h2>
+
+<p>We must define a tree of types, which indicates their aliasability. The
+broadest part of the tree is:</p>
+
+<pre><code>digraph "rust tbaa" {
+    "simple rust tbaa" -&gt; "raw pointer";
+    "raw pointer" -&gt; "reference";
+}
+</code></pre>
+
+<p>All raw pointers are simply given the &ldquo;raw pointer&rdquo; type, with no additional
+discrimination between types. When a owning pointer or reference is
+encountered, we will create new metadata nodes for the referenced type:</p>
+
+<pre><code>!N   = metadata !{ metadata !"&amp;T", metadata !REFERENCE }
+!N+1 = metadata !{ metadata !"&amp;mut T", metadata !REFERENCE }
+</code></pre>
+
+<p>These metadata nodes are then cached in the crate context:</p>
+
+<pre><code>tbaa_nodes: RefCell&lt;HashMap&lt;ty::t, ValueRef&gt;&gt;
+</code></pre>
+
+<p>Creation of the metadata nodes is uninteresting. Once they exist, however,
+they can be attached to the results from a load/store. For maximum utility,
+every possible load/store should be annotated, since unannotated load/stores
+are considered MayAlias.</p>
+
+<h2>Store</h2>
+
+<p>The following functions can be modified for Stores:</p>
+
+<ul>
+<li><code>datum::load</code></li>
+<li><code>Datum::shallow_copy</code></li>
+<li><code>glue::drop_ty_immediate</code></li>
+<li><code>foreign::trans_native_call</code></li>
+<li><code>foreign::trans_rust_fn_with_foreign_abi</code></li>
+<li><code>intrinsic::trans_intrinsic</code></li>
+</ul>
+
+
+<p>The following are somewhat interesting cases, because they handle the
+translation of primitives. I believe some meaningful TBAA metadata could be
+created for them, but I am not sure of the utility, and will omit them for
+now:</p>
+
+<ul>
+<li><code>tvec::set_fill</code></li>
+<li><code>tvec::alloc_raw</code></li>
+<li><code>tvec::trans_slice_vstore</code></li>
+<li><code>tvec::trans_lit_str</code></li>
+<li><code>tvec::iter_vec_loop</code></li>
+<li><code>expr::auto_slice</code></li>
+<li><code>expr::trans_def_dps_unadjusted</code></li>
+</ul>
+
+
+<p>These are like above, but somewhat less obvious how to handle:</p>
+
+<ul>
+<li><code>CleanupHelperMethods::get_or_create_landing_pad</code></li>
+<li><code>asm::trans_inline_asm</code></li>
+<li><code>closure::store_environment</code></li>
+<li><code>closure::fill_fn_pair</code></li>
+</ul>
+
+
+<p>The Store in <code>callee::trans_call_inner</code> does not need TBAA, the retpointer is
+already marked noalias in the function args.</p>
+
+<h2>Load</h2>
+
+<ul>
+<li><code>datum::load</code></li>
+<li><code>base::load_if_immediate</code></li>
+</ul>
+
+
+<p>These handle primitives:</p>
+
+<ul>
+<li><code>tvec::get_fill</code></li>
+<li><code>tvec::get_alloc</code></li>
+<li><code>tvec::get_base_and_byte_len</code></li>
+<li><code>tvec::get_base_and_len</code></li>
+<li><code>tvec::iter_vec_loop</code></li>
+</ul>
+
+
+<p>These are less obvious how to handle:</p>
+
+<ul>
+<li><code>glue::call_visit_glue</code></li>
+<li><code>glue::trans_struct_drop_flag</code></li>
+<li><code>glue::make_drop_glue</code></li>
+<li><code>adt::nullable_bitdiscr</code></li>
+<li><code>adt::load_discr</code></li>
+<li><code>_match::store_non_ref_bindings</code></li>
+<li><code>_match::compile_submatch_continue</code></li>
+<li><code>closure::load_environment</code></li>
+<li><code>CleanupHelperMethods::trans_cleanup_to_exit_scope</code></li>
+<li><code>callee::trans_call_inner</code></li>
+<li><code>meth::trans_trait_callee_from_llval</code></li>
+</ul>
+
+
+<h2>Moving Forward</h2>
+
+<p>Once this basic TBAA is done, tbaa.struct metadata can be emitted for memcpy.
+There is also a &ldquo;struct-path tbaa&rdquo; which I do not understand yet, but provides
+more precise information. After that, a further custom Rust-specific
+AliasAnalysis pass can be created which knows, for example, that two separate
+<code>&amp;mut T</code> cannot alias. References to statics, and in particular <code>&amp;'static T</code>
+are also of interest because they will always be <code>pointsToConstantMemory</code>.
+Further investigation waits for another day.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -702,197 +919,6 @@ EDSL</a></li>
 Rust</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/1ztahv/rust_language_support_in_atom/">Rust support for the Atom
 editor</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2014/03/02/this-week-in-rust/"/>
-    <updated>2014-03-02T12:43:00-05:00</updated>
-    <id>http://cmr.github.io/blog/2014/03/02/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
-<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
-safe, concurrent, and fast. This is a weekly summary of its progress and
-community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
-email!</a>
-Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
-contributions</a>.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>83 pull requests were merged this week.</p>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li>IterBytes and <code>std::to_bytes</code> <a href="https://github.com/mozilla/rust/pull/12492">have been
-removed</a>. If you were depending on
-them for anything non-<code>Hash</code> related, look into using <code>serialize</code> instead.</li>
-<li><code>break</code> and <code>continue</code> <a href="https://github.com/mozilla/rust/pull/12338">are now hygienic in
-macros</a>, with respect to labels.
-Unfortunately there&rsquo;s a bug in it where <a href="https://github.com/mozilla/rust/issues/12512">loop labels hide variables of the
-same name</a>.</li>
-<li><code>extern fn</code> <a href="https://github.com/mozilla/rust/pull/12328">now always means <code>extern "C"
-fn</code></a>, rather than being
-context-dependent.</li>
-<li><code>std::run</code> <a href="https://github.com/mozilla/rust/pull/12380">has been removed</a>,
-and <code>std::io::process</code> improved to pick up the slack.</li>
-<li><code>#[deriving(ToStr)]</code> <a href="https://github.com/mozilla/rust/pull/12412">has been
-removed</a> in favor of
-<code>#[deriving(Show)]</code>. <code>ToStr</code> is now implemented over all types which implement
-<code>Show</code>, as <code>format!("{}" val)</code>.</li>
-<li><code>flate</code> <a href="https://github.com/mozilla/rust/pull/12445">now returns a
-<code>CVec&lt;u8&gt;</code></a> rather than a <code>~[u8]</code>,
-for efficiency.</li>
-<li><code>extra::json</code> <a href="https://github.com/mozilla/rust/pull/12453">has been
-liberated</a> and now lives in
-<code>libserialize</code>.</li>
-<li><code>swap_remove</code> on vectors <a href="https://github.com/mozilla/rust/pull/12481">now returns an
-<code>Option</code></a>.</li>
-<li>A curious bug where bindings in match weren&rsquo;t treated as assignment <a href="https://github.com/mozilla/rust/pull/12508">has
-been fixed</a>. See the associated
-bug report for examples which this will break.</li>
-<li>Some useless reexports <a href="https://github.com/mozilla/rust/pull/12485">have been
-removed</a> from the prelude.</li>
-<li>The <code>Bool</code> trait <a href="https://github.com/mozilla/rust/pull/12473">has been
-removed</a>.</li>
-<li>A bug where operator overloads were over-zealous <a href="https://github.com/mozilla/rust/pull/12493">has been
-fixed</a>.</li>
-<li>Statics are <a href="https://github.com/mozilla/rust/pull/11979">no longer allowed to contain anything with
-destructors</a>. The exact rules are
-laid out quite nicely in the PR.</li>
-<li><code>collections:List</code> <a href="https://github.com/mozilla/rust/pull/12348">has been refactored to use
-iterators</a>.</li>
-<li><code>HashMap</code> <a href="https://github.com/mozilla/rust/pull/12544">is now generic over
-hashers</a>.</li>
-<li><code>assert_eq!</code> <a href="https://github.com/mozilla/rust/pull/12626">now uses <code>{}</code> instead of <code>{:?}</code> for the error
-message</a>.</li>
-<li>Type parameter overrides <a href="https://github.com/mozilla/rust/pull/12525">are now feature
-gated</a>.</li>
-</ul>
-
-
-<h2>Other Changes</h2>
-
-<ul>
-<li>Invalid crate handling <a href="https://github.com/mozilla/rust/pull/12645">is now more
-graceful</a>.</li>
-<li><code>std::io::stdout()</code> and <code>stderr()</code> <a href="https://github.com/mozilla/rust/pull/12630">are buffered by default
-now</a>.</li>
-<li>Improper operator overloads <a href="https://github.com/mozilla/rust/pull/12638">are no longer an
-ICE</a>.</li>
-<li>There&rsquo;s now a warning for <a href="https://github.com/mozilla/rust/pull/12595">publicly exposing private types in function
-signatures</a>.</li>
-<li><code>libnative</code>&rsquo;s Windows file handling <a href="https://github.com/mozilla/rust/pull/12584">has been
-rewritten</a> and now actually works.
-rustc uses libnative by default now.</li>
-<li>Generated binary size <a href="https://github.com/mozilla/rust/pull/12616">has been brought down a
-bit</a>. There is much more room for
-improvement.</li>
-<li>&ldquo;Strict Version Hashes&rdquo; <a href="https://github.com/mozilla/rust/pull/12533">have been
-introduced</a>. This is a purely
-internal change. The hash is of the crate&rsquo;s public ABI and rustc checks this
-when linking crates together, to avoid problems such as &ldquo;def id drift&rdquo;.</li>
-</ul>
-
-
-<h2>New Contributors</h2>
-
-<ul>
-<li>Daniel Fagnan</li>
-<li>Felix Crux</li>
-<li>Gary M. Josack</li>
-<li>George Papanikolaou</li>
-<li>Jag Talon</li>
-<li>Johannes Löthberg</li>
-<li>Mickaël Delahaye</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>The <a href="https://github.com/mozilla/rust/wiki/Meeting-weekly-2014-02-25">weekly
-meeting</a>
-discussed TotalEq/TotalOrd, weak extern functions, channel naming, and a brief
-discussion on <code>use</code> paths being absolute.</p>
-
-<p>It was announced that a Sam Wright has been contracted to work on the
-tutorial, and the Michael Woerister has been contracted to work on debug info.</p>
-
-<h1>This Week in Servo</h1>
-
-<p>Servo is a web browser engine written in Rust and is one of the primary test
-cases for the Rust language.</p>
-
-<p>This week, we landed 27 PRs.</p>
-
-<h2>Notable additions</h2>
-
-<ul>
-<li>Josh Matthews landed the massive changes to remove <code>@mut</code> from the DOM types
-in preparation for a Rust upgrade in
-<a href="https://github.com/mozilla/servo/pull/1735">#1735</a>
-<a href="https://github.com/mozilla/servo/pull/1591">#1591</a> and
-<a href="https://github.com/mozilla/servo/pull/1755">#1755</a>.</li>
-<li>Tetsuharu Ohzeki refactored our commandline options out of the rendering
-crate and into a more reasonable place in
-<a href="https://github.com/mozilla/servo/pull/1738">#1738</a>.</li>
-<li>Ms2ger simplified our Document implementation in
-<a href="https://github.com/mozilla/servo/pull/1739">#1739</a>.</li>
-<li>Patrick Walton removed the need to explicitly create leaf sets during
-parallel layout in <a href="https://github.com/mozilla/servo/pull/1700">#1700</a>.</li>
-<li>Harrison Gentry cleaned up some type names in
-<a href="https://github.com/mozilla/servo/pull/1781">#1781</a>.</li>
-<li>Keegan McAllister moved fontconfig in-tree on Linux in order to get a
-thread-safe implementation in
-<a href="https://github.com/mozilla/servo/pull/1780">#1780</a>.</li>
-<li>Saurabh Anand made the DOM parser pass in the correct content types in
-<a href="https://github.com/mozilla/servo/pull/1775">#1775</a>.</li>
-<li>tgkokk fixed the bindings generator to no longer produce .pyc files in
-<a href="https://github.com/mozilla/servo/pull/1735">#1735</a>.</li>
-</ul>
-
-
-<h2>New contributors</h2>
-
-<ul>
-<li>Saurabh Anand (sawrubh)</li>
-<li>Harrison Gentry (hgentry)</li>
-<li>tgkokk</li>
-</ul>
-
-
-<h2>Meetings</h2>
-
-<p>At this week&rsquo;s
-<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-02-24">meeting</a>, we
-discussed embedding, the JSManaged conversion, a Rust upgrade, vtables, and
-recruiting efforts.</p>
-
-<h1>Announcements, etc</h1>
-
-<ul>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2014/02/28/rust-rfc-opt-in-builtin-traits/">RFC: Opt-in Builtin
-Traits</a></li>
-<li><a href="https://github.com/mozilla/rust/issues/9912#issuecomment-36073562">Structural single-inheritance
-counter-proposal</a></li>
-<li><a href="http://smallcultfollowing.com/babysteps/blog/2014/02/25/rust-rfc-stronger-guarantees-for-mutable-borrows/">RFC: Stronger Guarantees for Mutable
-Borrows</a></li>
-<li><a href="https://github.com/kvark/dark">Dark</a>, an experimental universal data
-compressor based on the BWT-DC scheme</li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-March/008832.html">cargo-lite
-v1.1.0 release</a></li>
-<li><a href="http://pcwalton.github.io/blog/2014/02/25/revamped-parallel-layout-in-servo/">Revamped parallel layout in
-servo</a></li>
-<li><a href="https://air.mozilla.org/rust-meetup-february-2014/">February Bay Area Rust
-Recording</a></li>
-<li><a href="https://github.com/brianmadden/rust-bloom-filter">A bloom filter implementation</a></li>
-<li><a href="https://github.com/hoeppnertill/redox-tween">A tweening library</a></li>
 </ul>
 
 ]]></content>

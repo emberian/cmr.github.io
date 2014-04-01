@@ -1,0 +1,364 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Simple Type-Based Alias Analysis for Rust - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="This post examines type-based alias analysis and how a simple one can be
+implemented for Rust. Background Alias analysis, in the context of LLVM, is &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Simple Type-Based Alias Analysis for Rust</h2>
+	<div class="entry-content"><p>This post examines type-based alias analysis and how a simple one can be
+implemented for <a href="http://www.rust-lang.org/">Rust</a>.</p>
+
+<!-- more -->
+
+
+<h2>Background</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Alias_analysis">Alias analysis</a>, in the context of LLVM, is an analysis which determines
+whether two pointers can point to the same data, or &ldquo;alias&rdquo;. <a href="http://llvm.org/docs/AliasAnalysis.html">More
+specifically</a>, two pointers <code>a</code> and <code>b</code> alias if uses of a pointer
+&ldquo;based&rdquo; on <code>a</code> can ever have a dependence on use of a pointer based on <code>b</code>. In
+practice, this means that any valid use of the pointers cannot influence the
+contents of the other. The LLVM Language Reference has a <a href="http://llvm.org/docs/LangRef.html#pointeraliasing">more precise
+definition of aliasing</a>.</p>
+
+<p>Type-based alias analysis (TBAA) is a specific kind of analysis which uses type
+information from the frontend to determine whether two pointers can alias. It
+is a very coarse analysis, but is very easy and fast to do (linear time with
+respect to the number of types, constant time with respect to the size of the
+code). <a href="http://llvm.org/docs/LangRef.html#tbaa-metadata">LLVM&rsquo;s TBAA</a> metadata describe a tree of types. Loads, stores,
+and calls can then be annotated with which type they use:</p>
+
+<pre><code>store %struct.Foo { ... }, %struct.Foo* %42, !tbaa !0
+%val = load %struct.Foo* %42, !tbaa !0
+call void @foo(i32* %p), !tbaa !1
+</code></pre>
+
+<p>The metadata node referenced has the form:</p>
+
+<pre><code>!0 = metadata !{ metadata !"root node" }
+!1 = metadata !{ metadata !"a type", metadata !0 }
+!2 = metadata !{ metadata !"another type", metadata !0, i64 1}
+!3 = metadata !{ metadata !"root node two" }
+!4 = metadata !{ metadata !"yet another type", metadata !3 }
+</code></pre>
+
+<p>The first field is the name of the type, the second field is the parent node
+in the tree, and the third field is 1 if the pointer &ldquo;pointsToConstantMemory&rdquo;.
+A pointer to a type may alias with a pointer to any type which is either an
+ancestor or descendent of it in the TBAA tree, or if the types exist in
+different TBAA trees. In the above example, pointers of type !1 and !2 can
+never alias, whereas pointers of type !1 and !4 may alias, because they exist
+in different trees.</p>
+
+<h2>Rust&rsquo;s Aliasing Rules</h2>
+
+<p>Rust&rsquo;s <a href="http://static.rust-lang.org/doc/master/rust.html#type-system">type
+system</a> has some
+guarantees about pointer aliasing.</p>
+
+<p>The simplest rule is that raw pointers (<code>*T</code> and <code>*mut T</code>) may alias with
+anything and everything. <code>*T</code> and <code>*mut T</code> are not segregated, to avoid
+punishing misusers of raw pointers with very hard to debug bugs. <code>*T</code> and <code>*U</code>
+(raw pointers to unrelated types) may alias freely.</p>
+
+<p>More complexly, <code>&amp;mut T</code>, and <code>&amp;T</code> cannot alias with each other, nor with <code>&amp;U</code>
+etc. This is not strictly true, according to <a href="http://llvm.org/docs/LangRef.html#pointeraliasing">LLVM&rsquo;s definition</a> of
+&ldquo;alias&rdquo;. However, a <code>&amp;mut T</code> and a <code>&amp;T</code>, if aliasing, can never impose a
+memory dependence on each other. The borrow checker will guarantee this. If a
+<code>&amp;mut T</code> is live, there cannot be a <code>&amp;T</code> which aliases with it, and vice
+versa. Consider the following program:</p>
+
+<pre><code>fn foo(mut x: int) {
+    let y = &amp;mut x;
+    let z: &amp;int = &amp;*y;
+    *y = 32;
+}
+</code></pre>
+
+<p>This is rejected with the error &ldquo;cannot assign to <code>*y</code> because it is
+borrowed&rdquo;. If we instead put the borrow in its own scope:</p>
+
+<pre><code>fn foo(mut x: int) {
+    let y = &amp;mut x;
+    { let z: &amp;int = &amp;*y; }
+    *y = 32;
+}
+</code></pre>
+
+<p>Compilation will succeed, but any use of <code>y</code> cannot possibly influence any use
+of <code>z</code>.</p>
+
+<p>Owning pointers (<code>~T</code>) are a curious case. They are never used directly, but
+rather borrowed as <code>&amp;T</code> or <code>&amp;mut T</code>. I believe they can be safely omitted from
+this analysis.</p>
+
+<p>Trait objects and closures are somewhat more complicated. They consist of two
+pointers, one of which is pointsToConstantMemory (the function pointer), and
+the other which obeys the aliasing rules above. I will omit metadata for those
+(though see the &ldquo;Moving Forward&rdquo; section)</p>
+
+<h2>Implementing TBAA</h2>
+
+<p>We must define a tree of types, which indicates their aliasability. The
+broadest part of the tree is:</p>
+
+<pre><code>digraph "rust tbaa" {
+    "simple rust tbaa" -&gt; "raw pointer";
+    "raw pointer" -&gt; "reference";
+}
+</code></pre>
+
+<p>All raw pointers are simply given the &ldquo;raw pointer&rdquo; type, with no additional
+discrimination between types. When a owning pointer or reference is
+encountered, we will create new metadata nodes for the referenced type:</p>
+
+<pre><code>!N   = metadata !{ metadata !"&amp;T", metadata !REFERENCE }
+!N+1 = metadata !{ metadata !"&amp;mut T", metadata !REFERENCE }
+</code></pre>
+
+<p>These metadata nodes are then cached in the crate context:</p>
+
+<pre><code>tbaa_nodes: RefCell&lt;HashMap&lt;ty::t, ValueRef&gt;&gt;
+</code></pre>
+
+<p>Creation of the metadata nodes is uninteresting. Once they exist, however,
+they can be attached to the results from a load/store. For maximum utility,
+every possible load/store should be annotated, since unannotated load/stores
+are considered MayAlias.</p>
+
+<h2>Store</h2>
+
+<p>The following functions can be modified for Stores:</p>
+
+<ul>
+<li><code>datum::load</code></li>
+<li><code>Datum::shallow_copy</code></li>
+<li><code>glue::drop_ty_immediate</code></li>
+<li><code>foreign::trans_native_call</code></li>
+<li><code>foreign::trans_rust_fn_with_foreign_abi</code></li>
+<li><code>intrinsic::trans_intrinsic</code></li>
+</ul>
+
+
+<p>The following are somewhat interesting cases, because they handle the
+translation of primitives. I believe some meaningful TBAA metadata could be
+created for them, but I am not sure of the utility, and will omit them for
+now:</p>
+
+<ul>
+<li><code>tvec::set_fill</code></li>
+<li><code>tvec::alloc_raw</code></li>
+<li><code>tvec::trans_slice_vstore</code></li>
+<li><code>tvec::trans_lit_str</code></li>
+<li><code>tvec::iter_vec_loop</code></li>
+<li><code>expr::auto_slice</code></li>
+<li><code>expr::trans_def_dps_unadjusted</code></li>
+</ul>
+
+
+<p>These are like above, but somewhat less obvious how to handle:</p>
+
+<ul>
+<li><code>CleanupHelperMethods::get_or_create_landing_pad</code></li>
+<li><code>asm::trans_inline_asm</code></li>
+<li><code>closure::store_environment</code></li>
+<li><code>closure::fill_fn_pair</code></li>
+</ul>
+
+
+<p>The Store in <code>callee::trans_call_inner</code> does not need TBAA, the retpointer is
+already marked noalias in the function args.</p>
+
+<h2>Load</h2>
+
+<ul>
+<li><code>datum::load</code></li>
+<li><code>base::load_if_immediate</code></li>
+</ul>
+
+
+<p>These handle primitives:</p>
+
+<ul>
+<li><code>tvec::get_fill</code></li>
+<li><code>tvec::get_alloc</code></li>
+<li><code>tvec::get_base_and_byte_len</code></li>
+<li><code>tvec::get_base_and_len</code></li>
+<li><code>tvec::iter_vec_loop</code></li>
+</ul>
+
+
+<p>These are less obvious how to handle:</p>
+
+<ul>
+<li><code>glue::call_visit_glue</code></li>
+<li><code>glue::trans_struct_drop_flag</code></li>
+<li><code>glue::make_drop_glue</code></li>
+<li><code>adt::nullable_bitdiscr</code></li>
+<li><code>adt::load_discr</code></li>
+<li><code>_match::store_non_ref_bindings</code></li>
+<li><code>_match::compile_submatch_continue</code></li>
+<li><code>closure::load_environment</code></li>
+<li><code>CleanupHelperMethods::trans_cleanup_to_exit_scope</code></li>
+<li><code>callee::trans_call_inner</code></li>
+<li><code>meth::trans_trait_callee_from_llval</code></li>
+</ul>
+
+
+<h2>Moving Forward</h2>
+
+<p>Once this basic TBAA is done, tbaa.struct metadata can be emitted for memcpy.
+There is also a &ldquo;struct-path tbaa&rdquo; which I do not understand yet, but provides
+more precise information. After that, a further custom Rust-specific
+AliasAnalysis pass can be created which knows, for example, that two separate
+<code>&amp;mut T</code> cannot alias. References to statics, and in particular <code>&amp;'static T</code>
+are also of interest because they will always be <code>pointsToConstantMemory</code>.
+Further investigation waits for another day.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-01T05:48:00-04:00"  data-updated="true">Apr 1<span>st</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
