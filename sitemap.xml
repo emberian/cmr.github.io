@@ -233,8 +233,12 @@
         <lastmod>2014-04-01T06:07:22-04:00</lastmod>
     </url>
     <url>
+        <loc>http://cmr.github.io/blog/2014/04/04/type-based-alias-analasys-revisted/</loc>
+        <lastmod>2014-04-04T02:33:27-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://cmr.github.io/blog/archives/</loc>
-        <lastmod>2014-04-01T06:07:22-04:00</lastmod>
+        <lastmod>2014-04-04T02:33:27-04:00</lastmod>
     </url>
     <url>
         <loc>http://cmr.github.io/robots.txt</loc>
@@ -242,6 +246,6 @@
     </url>
     <url>
         <loc>http://cmr.github.io/</loc>
-        <lastmod>2014-04-01T06:07:22-04:00</lastmod>
+        <lastmod>2014-04-04T02:33:27-04:00</lastmod>
     </url>
 </urlset>

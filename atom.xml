@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-04-01T06:08:12-04:00</updated>
+  <updated>2014-04-04T02:33:33-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TBAA Revisited]]></title>
+    <link href="http://cmr.github.io/blog/2014/04/04/type-based-alias-analasys-revisted/"/>
+    <updated>2014-04-04T02:32:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2014/04/04/type-based-alias-analasys-revisted</id>
+    <content type="html"><![CDATA[<p>My original <a href="http://cmr.github.io/blog/2014/04/01/type-based-alias-analysis-in-rust/">post about alias analysis</a> had some issues, which I clarify
+and modify the algorithm to handle.</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>There are two major issues with the algorithm I described. The first is that
+LLVM&rsquo;s TBAA is not flow-sensitive. This means that given two non-aliasing
+pointers, it assumes that they <em>never</em>, ever impose or imposed a memory
+dependence on each other. On the other hand, Rust&rsquo;s borrowing rules <em>are</em> flow
+sensitive. In practice, this means that loads and stores with non-aliasing
+TBAA tags can be freely reordered with respect to each other. I could not
+convince LLVM to misoptimize some simple examples of TBAA, but it supposedly
+does some extra analysis to make sure TBAA-annotated load/stores don&rsquo;t actually
+alias so that incorrect C programs don&rsquo;t misoptimize. This was pointed out <a href="http://www.reddit.com/r/rust/comments/21wu1c/simple_typebased_alias_analysis_for_rust/cghh0ga">by
+a kind soul on reddit</a>.</p>
+
+<p>Another problem is that the algorithm ignores types which have an unsafe
+interior. The <code>Unsafe&lt;T&gt;</code> type can be used to get a mutable reference out of
+an immutable one. The <code>RefCell</code> type wraps this to provide the same semantics
+that the borrow checker usually provides, but it <em>does</em> return a <code>&amp;mut</code> from a
+<code>&amp;</code> that can then modify the contents of the previous <code>&amp;</code>. This is fine, but
+violates the TBAA rules I laid out earlier. A previous revision of them
+handled this, but got lost during one of the redesigns.</p>
+
+<h2>New Rules</h2>
+
+<p>Given this, we need only change the rules slightly:</p>
+
+<pre><code>!N   = metadata !{ metadata !"&amp;T", metadata !REFERENCE }
+!N+1 = metadata !{ metadata !"&amp;mut T", metadata !N }
+</code></pre>
+
+<p>That is, <code>&amp;mut T</code> and <code>&amp;T</code> may alias. In practice, I think us putting
+<code>noalias</code> on <code>&amp;mut T</code> function arguments will recover most of the aliasing
+information. A custom AliasAnalysis pass will be needed for precise aliasing
+information, but as cwzwarich pointed out, it will be difficult to retain the
+original type-system information across IR transformations. A quest for
+another day.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Simple Type-Based Alias Analysis for Rust]]></title>
@@ -2984,122 +3033,6 @@ GC!</li>
 library for using OpenBLAS and LAPACK.</li>
 <li><a href="https://github.com/WebeWizard/libhttpd/tree/master">libhttpd</a>, a library
 for writing web servers. Intended to be similar to jetty.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2013/12/30/this-week-in-rust/"/>
-    <updated>2013-12-30T00:48:00-05:00</updated>
-    <id>http://cmr.github.io/blog/2013/12/30/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
-<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
-safe, concurrent, and fast. This is a weekly summary of its progress and
-community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
-email!</a>
-Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
-contributions</a>.</p>
-
-<p>It&rsquo;s been a slow week due to the holidays. In the next week or two 0.9 is
-being released. It&rsquo;s an exciting release, but in more subtler ways than the
-previous 3. Many small details, especially around the runtime and linking,
-have changed that make Rust faster and more flexible without necessarily being
-a breaking change. As always, the detailed changelog will have the
-nitty-gritties.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>36 pull requests were merged this week. bors was feeling unwell for a bit,
-due to a deadlock in a scheduler test that was fixed today and a deadlock in
-(incorrect usage of) LLVM.</p>
-
-<h2>Breaking changes</h2>
-
-<ul>
-<li>The <code>comm</code> primitives are <a href="https://github.com/mozilla/rust/pull/11111">never <code>Freeze</code>
-anymore</a>.</li>
-<li>The <code>link</code> attribute is <a href="https://github.com/mozilla/rust/pull/11091">now
-forbidden</a> on crates. All hail
-<code>crate_id</code>!</li>
-<li><a href="https://github.com/mozilla/rust/pull/11121">All of our C++ dependencies have been
-removed</a>. This is only breaking
-because it changes the debugging experience; <code>rust_begin_unwind</code> is gone and
-<code>catch throw</code> doesn&rsquo;t work because we don&rsquo;t use C++ exceptions anymore. To set
-a breakpoint on task failure, <code>break _Unwind_RaiseException</code>.</li>
-<li>The underbelly of the runtime has been <a href="https://github.com/mozilla/rust/pull/10965">completely
-overhauled</a>. Alex wrote an <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007565.html">email
-to the
-list</a>
-about the practical implications of this.</li>
-<li><code>std::result::collect</code> <a href="https://github.com/mozilla/rust/pull/11098">now uses an
-iterator</a>.</li>
-<li><code>ClonableIterator</code> <a href="https://github.com/mozilla/rust/pull/11160">has been
-renamed</a> to <code>CloneableIterator</code>.</li>
-</ul>
-
-
-<h2>Other Changes</h2>
-
-<ul>
-<li>libnative has <a href="https://github.com/mozilla/rust/pull/11159">process and TCP</a>
-implementations.</li>
-<li>Coercion of types into trait objects <a href="https://github.com/mozilla/rust/pull/11156">is now
-supported</a>, which means <code>as
-~SomeTrait</code> and <code>as &amp;Reader</code> can be left out.</li>
-<li>I normally wouldn&rsquo;t mention this since it&rsquo;s internal to the compiler, but
-Patrick made a heroic effort to <a href="https://github.com/mozilla/rust/pull/11058">remove <code>@mut</code> from all the
-places</a>.</li>
-<li>rustdoc can <a href="https://github.com/mozilla/rust/pull/11120">now test doc
-comments</a>. See the pull request
-for details on how and what is tested (also in the rustdoc manual).</li>
-</ul>
-
-
-<h2>New contributors</h2>
-
-<ul>
-<li>Sébastien Paolacci</li>
-</ul>
-
-
-<h1>Meeting</h1>
-
-<p>There was no meeting this week due to the holiday.</p>
-
-<h1>This Week in Servo</h1>
-
-<p>Servo is a web browser engine written in Rust and is one of the primary test
-cases for the Rust language.</p>
-
-<p>Mozilla is on an extended holiday break until January 2nd, but we still landed
-2 PRs this week.</p>
-
-<h2>Notable additions</h2>
-
-<ul>
-<li>Jack Moffitt re-enabled building with make to enable work on cross-targeting
-ARM in <a href="https://github.com/mozilla/servo/pull/1441">#1441</a>.</li>
-<li>ms2ger cleaned up how we handle namespaces in DOM elements
-<a href="https://github.com/mozilla/servo/pull/1438">#1438</a></li>
-</ul>
-
-
-<h1>Announcements, etc</h1>
-
-<ul>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007575.html">rust-openssl</a>
-has been formed from the union of sfackler&rsquo;s rust-ssl and erickt&rsquo;s rustcrypto.</li>
-<li><a href="http://www.lars.com/concurrency/rust/servo/2013/12/21/concurrency-rust-and-servo.html">Concurrency models, Rust, and
-Servo</a>.</li>
-<li><a href="http://words.steveklabnik.com/rust-is-surprisingly-expressive">Rust is surprisingly
-expressive</a>.</li>
-<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2013-December/007486.html">irust</a>,
-a basic REPL written in Ruby.</li>
 </ul>
 
 ]]></content>

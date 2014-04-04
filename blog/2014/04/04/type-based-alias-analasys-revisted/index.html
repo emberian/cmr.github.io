@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>TBAA Revisited - Rust 'n Stuffs</title>
+	<meta name="author" content="Corey Richardson">
+
+	
+	<meta name="description" content="My original post about alias analysis had some issues, which I clarify
+and modify the algorithm to handle. The Problem There are two major issues &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Rust 'n Stuffs" type="application/atom+xml">
+	
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Rust 'n Stuffs</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q">
+				<input type="hidden" name="q" value="site:cmr.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/110371255641436052323?rel=author" title="Google+">Google+</a>
+		
+		
+		
+		<a class="github" href="https://github.com/cmr" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q">
+		<input type="hidden" name="q" value="site:cmr.github.io">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">TBAA Revisited</h2>
+	<div class="entry-content"><p>My original <a href="http://cmr.github.io/blog/2014/04/01/type-based-alias-analysis-in-rust/">post about alias analysis</a> had some issues, which I clarify
+and modify the algorithm to handle.</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>There are two major issues with the algorithm I described. The first is that
+LLVM&rsquo;s TBAA is not flow-sensitive. This means that given two non-aliasing
+pointers, it assumes that they <em>never</em>, ever impose or imposed a memory
+dependence on each other. On the other hand, Rust&rsquo;s borrowing rules <em>are</em> flow
+sensitive. In practice, this means that loads and stores with non-aliasing
+TBAA tags can be freely reordered with respect to each other. I could not
+convince LLVM to misoptimize some simple examples of TBAA, but it supposedly
+does some extra analysis to make sure TBAA-annotated load/stores don&rsquo;t actually
+alias so that incorrect C programs don&rsquo;t misoptimize. This was pointed out <a href="http://www.reddit.com/r/rust/comments/21wu1c/simple_typebased_alias_analysis_for_rust/cghh0ga">by
+a kind soul on reddit</a>.</p>
+
+<p>Another problem is that the algorithm ignores types which have an unsafe
+interior. The <code>Unsafe&lt;T&gt;</code> type can be used to get a mutable reference out of
+an immutable one. The <code>RefCell</code> type wraps this to provide the same semantics
+that the borrow checker usually provides, but it <em>does</em> return a <code>&amp;mut</code> from a
+<code>&amp;</code> that can then modify the contents of the previous <code>&amp;</code>. This is fine, but
+violates the TBAA rules I laid out earlier. A previous revision of them
+handled this, but got lost during one of the redesigns.</p>
+
+<h2>New Rules</h2>
+
+<p>Given this, we need only change the rules slightly:</p>
+
+<pre><code>!N   = metadata !{ metadata !"&amp;T", metadata !REFERENCE }
+!N+1 = metadata !{ metadata !"&amp;mut T", metadata !N }
+</code></pre>
+
+<p>That is, <code>&amp;mut T</code> and <code>&amp;T</code> may alias. In practice, I think us putting
+<code>noalias</code> on <code>&amp;mut T</code> function arguments will recover most of the aliasing
+information. A custom AliasAnalysis pass will be needed for precise aliasing
+information, but as cwzwarich pointed out, it will be difficult to retain the
+original type-system information across IR transformations. A quest for
+another day.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2014-04-04T02:32:00-04:00"  data-updated="true">Apr 4<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/rust/'>rust</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Corey Richardson
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41571388-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
