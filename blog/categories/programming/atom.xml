@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-04-06T09:38:31-04:00</updated>
+  <updated>2014-04-06T09:46:23-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -209,7 +209,7 @@ Go?</a></li>
 implementation</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/21wu1c/simple_typebased_alias_analysis_for_rust/">Simple Type-Based Alias Analysis for
 Rust</a></li>
-<li>[Reminder: ~<a href="http://www.reddit.com/r/rust/comments/2213vw/reminder_t_is_not_going_away/">T] is not going away</a></li>
+<li>Reminder: <code>~[T]</code> <a href="http://www.reddit.com/r/rust/comments/2213vw/reminder_t_is_not_going_away/">is not going away</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/2212j2/higherkinded_polymorphism/">Higher-kinded
 polymorpihsm</a></li>
 <li><a href="http://www.reddit.com/r/rust/comments/226ax6/a_more_detailed_tour_of_the_rust_compiler/">A More Detailed Tour of the Rust
