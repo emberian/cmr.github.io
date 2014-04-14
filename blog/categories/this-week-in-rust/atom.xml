@@ -4,7 +4,7 @@
   <title><![CDATA[Category: this-week-in-rust | Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/blog/categories/this-week-in-rust/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-04-06T09:46:23-04:00</updated>
+  <updated>2014-04-14T00:55:36-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -12,6 +12,190 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This Week in Rust]]></title>
+    <link href="http://cmr.github.io/blog/2014/04/13/this-week-in-rust/"/>
+    <updated>2014-04-13T23:06:00-04:00</updated>
+    <id>http://cmr.github.io/blog/2014/04/13/this-week-in-rust</id>
+    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
+<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
+safe, concurrent, and fast. This is a weekly summary of its progress and
+community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
+email!</a>
+Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
+contributions</a>.</p>
+
+<p>0.10 <a href="https://mail.mozilla.org/pipermail/rust-dev/2014-April/009387.html">was released</a> this week, and with it comes a redesign of the
+websites and official nightlies.</p>
+
+<!-- more -->
+
+
+<h1>What&rsquo;s cooking on master?</h1>
+
+<p>64 pull requests were merged this week.</p>
+
+<h2>Breaking Changes</h2>
+
+<ul>
+<li><code>BenchHarness</code> <a href="https://github.com/mozilla/rust/pull/13236">has been
+renamed</a> to <code>Bencher</code></li>
+<li>The <code>push_str</code> and <code>push_char</code> methods on <code>~str</code> <a href="https://github.com/mozilla/rust/pull/13440">have been
+removed</a>, and a <code>StrBuf</code> type
+added, as an analog to <code>Vec</code>.</li>
+<li>Duplicate moves from the variables a <code>proc</code> captures <a href="https://github.com/mozilla/rust/pull/13413">are no longer
+allowed</a>.</li>
+<li><code>std::libc</code> <a href="https://github.com/mozilla/rust/pull/13315">has been extracted</a>
+into its own crate.</li>
+<li>Various bugs in resolve <a href="https://github.com/mozilla/rust/pull/13409">have been
+fixed</a>. The fixes seem
+relatively obscure, but they&rsquo;re well documented if your code breaks.</li>
+<li>The functions in <code>flate</code> now <a href="https://github.com/mozilla/rust/pull/13389">return Option instead of
+failing</a>.</li>
+</ul>
+
+
+<h2>Other Changes</h2>
+
+<ul>
+<li><code>TotalEq</code> and <code>TotalOrd</code> <a href="https://github.com/mozilla/rust/pull/13358">now
+document</a> exactly what the types
+implementing them must guarantee.</li>
+<li>Some bugs with debuginfo <a href="https://github.com/mozilla/rust/pull/13441">have been
+fixed</a>. In particular, the
+annoying link failure with debuginfo has been fixed.</li>
+<li>Relocation model <a href="https://github.com/mozilla/rust/pull/13340">is now
+configurable</a> with <code>-C
+relocation-model</code>.</li>
+</ul>
+
+
+<p>Additionally, a lot of cleanup happened. Not much of it sticks out particularly.</p>
+
+<h2>New Contributors</h2>
+
+<ul>
+<li>Boris Egorov</li>
+<li>Jim Radford</li>
+<li>Joseph Crail</li>
+<li>JustAPerson</li>
+<li>Kasey Carrothers</li>
+<li>Kevin Butler</li>
+<li>Manish Goregaokar</li>
+<li>Tobba</li>
+<li>free-Runner</li>
+</ul>
+
+
+<h1>Weekly Meeting</h1>
+
+<p>The weekly meeting was cancelled due to the videoconference system being down
+for mitigating the Heartbleed vulnerability, as well as some team members
+travelling or otherwise unavailable.</p>
+
+<h1>RFCs</h1>
+
+<p>Some new RFCs:</p>
+
+<ul>
+<li><a href="https://github.com/rust-lang/rfcs/pull/36">Extend nullable pointer optimization to library
+types</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/37">Extended method lookup</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/38">Inherit use</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/39">Allocator trait</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/40">Make libstd a facade</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/41"><code>Invalid</code> trait for space optimization of
+enums</a></li>
+<li><a href="https://github.com/rust-lang/rfcs/pull/42">Add a regexp crate to the Rust
+distribution</a></li>
+</ul>
+
+
+<h1>Project Updates</h1>
+
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/22y6oy/acronymy_a_web_app_written_in_rust/">Acronymy</a>
+has been released. This is a web application (in Rust!) for defining words as
+acronyms. It&rsquo;s pretty fun.</li>
+<li><a href="https://github.com/cmr/bitmap-rs">bitmap</a> has been released</li>
+<li><a href="https://github.com/BurntSushi/regexp/">regexp</a> is a pure-Rust
+implementation of RE2, with wonderful docs and support for statically
+compiling regular expressions.</li>
+<li><a href="http://www.reddit.com/r/rust/comments/22uirj/rustempty_02_released/">rust-empty</a>
+has been updated to 0.2.</li>
+<li><a href="https://github.com/hannobraun/inotify-rs">inotify-rs</a> has been released,
+bindings to inotify.</li>
+<li><a href="https://github.com/bwo/unlambda/blob/master/unlambda.rs">An unlambda
+interpreter</a></li>
+<li><a href="https://github.com/aochagavia/RusticMineSweeper">RusticMineSweeper</a>, a
+minesweeper clone.</li>
+<li><a href="https://github.com/erickt/rust-mustache/tree/v0.3.0">rust-mustache</a> has
+been updated to 0.3.0.</li>
+<li><a href="https://github.com/dnaq/sodiumoxide">sodiumoxide</a>, the libsodium bindings,
+have been updated for 0.10.</li>
+</ul>
+
+
+<h1>Community</h1>
+
+<ul>
+<li>On April 17, there will be an <a href="http://www.meetup.com/nyccpp/events/168545012/">Introduction to
+Rust</a> by Clark Gaebel in new
+York City, during a C++ meetup.</li>
+<li><a href="https://mail.mozilla.org/pipermail/rust-dev/2014-April/009490.html">Bay Area
+Rust</a>&rsquo;s
+plans for May have been announced.</li>
+</ul>
+
+
+<h1>This Week in Servo</h1>
+
+<p>Servo is a web browser engine written in Rust and is one of the primary test cases for the Rust language.</p>
+
+<p>In the last week, we landed 30 PRs.</p>
+
+<h2>Notable additions</h2>
+
+<ul>
+<li>ms2ger cleaned up all of the trailing whitespace that had been nagging down
+our Critic reviews in <a href="https://github.com/mozilla/servo/pull/2055">#2055</a></li>
+<li>Jacob Parker added a reftest for <code>setAttribute</code>-based restyling in
+<a href="https://github.com/mozilla/servo/pull/2062">#2062</a></li>
+<li>Sankha Narayan Guria removed XRay from the script codegen in
+<a href="https://github.com/mozilla/servo/pull/2050">#2050</a></li>
+<li>Peiyong Lin moved <code>namespaceURI</code> to the <code>Element</code> type in
+<a href="https://github.com/mozilla/servo/pull/2063">#2063</a> and removed all
+remaining <code>@</code> boxes in <a href="https://github.com/mozilla/servo/pull/2085">#2085</a></li>
+<li>Matt Brubeck fixed bugs related clicking on links in
+<a href="https://github.com/mozilla/servo/pull/2068">#2068</a> and
+<a href="https://github.com/mozilla/servo/pull/2084">#2084</a> and
+<a href="https://github.com/mozilla/servo/pull/2080">#2080</a></li>
+<li>Hyun June Kim added support for pseudo-elements attached to inline elements
+in <a href="https://github.com/mozilla/servo/pull/2071">#2071</a></li>
+<li>Manish Goregaokar cleaned up a whole bunch of warnings left after our last
+Rust update in <a href="https://github.com/mozilla/servo/pull/2045">#2045</a></li>
+<li>Lars Bergstrom got Android support working in Servo master in
+<a href="https://github.com/mozilla/servo/pull/2070">#2070</a></li>
+</ul>
+
+
+<h2>New contributors</h2>
+
+<ul>
+<li>Jacob Parker (j3parker)</li>
+</ul>
+
+
+<h2>Meetings and Notes</h2>
+
+<p>In this week&rsquo;s
+<a href="https://github.com/mozilla/servo/wiki/Meeting-2014-04-07">meeting</a>, we went
+over our <a href="https://github.com/mozilla/servo/wiki/Roadmap">Q2 roadmap</a>, status
+of an Android buildbot, testing, and the ever-present issue of improving our
+build system.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Week in Rust]]></title>
@@ -817,102 +1001,6 @@ Meetup</a></li>
 steps</a></li>
 <li><a href="http://thread.gmane.org/gmane.comp.lang.rust.devel/8878">&ldquo;Virtual fn&rdquo; is a bad
 idea</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This Week in Rust]]></title>
-    <link href="http://cmr.github.io/blog/2014/03/11/this-week-in-rust/"/>
-    <updated>2014-03-11T23:45:00-04:00</updated>
-    <id>http://cmr.github.io/blog/2014/03/11/this-week-in-rust</id>
-    <content type="html"><![CDATA[<p>Hello and welcome to another issue of <em>This Week in Rust</em>!
-<a href="http://rust-lang.org">Rust</a> is a systems language pursuing the trifecta:
-safe, concurrent, and fast. This is a weekly summary of its progress and
-community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=This%20Week%20in%20Rust%20Suggestion">Send me an
-email!</a>
-Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
-contributions</a>.</p>
-
-<p>This week was the Winter Workweek.</p>
-
-<!-- more -->
-
-
-<h1>What&rsquo;s cooking on master?</h1>
-
-<p>66 pull requests were merged this week.</p>
-
-<h2>Breaking Changes</h2>
-
-<ul>
-<li><code>Any</code> <a href="https://github.com/mozilla/rust/pull/12667">has been cleaned up</a>, and
-in particular the <code>as_void_ptr</code> and <code>as_mut_void_ptr</code> methods are gone.</li>
-<li>Patterns are <a href="https://github.com/mozilla/rust/pull/12715">no longer allowed in extern function
-declarations</a>. Previously, they
-either silently passed or ICEd.</li>
-<li>Comparison traits <a href="https://github.com/mozilla/rust/pull/12520">have been
-reworked</a>.</li>
-<li>DeepClone <a href="https://github.com/mozilla/rust/pull/12706">has been removed</a>.</li>
-<li>Compound assignment (eg, <code>+=</code>) <a href="https://github.com/mozilla/rust/pull/12733">is no longer
-allowed</a> on potentially
-uninitialized variables.</li>
-<li><code>std::rand</code> <a href="https://github.com/mozilla/rust/pull/12650">has been moved into a
-<code>librand</code></a>.</li>
-<li>debuginfo flags <a href="https://github.com/mozilla/rust/pull/12714">have changed
-slightly</a>, and more limited
-debuginfo is supported again (only line number information).</li>
-</ul>
-
-
-<h2>Other Changes</h2>
-
-<ul>
-<li>Dereferencing <a href="https://github.com/mozilla/rust/pull/12491">is now
-overloadable</a>. This is another
-part of the smart pointer changes. Code like <code>let x = *Rc::new(5);</code> is now
-valid. There is a follow-up pull request that will automatically dereference
-smart pointers where appropriate, to avoid expressions like
-<code>foo.borrow().get().borrow_mut().get()</code>.</li>
-<li>Hexadecimal floating point literals <a href="https://github.com/mozilla/rust/pull/12652">are now
-available</a> through a syntax
-extension.</li>
-<li>Support for creating binary installer tarballs <a href="https://github.com/mozilla/rust/pull/12793">has
-landed</a>.</li>
-<li>Linker arguments <a href="https://github.com/mozilla/rust/pull/12688">are no longer
-deduplicated</a>.</li>
-<li>Weak linkage etc <a href="https://github.com/mozilla/rust/pull/12556">is now
-possible</a> via a <code>linkage</code>
-attribute.</li>
-</ul>
-
-
-<h2>New Contributors</h2>
-
-<ul>
-<li>Dmitry Promsky</li>
-<li>Mike Boutin</li>
-<li>Robert Gawdzik</li>
-</ul>
-
-
-<h1>Weekly Meeting</h1>
-
-<p>There was no weekly meeting due to the workweek. There are <a href="https://github.com/mozilla/rust/wiki/Meeting-workweek-2014-03-03">notes and
-minutes</a>,
-however, and there will be many <a href="https://github.com/rust-lang/rfcs">RFCs</a> from
-it.</p>
-
-<h1>Announcements, etc</h1>
-
-<ul>
-<li><a href="http://www.reddit.com/r/rust/comments/20143y/leveraging_tuples_to_make_a_statically_typed/">Leveraging tuples to make a statically-typed, concatenative
-EDSL</a></li>
-<li><a href="http://featherweightmusings.blogspot.com/2014/03/subtyping-and-coercion-in-rust.html">Subtyping and coercion in
-Rust</a></li>
-<li><a href="http://www.reddit.com/r/rust/comments/1ztahv/rust_language_support_in_atom/">Rust support for the Atom
-editor</a></li>
 </ul>
 
 ]]></content>
