@@ -4,7 +4,7 @@
   <title><![CDATA[Rust 'n Stuffs]]></title>
   <link href="http://cmr.github.io/atom.xml" rel="self"/>
   <link href="http://cmr.github.io/"/>
-  <updated>2014-04-14T00:55:36-04:00</updated>
+  <updated>2014-04-14T00:55:57-04:00</updated>
   <id>http://cmr.github.io/</id>
   <author>
     <name><![CDATA[Corey Richardson]]></name>
@@ -25,9 +25,6 @@ community. Want something mentioned? <a href="mailto:corey@octayn.net?subject=Th
 email!</a>
 Want to get involved? <a href="https://github.com/mozilla/rust/wiki/Note-guide-for-new-contributors">We love
 contributions</a>.</p>
-
-<p>0.10 <a href="https://mail.mozilla.org/pipermail/rust-dev/2014-April/009387.html">was released</a> this week, and with it comes a redesign of the
-websites and official nightlies.</p>
 
 <!-- more -->
 
