@@ -13,6 +13,16 @@
   <generator uri="http://octopress.org/">Octopress</generator>
 
   <entry>
+      <title type="html"><![CDATA[New Feed URL]]></title>
+      <link href="http://cmr.github.io/" />
+      <id>http://cmr.github.io/two</id>
+      <content type="html"><![CDATA[<p>This blog has been retired. Please see
+              <a href="http://blog.octayn.net/atom.xml">blog.octayn.net</a> for the
+              new feed </p>]]>
+      </content>
+  </entry>
+
+  <entry>
       <title type="html"><![CDATA[This Blog Retired]]></title>
       <link href="http://cmr.github.io/" />
       <id>http://cmr.github.io/</id>
